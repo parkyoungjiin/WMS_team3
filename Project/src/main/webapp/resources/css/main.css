@@ -1,0 +1,130 @@
+@charset "UTF-8";
+
+*{
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+.nav {
+	height: 70px;
+	border-bottom: 1px solid black;
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+	font-size: 20px;
+	
+	
+}	
+
+.nav-right-items{
+	display: flex;
+	margin-left: auto;
+}
+
+.nav-item{
+	margin-left: 10px;
+}
+
+.company-name{
+	margin-left: 20px
+}
+
+/* 검색창 css */
+.search {
+  display: flex;
+  margin-left: 20px;
+  position: relative;
+  width: 300px;
+  
+}
+
+input {
+  width: 100%;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+img {
+  position : absolute;
+  width: 17px;
+  top: 10px;
+  right: 12px;
+  margin: 0;
+}
+.main-menu{
+  background-color: #5778ff;
+}	
+.menu {
+  width: 800px;
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+  background-color: #5778ff;
+  color: #fff;
+}
+
+.menu > li {
+  width: 20%; /*20*5=100%*/
+  float: left;
+  text-align: center;
+  line-height: 40px;
+  color: #fff;
+}
+
+
+.submenu > li {
+  line-height: 50px;
+  list-style-type: none;
+  
+}
+a{text-decoration: none;
+	color: black;
+}
+
+.submenu > li > a{
+  text-decoration: none;
+  color: white;
+	
+}
+.submenu {
+  height: 0; /*ul의 높이를 안보이게 처리*/
+  overflow: hidden;
+}
+
+.menu > li:hover {
+  background-color: #94a9ff;
+  transition-duration: 0.5s;
+}
+
+.menu > li:hover .submenu {
+  height: 150px; /*서브메뉴 li한개의 높이 50*5*/
+  transition-duration: 1s;
+ }
+ .title{
+ 	font-size: 20px;
+ 	font-weight: bold;
+ }
+ .sub-title{
+ 	font-size: 15px;
+ 	font-weight: bold;
+ }
+.sidevar,
+.side-menu,
+.side-submenu{
+  list-style-type: none;
+  padding-left: 0px;
+	
+}
+.side-submenu { /* 사이드 바 2단 숨기기*/
+	height: 0;
+	margin-bottom: 10px;
+	overflow: hidden;
+	display: block; width: 100px;
+}
+.side-menu > li{
+	height: 30px;
+}
+.side-menu > li:hover .side-submenu{
+	height: auto;
+}
