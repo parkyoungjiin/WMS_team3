@@ -3,13 +3,16 @@
 *{
 	font-family: 'IBM Plex Sans KR', sans-serif;
 }
+html, body {margin: 0px; padding: 0px;}
+
+/* top.jsp */
 .nav {
 	height: 70px;
 	border-bottom: 1px solid black;
 	display: flex;
 	align-items: center;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 25px;
 	
 	
 }	
@@ -62,6 +65,7 @@ img {
   list-style-type: none;
   background-color: #5778ff;
   color: #fff;
+  font-size: 20px;
 }
 
 .menu > li {
@@ -85,6 +89,8 @@ a{text-decoration: none;
 .submenu > li > a{
   text-decoration: none;
   color: white;
+  padding-left: 0px;
+  font-size: 15px;
 	
 }
 .submenu {
@@ -104,27 +110,37 @@ a{text-decoration: none;
  .title{
  	font-size: 20px;
  	font-weight: bold;
+ 	margin-bottom: 15px;
  }
  .sub-title{
  	font-size: 15px;
  	font-weight: bold;
  }
+ /* side.jsp */
+ .sidevar{
+ 	width: 160px;
+ 	height: 800px;
+ 	background-color: #94a9ff;
+ 	 float: left;
+ }
+ 
 .sidevar,
 .side-menu,
 .side-submenu{
   list-style-type: none;
-  padding-left: 0px;
+  padding-left: 15px;
+
 	
 }
 .side-submenu { /* 사이드 바 2단 숨기기*/
-	height: 0;
-	margin-bottom: 10px;
-	overflow: hidden;
-	display: block; width: 100px;
+	line-height: 2;
 }
 .side-menu > li{
-	height: 30px;
+	line-height: 2;
+	margin-bottom: 20px;
 }
-.side-menu > li:hover .side-submenu{
-	height: auto;
+.side-menu > li > ul{
+	line-height: 2;
 }
+
+
