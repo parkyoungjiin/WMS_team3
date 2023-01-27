@@ -7,7 +7,7 @@ html, body {margin: 0px; padding: 0px;}
 
 /* top.jsp */
 .nav {
-	height: 70px;
+	height: 80px;
 	border-bottom: 1px solid black;
 	display: flex;
 	align-items: center;
@@ -20,6 +20,7 @@ html, body {margin: 0px; padding: 0px;}
 .nav-right-items{
 	display: flex;
 	margin-left: auto;
+	font-size: 20px;
 }
 
 .nav-item{
@@ -54,6 +55,7 @@ img {
   right: 12px;
   margin: 0;
 }
+/* 메뉴바 css */
 .main-menu{
   background-color: #5778ff;
 }	
