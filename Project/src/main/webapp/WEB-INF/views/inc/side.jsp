@@ -8,7 +8,7 @@
 			<li>
 				<a href="" class="title">인사관리</a>
 				<ul class="side-submenu">
-					<li><a href="#" class="sub-title">사원 등록</a></li>
+					<li><a href="EmpInsertForm.em" class="sub-title">사원 등록</a></li>
 					<li><a href="#" class="sub-title">사원 조회</a></li>
 				</ul>
 			</li>
