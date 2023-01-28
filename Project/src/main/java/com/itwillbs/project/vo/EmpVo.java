@@ -1,6 +1,7 @@
 package com.itwillbs.project.vo;
 
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
@@ -15,15 +16,15 @@ public class EmpVo {
 	private String GRADE_CD; //직급코드
 	private String EMP_TEL; //연락처(개인)
 	private String EMP_DTEL; //연락처(사무실) 
-	private int EMP_EMAIL; 
-	private int EMP_PASSWD; 
-	private int EMP_POST_NO; //우편번호 
-	private int EMP_ADDR;//주소
-	private Timestamp HIRE_DATE; //입사일
+	private String EMP_EMAIL; 
+	private String EMP_PASSWD; 
+	private String EMP_POST_NO; //우편번호 
+	private String EMP_ADDR;//주소
+	private Date HIRE_DATE; //입사일
 	private String WORK_CD; //재직코드
 	private String PRIV_CD; //권한코드
-	private MultipartFile PHOTO; 
-	
+	private String PHOTO;
+	private MultipartFile file;
 	
 	public int getIDX() {
 		return IDX;
@@ -67,34 +68,34 @@ public class EmpVo {
 	public void setEMP_DTEL(String eMP_DTEL) {
 		EMP_DTEL = eMP_DTEL;
 	}
-	public int getEMP_EMAIL() {
+	public String getEMP_EMAIL() {
 		return EMP_EMAIL;
 	}
-	public void setEMP_EMAIL(int eMP_EMAIL) {
+	public void setEMP_EMAIL(String eMP_EMAIL) {
 		EMP_EMAIL = eMP_EMAIL;
 	}
-	public int getEMP_PASSWD() {
+	public String getEMP_PASSWD() {
 		return EMP_PASSWD;
 	}
-	public void setEMP_PASSWD(int eMP_PASSWD) {
+	public void setEMP_PASSWD(String eMP_PASSWD) {
 		EMP_PASSWD = eMP_PASSWD;
 	}
-	public int getEMP_POST_NO() {
+	public String getEMP_POST_NO() {
 		return EMP_POST_NO;
 	}
-	public void setEMP_POST_NO(int eMP_POST_NO) {
+	public void setEMP_POST_NO(String eMP_POST_NO) {
 		EMP_POST_NO = eMP_POST_NO;
 	}
-	public int getEMP_ADDR() {
+	public String getEMP_ADDR() {
 		return EMP_ADDR;
 	}
-	public void setEMP_ADDR(int eMP_ADDR) {
+	public void setEMP_ADDR(String eMP_ADDR) {
 		EMP_ADDR = eMP_ADDR;
 	}
-	public Timestamp getHIRE_DATE() {
+	public Date getHIRE_DATE() {
 		return HIRE_DATE;
 	}
-	public void setHIRE_DATE(Timestamp hIRE_DATE) {
+	public void setHIRE_DATE(Date hIRE_DATE) {
 		HIRE_DATE = hIRE_DATE;
 	}
 	public String getWORK_CD() {
@@ -109,13 +110,19 @@ public class EmpVo {
 	public void setPRIV_CD(String pRIV_CD) {
 		PRIV_CD = pRIV_CD;
 	}
-	public MultipartFile getPHOTO() {
+	public String getPHOTO() {
 		return PHOTO;
 	}
-	public void setPHOTO(MultipartFile pHOTO) {
+	public void setPHOTO(String pHOTO) {
 		PHOTO = pHOTO;
 	}
-	//-----------toString
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	//-----------toString------------
 	@Override
 	public String toString() {
 		return "BoardVO [IDX=" + IDX + ", EMP_NUM=" + EMP_NUM + ", EMP_NAME=" + EMP_NAME + ", DEPT_CD=" + DEPT_CD

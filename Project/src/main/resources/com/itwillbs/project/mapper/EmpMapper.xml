@@ -4,7 +4,9 @@
 	<insert id="InsertEmployee">
 		INSERT INTO emp
 			VALUES (
-				#{EMP_NAME}
+				0
+				,0
+				,#{EMP_NAME}
 				,#{DEPT_CD}
 				,#{GRADE_CD}
 				,#{EMP_TEL}

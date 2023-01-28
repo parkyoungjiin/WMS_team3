@@ -14,6 +14,8 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Kaushan+Script&family=Neucha&display=swap" rel="stylesheet">
 <!-- css -->
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
+<!-- js -->
+<script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <meta charset="UTF-8">
 
 <!-- 카카오 주소 API -->
@@ -26,7 +28,7 @@ window.onload = function(){
             oncomplete: function(data) { //선택시 입력값 세팅
                 document.getElementById("emp_address_kakao").value = data.address; // 주소 넣기
                 document.getElementById("emp_address_zonecode").value = data.zonecode; // 우편번호 넣기
-                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+                document.querySelector("input[id=emp_address_kakao2]").focus(); //상세입력 포커싱
             }
         }).open();
     });
@@ -56,6 +58,26 @@ window.onload = function(){
 
 }// readImage 끝
 </script>
+
+<!-- 이메일 클릭 시 자동입력 -->
+<script type="text/javascript">
+$(function() {
+	$("#domain").on("change", function() {
+		$("#email2").val($(this).val());
+		
+		if($(this).val() == "") {
+			$("#email2").prop("readonly", false);
+			$("#email2").css("background-color", "white");
+			$("#email2").focus();
+		} else {
+			$("#email2").prop("readonly", true);
+			$("#email2").css("background-color", "lightgray");
+		}
+	})
+	
+});
+
+</script>
 <title>사원 등록</title>
 </head>
 <body>
@@ -65,18 +87,24 @@ window.onload = function(){
 	</header>
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
-	<form action="EmpInserPro.em" method="post" enctype="multipart/form-data">
+	<form action="EmpInsertPro.em" method="post" enctype="multipart/form-data" id="emp">
 		<table>
-			<tr>
+		<tr>
 				<th>사원명</th>
 				<td>
-				<input type="text" id="emp_name">
+				<input type="text" name="EMP_NAME" required="required">
+				</td>
+			</tr>
+			<tr>
+				<th>비밀번호</th>
+				<td>
+				<input type="password" name="EMP_PASSWD" required="required">
 				</td>
 			</tr>
 			<tr>
 				<th>부서명</th>
 				<td>
-					<select id ="emp_dept">
+					<select name ="DEPT_CD" required="required">
 						<option value="">부서 선택</option>
 						<option value="A1">총무팀</option>
 						<option value="A2">인사팀</option>
@@ -90,7 +118,7 @@ window.onload = function(){
 			<tr>
 				<th>직급명</th>
 				<td>
-				<select id ="emp_grade">
+				<select name ="GRADE_CD" required="required">
 					<option value="">직급 선택</option>
 					<option value="B1">사원</option>
 					<option value="B2">대리</option>
@@ -104,32 +132,46 @@ window.onload = function(){
 			<tr>
 				<th>연락처(개인)</th>
 				<td>
-					<input type="text" size="1" value="010" id="emp_phone1"> -
-					<input type="text" size="1" id="emp_phone2"> -
-					<input type="text" size="1" id="emp_phone3">
+					<input type="text" size="1" value="010" name="EMP_TEL"> -
+					<input type="text" size="1" name="EMP_TEL" required="required"> -
+					<input type="text" size="1" name="EMP_TEL" required="required">
 				</td>
 			</tr>
 			<tr>
 				<th>연락처(사무실)</th>
 				<td>
-					<input type="text" size="1" value="051" id="emp_office_phone1"> -
-					<input type="text" size="1" id="emp_office_phone2"> -
-					<input type="text" size="1" id="emp_office_phone3">
+					<input type="text" size="1" value="051" name="EMP_DTEL" required="required"> -
+					<input type="text" size="1" name="EMP_DTEL" required="required"> -
+					<input type="text" size="1" name="EMP_DTEL" required="required">
+				</td>
+			</tr>
+			<tr>
+				<th>이메일</th>
+				<td>
+					<input type="text" size="5" id="email1" name="EMP_EMAIL" required="required"> @
+					<input type="text" size="5" id="email2" name="EMP_EMAIL"  required="required">
+					<select name="selectDomain" id="domain"  style="padding: .4em .5em; ">
+						<option value="">직접입력</option>	
+						<option value="naver.com">naver.com</option>
+						<option value="gmail.com">gmail.com</option>
+						<option value="daum.net">daum.net</option>
+						<option value="nate.com">nate.com</option>
+						</select> &nbsp;
 				</td>
 			</tr>
 			<tr>
 				<th>우편번호</th>
 				<td>
-				<input type="text" name="address" id="emp_address_zonecode" required > &nbsp;
+				<input type="text" name="EMP_POST_NO" id="emp_address_zonecode" required > &nbsp;
 				<button id="address_kakao">우편번호 찾기</button>
 				</td>
 			</tr>
 			<tr>
 				<th>주소</th>
 				<td>
-					<input type="text" name="address" id="emp_address_kakao" required> &nbsp;
+					<input type="text" name="EMP_ADDR" id="emp_address_kakao" required> &nbsp;
 					<br>
-					<input type="text" name="address_detail" id ="emp_address_kakao2"> &nbsp;
+					<input type="text" name="EMP_ADDR" id ="emp_address_kakao2"> &nbsp;
 					<br>
 					<span style="color: gray;">(상세 주소를 입력해주세요.)</span>
 				</td>
@@ -137,13 +179,13 @@ window.onload = function(){
 			<tr>
 				<th>입사일</th>
 				<td>
-					<input type="date" id="emp_hire_date">
+					<input type="date" name="HIRE_DATE" required>
 				</td>
 			</tr>
 			<tr>
 				<th>재직여부</th>
 				<td>
-					<select id="emp_work_type">
+					<select name="WORK_CD" required>
 						<option value="">재직여부 선택</option>
 						<option value="C1">재직</option>
 						<option value="C2">휴직</option>
@@ -154,7 +196,7 @@ window.onload = function(){
 			<tr>
 				<th>권한</th>
 				<td>
-					<select id="emp_priv">
+					<select name="PRIV_CD" required>
 						<option value="">권한 선택</option>
 						<option value="D1">기본 등록</option>
 						<option value="D2">사원 조회</option>
@@ -165,12 +207,17 @@ window.onload = function(){
 				</td>
 			</tr>
 			<tr>
-				<th><label for="PHOTO">사진 업로드</label></th>
+				<th>사진 업로드</th>
 				<td>
-					<div class="image_container">
+					<div class="image_container" >
 						<img src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image" width="500px" id ="preview_image"> <br>
-						<input type="file" name ="file" id ="input_image">
+						<input type="file" id ="input_image" name ="file" required>
 					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="submit" value="등록">
 				</td>
 			</tr>
 		</table>
