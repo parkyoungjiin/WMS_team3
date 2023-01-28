@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +12,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.protobuf.Service;
+import com.itwillbs.project.service.EmpService;
 import com.itwillbs.project.vo.EmpVo;
 
 @Controller
 public class EmpController {
+	
+	@Autowired
+	private EmpService service;
 	
 	//------------인사 등록 폼 이동------------
 	@GetMapping(value = "EmpInsertForm.em")
@@ -39,8 +45,9 @@ public class EmpController {
 		MultipartFile mFile = emp.getPHOTO();
 		// MultipartFile 객체의 getOriginalFilename() 메서드를 통해 파일명 꺼내기
 		String originalFileName = mFile.getOriginalFilename(); //원본 파일명
-		String realFileName = ""; //업로드 될 파일명
-		
+		System.out.println("원본 파일명: " +originalFileName);
+
+//		int InsertCount = service.InsertEmployee(emp);
 		return "";
 	}//EmpInsertPro 끝
 	

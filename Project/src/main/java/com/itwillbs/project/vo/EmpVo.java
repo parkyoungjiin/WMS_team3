@@ -1,28 +1,5 @@
 package com.itwillbs.project.vo;
-/*
- * mvc_board5 데이터베이스 생성 및 board 테이블 정의
-    CREATE DATABASE mvc_board5;
-    use mvc_board5
-    
-	CREATE TABLE board (
-		board_num INT PRIMARY KEY,
-		board_name VARCHAR(20) NOT NULL,
-		board_pass VARCHAR(16) NOT NULL,
-		board_subject VARCHAR(50) NOT NULL,
-		board_content VARCHAR(2000) NOT NULL,
-		board_file VARCHAR(200) NOT NULL,
-		board_real_file VARCHAR(200) NOT NULL,
-		board_re_ref INT NOT NULL,
-		board_re_lev INT NOT NULL,
-		board_re_seq INT NOT NULL,
-		board_readcount INT DEFAULT 0,
-		board_date DATETIME
-	);
- * 
- * mvc_board3 데이터베이스의 board 테이블(게시판) 1개 레코드(= 1개 게시물) 정보를 저장하는
- * Bean 클래스(DTO or VO) 정의
- * 
- */
+
 
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -31,21 +8,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class EmpVo {
 	// board 테이블 컬럼에 대응하는 멤버변수 선언
-	private int IDX;
+	private int IDX; //Auto Increment
 	private String EMP_NUM;
 	private String EMP_NAME;
-	private String DEPT_CD;
-	private String GRADE_CD;
-	private String EMP_TEL; // 원본 파일명
-	private String EMP_DTEL; // 실제 업로드 될 파일명(중복 처리된 파일명)
-	private int EMP_EMAIL; // 원본글 번호
-	private int EMP_PASSWD; // 들여쓰기 레벨
-	private int EMP_POST_NO; // 순서번호
-	private int EMP_ADDR;
-	private Timestamp HIRE_DATE; // java.sql.TimeStamp
-	private String WORK_CD;
-	private String PRIV_CD;
-	private MultipartFile PHOTO;
+	private String DEPT_CD; //부서코드
+	private String GRADE_CD; //직급코드
+	private String EMP_TEL; //연락처(개인)
+	private String EMP_DTEL; //연락처(사무실) 
+	private int EMP_EMAIL; 
+	private int EMP_PASSWD; 
+	private int EMP_POST_NO; //우편번호 
+	private int EMP_ADDR;//주소
+	private Timestamp HIRE_DATE; //입사일
+	private String WORK_CD; //재직코드
+	private String PRIV_CD; //권한코드
+	private MultipartFile PHOTO; 
 	
 	
 	public int getIDX() {

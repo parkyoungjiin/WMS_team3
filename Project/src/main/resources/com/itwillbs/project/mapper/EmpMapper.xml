@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project.mapper.EmpMapper">
+	<insert id="InsertEmployee">
+		INSERT INTO emp
+			VALUES (
+				#{EMP_NAME}
+				,#{DEPT_CD}
+				,#{GRADE_CD}
+				,#{EMP_TEL}
+				,#{EMP_DTEL}
+				,#{EMP_EMAIL}
+				,#{EMP_PASSWD}
+				,#{EMP_POST_NO}
+				,#{EMP_ADDR}
+				,#{HIRE_DATE}
+				,#{WORK_CD}
+				,#{PRIV_CD}
+				,#{PHOTO}
+			)
+	</insert>
+	
+	
+</mapper>
