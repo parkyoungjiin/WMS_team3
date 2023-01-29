@@ -89,7 +89,7 @@ $(function() {
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 	<form action="EmpInsertPro.em" method="post" enctype="multipart/form-data" id="emp">
 		<table>
-		<tr>
+			<tr>
 				<th>사원명</th>
 				<td>
 				<input type="text" name="EMP_NAME" required="required">

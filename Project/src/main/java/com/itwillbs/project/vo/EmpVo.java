@@ -26,6 +26,7 @@ public class EmpVo {
 	private String PHOTO;
 	private MultipartFile file;
 	
+
 	public int getIDX() {
 		return IDX;
 	}
@@ -122,15 +123,15 @@ public class EmpVo {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
-	//-----------toString------------
 	@Override
 	public String toString() {
-		return "BoardVO [IDX=" + IDX + ", EMP_NUM=" + EMP_NUM + ", EMP_NAME=" + EMP_NAME + ", DEPT_CD=" + DEPT_CD
+		return "EmpVo [IDX=" + IDX + ", EMP_NUM=" + EMP_NUM + ", EMP_NAME=" + EMP_NAME + ", DEPT_CD=" + DEPT_CD
 				+ ", GRADE_CD=" + GRADE_CD + ", EMP_TEL=" + EMP_TEL + ", EMP_DTEL=" + EMP_DTEL + ", EMP_EMAIL="
 				+ EMP_EMAIL + ", EMP_PASSWD=" + EMP_PASSWD + ", EMP_POST_NO=" + EMP_POST_NO + ", EMP_ADDR=" + EMP_ADDR
 				+ ", HIRE_DATE=" + HIRE_DATE + ", WORK_CD=" + WORK_CD + ", PRIV_CD=" + PRIV_CD + ", PHOTO=" + PHOTO
-				+ "]";
-	}//toString 끝
+				+ ", file=" + file + "]";
+	}
+
 	
 	
 	

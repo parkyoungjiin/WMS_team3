@@ -2,6 +2,8 @@ package com.itwillbs.project.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,6 +38,8 @@ public class EmpController {
 	@PostMapping(value = "EmpInsertPro.em")
 	public String EmpInsertPro(@ModelAttribute EmpVo emp, HttpSession session, Model model) {
 		System.out.println(emp);
+		//-------------파일 업로드-------------
+		
 		//1. 경로 설정 (가상 경로, 실제 업로드 경로)
 		String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
 		String saveDir = session.getServletContext().getRealPath(uploadDir); //실제 업로드 경로
@@ -67,14 +71,60 @@ public class EmpController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		int InsertCount = service.InsertEmployee(emp);
-//		if(InsertCount > 0) {
-//			return "index";
-//		}else { // 실패
-//			model.addAttribute("msg", "사원 등록 실패!");
-//			return "fail_back";
-//		}
-		return "index";
+		//,를 기준으로 분리한 값을 telArr(배열)에 넣음.
+		//------------개인 연락처 결합---------------
+		String [] emp_telArr = emp.getEMP_TEL().split(",");
+		for(int i=0; i<emp_telArr.length; i++) {
+			String EMP_TEL = emp_telArr[i].join("-", emp_telArr);
+//			System.out.println(EMP_TEL);
+			emp.setEMP_TEL(EMP_TEL);
+			
+		}
+		//------------사무실 연락처 결합------------
+		String [] emp_dtelArr = emp.getEMP_DTEL().split(",");
+		for(int i=0; i<emp_dtelArr.length; i++) {
+			String EMP_DTEL = emp_dtelArr[i].join("-", emp_dtelArr);
+			emp.setEMP_DTEL(EMP_DTEL);
+			
+		}
+		//------------이메일1,이메일2 결합------------
+		String [] emp_emailArr = emp.getEMP_EMAIL().split(",");
+		for(int i=0; i<emp_emailArr.length; i++) {
+			String EMP_EMAIL = emp_emailArr[i].join("@", emp_emailArr);
+//			System.out.println(EMP_EMAIL);
+			emp.setEMP_EMAIL(EMP_EMAIL);
+			
+		}
+		//------------주소, 상세주소 결합------------
+		String [] emp_addrArr = emp.getEMP_ADDR().split(",");
+		for(int i=0; i<emp_addrArr.length; i++) {
+			String EMP_ADDR = emp_addrArr[i].join(" ", emp_addrArr);
+//			System.out.println(EMP_ADDR);
+			emp.setEMP_ADDR(EMP_ADDR);
+			
+		}
+		System.out.println(emp);
+		//----------- **사원 코드(EMP_NAME) 결합** -----------------
+		// -> 사원코드(EMP_NUM) = 부서코드(2)+입사년도(2)+인덱스(3)(= 총 7자리), 자동부여
+		// 부서코드, 입사년도만 결합을 해서 set 저장한 뒤에 xml 파일에서 인덱스 결합
+		SimpleDateFormat year_format = new SimpleDateFormat("yy");
+		String year = year_format.format(emp.getHIRE_DATE());
+		// idx 앞에 0을 붙이기 위해 select 후에 format 함수 사용
+		int idx = service.getSelectIdx(emp) + 1;
+
+		//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
+		String EMP_IDX = String.format("%03d", idx); //00x 형태 변환
+		String EMP_NUM = emp.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
+		emp.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
+		
+		//---------------사원 등록 작업------------
+		int InsertCount = service.InsertEmployee(emp);
+		if(InsertCount > 0) {
+			return "redirect:/";
+		}else { // 실패
+			model.addAttribute("msg", "사원 등록 실패!");
+			return "fail_back";
+		}
 	}//EmpInsertPro 끝
 	
 	

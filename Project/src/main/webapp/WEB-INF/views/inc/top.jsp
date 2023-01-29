@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<!-- css 경로 설정 -->
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +19,7 @@
 </head>
 	<div class="nav">
 		<div class="company-name">
-			SHOOKREAM
+			<a href="${path }/">SHOOKREAM</a>
 		</div>
 		<div class="search">
 		  <input type="text" name ="search" placeholder="검색어 입력">
