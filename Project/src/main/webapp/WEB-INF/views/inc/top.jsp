@@ -15,7 +15,15 @@
 <meta charset="UTF-8">
 <!-- css 경로 -->
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
-
+<script>
+	function logout() {
+		let isLogout = confirm("로그아웃 하시겠습니까?");
+		
+		if(isLogout) {
+			location.href = "EmpLogout.me";
+		}
+	}
+</script>
 </head>
 	<div class="nav">
 		<div class="company-name">
@@ -25,12 +33,28 @@
 		  <input type="text" name ="search" placeholder="검색어 입력">
 		  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
 		</div>
-		<div class="nav-right-items">
-			<div class="nav-item"><a href="#">로그인</a></div>
-			<div class="nav-item"></div>
-			<div class="nav-item"></div>
-			<div class="nav-item"></div>
-		</div>
+	<c:choose>
+		<%-- 로그인 상태가 아닐 경우 Login, Join 링크 표시 --%>
+		<%-- EL 을 사용하여 세션 객체 접근 시 sessionScope.속성명 으로 접근 --%>
+		<c:when test="${empty sessionScope.sId }">
+			<div class="nav-right-items">
+				<div class="nav-item"><a href="EmpLoginForm.em">로그인</a></div>
+				<div class="nav-item"></div>
+				<div class="nav-item"></div>
+				<div class="nav-item"></div>
+			</div>
+		</c:when>
+		<%-- 로그인 상태일 경우 아이디 표시, Logout 링크 표시 --%>
+		<c:otherwise>
+			<div class="nav-right-items">
+				<div class="nav-item"><a href="#">${sessionScope.sId }</a> 님</div>
+				<div class="nav-item"><a href="javascript:logout()">Logout</a></div>
+				<div class="nav-item"></div>
+				<div class="nav-item"></div>
+			</div>
+		</c:otherwise>
+	</c:choose>
+		
 	</div>
 		<div class="main-menu">
 			<ul class ="menu">
