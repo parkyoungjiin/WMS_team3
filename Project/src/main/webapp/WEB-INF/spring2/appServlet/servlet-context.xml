@@ -20,15 +20,8 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	<!-- 파일 업로드에 사용되는 객체 설정 -->
 	
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="10485760"></beans:property>
-		<beans:property name="defaultEncoding" value="UTF-8"></beans:property>
-	</beans:bean>
-	<!-- 컨트롤러를 비롯한 웹 관련 어노테이션을 통해 자동 주입될 클래스가 포함되는 패키지 지정 -->
 	<context:component-scan base-package="com.itwillbs.project" />
-	
 	
 	
 	
