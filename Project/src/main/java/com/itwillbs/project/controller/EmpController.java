@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +39,7 @@ public class EmpController {
 	@PostMapping(value = "EmpInsertPro.em")
 	public String EmpInsertPro(@ModelAttribute EmpVo emp, HttpSession session, Model model) {
 		System.out.println(emp);
-		//-------------파일 업로드-------------
+		//파일 업로드
 		
 		//1. 경로 설정 (가상 경로, 실제 업로드 경로)
 		String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
@@ -72,7 +73,7 @@ public class EmpController {
 			e.printStackTrace();
 		}
 		//,를 기준으로 분리한 값을 telArr(배열)에 넣음.
-		//------------개인 연락처 결합---------------
+		//개인 연락처 결합
 		String [] emp_telArr = emp.getEMP_TEL().split(",");
 		for(int i=0; i<emp_telArr.length; i++) {
 			String EMP_TEL = emp_telArr[i].join("-", emp_telArr);
@@ -80,14 +81,14 @@ public class EmpController {
 			emp.setEMP_TEL(EMP_TEL);
 			
 		}
-		//------------사무실 연락처 결합------------
+		//사무실 연락처 결합
 		String [] emp_dtelArr = emp.getEMP_DTEL().split(",");
 		for(int i=0; i<emp_dtelArr.length; i++) {
 			String EMP_DTEL = emp_dtelArr[i].join("-", emp_dtelArr);
 			emp.setEMP_DTEL(EMP_DTEL);
 			
 		}
-		//------------이메일1,이메일2 결합------------
+		//이메일1,이메일2 결합
 		String [] emp_emailArr = emp.getEMP_EMAIL().split(",");
 		for(int i=0; i<emp_emailArr.length; i++) {
 			String EMP_EMAIL = emp_emailArr[i].join("@", emp_emailArr);
@@ -95,7 +96,7 @@ public class EmpController {
 			emp.setEMP_EMAIL(EMP_EMAIL);
 			
 		}
-		//------------주소, 상세주소 결합------------
+		//주소, 상세주소 결합
 		String [] emp_addrArr = emp.getEMP_ADDR().split(",");
 		for(int i=0; i<emp_addrArr.length; i++) {
 			String EMP_ADDR = emp_addrArr[i].join(" ", emp_addrArr);
@@ -103,8 +104,7 @@ public class EmpController {
 			emp.setEMP_ADDR(EMP_ADDR);
 			
 		}
-		System.out.println(emp);
-		//----------- **사원 코드(EMP_NAME) 결합** -----------------
+		//**사원 코드(EMP_NAME) 결합** 
 		// -> 사원코드(EMP_NUM) = 부서코드(2)+입사년도(2)+인덱스(3)(= 총 7자리), 자동부여
 		// 부서코드, 입사년도만 결합을 해서 set 저장한 뒤에 xml 파일에서 인덱스 결합
 		SimpleDateFormat year_format = new SimpleDateFormat("yy");
@@ -117,7 +117,14 @@ public class EmpController {
 		String EMP_NUM = emp.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
 		emp.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
 		
-		//---------------사원 등록 작업------------
+		
+		//비밀번호 해싱 작업
+		BCryptPasswordEncoder passwdEncoder = new BCryptPasswordEncoder();
+		String securePasswd = passwdEncoder.encode(emp.getEMP_PASSWD());
+		emp.setEMP_PASSWD(securePasswd);
+		
+		System.out.println(emp);
+		//사원 등록 작업
 		int InsertCount = service.InsertEmployee(emp);
 		if(InsertCount > 0) {
 			return "redirect:/";
@@ -127,9 +134,40 @@ public class EmpController {
 		}
 	}//EmpInsertPro 끝
 	
+	//-------------로그인 폼 이동----------------
+	@GetMapping(value = "EmpLoginForm.em")
+	public String LoginForm() {
+		
+		return "emp/login_form";
+	}//LoginForm 끝
 	
+	//-------------로그인 작업-----------------
+	@PostMapping(value = "EmpLoginPro.em")
+	public String LoginPro(@ModelAttribute EmpVo emp, Model model, HttpSession session) {
+		BCryptPasswordEncoder passwdEncoder = new BCryptPasswordEncoder();
+		//비밀번호 일치 여부 확인을 위해 비밀번호 가져오기
+		String passwd = service.getSelectPass(emp.getEMP_EMAIL());
+		if(passwd == null || !passwdEncoder.matches(emp.getEMP_PASSWD(), passwd)) { // 실패
+			// Model 객체에 "msg" 속성명으로 "로그인 실패!" 메세지 저장 후
+			// fail_back.jsp 페이지로 포워딩
+			model.addAttribute("msg", "로그인 실패!");
+			return "fail_back";
+		} else { // 성공
+			// HttpSession 객체에 세션 아이디 저장 후 메인페이지로 리다이렉트
+			//세션에 저장할 이름값 가져오기
+			String emp_name = service.getSelectName(emp.getEMP_EMAIL());
+			session.setAttribute("sId", emp_name); //이름 저장
+			return "redirect:/";
+		}
+	}
 	
-	
+	//-------------로그아웃 작업------------
+	@GetMapping(value = "EmpLogout.me")
+	public String logout(HttpSession session) {
+		// 세션 초기화
+		session.invalidate();
+		return "redirect:/";
+	}
 	
 	
 }//EmpController 끝

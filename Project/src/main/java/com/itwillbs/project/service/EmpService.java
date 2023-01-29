@@ -19,4 +19,13 @@ public class EmpService {
 	public int getSelectIdx(EmpVo emp) {
 		return mapper.getSelectIdx(emp);
 	}//getSelectIdx 끝
+	
+	//비밀번호 일치 여부 확인을 위해 비밀번호 가져오기
+	public String getSelectPass(String emp_EMAIL) {
+		return mapper.getSelectPass(emp_EMAIL);
+	}
+	//세션에 저장할 이름값 가져오기
+	public String getSelectName(String emp_EMAIL) {
+		return mapper.getSelectName(emp_EMAIL);
+	}
 }

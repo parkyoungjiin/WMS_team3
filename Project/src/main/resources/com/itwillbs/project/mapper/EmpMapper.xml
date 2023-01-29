@@ -28,5 +28,15 @@
 			)
 	</insert>
 	
+	<select id="getSelectPass" resultType="string">
+		SELECT EMP_PASSWD
+			FROM emp
+				WHERE EMP_EMAIL = #{EMP_EMAIL}
+	</select>
+	<select id="getSelectName" resultType="string">
+		SELECT EMP_NAME
+			FROM emp
+				WHERE EMP_EMAIL = #{EMP_EMAIL}
+	</select>
 	
 </mapper>
