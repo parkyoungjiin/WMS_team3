@@ -77,7 +77,9 @@
 		<c:if test="${warehouse.wh_use eq '1'}">
 		<td>사용</td>	
 		</c:if>
+		<c:if test="${warehouse.wh_use eq '2'}">
 		<td>미사용</td>
+		</c:if>
 	</tr>
 	</c:forEach>
 	<tr>

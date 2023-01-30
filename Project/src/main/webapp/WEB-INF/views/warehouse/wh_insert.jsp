@@ -45,6 +45,9 @@ $(function() {
 		});
 	});
 	
+	$("#wh_cd").change(function() {
+		
+	});
 </script>
 
 
@@ -61,7 +64,7 @@ $(function() {
 	<tr>
 		<td>
 			<div>창고 코드</div>
-			<input type="text" name="wh_cd"></td>
+			<input type="text" name="wh_cd" id="wh_cd"></td>
 	</tr>
 	<tr>		
 		<td><div>창고명 </div>

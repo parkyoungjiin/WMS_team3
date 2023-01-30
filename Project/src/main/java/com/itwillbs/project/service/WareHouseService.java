@@ -29,5 +29,9 @@ public WareHouseVO getWarehouse(String wh_ch) {
 public WareHouseVO getWarehouseName(String wh_ch, String wh_name) {
 	return mapper.getWarehouseName(wh_ch,wh_name);
 }//getWarehouseName()끝
+//------------창고 수정 작업-----------------
+public void whModify(String wh_cd) {
+	mapper.whModify(wh_cd);
+}
 	
 }

@@ -18,5 +18,6 @@ public interface WareHouseMapper {
 	WareHouseVO getWarehouseName(@Param("wh_cd") String wh_cd,
 								@Param("wh_name")String wh_name
 								);
+	void whModify(String wh_cd);
 
 }

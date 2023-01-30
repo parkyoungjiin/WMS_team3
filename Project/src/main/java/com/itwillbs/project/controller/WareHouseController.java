@@ -79,7 +79,10 @@ public class WareHouseController {
 		//------------창고 수정 작업---------------
 		@ResponseBody
 		@PostMapping(value = "WhModify.wh")
-		public void whModify(WareHouseVO vo) {
+		public void whModify(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")String wh_cd) {
+			System.out.println("WhModify.wh: "+vo);
+			service.whModify(wh_cd);
+			
 			
 		}//whModify 끝
 	
