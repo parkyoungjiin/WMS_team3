@@ -32,4 +32,8 @@ public class BuyerService {
 		return mapper.updateBuyer(buyer);
 	}
 
+	public int codeCheck(String business_no) {
+		return mapper.selectBuyerCode(business_no);
+	}
+
 }

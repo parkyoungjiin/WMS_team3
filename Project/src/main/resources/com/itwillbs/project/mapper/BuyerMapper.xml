@@ -21,7 +21,6 @@
 				,#{addr}
 				,#{g_gubun}
 				,#{fax}
-				,#{mobile_no}
 				,#{man_home}
 				,#{man_name}
 				,#{man_tel}
@@ -49,7 +48,6 @@
 			,addr =#{addr}
 			,g_gubun =#{g_gubun}
 			,fax =#{fax}
-			,mobile_no =#{mobile_no}
 			,man_home =#{man_home}
 			,man_name =#{man_name}
 			,man_tel =#{man_tel}
@@ -57,4 +55,10 @@
 			,remarks =#{remarks}
 				WHERE business_no = #{business_no }
 	</update>
+	
+	<select id="selectBuyerCode" resultType="int">
+		SELECT COUNT(business_no)
+			FROM buyer
+			WHERE business_no = #{business_no}
+	</select>
 </mapper>
