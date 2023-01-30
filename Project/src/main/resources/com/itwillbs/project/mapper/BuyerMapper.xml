@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project.mapper.BuyerMapper">
+	
+	<select id="selectBuyerList" resultType="com.itwillbs.project.vo.BuyerVo">
+		SELECT *
+			FROM buyer
+	</select>
+	
+	<insert id="insertBuyer">
+		INSERT INTO buyer
+			VALUES(
+				#{business_no }
+				,#{cust_name}
+				,#{boss_name}
+				,#{uptae}
+				,#{jongmok}
+				,#{tel}
+				,#{email}
+				,#{post_no}
+				,#{addr}
+				,#{g_gubun}
+				,#{fax}
+				,#{mobile_no}
+				,#{man_home}
+				,#{man_name}
+				,#{man_tel}
+				,#{man_email}
+				,#{remarks}
+			)
+	</insert>
+	
+	<select id="selecBuyerDetail" resultType="com.itwillbs.project.vo.BuyerVo">
+		SELECT * FROM buyer
+			WHERE business_no = #{business_no}
+	</select>
+	
+	<update id="updateBuyer">
+		UPDATE buyer
+			SET
+			business_no = #{business_no }
+			,cust_name = #{cust_name}
+			,boss_name =#{boss_name}
+			,uptae =#{uptae}
+			,jongmok =#{jongmok}
+			,tel =#{tel}
+			,email =#{email}
+			,post_no =#{post_no}
+			,addr =#{addr}
+			,g_gubun =#{g_gubun}
+			,fax =#{fax}
+			,mobile_no =#{mobile_no}
+			,man_home =#{man_home}
+			,man_name =#{man_name}
+			,man_tel =#{man_tel}
+			,man_email =#{man_email}
+			,remarks =#{remarks}
+				WHERE business_no = #{business_no }
+	</update>
+</mapper>
