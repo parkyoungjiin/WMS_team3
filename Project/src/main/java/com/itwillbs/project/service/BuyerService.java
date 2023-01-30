@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.project.mapper.BuyerMapper;
 import com.itwillbs.project.vo.BuyerVo;
 
+import org.springframework.stereotype.Service;
+
 @Service
 public class BuyerService {
 

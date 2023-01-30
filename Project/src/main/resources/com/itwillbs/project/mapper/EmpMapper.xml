@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project.mapper.EmpMapper">
+	<select id="getSelectIdx" resultType="integer">
+			SELECT IFNULL(MAX(IDX),0) FROM emp;
+	</select>
+	<insert id="InsertEmployee">
+		<selectKey keyProperty="IDX" resultType="integer" order="BEFORE">
+			SELECT IFNULL(MAX(IDX),0) FROM emp;
+		</selectKey>
+		INSERT INTO emp
+			VALUES (
+				#{IDX} + 1
+				,CONCAT(#{EMP_NUM})
+				,#{EMP_NAME}
+				,#{DEPT_CD}
+				,#{GRADE_CD}
+				,#{EMP_TEL}
+				,#{EMP_DTEL}
+				,#{EMP_EMAIL}
+				,#{EMP_PASSWD}
+				,#{EMP_POST_NO}
+				,#{EMP_ADDR}
+				,#{HIRE_DATE}
+				,#{WORK_CD}
+				,#{PRIV_CD}
+				,#{PHOTO}
+			)
+	</insert>
+	
+	<select id="getSelectPass" resultType="string">
+		SELECT EMP_PASSWD
+			FROM emp
+				WHERE EMP_EMAIL = #{EMP_EMAIL}
+	</select>
+	<select id="getSelectName" resultType="string">
+		SELECT EMP_NAME
+			FROM emp
+				WHERE EMP_EMAIL = #{EMP_EMAIL}
+	</select>
+	
+</mapper>
