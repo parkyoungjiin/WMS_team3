@@ -1,7 +1,9 @@
 package com.itwillbs.project.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.project.service.BuyerService;
 import com.itwillbs.project.vo.BuyerVo;
@@ -47,11 +51,90 @@ public class BuyerController {
 	public String BuyerRegisterPro(
 			@ModelAttribute BuyerVo buyer, 
 			Model model,
-			HttpSession session,
-			String addr1, String addr2) {
+			HttpSession session
+			) {
 		
-//		System.out.println(buyer);
-		buyer.setAddr(addr1 + " " + addr2);
+		// if문 => 아무것도 입력안할 시 "" 저장
+		//대표 연락처 결합
+		if(buyer.getTel() != null && buyer.getTel().equals("")) {
+			String [] buyer_telArr = buyer.getTel().split(",");
+			for(int i=0; i<buyer_telArr.length; i++) {
+				String buyer_TEL = buyer_telArr[i].join("-", buyer_telArr);
+				buyer.setTel(buyer_TEL);
+			}
+		} else {
+			buyer.setTel("");
+		}
+		
+		//담당자 연락처 결합
+		if(buyer.getMan_tel() != null && buyer.getMan_tel().equals("")) {
+		String [] buyer_mtelArr = buyer.getMan_tel().split(",");
+		for(int i=0; i<buyer_mtelArr.length; i++) {
+			String buyer_MTEL = buyer_mtelArr[i].join("-", buyer_mtelArr);
+			buyer.setMan_tel(buyer_MTEL);
+			}
+		} else {
+			buyer.setMan_tel("");
+		}
+		
+		//대표 이메일1,이메일2 결합
+		if(buyer.getEmail() != null && buyer.getEmail().equals("")) {
+		String [] buyer_emailArr = buyer.getEmail().split(",");
+		for(int i=0; i<buyer_emailArr.length; i++) {
+			String buyer_EMAIL = buyer_emailArr[i].join("@", buyer_emailArr);
+//					System.out.println(EMP_EMAIL);
+			buyer.setEmail(buyer_EMAIL);
+		}
+		}else {
+			buyer.setEmail("");
+		}
+		
+		//담당자 이메일1,이메일2 결합
+		if(buyer.getMan_email() != null && buyer.getMan_email().equals("")) {
+		String [] buyer_MemailArr = buyer.getMan_email().split(",");
+		for(int i=0; i<buyer_MemailArr.length; i++) {
+			String buyer_MEMAIL = buyer_MemailArr[i].join("@", buyer_MemailArr);
+//					System.out.println(EMP_EMAIL);
+			buyer.setMan_email(buyer_MEMAIL);
+		}
+		} else {
+			buyer.setMan_email("");
+		}
+		
+		//주소, 상세주소 결합
+		if(buyer.getAddr() != null && buyer.getAddr().equals("")) {
+		String [] buyer_addrArr = buyer.getAddr().split(",");
+		for(int i=0; i<buyer_addrArr.length; i++) {
+			String buyer_ADDR = buyer_addrArr[i].join(" ", buyer_addrArr);
+//					System.out.println(EMP_ADDR);
+			buyer.setAddr(buyer_ADDR);
+		}
+		} else {
+			buyer.setAddr("");
+		}
+		
+		// 업태, 종목 결합
+		if(buyer.getUptae() != null && buyer.getUptae().equals("")) {
+		String [] buyer_uptaeArr = buyer.getUptae().split(",");
+		for(int i=0; i<buyer_uptaeArr.length; i++) {
+			String buyer_uptae = buyer_uptaeArr[i].join("/", buyer_uptaeArr);
+//					System.out.println(EMP_ADDR);
+			buyer.setUptae(buyer_uptae);
+		}
+		} else {
+			buyer.setUptae("");
+		}
+		
+		if(buyer.getJongmok() != null && buyer.getJongmok().equals("")) {
+		String [] buyer_jongmokArr = buyer.getJongmok().split(",");
+		for(int i=0; i<buyer_jongmokArr.length; i++) {
+			String buyer_jongmok = buyer_jongmokArr[i].join("/", buyer_jongmokArr);
+//					System.out.println(EMP_ADDR);
+			buyer.setJongmok(buyer_jongmok);
+		}
+		}else {
+			buyer.setUptae("");
+		}
 		
 		int insertCount = service.registerBuyer(buyer);
 		
@@ -104,5 +187,21 @@ public class BuyerController {
 		
 	}//BuyerModifyPro 끝
 	
+	
+	//------------거래처 코드 중복 체크------------
+	@PostMapping(value = "CodeCheck")
+	@ResponseBody
+	public void CodeCheck(@RequestParam("business_no") String business_no, HttpServletResponse response) {
+		
+		int result = service.codeCheck(business_no);
+		
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}//CodeCheck 끝
 	
 }//BuyerController 끝

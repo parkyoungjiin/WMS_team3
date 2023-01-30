@@ -19,5 +19,8 @@ public interface BuyerMapper {
 	// 거래처 수정
 	int updateBuyer(BuyerVo buyer);
 
+	// 거래처 코드 중복 확인
+	int selectBuyerCode(String business_no);
+
 
 }
