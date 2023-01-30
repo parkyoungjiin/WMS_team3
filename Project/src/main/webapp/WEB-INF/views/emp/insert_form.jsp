@@ -78,6 +78,29 @@ $(function() {
 });
 
 </script>
+<!-- 권한 체크 : 1 / 권한 미체크 : 0 -->
+<script type="text/javascript">
+$(document).ready(function(){
+	 $('input:checkbox[name="PRIV_CD"]').change(function(){
+		if(document.getElementById("priv_cd1").checked) {
+			$('#priv_cd1_hidden').prop('disabled', true);
+		}
+		if(document.getElementById("priv_cd2").checked){
+			$('#priv_cd2_hidden').prop('disabled', true);
+		}
+		if(document.getElementById("priv_cd3").checked){
+			$('#priv_cd3_hidden').prop('disabled', true);
+		}
+		if(document.getElementById("priv_cd4").checked){
+			$('#priv_cd4_hidden').prop('disabled', true);
+		}
+		if(document.getElementById("priv_cd5").checked){
+			$('#priv_cd5_hidden').prop('disabled', true);
+		}
+	 })
+});
+
+</script>
 <title>사원 등록</title>
 </head>
 <body>
@@ -105,13 +128,11 @@ $(function() {
 				<th>부서명</th>
 				<td>
 					<select name ="DEPT_CD" required="required">
-						<option value="">부서 선택</option>
-						<option value="A1">총무팀</option>
-						<option value="A2">인사팀</option>
-						<option value="A3">기획팀</option>
-						<option value="A4">영업팀</option>
-						<option value="A5">회계팀</option>
-						<option value="A6">개발팀</option>
+						<option value="">===부서 선택===</option>
+						<option value="A1">자재팀</option>
+						<option value="A2">구매관리팀</option>
+						<option value="A3">창고관리팀</option>
+						<option value="A4">인사팀</option>
 					</select>
 				</td>
 			</tr>
@@ -119,7 +140,7 @@ $(function() {
 				<th>직급명</th>
 				<td>
 				<select name ="GRADE_CD" required="required">
-					<option value="">직급 선택</option>
+					<option value="">===직급 선택===</option>
 					<option value="B1">사원</option>
 					<option value="B2">대리</option>
 					<option value="B3">과장</option>
@@ -186,7 +207,7 @@ $(function() {
 				<th>재직여부</th>
 				<td>
 					<select name="WORK_CD" required>
-						<option value="">재직여부 선택</option>
+						<option value="">===재직여부 선택===</option>
 						<option value="C1">재직</option>
 						<option value="C2">휴직</option>
 						<option value="C3">퇴사</option>
@@ -196,14 +217,20 @@ $(function() {
 			<tr>
 				<th>권한</th>
 				<td>
-					<select name="PRIV_CD" required>
-						<option value="">권한 선택</option>
-						<option value="D1">기본 등록</option>
-						<option value="D2">사원 조회</option>
-						<option value="D3">사원 관리</option>
-						<option value="D4">재고 조회</option>
-						<option value="D5">재고 관리</option>
-					</select>
+					<input type="checkbox" id="priv_cd1" name="PRIV_CD" value="1"><label>기본등록</label>
+					<input type="hidden" id="priv_cd1_hidden"  name="PRIV_CD" value="0">
+					
+					<input type="checkbox" id="priv_cd2" name="PRIV_CD" value="1"><label>사원조회</label>
+					<input type="hidden" id="priv_cd2_hidden"  name="PRIV_CD" value="0">
+					
+					<input type="checkbox" id="priv_cd3" name="PRIV_CD" value="1"><label>사원관리</label>
+					<input type="hidden" id="priv_cd3_hidden"  name="PRIV_CD" value="0">
+					
+					<input type="checkbox" id="priv_cd4" name="PRIV_CD" value="1"><label>재고조회</label>
+					<input type="hidden" id="priv_cd4_hidden"  name="PRIV_CD" value="0">
+					
+					<input type="checkbox" id="priv_cd5" name="PRIV_CD" value="1"><label>재고관리</label>
+					<input type="hidden" id="priv_cd5_hidden"  name="PRIV_CD" value="0">
 				</td>
 			</tr>
 			<tr>

@@ -123,6 +123,15 @@ public class EmpController {
 		String securePasswd = passwdEncoder.encode(emp.getEMP_PASSWD());
 		emp.setEMP_PASSWD(securePasswd);
 		
+		//권한 결합 작업
+		String [] emp_priv_arr = emp.getPRIV_CD().split(",");
+		for(int i=0; i<emp_priv_arr.length; i++) {
+			String PRIV_CD = emp_priv_arr[i].join("", emp_priv_arr);
+//			System.out.println(EMP_EMAIL);
+			emp.setPRIV_CD(PRIV_CD);
+			
+		}
+		
 		System.out.println(emp);
 		//사원 등록 작업
 		int InsertCount = service.InsertEmployee(emp);
