@@ -19,8 +19,8 @@
 					<!-- 기본 등록 -->
 					<a href="#" class="sub-title">기본 등록</a>
 						<ul class="side-submenu">
+							<li><a href="WareHouseListPro.wh">창고 등록</a></li>
 							<li><a href="BuyerList">거래처 등록</a></li>
-							<li><a href="#">창고 등록</a></li>
 							<li><a href="#">품목 등록</a></li>
 						</ul>
 					</li>
