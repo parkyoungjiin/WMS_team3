@@ -24,7 +24,8 @@ window.onload = function(){
         new daum.Postcode({
             oncomplete: function(data) { //선택시 입력값 세팅
                 document.getElementById("wh_addr").value = data.address; // 주소 넣기
-                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+                document.querySelector("input[name=wh_addr_detail]").focus(); //상세입력 포커싱
+           		
             }
         }).open();
     });
@@ -54,22 +55,51 @@ $(function() {
 			data:params,
 			dataType: "html"
 		})
-		.done(function(boardList) { // 요청 성공 시
-				
-			
+		.done(function() { // 요청 성공 시
+			alert("성공");
 		})
 		.fail(function() {
+			alert("실패");	
 		});
+		
+		});	
 	
-	
+	//코드 중복 확인 처리
+	$("#wh_cd").change(function() {
+			alert("변경 감지");
+			let wh_cd = $("#wh_cd").val();
+			$.ajax({
+				type: "get",
+				url: "WhCodeCheck.wh?wh_cd="+wh_cd,
+				data: wh_cd,
+				dataType: "html",
+				success: function(data){
+					alert(data);
+					if(data == 0){
+						alert("중복 아님");
+						$("#checkCdResult").html("사용 가능 코드").css("color","green");
+					}else if(data == 1){
+						alert("중복");
+						$("#checkCdResult").html("이미 존재 하는 창고 코드 ").css("color","red");
+					}
+				}
+			}).fail(function(result) {
+				alert("중복아님");
+			});
+			
 		});	
 	});
 	
+	
 </script>
 
-
+<style type="text/css">
+	title { 
+		background-color: black; 
+		}
+</style>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>내용</title>
 </head>
 <body>
 
@@ -81,11 +111,11 @@ $(function() {
 	<tr>
 		<td>
 			<div>창고 코드</div>
-			<input type="text" name="wh_cd" id="wh_cd" value="${wh.wh_cd }"></td>
+			<input type="text" name="wh_cd" id="wh_cd" value="${wh.wh_cd }" required="required"><div id="checkCdResult"></div></td>
 	</tr>
 	<tr>		
 		<td><div>창고명 </div>
-			<input type="text" name="wh_name" id="wh_name" value="${wh.wh_name }">
+			<input type="text" name="wh_name" id="wh_name" value="${wh.wh_name }" required="required">
 		</td><br>	
 	</tr>	
 	<tr>	
@@ -105,9 +135,9 @@ $(function() {
 	<tr>
 		<td id="address">
 			<div>주소(* 외부 선택 시 필수 등록)</div>
-			<input type="text" name="wh_addr"  value="${wh.wh_addr }" id="wh_addr"> &nbsp;
+			<input type="text" name="wh_addr"  value="${wh.wh_addr }" id="wh_addr" required="required"> &nbsp;
 			<br>
-			<input type="text" name="wh_addr_detail" id ="wh_addr2"> &nbsp;
+			<input type="text" name="wh_addr_detail" id ="wh_addr2" required="required"> &nbsp;
 			<br>
 			<span style="color: gray;">(상세 주소를 입력해주세요.)</span>
 		</td>
@@ -116,10 +146,28 @@ $(function() {
 		<td>
 			<div>전화번호</div>
 			<select name="wh_tel1" id="wh_tel1">
-				<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
-				<option value="051">051</option>
-				<option value="052">052</option>
-				<option value="053" >053</option>
+				<c:choose>
+				<c:when test="${wh.wh_tel1 eq '051' }">
+					<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
+					<option value="052">052</option>
+					<option value="053" >053</option>
+				</c:when>
+				<c:when test="${wh.wh_tel1 eq '052' }">
+					<option value="051">051</option>
+					<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
+					<option value="053" >053</option>
+				</c:when>
+				<c:when test="${wh.wh_tel1 eq '053' }">
+					<option value="051">051</option>
+					<option value="052">052</option>
+					<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
+				</c:when>
+				<c:otherwise>
+					<option value="051">051</option>
+					<option value="052">052</option>
+					<option value="053" >053</option>
+				</c:otherwise>
+				</c:choose>
 			</select>-
 		 	<input type="text" size="1" name="wh_tel2" id="wh_tel2" value="${wh.wh_tel2}">-
 		 	<input type="text" size="1" name="wh_tel3" id="wh_tel3" value="${wh.wh_tel3}">
@@ -145,7 +193,9 @@ $(function() {
 		</td>
 	</tr>
 	<tr>	
-		<td><input type="button" id="updatebutton" value="수정"></td>
+		<td>
+		<input type="button" id="updatebutton" value="수정">
+		</td>
 	</tr>	
 </table>
 </form>

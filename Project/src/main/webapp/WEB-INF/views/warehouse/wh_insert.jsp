@@ -25,6 +25,7 @@ window.onload = function(){
             oncomplete: function(data) { //선택시 입력값 세팅
                 document.getElementById("wh_address_kakao").value = data.address; // 주소 넣기
                 document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+            	
             }
         }).open();
     });
@@ -43,11 +44,34 @@ $(function() {
 				$("#address").show();
 			}
 		});
+	//코드 중복 확인 처리
+	$("#wh_cd").change(function() {
+			alert("변경 감지");
+			let wh_cd = $("#wh_cd").val();
+			$.ajax({
+				type: "get",
+				url: "WhCodeCheck.wh?wh_cd="+wh_cd,
+				data: wh_cd,
+				dataType: "html",
+				success: function(data){
+					alert(data);
+					if(data == 0){
+						alert("중복 아님");
+						$("#checkCdResult").html("사용 가능 코드").css("color","green");
+					}else if(data == 1){
+						alert("중복");
+						$("#checkCdResult").html("이미 존재 하는 창고 코드 ").css("color","red");
+					}
+				}
+			}).fail(function(result) {
+				alert("중복아님");
+			});
+			
+		});	
+	
 	});
 	
-	$("#wh_cd").change(function() {
-		
-	});
+	
 </script>
 
 
@@ -64,11 +88,11 @@ $(function() {
 	<tr>
 		<td>
 			<div>창고 코드</div>
-			<input type="text" name="wh_cd" id="wh_cd"></td>
+			<input type="text" name="wh_cd" id="wh_cd" required="required"><div id="checkCdResult"></div></td>
 	</tr>
 	<tr>		
 		<td><div>창고명 </div>
-			<input type="text" name="wh_name">
+			<input type="text" name="wh_name" required="required">
 		</td><br>	
 	</tr>	
 	<tr>	
@@ -88,9 +112,9 @@ $(function() {
 	<tr>
 		<td id="address">
 			<div>주소(* 외부 선택 시 필수 등록)</div>
-			<input type="text" name="wh_addr" id="wh_address_kakao"> &nbsp;
+			<input type="text" name="wh_addr" id="wh_address_kakao" required="required"> &nbsp;
 			<br>
-			<input type="text" name="wh_addr_detail" id ="wh_address_kakao2"> &nbsp;
+			<input type="text" name="wh_addr_detail" id ="wh_address_kakao2" required="required"> &nbsp;
 			<br>
 			<span style="color: gray;">(상세 주소를 입력해주세요.)</span>
 		</td>
@@ -99,18 +123,18 @@ $(function() {
 		<td>
 			<div>전화번호</div>
 			<select name="wh_tel1">
-				<option value="051">051</option>
+				<option value="051" selected="selected">051</option>
 				<option value="052">052</option>
 				<option value="053">053</option>
 			</select>-
-		 	<input type="text" size="1" name="wh_tel2">-
-		 	<input type="text" size="1" name="wh_tel3">
+		 	<input type="text" size="1" name="wh_tel2" required="required">-
+		 	<input type="text" size="1" name="wh_tel3" required="required">
 		</td><br>	
 	</tr>	
 	<tr>	
 		<td>
 			<div>관리자</div> 
-			<input type="text" name="wh_man_name">
+			<input type="text" name="wh_man_name" required="required">
 		</td><br>
 	</tr>	
 	<tr>	
@@ -123,7 +147,7 @@ $(function() {
 	<tr>	
 		<td>
 			<div>비고:</div>
-			<textarea name="remarks" rows="10" cols=50"></textarea>
+			<textarea name="remarks" rows="10" cols=50" required="required"></textarea>
 		</td>
 	</tr>
 	<tr>	

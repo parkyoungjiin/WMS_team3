@@ -33,19 +33,26 @@
 			FROM warehouse
 			WHERE wh_cd=#{wh_cd} AND wh_name=#{wh_name}
 	</select>
-	
+	<!-- 창고 수정 작업 -->
 	<update id="whModify">
 		UPDATE warehouse
-			SET wh_cd=#{wh_cd},
-				wh_name=#{wh_name},
-				wh_gubun=#{wh_gubun},
-				wh_location=#{wh_location},
-				wh_addr=#{wh_addr},
-				wh_tel=#{wh_tel},
-				wh_man_name=#{wh_man_name},
-				wh_use=#{wh_use},
-				remarks=#{remarks}
+			SET 
+				wh_cd = #{wh.wh_cd},
+				wh_name = #{wh.wh_name},
+				wh_gubun = #{wh.wh_gubun},
+				wh_location = #{wh.wh_location},
+				wh_addr = #{wh.wh_addr},
+				wh_tel = #{wh.wh_tel},
+				wh_man_name = #{wh.wh_man_name},
+				wh_use = #{wh.wh_use},
+				remarks = #{wh.remarks}
 			WHERE wh_cd = #{wh_cd}	
 	</update>
+	
+	<select id="getDB_wh_cd" resultType="int">
+		SELECT COUNT(*)
+			FROM warehouse
+			WHERE wh_cd = #{wh_cd}
+	</select>
 	
 </mapper>

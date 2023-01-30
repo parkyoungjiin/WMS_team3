@@ -22,16 +22,19 @@ public List<WareHouseVO> getwhList() {
 	return mapper.getwhList();
 }//getwhList()끝
 //------------창고 상세내용 작업-----------------
-public WareHouseVO getWarehouse(String wh_ch) {
-	return mapper.getWarehouse(wh_ch);
+public WareHouseVO getWarehouse(String wh_cd) {
+	return mapper.getWarehouse(wh_cd);
 }//getWarehouse()끝
 //------------창고 상세내용(이룸) 작업-----------------
-public WareHouseVO getWarehouseName(String wh_ch, String wh_name) {
-	return mapper.getWarehouseName(wh_ch,wh_name);
+public WareHouseVO getWarehouseName(String wh_cd, String wh_name) {
+	return mapper.getWarehouseName(wh_cd,wh_name);
 }//getWarehouseName()끝
 //------------창고 수정 작업-----------------
-public void whModify(String wh_cd) {
-	mapper.whModify(wh_cd);
+public void whModify(WareHouseVO vo,String wh_cd) {
+	mapper.whModify(vo,wh_cd);
+}
+public int getDB_wh_cd(String wh_cd) {
+	return mapper.getDB_wh_cd(wh_cd);
 }
 	
 }

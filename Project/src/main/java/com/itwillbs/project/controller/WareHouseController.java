@@ -1,8 +1,10 @@
 package com.itwillbs.project.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +52,8 @@ public class WareHouseController {
 	
 		//------------창고 상세페이지 작업---------------
 		@GetMapping(value = "WareHouseInfo.wh")
-		public String whInfo(@RequestParam(defaultValue = "1")String wh_ch,Model model) {
-			WareHouseVO vo = service.getWarehouse(wh_ch);
+		public String whInfo(@RequestParam(defaultValue = "1")String wh_cd,Model model) {
+			WareHouseVO vo = service.getWarehouse(wh_cd);
 		         vo.setWh_tel1(vo.getWh_tel().substring(0,3));
 		         vo.setWh_tel2(vo.getWh_tel().substring(4,7));
 		         vo.setWh_tel3(vo.getWh_tel().substring(8,12));
@@ -63,10 +65,10 @@ public class WareHouseController {
 		
 		//------------창고 상세페이지 작업(이름 클릭 시)---------------
 		@GetMapping(value = "WareHouseInfoName.wh")
-		public String whInfo(
-				@RequestParam(defaultValue = "1")String wh_ch,
+		public String whInfoName(
+				@RequestParam(defaultValue = "1")String wh_cd,
 				@RequestParam(defaultValue = "1")String wh_name,Model model) {
-			WareHouseVO vo = service.getWarehouseName(wh_ch,wh_name);
+			WareHouseVO vo = service.getWarehouseName(wh_cd,wh_name);
 			vo.setWh_tel1(vo.getWh_tel().substring(0,3));
 			vo.setWh_tel2(vo.getWh_tel().substring(4,7));
 			vo.setWh_tel3(vo.getWh_tel().substring(8,12));
@@ -79,15 +81,25 @@ public class WareHouseController {
 		//------------창고 수정 작업---------------
 		@ResponseBody
 		@PostMapping(value = "WhModify.wh")
-		public void whModify(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")String wh_cd) {
+		public void whModify(WareHouseVO vo,	@RequestParam(defaultValue = "1")String wh_cd) {
 			System.out.println("WhModify.wh: "+vo);
-			service.whModify(wh_cd);
-			
+			service.whModify(vo,wh_cd);
 			
 		}//whModify 끝
 	
-	
-	
-	
-	
+		//------------창고 상세페이지 작업(이름 클릭 시)---------------
+		@ResponseBody
+		@GetMapping(value = "WhCodeCheck.wh")
+		public void WhCodeCheck(@RequestParam(defaultValue = "1")String wh_cd,HttpServletResponse response ) {
+			System.out.println(wh_cd);
+			
+			int count = service.getDB_wh_cd(wh_cd);
+			try {
+				response.getWriter().print(count);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("COUNT:"+count);
+		}//WhCodeCheck 끝
 }//WareHouseController 끝
