@@ -102,11 +102,11 @@ $(function() {
 				<tr />
 				<tr>
 					<td>업태</td>
-					<td><input type="text" name="uptae">&nbsp;<i id="plus_uptae" name="orgInput_uptae" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
+					<td><input type="text" name="uptae" value="${buyer.uptae }">&nbsp;<i id="plus_uptae" name="orgInput_uptae" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
 				</tr>
 				<tr>
 					<td>종목</td>
-					<td><input type="text" name="jongmok">&nbsp;<i id="plus_jongmok" name="orgInput_jongmok" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
+					<td><input type="text" name="jongmok" value="${buyer.jongmok }">&nbsp;<i id="plus_jongmok" name="orgInput_jongmok" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
 				</tr>
 				<tr>
 					<td>대표 전화번호</td>
@@ -124,7 +124,7 @@ $(function() {
 					<td>이메일</td>
 					<td>
 						<input type="text" size="5" id="email1" name="email" value="${buyer.emailArr[0]}"> @ 
-						<input type="text" size="5" id="email2" name="eamil" value="${buyer.emailArr[1]}"> 
+						<input type="text" size="5" id="email2" name="email" value="${buyer.emailArr[1]}"> 
 						<select name="selectDomain" id="domain" style="padding: .4em .5em;">
 						<option value="">직접입력</option>
 						<option value="naver.com">naver.com</option>
@@ -150,7 +150,7 @@ $(function() {
 				</tr>
 				<tr>
 				<td>담당자명</td>
-				<td><input type="text" name="man_name"></td>
+				<td><input type="text" name="man_name" value="${buyer.man_name }"></td>
 				<td>담당자 전화번호</td>
 				<td>
 					<input type="text" size="1" name="man_tel" value="${buyer.man_telArr[0]}"> -

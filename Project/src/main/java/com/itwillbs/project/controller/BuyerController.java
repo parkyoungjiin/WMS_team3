@@ -98,6 +98,7 @@ public class BuyerController {
 		String [] buyer_emailArr = buyer.getEmail().split(",");
 		for(int i=0; i<buyer_emailArr.length; i++) {
 			String buyer_EMAIL = buyer_emailArr[i].join("@", buyer_emailArr);
+//			System.out.println(buyer_EMAIL);
 			buyer.setEmail(buyer_EMAIL);
 		}
 		}else {
@@ -109,7 +110,7 @@ public class BuyerController {
 		String [] buyer_MemailArr = buyer.getMan_email().split(",");
 		for(int i=0; i<buyer_MemailArr.length; i++) {
 			String buyer_MEMAIL = buyer_MemailArr[i].join("@", buyer_MemailArr);
-//					System.out.println(EMP_EMAIL);
+//			System.out.println(buyer_MEMAIL);
 			buyer.setMan_email(buyer_MEMAIL);
 		}
 		} else {
@@ -128,18 +129,20 @@ public class BuyerController {
 		}
 		
 		// 업태, 종목 결합
-//		if(buyer.getUptae() != null && buyer.getUptae().equals("")) {
+//		System.out.println(buyer.getUptae());
+//		if(buyer.getUptae() != null && !buyer.getUptae().equals("")) {
 		String [] buyer_uptaeArr = buyer.getUptae().split(",");
-		System.out.println("buyer_uptaeArr : " + Arrays.toString(buyer_uptaeArr));
-		System.out.println("buyer_uptaeArr : " + buyer_uptaeArr[0]);
-		if(buyer_uptaeArr[0] != null && !buyer_uptaeArr[0].equals("")) {
+//		System.out.println("buyer_uptaeArr : " + Arrays.toString(buyer_uptaeArr));
+//		System.out.println("buyer_uptaeArr : " + buyer_uptaeArr[0]);
+//		if(!buyer_uptaeArr[0].equals("")) {
 			for(int i=0; i<buyer_uptaeArr.length; i++) {
 				String buyer_uptae = buyer_uptaeArr[i].join("/", buyer_uptaeArr);
+				System.out.println(buyer_uptae);
 				buyer.setUptae(buyer_uptae);
 			}
-		} else {
-			buyer.setUptae("");
-		}
+//		} else {
+//			buyer.setUptae("");
+//		}
 		
 		String [] buyer_jongmokArr = buyer.getJongmok().split(",");
 		if(buyer_jongmokArr[0] != null && !buyer_jongmokArr[0].equals("")) {
@@ -206,8 +209,9 @@ public class BuyerController {
 			HttpSession session
 			) {
 		
-		//대표 연락처 결합
-		if(buyer.getTel() != null && !buyer.getTel().equals("")) {
+		// if문 => 아무것도 입력안할 시 "" 저장
+				//대표 연락처 결합
+		if(!buyer.getTel().equals(",,")) {
 			String [] buyer_telArr = buyer.getTel().split(",");
 			for(int i=0; i<buyer_telArr.length; i++) {
 				String buyer_TEL = buyer_telArr[i].join("-", buyer_telArr);
@@ -217,8 +221,18 @@ public class BuyerController {
 			buyer.setTel("");
 		}
 		
+//					String [] buyer_telArr = buyer.getTel().split(",");
+//					if(buyer.getTel() != null && !buyer.getTel().equals("")) {
+//					for(int i=0; i<buyer_telArr.length; i++) {
+//						String buyer_TEL = buyer_telArr[i].join("-", buyer_telArr);
+//						buyer.setTel(buyer_TEL);
+//					}
+//				} else if(buyer.getTel().equals("")) {
+//					buyer.setTel("");
+//				}
+		
 		//담당자 연락처 결합
-		if(buyer.getMan_tel() != null && !buyer.getMan_tel().equals("")) {
+		if(!buyer.getMan_tel().equals(",,")) {
 		String [] buyer_mtelArr = buyer.getMan_tel().split(",");
 		for(int i=0; i<buyer_mtelArr.length; i++) {
 			String buyer_MTEL = buyer_mtelArr[i].join("-", buyer_mtelArr);
@@ -229,10 +243,11 @@ public class BuyerController {
 		}
 		
 		//대표 이메일1,이메일2 결합
-		if(buyer.getEmail() != null && !buyer.getEmail().equals("")) {
+		if(!buyer.getEmail().equals(",")) {
 		String [] buyer_emailArr = buyer.getEmail().split(",");
 		for(int i=0; i<buyer_emailArr.length; i++) {
 			String buyer_EMAIL = buyer_emailArr[i].join("@", buyer_emailArr);
+//					System.out.println(buyer_EMAIL);
 			buyer.setEmail(buyer_EMAIL);
 		}
 		}else {
@@ -240,11 +255,11 @@ public class BuyerController {
 		}
 		
 		//담당자 이메일1,이메일2 결합
-		if(buyer.getMan_email() != null && !buyer.getMan_email().equals("")) {
+		if(!buyer.getMan_email().equals(",")) {
 		String [] buyer_MemailArr = buyer.getMan_email().split(",");
 		for(int i=0; i<buyer_MemailArr.length; i++) {
 			String buyer_MEMAIL = buyer_MemailArr[i].join("@", buyer_MemailArr);
-//							System.out.println(EMP_EMAIL);
+//					System.out.println(buyer_MEMAIL);
 			buyer.setMan_email(buyer_MEMAIL);
 		}
 		} else {
@@ -252,7 +267,7 @@ public class BuyerController {
 		}
 		
 		//주소, 상세주소 결합
-		if(buyer.getAddr() != null && !buyer.getAddr().equals("")) {
+		if(!buyer.getAddr().equals(",")) {
 		String [] buyer_addrArr = buyer.getAddr().split(",");
 		for(int i=0; i<buyer_addrArr.length; i++) {
 			String buyer_ADDR = buyer_addrArr[i].join(" ", buyer_addrArr);
@@ -263,18 +278,20 @@ public class BuyerController {
 		}
 		
 		// 업태, 종목 결합
-//				if(buyer.getUptae() != null && buyer.getUptae().equals("")) {
+//				System.out.println(buyer.getUptae());
+//				if(buyer.getUptae() != null && !buyer.getUptae().equals("")) {
 		String [] buyer_uptaeArr = buyer.getUptae().split(",");
 //				System.out.println("buyer_uptaeArr : " + Arrays.toString(buyer_uptaeArr));
-		System.out.println("buyer_uptaeArr : " + buyer_uptaeArr[0]);
-		if(buyer_uptaeArr[0] != null && !buyer_uptaeArr[0].equals("")) {
+//				System.out.println("buyer_uptaeArr : " + buyer_uptaeArr[0]);
+//				if(!buyer_uptaeArr[0].equals("")) {
 			for(int i=0; i<buyer_uptaeArr.length; i++) {
 				String buyer_uptae = buyer_uptaeArr[i].join("/", buyer_uptaeArr);
+				System.out.println(buyer_uptae);
 				buyer.setUptae(buyer_uptae);
 			}
-		} else {
-			buyer.setUptae("");
-		}
+//				} else {
+//					buyer.setUptae("");
+//				}
 		
 		String [] buyer_jongmokArr = buyer.getJongmok().split(",");
 		if(buyer_jongmokArr[0] != null && !buyer_jongmokArr[0].equals("")) {

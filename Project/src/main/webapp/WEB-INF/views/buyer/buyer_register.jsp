@@ -17,6 +17,7 @@
 <meta charset="UTF-8">
 <title>메인페이지</title>
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
+<link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 	
@@ -55,15 +56,15 @@
 	
 		//업태, 종목 항목 input 태그 추가
 		$("#plus_uptae").on("click", function() {
-			var addInput = '<input type="text" name="uptae">&nbsp'
-							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
+			var addInput = '<input type="text" class="form-control" name="uptae">&nbsp';
+// 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
 			var trHtml = $("[name=orgInput_uptae]:first");
 			trHtml.before(addInput);
 		});
 		
 		$("#plus_jongmok").on("click", function() {
-			var addInput = '<input type="text" name="jongmok">&nbsp'
-							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
+			var addInput = '<input type="text" class="form-control" name="jongmok">&nbsp';
+// 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
 			var trHtml = $("[name=orgInput_jongmok]:first");
 			trHtml.before(addInput);
 		});
@@ -133,16 +134,220 @@ window.onload = function(){
 	</header>
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
-
-	<form action="BuyerRegisterPro" method="post" >
+<main id="main" class="main">
+	<div class="card">
+       <div class="card-body">
+         <h5 class="card-title">거래처 등록</h5>
+              
+         <!-- Floating Labels Form -->
+              <form action="BuyerRegisterPro" method="post" class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="business_no" id="business_no" required placeholder="거래처코드">
+                    <label for="floatingName">거래처코드</label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary" onclick="checkCode()">fn</button>
+                </div>
+                <fieldset class="row mb-3">
+                  <div class="col-sm-10">
+                      <input class="form-check-input" type="radio" name="g_gubun"  value="01" checked>
+                        &nbsp;01 사업자등록번호&nbsp;
+                      <input class="form-check-input" type="radio" name="g_gubun"  value="02">
+                        &nbsp;02 해외사업자등록번호&nbsp;
+                      <input class="form-check-input" type="radio" name="g_gubun"  value="03">
+                        &nbsp;03 주민등록번호&nbsp;
+                      <input class="form-check-input" type="radio" name="g_gubun" value="04">
+                        &nbsp;04 외국인&nbsp;
+                  </div>
+                </fieldset>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingEmail" placeholder="상호">
+                    <label>상호</label>
+                  </div>
+                </div>
+                
+                 <div></div>
+                 <div class="col-md-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="uptae" placeholder="업태">
+                    <label>업태</label>
+                  </div>
+                </div>
+                 <div class="col-md-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="uptae" >
+                  </div>
+                </div>
+                 <div class="col-md-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="uptae" placeholder="업태">
+                  </div>
+                </div>
+                 <div class="col-md-2" >
+                  <div class="form-floating" >
+                    <i id="plus_uptae" name="orgInput_uptae" class="fa-solid fa-plus" style="cursor: pointer; vertical-align:middle;"></i>
+                  </div>
+                </div>
+                <div></div>
+                 <div class="col-md-2">
+                  <div class="form-floating">
+                    <input type="text" name="jongmok" class="form-control"  placeholder="종목">
+                    <label>종목</label>
+                  </div>
+                </div>
+                 <div class="col-md-2">
+                  <div class="form-floating">
+                    <input type="text" name="jongmok" class="form-control"  >
+                  </div>
+                </div>
+                 <div class="col-md-2">
+                  <div class="form-floating">
+                    <input type="text" name="jongmok" class="form-control"  >
+                  </div>
+                </div>
+                  <div class="col-md-2" >
+                  <div class="form-floating" >
+                    <i id="plus_jongmok" name="orgInput_jongmok" class="fa-solid fa-plus" style="cursor: pointer; vertical-align:middle;"></i>
+                  </div>
+                </div>
+                
+                
+                <div></div>
+              <div class="col-lg-4">  
+                <div></div>
+                  <label class="form-label">대표자명</label>
+                 	<div class="col-md-9">
+                  <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="boss_name">
+                    </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-4">  
+                <div></div>
+                  <label class="form-label">대표 전화번호</label>
+                 	<div class="col-md-9">
+                  <div class="input-group mb-6">
+                      <input type="text" class="form-control" name="tel">
+                      <span class="input-group-text">-</span>
+                      <input type="text" class="form-control" name="tel">
+                      <span class="input-group-text">-</span>
+                      <input type="text" class="form-control" name="tel">
+                    </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-4">  
+                <div></div>
+                 <label class="form-label">대표 이메일</label>
+                  <div class="col-md-12">
+                	<div class="input-group mb-3">
+                      <input type="text" class="form-control" id="email1" name="email" >
+                      <span class="input-group-text">@</span>
+                      <input type="text" class="form-control" id="email2" name="email">
+                    <select class="form-select" name="selectDomain" id="domain" >
+                      <option value="">직접 입력</option>
+						<option value="naver.com">naver.com</option>
+						<option value="gmail.com">gmail.com</option>
+						<option value="daum.net">daum.net</option>
+						<option value="nate.com">nate.com</option>
+                    </select>
+                    </div>
+                   </div>
+              </div>  
+                <div></div>
+              <div class="col-lg-4">  
+                <div></div>
+                  <label class="form-label">담당자명</label>
+                 	<div class="col-md-9">
+                  <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="man_name">
+                    </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-4">  
+                <div></div>
+                  <label class="form-label">담당자 전화번호</label>
+                 	<div class="col-md-9">
+                  <div class="input-group mb-6">
+                      <input type="text" class="form-control" name="man_tel">
+                      <span class="input-group-text">-</span>
+                      <input type="text" class="form-control" name="man_tel">
+                      <span class="input-group-text">-</span>
+                      <input type="text" class="form-control" name="man_tel">
+                    </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-4">  
+                <div></div>
+                 <label class="form-label">담당자 이메일</label>
+                  <div class="col-md-12">
+                	<div class="input-group mb-3">
+                      <input type="text" class="form-control" id="email1_man" name="man_email" >
+                      <span class="input-group-text">@</span>
+                      <input type="text" class="form-control" id="email2_man" name="man_email">
+                    <select class="form-select" name="selectDomain" id="domain" >
+                      <option value="">직접 입력</option>
+						<option value="naver.com">naver.com</option>
+						<option value="gmail.com">gmail.com</option>
+						<option value="daum.net">daum.net</option>
+						<option value="nate.com">nate.com</option>
+                    </select>
+                    </div>
+                   </div>
+              </div>  
+                
+                
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="Address" id="floatingTextarea" style="height: 100px;"></textarea>
+                    <label for="floatingTextarea">Address</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-12">
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="floatingCity" placeholder="City">
+                      <label for="floatingCity">City</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <select class="form-select" id="floatingSelect" aria-label="State">
+                      <option selected>New York</option>
+                      <option value="1">Oregon</option>
+                      <option value="2">DC</option>
+                    </select>
+                    <label for="floatingSelect">State</label>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                    <label for="floatingZip">Zip</label>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+                
+              </form><!-- End floating Labels Form -->      
+		<form action="BuyerRegisterPro" method="post" class="row g-3">
 		<table>
 			<tr>
-				<td>거래처코드</td>
-				<td><input type="text" name="business_no" id="business_no" required="required" class="form-control"></td>
-				<td><button type="button" onclick="checkCode()">fn</button></td>
+				<td >거래처코드</td>
+				<td class="col-md-6"><input type="text" class="form-control" class="form-control" name="business_no" id="business_no" required="required" class="form-control"></td>
+				<td ><button type="button" class="btn btn-primary" onclick="checkCode()">fn</button></td>
 			</tr>
 			<tr>
-				<td>거래처 코드 구분</td>
+				<td>거래처코드 구분</td>
 				<td>
 				<label><input type="radio" name="g_gubun" value="01" checked="checked">&nbsp;01 사업자등록번호</label>&nbsp; 
 				<label><input type="radio" name="g_gubun" value="02">&nbsp;02 해외사업자등록번호</label>&nbsp; 
@@ -152,37 +357,37 @@ window.onload = function(){
 			</tr>
 			<tr>
 				<td>상호</td>
-				<td><input type="text" name="cust_name" required="required"></td>
+				<td><input type="text" class="form-control" name="cust_name" required="required"></td>
 			</tr>
 			<tr>
 				<td>대표자명</td>
-				<td><input type="text" name="boss_name"></td>
+				<td><input type="text" class="form-control" name="boss_name"></td>
 			<tr />
 			<tr>
 				<td>업태</td>
-				<td><input type="text" name="uptae">&nbsp;<i id="plus_uptae" name="orgInput_uptae" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
+				<td><input type="text" class="form-control" name="uptae">&nbsp;<i id="plus_uptae" name="orgInput_uptae" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
 			</tr>
 			<tr>
 				<td>종목</td>
-				<td><input type="text" name="jongmok">&nbsp;<i id="plus_jongmok" name="orgInput_jongmok" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
+				<td><input type="text" class="form-control" name="jongmok">&nbsp;<i id="plus_jongmok" name="orgInput_jongmok" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
 			</tr>
 			<tr>
 				<td>대표 전화번호</td>
 				<td>
-					<input type="text" size="1" name="tel"> -
-					<input type="text" size="1" name="tel"> -
-					<input type="text" size="1" name="tel">
+					<input type="text" class="form-control" size="1" name="tel"> -
+					<input type="text" class="form-control" size="1" name="tel"> -
+					<input type="text" class="form-control" size="1" name="tel">
 				</td>
 			</tr>
 			<tr>
 				<td>팩스</td>
-				<td><input type="text" name="fax"></td>
+				<td><input type="text" class="form-control" name="fax"></td>
 			</tr>
 			<tr>
 				<td>이메일</td>
 				<td>
-				<input type="text" size="5" id="email1" name="email" > @ 
-				<input type="text" size="5" id="email2" name="eamil" > 
+				<input type="text" class="form-control" size="5" id="email1" name="email" > @ 
+				<input type="text" class="form-control" size="5" id="email2" name="email" > 
 				<select name="selectDomain" id="domain" style="padding: .4em .5em;">
 						<option value="">직접입력</option>
 						<option value="naver.com">naver.com</option>
@@ -194,31 +399,31 @@ window.onload = function(){
 			</tr>
 			<tr>
 				<th>우편번호</th>
-				<td><input type="text" name="post_no" id="emp_address_zonecode" > &nbsp;
+				<td><input type="text" class="form-control" name="post_no" id="emp_address_zonecode" > &nbsp;
 					<button id="address_kakao" type="button">우편번호 찾기</button></td>
 			</tr>
 			<tr>
 				<th>주소</th>
-				<td><input type="text" name="addr" id="emp_address_kakao" > &nbsp; <br> 
-				<input type="text" name="addr" id="emp_address_kakao2" placeholder="(상세주소를 입력해주세요.)"> &nbsp; <br> 
+				<td><input type="text" class="form-control" name="addr" id="emp_address_kakao" > &nbsp; <br> 
+				<input type="text" class="form-control" name="addr" id="emp_address_kakao2" placeholder="(상세주소를 입력해주세요.)"> &nbsp; <br> 
 			</tr>
 			<tr>
 				<td>홈페이지</td>
-				<td><input type="text" name="man_home"></td>
+				<td><input type="text" class="form-control" name="man_home"></td>
 			</tr>
 			<tr>
 				<td>담당자명</td>
-				<td><input type="text" name="man_name"></td>
+				<td><input type="text" class="form-control" name="man_name"></td>
 				<td>담당자 전화번호</td>
 				<td>
-					<input type="text" size="1" name="man_tel"> -
-					<input type="text" size="1" name="man_tel"> -
-					<input type="text" size="1" name="man_tel">
+					<input type="text" class="form-control" size="1" name="man_tel"> -
+					<input type="text" class="form-control" size="1" name="man_tel"> -
+					<input type="text" class="form-control" size="1" name="man_tel">
 				</td>
 				<td>담당자 이메일</td>
 				<td>
-				<input type="text" size="5" id="email1_man" name="man_email"> @ 
-				<input type="text" size="5" id="email2_man" name="man_email"> 
+				<input type="text" class="form-control" size="5" id="email1_man" name="man_email"> @ 
+				<input type="text" class="form-control" size="5" id="email2_man" name="man_email"> 
 				<select name="selectDomain" id="domain_man" style="padding: .4em .5em;">
 						<option value="">직접입력</option>
 						<option value="naver.com">naver.com</option>
@@ -230,7 +435,7 @@ window.onload = function(){
 			</tr>
 			<tr>
 				<td>적요</td>
-				<td><input type="text" name="remarks"></td>
+				<td><input type="text" class="form-control" name="remarks"></td>
 			</tr>
 			<tr>
 				<td colspan="6"><input type="submit" value="등록" onclick="fn_registerBuyer()"> <input
@@ -239,6 +444,9 @@ window.onload = function(){
 			</tr>
 		</table>
 	</form>
+	</div>
+	</div>
+	</main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>
