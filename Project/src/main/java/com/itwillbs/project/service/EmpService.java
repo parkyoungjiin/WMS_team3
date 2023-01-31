@@ -1,5 +1,7 @@
 package com.itwillbs.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,4 +30,28 @@ public class EmpService {
 	public String getSelectName(String emp_EMAIL) {
 		return mapper.getSelectName(emp_EMAIL);
 	}
+	
+	//---------------- 사원 목록 ----------------------------
+		public List<EmpVo> getEmployeeList() {
+			return mapper.selectEmployeeList();
+		} // 사원 목록 끝
+		
+		//-----------------현재 로그인한 사원의 권한정보 조회------------------------
+		public String getPrivCode(String sId) {
+			return mapper.selectPrivCode(sId);
+		}
+		
+		//----------------- 사원 정보 ----------------------------
+		public EmpVo getEmployee(String EMP_NUM) {
+			return mapper.selectEmployee(EMP_NUM);
+		} // 사원 상세 정보 끝
+		
+
+		//-----------------사원 수정--------------------
+		public int modifyEmployee(EmpVo employee) {
+			return mapper.updateEmployee(employee);
+		} // 사원 수정 끝
+
+
+		
 }

@@ -1,5 +1,7 @@
 package com.itwillbs.project.mapper;
 
+import java.util.List;
+
 import com.itwillbs.project.vo.EmpVo;
 
 public interface EmpMapper {
@@ -13,4 +15,16 @@ public interface EmpMapper {
 	//세션에 저장할 이름값 가져오기
 	String getSelectName(String emp_EMAIL);
 
+	// ----------사원 목록 출력--------------
+	List<EmpVo> selectEmployeeList();
+
+	// ---------- 권한 조회 -------------
+	String selectPrivCode(String sId);
+	
+	// ----------사원 상세 정보--------------
+	EmpVo selectEmployee(String EMP_NUM);
+
+	// ---------- 사원 수정 -------------
+	int updateEmployee(EmpVo employee);
+	
 }
