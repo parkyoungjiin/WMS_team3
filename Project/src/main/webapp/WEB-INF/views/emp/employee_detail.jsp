@@ -60,9 +60,11 @@
 				</tr>
 				<tr>
 					<th>연락처(내선번호)</th>
-					<td colspan="2">${employee.EMP_DTEL }</td>
+					<td>${employee.EMP_DTEL }</td>
 					<th>연락처(개인)</th>
-					<td colspan="2">${employee.EMP_TEL }</td>
+					<td>${employee.EMP_TEL }</td>
+					<th>이메일</th>
+					<td>${employee.EMP_EMAIL }</td>
 				</tr>
 				<tr>
 					<th>주소</th>

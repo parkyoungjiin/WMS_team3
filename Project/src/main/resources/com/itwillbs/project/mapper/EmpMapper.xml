@@ -49,7 +49,7 @@
 	<select id="selectPrivCode" resultType="String">
 		SELECT PRIV_CD
 			FROM emp
-			WHERE EMP_NAME=${EMP_NAME}
+			WHERE EMP_NAME=#{EMP_NAME}
 	</select>
 	
 	<!-- 사원 상세 정보 -->
