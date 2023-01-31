@@ -180,7 +180,7 @@ window.onload = function(){
 			</tr>
 			<tr>
 				<td>이메일</td>
-			<td>
+				<td>
 				<input type="text" size="5" id="email1" name="email" > @ 
 				<input type="text" size="5" id="email2" name="eamil" > 
 				<select name="selectDomain" id="domain" style="padding: .4em .5em;">
@@ -194,9 +194,8 @@ window.onload = function(){
 			</tr>
 			<tr>
 				<th>우편번호</th>
-				<td><input type="text" name="post_no"
-					id="emp_address_zonecode" > &nbsp;
-					<button id="address_kakao">우편번호 찾기</button></td>
+				<td><input type="text" name="post_no" id="emp_address_zonecode" > &nbsp;
+					<button id="address_kakao" type="button">우편번호 찾기</button></td>
 			</tr>
 			<tr>
 				<th>주소</th>
