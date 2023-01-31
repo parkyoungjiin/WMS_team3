@@ -52,21 +52,7 @@ window.onload = function(){
 
 <!-- 이메일 클릭 시 자동입력 -->
 <script type="text/javascript">
-$(function() {
-	$("#domain").on("change", function() {
-		$("#email2").val($(this).val());
-		
-		if($(this).val() == "") {
-			$("#email2").prop("readonly", false);
-			$("#email2").css("background-color", "white");
-			$("#email2").focus();
-		} else {
-			$("#email2").prop("readonly", true);
-			$("#email2").css("background-color", "lightgray");
-		}
-	})
-	
-});
+
 </script>
 <!-- 권한 체크 : 1 / 권한 미체크 : 0 -->
 <script type="text/javascript">
@@ -107,13 +93,43 @@ $(document).ready(function(){
 	    str = String(str);
 	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
 	}
+	
+	
 </script>
 
-<!-- 이메일 중복체크 ajax -->
 <script type="text/javascript">
-	$(function() {
-
-		$("#checkArea").on("change", function() {
+	//이메일 중복 체크 여부 변수
+	var emailStatus =false; 
+	
+	//===========이메일 입력 시 영어, 숫자만 입력 가능===============
+	function onlyEngNumber(str) {
+		var regType1 = /^[A-Za-z0-9+]*$/; // regex : 영어, 숫자만 입력
+		if (regType1.test(str.value)) { //영어, 숫자만 입력했을 때
+		}else{//영어, 숫자를 제외한 값 입력 시
+			str.value = ""; // ""으로 초기화
+		}
+	}//onlyEngNumber 끝
+	
+	
+	//==========이메일 도메인 선택 시 자동입력============
+	
+$(function() {
+	$("#domain").on("change", function() {
+		$("#email2").val($(this).val());
+		
+		if($(this).val() == "") {
+			$("#email2").prop("readonly", false);
+			$("#email2").css("background-color", "white");
+			$("#email2").focus();
+		} else {
+			$("#email2").prop("readonly", true);
+			$("#email2").css("background-color", "lightgray");
+		}
+	})//change
+});//function
+	//==========이메일 중복체크 ajax==========
+	function checkEmail() {
+	
 			//이메일 결합
 			var email1 = $("#email1").val();
 			var email2 = $("#email2").val();
@@ -128,17 +144,32 @@ $(document).ready(function(){
 					},
 				success: function(data) {
 					if(data > 0){
-						$("#checkResultArea").html("이메일 사용 가능").css("color", "blue");
-					}else{
 						$("#checkResultArea").html("이메일 사용 불가능").css("color", "red");
+						emailStatus = false;
+						$("#email1").focus();
+					}else{
+						$("#checkResultArea").html("이메일 사용 가능").css("color", "blue");
+						emailStatus = true;
+						$("#emp_address_zonecode").focus();
+						
 					}
-				}
+				}//success
 				
 				
 			});//ajax 끝
-		});
-	});//function 끝
+		};//checkEmail 끝
+	//==========이메일 사용 불가능일 경우 폼 전송 X	=============
+	function fn_insertMember() {
+		var insertForm = document.emp;
+		
+		if(emailStatus == false){
+			alert("중복확인 필수")
+			event.preventDefault(); // submit 기능 막기
+		}
+		
+	}//fn_insertMember 끝
 </script>
+
 <title>사원 등록</title>
 </head>
 <body>
@@ -207,7 +238,7 @@ $(document).ready(function(){
 			<tr>
 				<th>이메일</th>
 				<td id ="checkArea">
-					<input type="text" size="5" id="email1" name="EMP_EMAIL" required="required"> @
+					<input type="text" size="5" id="email1" name="EMP_EMAIL" onkeyup="onlyEngNumber(this)" required="required"> @
 					<input type="text" size="5" id="email2" name="EMP_EMAIL"  required="required">
 					<select name="selectDomain" id="domain"  style="padding: .4em .5em; ">
 						<option value="">직접입력</option>	
@@ -216,8 +247,10 @@ $(document).ready(function(){
 						<option value="daum.net">daum.net</option>
 						<option value="nate.com">nate.com</option>
 						</select> &nbsp;
+					<button onclick="checkEmail();">이메일 중복 확인</button>
 					<div id ="checkResultArea"></div>
 				</td>
+				<td></td>
 					
 			</tr>
 			<tr>
@@ -284,7 +317,7 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<td>
-					<input type="submit" value="등록">
+					<input type="submit" id ="insertForm" value="등록" onclick="fn_insertMember()">
 				</td>
 			</tr>
 		</table>
