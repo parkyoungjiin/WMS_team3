@@ -11,6 +11,8 @@ public interface EmpMapper {
 	//비밀번호 일치 여부 확인을 위해 비밀번호 가져오기
 	String getSelectPass(String emp_EMAIL);
 	//세션에 저장할 이름값 가져오기
-	String getSelectName(String emp_EMAIL);
+	EmpVo getSelectName(String emp_EMAIL);
+	//이메일 중복 체크
+	Integer getEmailCheck(String check_email);
 
 }

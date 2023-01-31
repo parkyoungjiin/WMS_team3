@@ -36,27 +36,18 @@ window.onload = function(){
 </script>
 <!-- 이미지 섬네일 -->
 <script>
-	function readImage(input) {
-    // 인풋 태그에 파일이 있는 경우
-    if(input.files && input.files[0]) {
-        // 이미지 파일인지 검사 (생략)
-        // FileReader 인스턴스 생성
-        const reader = new FileReader()
-        // 이미지가 로드가 된 경우
-        reader.onload = e => {
-            const previewImage = document.getElementById("preview_image")
-            previewImage.src = e.target.result
-        }
+	function changeImage(event) {
+		var reader = new FileReader();
+		
+		reader.onload = function(event) {
+			var img = document.createElement("img"); //img 요소를 갖는 img변수 생성
+			img.setAttribute("src", event.target.result); // img변수에 src 속성 세팅.
+			img.setAttribute("class", "image_container");// img변수에 class 속성 세팅
+			document.querySelector("td#image_container>div").prependChild(img);
+		}
         // reader가 이미지 읽도록 하기
-        reader.readAsDataURL(input.files[0])
-    }
-//----------input file에 change 이벤트 부여----------
-	const inputImage = document.getElementById("input_image")
-	inputImage.addEventListener("change", e => {
-	    readImage(e.target)
-	})
-
-}// readImage 끝
+		reader.readAsDataURL(event.target.files[0]);
+}// changeImage 끝
 </script>
 
 <!-- 이메일 클릭 시 자동입력 -->
@@ -76,7 +67,6 @@ $(function() {
 	})
 	
 });
-
 </script>
 <!-- 권한 체크 : 1 / 권한 미체크 : 0 -->
 <script type="text/javascript">
@@ -100,6 +90,54 @@ $(document).ready(function(){
 	 })
 });
 
+</script>
+
+<!-- 연락처 숫자만 입력되는 유효성 검사 -->
+<script type="text/javascript">
+	function uncomma(str) {
+	    str = String(str);
+	    return str.replace(/[^\d]+/g, '');
+	} 
+	 
+	function inputOnlyNumberFormat(obj) {
+	    obj.value = onlynumber(uncomma(obj.value));
+	}
+	 
+	function onlynumber(str) {
+	    str = String(str);
+	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
+	}
+</script>
+
+<!-- 이메일 중복체크 ajax -->
+<script type="text/javascript">
+	$(function() {
+
+		$("#checkArea").on("change", function() {
+			//이메일 결합
+			var email1 = $("#email1").val();
+			var email2 = $("#email2").val();
+			var check_email = email1 + "@" + email2;
+			
+// 			alert(check_email);
+			$.ajax({
+				url: "EmpEmailCheck.em",
+				type: "post",
+				data: {
+					check_email : check_email
+					},
+				success: function(data) {
+					if(data > 0){
+						$("#checkResultArea").html("이메일 사용 가능").css("color", "blue");
+					}else{
+						$("#checkResultArea").html("이메일 사용 불가능").css("color", "red");
+					}
+				}
+				
+				
+			});//ajax 끝
+		});
+	});//function 끝
 </script>
 <title>사원 등록</title>
 </head>
@@ -153,22 +191,22 @@ $(document).ready(function(){
 			<tr>
 				<th>연락처(개인)</th>
 				<td>
-					<input type="text" size="1" value="010" name="EMP_TEL"> -
-					<input type="text" size="1" name="EMP_TEL" required="required"> -
-					<input type="text" size="1" name="EMP_TEL" required="required">
+					<input type="text" size="1" value="010" name="EMP_TEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="3"> -
+					<input type="text" size="1" name="EMP_TEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required="required"> -
+					<input type="text" size="1" name="EMP_TEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required="required">
 				</td>
 			</tr>
 			<tr>
 				<th>연락처(사무실)</th>
 				<td>
-					<input type="text" size="1" value="051" name="EMP_DTEL" required="required"> -
-					<input type="text" size="1" name="EMP_DTEL" required="required"> -
-					<input type="text" size="1" name="EMP_DTEL" required="required">
+					<input type="text" size="1" value="051" name="EMP_DTEL" required="required" onkeyup="inputOnlyNumberFormat(this)" maxlength="3"> -
+					<input type="text" size="1" name="EMP_DTEL" required="required" onkeyup="inputOnlyNumberFormat(this)" maxlength="3"> -
+					<input type="text" size="1" name="EMP_DTEL" required="required" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
 				</td>
 			</tr>
 			<tr>
 				<th>이메일</th>
-				<td>
+				<td id ="checkArea">
 					<input type="text" size="5" id="email1" name="EMP_EMAIL" required="required"> @
 					<input type="text" size="5" id="email2" name="EMP_EMAIL"  required="required">
 					<select name="selectDomain" id="domain"  style="padding: .4em .5em; ">
@@ -178,7 +216,9 @@ $(document).ready(function(){
 						<option value="daum.net">daum.net</option>
 						<option value="nate.com">nate.com</option>
 						</select> &nbsp;
+					<div id ="checkResultArea"></div>
 				</td>
+					
 			</tr>
 			<tr>
 				<th>우편번호</th>
@@ -236,10 +276,10 @@ $(document).ready(function(){
 			<tr>
 				<th>사진 업로드</th>
 				<td>
-					<div class="image_container" >
-						<img src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image" width="500px" id ="preview_image"> <br>
-						<input type="file" id ="input_image" name ="file" required>
+					<div class="image_form" >
+						<input type="file" id ="input_image" name ="file" onchange="changeImage();" required>
 					</div>
+					<div id="image_container"></div>
 				</td>
 			</tr>
 			<tr>
