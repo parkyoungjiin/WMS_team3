@@ -12,17 +12,58 @@ public class BuyerVo {
 	private String uptae; // 업태
 	private String jongmok; // 종목
 	private String tel; // 대표 전화번호
+	private String[] telArr;
 	private String email; // 이메일
+	private String[] emailArr; // 이메일
 	private String post_no; // 우편번호
 	private String addr; // 주소
+	private String[] addrArr; // 주소
 	private String g_gubun; // 거래처코드 구분
 	private String fax; // fax
 	private String mobile_no; // 모바일
 	private String man_home; // 홈페이지
 	private String man_name; // 담당자명
 	private String man_tel; // 담당자 전화번호
+	private String[] man_telArr; // 담당자 전화번호
 	private String man_email; // 담당자 e-mail
+	private String[] man_emailArr; // 담당자 e-mail
 	private String remarks; // 적요
+	
+	
+	
+	
+	
+	public String[] getTelArr() {
+		return telArr;
+	}
+	public void setTelArr(String[] telArr) {
+		this.telArr = telArr;
+	}
+	
+	public String[] getEmailArr() {
+		return emailArr;
+	}
+	public void setEmailArr(String[] emailArr) {
+		this.emailArr = emailArr;
+	}
+	public String[] getAddrArr() {
+		return addrArr;
+	}
+	public void setAddrArr(String[] addrArr) {
+		this.addrArr = addrArr;
+	}
+	public String[] getMan_telArr() {
+		return man_telArr;
+	}
+	public void setMan_telArr(String[] man_telArr) {
+		this.man_telArr = man_telArr;
+	}
+	public String[] getMan_emailArr() {
+		return man_emailArr;
+	}
+	public void setMan_emailArr(String[] man_emailArr) {
+		this.man_emailArr = man_emailArr;
+	}
 	public String getBusiness_no() {
 		return business_no;
 	}
