@@ -2,9 +2,12 @@ package com.itwillbs.project.controller;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.net.http.HttpResponse;
 import java.text.Format;
+
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,11 +20,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.protobuf.Service;
 import com.itwillbs.project.service.EmpService;
 import com.itwillbs.project.vo.EmpVo;
 
@@ -192,7 +196,6 @@ public class EmpController {
 	}//logout 끝
 	
 	//------------이메일 중복 확인------------
-	
 	@ResponseBody
 	@PostMapping(value = "EmpEmailCheck.em")
 	public void emailCheck(@RequestParam(defaultValue = "") String check_email, @ModelAttribute EmpVo emp, HttpServletResponse response) {
@@ -211,5 +214,59 @@ public class EmpController {
 		//emp에 값이 없을 경우 이메일 미중복 => true
 		
 	}
+
+	//===================================== 인사 파트 2 : 채원 ================================================
+		//-------------- 사원 목록 출력------------
+		@GetMapping("/EmployeeList.em")
+		public String emplList(Model model, HttpSession session) {
+			String sId = (String)session.getAttribute("sId");
+			if(sId == null || sId == "") {
+				model.addAttribute("msg","접근 권한이 없습니다.");
+				return "fail_back";
+			} else {		
+				List<EmpVo> employeeList = service.getEmployeeList();
+				
+				model.addAttribute("employeeList",employeeList);
+				return "emp/employee_list";
+			}
+			
+		} // 사원 목록 끝 
+		
+		// ------------ 사원 상세정보 조회 ------------------
+		@GetMapping(value="/EmployeeDetail.em")
+		public String empDetail(@RequestParam String EMP_NUM, HttpSession session, @ModelAttribute EmpVo employee, Model model) {
+			String sId = (String)session.getAttribute("sId");
+			String PRIV_CD = service.getPrivCode(sId);
+			System.out.println("PRIV_CD 값 확인 : " + PRIV_CD);
+			if(PRIV_CD.equals("11100")) {		
+				employee = service.getEmployee(EMP_NUM);
+				model.addAttribute("employee", employee);
+				return "emp/employee_detail";
+			} else {
+				model.addAttribute("msg","접근 권한이 없습니다.");
+				return "fail_back";
+			}	
+		} // 사원 상세정보 조회 끝
+			
+		// ------------ 사원 정보 수정 폼 --------------------
+		@GetMapping(value="/EmployeeModifyForm.em")
+		public String empModifyForm(@RequestParam String EMP_NUM, Model model) {
+			EmpVo employee = service.getEmployee(EMP_NUM);
+			model.addAttribute("employee", employee);
+			return "emp/employee_modify_form";
+		} // 사원 정보 폼 끝
+		
+		// ----------- 사원 정보 수정 비즈니스 로직 -------------------
+		@PostMapping(value="/EmployeeModifyPro.em")
+		public String empModify(Model model, @ModelAttribute EmpVo employee) {
+			int updateCount = service.modifyEmployee(employee);
+			System.out.println("수정 비즈니스 로직 : " + updateCount);
+			if(updateCount > 0) { // 수정 성공			
+				return "redirect:/";
+			} else { // 수정 실패 
+				model.addAttribute("msg","수정에 실패하였습니다");
+				return "fail_back";
+			}
+		} // 사원 정보 수정 끝 
 	
 }//EmpController 끝
