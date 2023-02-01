@@ -19,6 +19,7 @@
 <title>메인페이지</title>
 <%-- <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" /> --%>
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
+<link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 
 <script type="text/javascript">
@@ -43,8 +44,21 @@
 	</header>
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
-	
-			
+<main id="main" class="main">
+
+	<div class="pagetitle">
+      <h1>Buyer</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Tables</li>
+          <li class="breadcrumb-item active">General</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+	<div class="card">
+       <div class="card-body">	
 			<div id="layoutSidenav_content" >
 			<div id="">
                 <button onclick="location.href='BuyerRegisterForm'">신규등록</button>
@@ -60,7 +74,7 @@
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-<!--                                         	<th>dd<th> -->
+<!--                               				<th scope="col">#</th> -->
                                              <th>거래처코드</th>
                                             <th>거래처명</th>
                                             <th>대표자명</th>
@@ -75,6 +89,7 @@
                                       <c:forEach var="buyerList" items="${buyerList }">
 										<tr>
 <!-- 										<td><input type="checkbox"></td> -->
+<!-- 										<td scope="row"></td> -->
 										<td><a href="BuyerDetail?business_no=${buyerList.business_no }"> ${buyerList.business_no }</a></td>
 										<td><a href="BuyerDetail?business_no=${buyerList.business_no }">${buyerList.cust_name }</a></td>
 										<td>${buyerList.boss_name }</td>
@@ -92,7 +107,9 @@
                     </div>
                 </main>
             </div>
-				
+		</div>
+	</div>
+</main>		
 <!-- 	<button onclick="newBuyer()">신규등록</button> -->
 	
 	

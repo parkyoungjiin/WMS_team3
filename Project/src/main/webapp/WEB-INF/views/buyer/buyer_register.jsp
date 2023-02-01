@@ -141,16 +141,33 @@ window.onload = function(){
               
          <!-- Floating Labels Form -->
               <form action="BuyerRegisterPro" method="post" class="row g-3">
-                <div class="col-md-6">
+              
+              <div class="col-lg-6">  
+                <div class="col-md-12">
+                <div class="input-group mb-1">
                   <div class="form-floating">
                     <input type="text" class="form-control" name="business_no" id="business_no" required placeholder="거래처코드">
                     <label for="floatingName">거래처코드</label>
+                  	</div>
+                    <button class="btn btn-secondary" type="button" onclick="checkCode()">fn</button>
                   </div>
                 </div>
-                <div class="col-md-3">
-                    <button type="button" class="btn btn-primary" onclick="checkCode()">fn</button>
+               </div> 
+                
+<!--                 <div class="col-md-3"> -->
+<!--                     <button type="button" class="btn btn-primary" onclick="checkCode()">fn</button> -->
+<!--                 </div> -->
+                
+               <div class="col-lg-6">  
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="cust_name" placeholder="상호">
+                    <label for="floatingName">상호</label>
+                  </div>
                 </div>
-                <fieldset class="row mb-3">
+               </div>
+                
+                <fieldset class="row mb-6">
                   <div class="col-sm-10">
                       <input class="form-check-input" type="radio" name="g_gubun"  value="01" checked>
                         &nbsp;01 사업자등록번호&nbsp;
@@ -162,12 +179,8 @@ window.onload = function(){
                         &nbsp;04 외국인&nbsp;
                   </div>
                 </fieldset>
-                <div class="col-md-6">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingEmail" placeholder="상호">
-                    <label>상호</label>
-                  </div>
-                </div>
+                
+               
                 
                  <div></div>
                  <div class="col-md-2">
@@ -191,6 +204,8 @@ window.onload = function(){
                     <i id="plus_uptae" name="orgInput_uptae" class="fa-solid fa-plus" style="cursor: pointer; vertical-align:middle;"></i>
                   </div>
                 </div>
+                
+                
                 <div></div>
                  <div class="col-md-2">
                   <div class="form-floating">
@@ -283,6 +298,7 @@ window.onload = function(){
                 </div>
               </div>
               
+              
               <div class="col-lg-4">  
                 <div></div>
                  <label class="form-label">담당자 이메일</label>
@@ -291,7 +307,7 @@ window.onload = function(){
                       <input type="text" class="form-control" id="email1_man" name="man_email" >
                       <span class="input-group-text">@</span>
                       <input type="text" class="form-control" id="email2_man" name="man_email">
-                    <select class="form-select" name="selectDomain" id="domain" >
+                      <select class="form-select" name="selectDomain" id="domain_man" >
                       <option value="">직접 입력</option>
 						<option value="naver.com">naver.com</option>
 						<option value="gmail.com">gmail.com</option>
@@ -301,151 +317,61 @@ window.onload = function(){
                     </div>
                    </div>
               </div>  
-                
+              
+                <div class="col-lg-12">  
+                <div></div>
+                 <label class="form-label">주소</label>
+                  <div class="col-md-12">
+                	<div class="input-group mb-1">
+                      <div class="form-floating">
+		                    <input type="text" class="form-control" name="post_no" id="emp_address_zonecode"  placeholder="거래처코드">
+		                    <label for="floatingName">우편번호</label>
+                  	  </div>
+                      <button id="address_kakao" class="btn btn-secondary" type="button">검색</button>
+                      <input type="text" class="form-control" name="addr" id="emp_address_kakao">
+	                    <div class="form-floating">
+	                    <input type="text" class="form-control" name="addr" id="emp_address_kakao2" placeholder="거래처코드">
+	                    <label for="floatingName">상세주소</label>
+	                   </div>
+                    </div>
+                   </div>
+              </div>  
+              
+              <div class="col-lg-6">  
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="fax" placeholder="팩스">
+                    <label for="floatingName">팩스</label>
+                  </div>
+                </div>
+               </div> 
+               
+               <div class="col-lg-6">  
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="man_home" placeholder="홈페이지">
+                    <label for="floatingName">홈페이지</label>
+                  </div>
+                </div>
+               </div> 
+               
                 
                 <div class="col-12">
                   <div class="form-floating">
-                    <textarea class="form-control" placeholder="Address" id="floatingTextarea" style="height: 100px;"></textarea>
-                    <label for="floatingTextarea">Address</label>
+                    <textarea class="form-control" placeholder="적요" id="floatingTextarea" style="height: 100px;" name="remarks"></textarea>
+                    <label for="floatingTextarea">적요</label>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="col-md-12">
-                    <div class="form-floating">
-                      <input type="text" class="form-control" id="floatingCity" placeholder="City">
-                      <label for="floatingCity">City</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-floating mb-3">
-                    <select class="form-select" id="floatingSelect" aria-label="State">
-                      <option selected>New York</option>
-                      <option value="1">Oregon</option>
-                      <option value="2">DC</option>
-                    </select>
-                    <label for="floatingSelect">State</label>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingZip" placeholder="Zip">
-                    <label for="floatingZip">Zip</label>
-                  </div>
-                </div>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                  <button type="reset" class="btn btn-secondary">Reset</button>
+                
+                <div class="text-left">
+                  <button type="submit" class="btn btn-primary" onclick="fn_registerBuyer()">등록</button>
+                  <button type="reset" class="btn btn-secondary">다시쓰기</button>
+                  <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>
                 
               </form><!-- End floating Labels Form -->      
-		<form action="BuyerRegisterPro" method="post" class="row g-3">
-		<table>
-			<tr>
-				<td >거래처코드</td>
-				<td class="col-md-6"><input type="text" class="form-control" class="form-control" name="business_no" id="business_no" required="required" class="form-control"></td>
-				<td ><button type="button" class="btn btn-primary" onclick="checkCode()">fn</button></td>
-			</tr>
-			<tr>
-				<td>거래처코드 구분</td>
-				<td>
-				<label><input type="radio" name="g_gubun" value="01" checked="checked">&nbsp;01 사업자등록번호</label>&nbsp; 
-				<label><input type="radio" name="g_gubun" value="02">&nbsp;02 해외사업자등록번호</label>&nbsp; 
-				<label><input type="radio" name="g_gubun" value="03">&nbsp;03 주민등록번호</label>&nbsp;
-				<label><input type="radio" name="g_gubun" value="04">&nbsp;04 외국인</label>
-				</td>
-			</tr>
-			<tr>
-				<td>상호</td>
-				<td><input type="text" class="form-control" name="cust_name" required="required"></td>
-			</tr>
-			<tr>
-				<td>대표자명</td>
-				<td><input type="text" class="form-control" name="boss_name"></td>
-			<tr />
-			<tr>
-				<td>업태</td>
-				<td><input type="text" class="form-control" name="uptae">&nbsp;<i id="plus_uptae" name="orgInput_uptae" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
-			</tr>
-			<tr>
-				<td>종목</td>
-				<td><input type="text" class="form-control" name="jongmok">&nbsp;<i id="plus_jongmok" name="orgInput_jongmok" class="fa-solid fa-plus" style="cursor: pointer;"></i></td>
-			</tr>
-			<tr>
-				<td>대표 전화번호</td>
-				<td>
-					<input type="text" class="form-control" size="1" name="tel"> -
-					<input type="text" class="form-control" size="1" name="tel"> -
-					<input type="text" class="form-control" size="1" name="tel">
-				</td>
-			</tr>
-			<tr>
-				<td>팩스</td>
-				<td><input type="text" class="form-control" name="fax"></td>
-			</tr>
-			<tr>
-				<td>이메일</td>
-				<td>
-				<input type="text" class="form-control" size="5" id="email1" name="email" > @ 
-				<input type="text" class="form-control" size="5" id="email2" name="email" > 
-				<select name="selectDomain" id="domain" style="padding: .4em .5em;">
-						<option value="">직접입력</option>
-						<option value="naver.com">naver.com</option>
-						<option value="gmail.com">gmail.com</option>
-						<option value="daum.net">daum.net</option>
-						<option value="nate.com">nate.com</option>
-				</select> &nbsp;
-				</td>
-			</tr>
-			<tr>
-				<th>우편번호</th>
-				<td><input type="text" class="form-control" name="post_no" id="emp_address_zonecode" > &nbsp;
-					<button id="address_kakao" type="button">우편번호 찾기</button></td>
-			</tr>
-			<tr>
-				<th>주소</th>
-				<td><input type="text" class="form-control" name="addr" id="emp_address_kakao" > &nbsp; <br> 
-				<input type="text" class="form-control" name="addr" id="emp_address_kakao2" placeholder="(상세주소를 입력해주세요.)"> &nbsp; <br> 
-			</tr>
-			<tr>
-				<td>홈페이지</td>
-				<td><input type="text" class="form-control" name="man_home"></td>
-			</tr>
-			<tr>
-				<td>담당자명</td>
-				<td><input type="text" class="form-control" name="man_name"></td>
-				<td>담당자 전화번호</td>
-				<td>
-					<input type="text" class="form-control" size="1" name="man_tel"> -
-					<input type="text" class="form-control" size="1" name="man_tel"> -
-					<input type="text" class="form-control" size="1" name="man_tel">
-				</td>
-				<td>담당자 이메일</td>
-				<td>
-				<input type="text" class="form-control" size="5" id="email1_man" name="man_email"> @ 
-				<input type="text" class="form-control" size="5" id="email2_man" name="man_email"> 
-				<select name="selectDomain" id="domain_man" style="padding: .4em .5em;">
-						<option value="">직접입력</option>
-						<option value="naver.com">naver.com</option>
-						<option value="gmail.com">gmail.com</option>
-						<option value="daum.net">daum.net</option>
-						<option value="nate.com">nate.com</option>
-				</select> &nbsp;
-				</td>
-			</tr>
-			<tr>
-				<td>적요</td>
-				<td><input type="text" class="form-control" name="remarks"></td>
-			</tr>
-			<tr>
-				<td colspan="6"><input type="submit" value="등록" onclick="fn_registerBuyer()"> <input
-					type="reset" value="다시쓰기"> <input type="button"
-					onclick="history.back()" value="취소"></td>
-			</tr>
-		</table>
-	</form>
-	</div>
-	</div>
+			</div>
+		</div>
 	</main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
