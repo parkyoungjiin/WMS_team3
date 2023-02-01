@@ -26,7 +26,7 @@ public class EmpService {
 	public String getSelectPass(String emp_EMAIL) {
 		return mapper.getSelectPass(emp_EMAIL);
 	}
-	//세션에 저장할 이름값 가져오기
+	//세션에 저장할 이름값,권한코드,idx값 가져오기
 	public EmpVo getSelectName(String emp_EMAIL) {
 		return mapper.getSelectName(emp_EMAIL);
 	}

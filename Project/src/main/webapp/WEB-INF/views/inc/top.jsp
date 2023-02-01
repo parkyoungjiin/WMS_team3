@@ -62,16 +62,32 @@
 				<li class="menu">
 					인사관리
 					<ul class="submenu">
-						<li><a href="#">사원 등록</a></li>
-						<li><a href="#">사원 조회</a></li>
+						<li><a href="EmpInsertForm.em">사원 등록</a></li>
+						<li><a href="EmployeeList.em">사원 조회</a></li>
 					</ul>
 				</li>
 				<li>
-					재고관리
+					기본등록
 					<ul class="submenu">
-						<li><a href="#">기본 등록</a></li>
-						<li><a href="#">구매 관리</a></li>
-						<li><a href="#">WMS</a></li>
+						<li><a href="WareHouseInsertForm.wh">창고 등록</a></li>
+						<li><a href="BuyerList">거래처 등록</a></li>
+						<li><a href="#">품목 등록</a></li>
+					</ul>
+				</li>
+				<li>
+					구매관리
+					<ul class="submenu">
+						<li><a href="#">발주 요청</a></li>
+						<li><a href="#">구매 작업</a></li>
+					</ul>
+				</li>
+				<li>
+					WMS
+					<ul class="submenu">
+						<li><a href="#">창고 관리</a></li>
+						<li><a href="#">입고 관리</a></li>
+						<li><a href="#">출고 관리</a></li>
+						<li><a href="#">재고 조정</a></li>
 					</ul>
 				</li>
 			</ul>

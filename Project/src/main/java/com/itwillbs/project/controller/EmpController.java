@@ -34,7 +34,8 @@ public class EmpController {
 	
 	@Autowired
 	private EmpService service;
-	
+	//===================================== 인사 파트 1 : 영진 ================================================
+
 	//------------인사 등록 폼 이동------------
 	@GetMapping(value = "EmpInsertForm.em")
 	public String EmpInsertForm() {
@@ -178,10 +179,11 @@ public class EmpController {
 			return "fail_back";
 		} else { // 성공
 			// HttpSession 객체에 세션 아이디 저장 후 메인페이지로 리다이렉트
-			//세션에 저장할 이름값 가져오기
+			//세션에 저장할 이름값,권한코드,idx값 가져오기
 			emp = service.getSelectName(emp.getEMP_EMAIL());
 			session.setAttribute("sId", emp.getEMP_NAME()); //이름 저장
 			session.setAttribute("priv_cd", emp.getPRIV_CD()); //권한코드 저장
+			session.setAttribute("idx", emp.getIDX()); //권한코드 저장
 			
 			return "redirect:/";
 		}
