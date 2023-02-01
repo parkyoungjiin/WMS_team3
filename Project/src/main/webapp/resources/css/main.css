@@ -48,13 +48,13 @@ html, body {margin: 0px; padding: 0px;}
   font-size: 14px;
 }
 
-img {
-  position : absolute;
-  width: 17px;
-  top: 10px;
-  right: 12px;
-  margin: 0;
-}
+/* img { */
+/*   position : absolute; */
+/*   width: 17px; */
+/*   top: 10px; */
+/*   right: 12px; */
+/*   margin: 0; */
+/* } */
 /* 메뉴바 css */
 .main-menu{
   background-color: #5778ff;

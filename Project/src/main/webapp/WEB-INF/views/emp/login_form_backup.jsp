@@ -110,103 +110,37 @@ function getCookie(cookieName) {
 	</header>
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
-	
-	
-	 <main id="main" style="padding-top: 50px;">
-    <div class="container">
-
-<!--       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4"> -->
-<!--         <div class="container"> -->
-          <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-
-              <div class="card mb-3">
-
-                <div class="card-body">
-
-                  <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                    <p class="text-center small">Enter your username & password to login</p>
-                  </div>
-
-                  <form action="EmpLoginPro.em" method="post" name ="fform" class="row g-3 needs-validation" novalidate>
-
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
-                      <div class="input-group has-validation">
-                       <input type="text" class="form-control" name="EMP_EMAIL" >
-                      <span class="input-group-text">@</span>
-                      <input type="text" class="form-control" id="email" name="EMP_EMAIL">
-                    <select class="form-select" name="selectDomain" id="domain" >
-                      <option value="">직접 입력</option>
+	<form action="EmpLoginPro.em" method="post" name ="fform">
+		<table>
+			<tr>
+				<th>아이디</th>
+				<td>
+					<input type="text" name="EMP_EMAIL">@
+					<input type="text" id ="email" name ="EMP_EMAIL">
+					<select name="selectDomain" id="domain"  style="padding: .4em .5em; ">
+						<option value="">직접입력</option>	
 						<option value="naver.com">naver.com</option>
 						<option value="gmail.com">gmail.com</option>
 						<option value="daum.net">daum.net</option>
 						<option value="nate.com">nate.com</option>
-                    </select>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name ="EMP_PASSWD" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" value="true" id ="checkId">
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <button class="btn btn-primary w-100" class ="loginbtn" type="submit">Login</button>
-                    </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
-                    </div>
-                  </form>
-
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-        </div>
-
-
-  </main><!-- End #main -->
-<!-- 		<table> -->
-<!-- 			<tr> -->
-<!-- 				<th>아이디</th> -->
-<!-- 				<td> -->
-<!-- 					<input type="text" name="EMP_EMAIL">@ -->
-<!-- 					<input type="text" id ="email" name ="EMP_EMAIL"> -->
-<!-- 					<select name="selectDomain" id="domain"  style="padding: .4em .5em; "> -->
-<!-- 						<option value="">직접입력</option>	 -->
-<!-- 						<option value="naver.com">naver.com</option> -->
-<!-- 						<option value="gmail.com">gmail.com</option> -->
-<!-- 						<option value="daum.net">daum.net</option> -->
-<!-- 						<option value="nate.com">nate.com</option> -->
-<!-- 						</select> &nbsp; -->
+						</select> &nbsp;
 					
-<!-- 				</td> -->
-<!-- 			</tr> -->
-<!-- 			<tr> -->
-<!-- 				<th>비밀번호</th> -->
-<!-- 				<td> -->
-<!-- 					<input type="password" name ="EMP_PASSWD"> -->
+				</td>
+			</tr>
+			<tr>
+				<th>비밀번호</th>
+				<td>
+					<input type="password" name ="EMP_PASSWD">
 					
-<!-- 				</td> -->
-<!-- 			</tr> -->
-<!-- 			<tr> -->
-<!-- 				<td><input type="checkbox" id ="checkId">이메일 저장</td> -->
-<!-- 			</tr> -->
-<!-- 			<tr> -->
-<!-- 				<td><input type="submit" class ="loginbtn" value="로그인"></td> -->
-<!-- 			</tr> -->
-<!-- 		</table> -->
+				</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" id ="checkId">이메일 저장</td>
+			</tr>
+			<tr>
+				<td><input type="submit" class ="loginbtn" value="로그인"></td>
+			</tr>
+		</table>
+	</form>
 </body>
 </html>

@@ -41,7 +41,7 @@ public class BuyerController {
 	public String test(HttpSession session, Model model) {
 		
 		
-		return "buyer/admin_coupon_List";
+		return "buyer/test";
 	}//BuyerList 끝
 	
 	//------------거래처 등록 페이지------------
