@@ -2,9 +2,14 @@ package com.itwillbs.project.controller;
 
 import java.io.File;
 import java.io.IOException;
+
+import java.net.http.HttpResponse;
+import java.text.Format;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.project.service.EmpService;
@@ -152,7 +161,15 @@ public class EmpController {
 	@PostMapping(value = "EmpLoginPro.em")
 	public String LoginPro(@ModelAttribute EmpVo emp, Model model, HttpSession session) {
 		BCryptPasswordEncoder passwdEncoder = new BCryptPasswordEncoder();
+		//판별 작업 전 @로 구분 되어 있는 email값 @ 문자열 결합 작업
+		//이메일1,이메일2 결합
+		String [] emp_emailArr = emp.getEMP_EMAIL().split(",");
+		for(int i=0; i<emp_emailArr.length; i++) {
+			String EMP_EMAIL = emp_emailArr[i].join("@", emp_emailArr);
+			emp.setEMP_EMAIL(EMP_EMAIL);
+		}
 		//비밀번호 일치 여부 확인을 위해 비밀번호 가져오기
+		
 		String passwd = service.getSelectPass(emp.getEMP_EMAIL());
 		if(passwd == null || !passwdEncoder.matches(emp.getEMP_PASSWD(), passwd)) { // 실패
 			// Model 객체에 "msg" 속성명으로 "로그인 실패!" 메세지 저장 후
@@ -162,20 +179,42 @@ public class EmpController {
 		} else { // 성공
 			// HttpSession 객체에 세션 아이디 저장 후 메인페이지로 리다이렉트
 			//세션에 저장할 이름값 가져오기
-			String emp_name = service.getSelectName(emp.getEMP_EMAIL());
-			session.setAttribute("sId", emp_name); //이름 저장
+			emp = service.getSelectName(emp.getEMP_EMAIL());
+			session.setAttribute("sId", emp.getEMP_NAME()); //이름 저장
+			session.setAttribute("priv_cd", emp.getPRIV_CD()); //권한코드 저장
+			
 			return "redirect:/";
 		}
-	}
+	}//LoginPro 끝 
 	
 	//-------------로그아웃 작업------------
-	@GetMapping(value = "EmpLogout.me")
+	@GetMapping(value = "EmpLogout.em")
 	public String logout(HttpSession session) {
 		// 세션 초기화
 		session.invalidate();
 		return "redirect:/";
-	}
+	}//logout 끝
 	
+	//------------이메일 중복 확인------------
+	@ResponseBody
+	@PostMapping(value = "EmpEmailCheck.em")
+	public void emailCheck(@RequestParam(defaultValue = "") String check_email, @ModelAttribute EmpVo emp, HttpServletResponse response) {
+		System.out.println(check_email);
+		//check_email로 넘긴 이메일과 일치하는 emp 레코드를 vo에 저장한다.
+		Integer selectResult = service.getEmailCheck(check_email);
+		// 만약 selectResult 값이 null인 경우(중복이 아닌 경우) null값을 0으로 변환
+		if(selectResult == null) {
+			selectResult = 0;
+		}
+			try {
+				response.getWriter().print(selectResult); //emailcheck 값을 보내는 작업
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		//emp에 값이 없을 경우 이메일 미중복 => true
+		
+	}
+
 	//===================================== 인사 파트 2 : 채원 ================================================
 		//-------------- 사원 목록 출력------------
 		@GetMapping("/EmployeeList.em")

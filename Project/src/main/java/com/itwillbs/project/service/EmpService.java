@@ -27,10 +27,15 @@ public class EmpService {
 		return mapper.getSelectPass(emp_EMAIL);
 	}
 	//세션에 저장할 이름값 가져오기
-	public String getSelectName(String emp_EMAIL) {
+	public EmpVo getSelectName(String emp_EMAIL) {
 		return mapper.getSelectName(emp_EMAIL);
 	}
-	
+  //이메일 중복 확인
+	public Integer getEmailCheck(String check_email) {
+		return mapper.getEmailCheck(check_email);
+	}
+
+	// ==============================================인사 2 채원========================================================
 	//---------------- 사원 목록 ----------------------------
 		public List<EmpVo> getEmployeeList() {
 			return mapper.selectEmployeeList();
@@ -52,6 +57,4 @@ public class EmpService {
 			return mapper.updateEmployee(employee);
 		} // 사원 수정 끝
 
-
-		
 }

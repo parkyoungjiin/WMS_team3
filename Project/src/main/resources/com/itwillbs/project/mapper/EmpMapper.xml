@@ -33,10 +33,15 @@
 			FROM emp
 				WHERE EMP_EMAIL = #{EMP_EMAIL}
 	</select>
-	<select id="getSelectName" resultType="string">
-		SELECT EMP_NAME
+	<select id="getSelectName" resultType="com.itwillbs.project.vo.EmpVo">
+		SELECT EMP_NAME, PRIV_CD
 			FROM emp
 				WHERE EMP_EMAIL = #{EMP_EMAIL}
+	</select>
+	<select id="getEmailCheck" resultType="integer">
+		SELECT idx
+			FROM emp
+				WHERE EMP_EMAIL = #{check_email}
 	</select>
 	
 	<!-- 사원목록 -->
