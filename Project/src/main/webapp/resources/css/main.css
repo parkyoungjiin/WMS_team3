@@ -48,7 +48,7 @@ html, body {margin: 0px; padding: 0px;}
   font-size: 14px;
 }
 
-img {
+#searchimg{
   position : absolute;
   width: 17px;
   top: 10px;

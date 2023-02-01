@@ -38,15 +38,14 @@ window.onload = function(){
 <script>
 	function changeImage(event) {
 		var reader = new FileReader();
-		
-		reader.onload = function(event) {
-			var img = document.createElement("img"); //img 요소를 갖는 img변수 생성
-			img.setAttribute("src", event.target.result); // img변수에 src 속성 세팅.
-			img.setAttribute("class", "image_container");// img변수에 class 속성 세팅
-			document.querySelector("td#image_container>div").prependChild(img);
-		}
-        // reader가 이미지 읽도록 하기
-		reader.readAsDataURL(event.target.files[0]);
+
+        reader.onload = function(event) {
+          var img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          document.querySelector("div#image_container").appendChild(img);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
 }// changeImage 끝
 </script>
 
@@ -310,7 +309,7 @@ $(function() {
 				<th>사진 업로드</th>
 				<td>
 					<div class="image_form" >
-						<input type="file" id ="input_image" name ="file" onchange="changeImage();" required>
+						<input type="file" id ="input_image" name ="file" onchange="changeImage(event);" required>
 					</div>
 					<div id="image_container"></div>
 				</td>

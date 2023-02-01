@@ -21,15 +21,15 @@
 <script type="text/javascript">
 $(function() {
 	$("#domain").on("change", function() {
-		$("#email").val($(this).val());
+		$("#email2").val($(this).val());
 		
 		if($(this).val() == "") {
-			$("#email").prop("readonly", false);
-			$("#email").css("background-color", "white");
-			$("#email").focus();
+			$("#email2").prop("readonly", false);
+			$("#email2").css("background-color", "white");
+			$("#email2").focus();
 		} else {
-			$("#email").prop("readonly", true);
-			$("#email").css("background-color", "lightgray");
+			$("#email2").prop("readonly", true);
+			$("#email2").css("background-color", "lightgray");
 		}
 	})
 	
@@ -114,8 +114,8 @@ function getCookie(cookieName) {
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" name="EMP_EMAIL">@
-					<input type="text" id ="email" name ="EMP_EMAIL">
+					<input type="text" id ="email" name="EMP_EMAIL">@
+					<input type="text" id ="email2" name ="EMP_EMAIL">
 					<select name="selectDomain" id="domain"  style="padding: .4em .5em; ">
 						<option value="">직접입력</option>	
 						<option value="naver.com">naver.com</option>

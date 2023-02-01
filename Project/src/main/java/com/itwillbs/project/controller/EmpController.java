@@ -39,7 +39,7 @@ public class EmpController {
 	@GetMapping(value = "EmpInsertForm.em")
 	public String EmpInsertForm() {
 		
-		return "emp/insert_form";
+		return "emp/employee_insert_form";
 	}//EmpInsertForm 끝
 	
 	//------------인사 등록 작업---------------
@@ -154,7 +154,7 @@ public class EmpController {
 	@GetMapping(value = "EmpLoginForm.em")
 	public String LoginForm() {
 		
-		return "emp/login_form";
+		return "emp/employee_login_form";
 	}//LoginForm 끝
 	
 	//-------------로그인 작업-----------------

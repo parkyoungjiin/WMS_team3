@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <!-- css 경로 설정 -->
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +32,7 @@
 		</div>
 		<div class="search">
 		  <input type="text" name ="search" placeholder="검색어 입력">
-		  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+		  <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png" id ="searchimg">
 		</div>
 	<c:choose>
 		<%-- 로그인 상태가 아닐 경우 Login, Join 링크 표시 --%>
