@@ -112,7 +112,7 @@ function getCookie(cookieName) {
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 	
 	
-	 <main id="main" style="padding-top: 50px;">
+	 <main id="main" style="padding-top: 90px;">
     <div class="container">
 
 <!--       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4"> -->

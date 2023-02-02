@@ -618,7 +618,7 @@ a:hover {
   top: 60px;
   left: 0;
   bottom: 0;
-  width: 250px;
+  width: 300px;
   z-index: 996;
   transition: all 0.3s;
   padding: 20px;
@@ -649,7 +649,7 @@ a:hover {
 
   #main,
   #footer {
-    margin-left: 260px;
+    margin-left: 300px;
   }
 }
 
