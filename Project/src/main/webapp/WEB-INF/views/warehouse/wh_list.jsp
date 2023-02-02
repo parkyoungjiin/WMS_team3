@@ -23,6 +23,20 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 
 <script type="text/javascript">
+	<!-- 권한 여부 판별하여 인사부서인지 판별 -->
+// 	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+// 	var priv_cd_emp = str.charAt(0); // 창고조회(1) 여부 판별할 값
+// 	var priv_cd_emp2 = str.charAt(3); // 창고관리(2) 여부 판별할 값
+// 	var priv_cd_emp3 = str.charAt(4); // 재고관리(2) 여부 판별할 값
+	
+// 	//사원조회, 사원관리에 대한 권한이 있는 지 판별
+// 	if(priv_cd_emp == '1' || priv_cd_emp2 == '1' || priv_cd_emp3 == '1'){//권한이 있을 경우
+		
+// 	}else{//없을 경우
+// 		alert("창고등록 권한이 없습니다");
+// 		history.back();
+// 	}
 	//------------상세페이지 창 작업-------------
 	function wh_info(wh_cd) {
 		 location.href="WareHouseInfo.wh?wh_cd="+wh_cd;

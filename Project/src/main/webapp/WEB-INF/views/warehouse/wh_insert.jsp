@@ -20,18 +20,30 @@
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
-var codeStatus = false;
-
-$(function() {
-	$("input:radio[name='wh_location']").change(function() {
-		var location = $("input:radio[name='wh_location']:checked").val();
-		alert(location);
-			if(location == '내부'){
-				$("#address").hide();
-			}else if(location == '외부'){
-				$("#address").show();
-			}
-	});// 내부,외부처리 
+<!-- 권한 여부 판별하여 인사부서인지 판별 -->
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_emp = str.charAt(0); // 창고조회(0) 여부 판별할 값
+	var priv_cd_emp2 = str.charAt(3); // 창고관리(2) 여부 판별할 값
+	var priv_cd_emp3 = str.charAt(4); // 재고관리(4) 여부 판별할 값
+	
+	//사원조회, 사원관리에 대한 권한이 있는 지 판별
+	if(priv_cd_emp == '1' || priv_cd_emp2 == '1' || priv_cd_emp3 == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("창고등록 권한이 없습니다");
+		history.back();
+	}
+	$(function() {
+		$("input:radio[name='wh_location']").change(function() {
+			var location = $("input:radio[name='wh_location']:checked").val();
+			alert(location);
+				if(location == '내부'){
+					$("#address").hide();
+				}else if(location == '외부'){
+					$("#address").show();
+				}
+		});// 내부,외부처리 
 //코드 중복 확인 처리
 $("#wh_cd_button").click(function() {
 		let wh_cd = $("#wh_cd").val();
@@ -156,9 +168,6 @@ window.onload = function(){
                       </div>
                     </div>
 					 
-					 
-					 
-					 
 					 <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">구분</label>
                        <div class="col-md-8 col-lg-5">
@@ -217,6 +226,13 @@ window.onload = function(){
                     </div>
 				</div>
                    
+                   
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">관리자</label>
+                      <div class="col-md-8 col-lg-2">
+                        <input name="wh_man_name" type="text" class="form-control" id="wh_man_name" required>
+                      </div>
+                    </div>
                    
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">연락처</label>
