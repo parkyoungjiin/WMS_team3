@@ -58,9 +58,8 @@
 		$("#plus_uptae").on("click", function() {
 			
 			var addInput = '<div class="col-md-2">'
-							+ '<div class="form-floating">'
-            				+ '<input type="text" class="form-control" name="uptae" placeholder="업태">'
-            				+ '</div></div>';
+            				+ '<input type="text" class="form-control" name="uptae">'
+            				+ '</div>';
 			
 // 			var addInput = '<input type="text" class="form-control" name="uptae">&nbsp';
 // 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
@@ -68,12 +67,12 @@
 			trHtml.before(addInput);
 		});
 		
+		
 		$("#plus_jongmok").on("click", function() {
 			
 			var addInput = '<div class="col-md-2">'
-							+ '<div class="form-floating">'
-							+ '<input type="text" class="form-control" name="jongmok" placeholder="종목">'
-							+ '</div></div>';
+							+ '<input type="text" class="form-control" name="jongmok">'
+							+ '</div>';
 			
 // 			var addInput = '<input type="text" class="form-control" name="jongmok">&nbsp';
 // 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
@@ -151,221 +150,207 @@ window.onload = function(){
         
        <div class="card-body">
          <!-- Floating Labels Form -->
-      <form action="BuyerModifyPro" method="post" class="row g-3">
+      <form action="BuyerModifyPro" method="post" >
             
-        <!-- 사용 여부 --> 
-         <div class="col-lg-12"> 
-           <div class="col-md-1">
-	            <select class="form-select" name="by_use" >
+        
+         <!-- 사용 여부 --> 
+              <div class="row mb-3">
+                <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사용 여부</label>
+                <div class="col-md-3 col-lg-2">
+                  <select class="form-select" name="by_use" >
 					<option value="1" <c:if test="${buyer.by_use eq'1'}"> selected="selected" </c:if>>사용</option>
 					<option value="2" <c:if test="${buyer.by_use eq'2'}"> selected="selected" </c:if>>비사용</option>
-	            </select>
-            </div> 
-          </div>
+		           </select>
+                </div>
+              </div>
           
-              <div class="col-lg-6">  
-                <div class="col-md-12">
-                <div class="input-group mb-1">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" name="business_no" id="business_no" value="${buyer.business_no }" readonly placeholder="거래처코드">
-                    <label for="floatingName">거래처코드</label>
-                  	</div>
-<!--                     <button class="btn btn-secondary" type="button" onclick="checkCode()">fn</button> -->
-                  </div>
-                </div>
-               </div> 
+          <div class="row mb-3">
+              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">거래처 코드</label>
+              <div class="col-md-6 col-lg-2">
+<!--                 <button class="btn btn-secondary" type="button" onclick="checkCode()">fn</button> -->
+                <input type="text" class="form-control" name="business_no" id="business_no"  value="${buyer.business_no }" readonly="readonly" >
+                <span id="checkCdResult"></span>
+              </div>
+            </div>	
+            
+            <div class="row mb-3">
+	              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label"></label>
+	            <div class="col-md-6 col-lg-6">
+                     <input class="form-check-input" type="radio" name="g_gubun"  value="01" <c:if test="${buyer.g_gubun eq'01'}"> checked="checked"</c:if>>
+                       &nbsp;01 사업자등록번호&nbsp;
+                     <input class="form-check-input" type="radio" name="g_gubun"  value="02" <c:if test="${buyer.g_gubun eq'02'}"> checked="checked"</c:if>>
+                       &nbsp;02 해외사업자등록번호&nbsp;
+                     <input class="form-check-input" type="radio" name="g_gubun"  value="03" <c:if test="${buyer.g_gubun eq'03'}"> checked="checked"</c:if>>
+                       &nbsp;03 주민등록번호&nbsp;
+                     <input class="form-check-input" type="radio" name="g_gubun" value="04" <c:if test="${buyer.g_gubun eq'04'}"> checked="checked"</c:if>>
+                       &nbsp;04 외국인&nbsp;
+               </div>    
+             </div>   
                 
-<!--                 <div class="col-md-3"> -->
-<!--                     <button type="button" class="btn btn-primary" onclick="checkCode()">fn</button> -->
-<!--                 </div> -->
                 
-               <div class="col-lg-6">  
-                <div class="col-md-12">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" name="cust_name" value="${buyer.cust_name }" placeholder="상호">
-                    <label for="floatingName">상호</label>
-                  </div>
-                </div>
+              <div class="row mb-3">
+              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">상호</label>
+              <div class="col-md-6 col-lg-3">
+                <input type="text" class="form-control" name="cust_name" value="${buyer.cust_name }" required="required">
+              </div>
+            </div>
+            
+               <div class="row mb-3">
+              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">업태</label>
+              <div class="col-md-6 col-lg-8">
+              <div class="input-group mb-1">
+               <div class="col-md-3" >
+                    <input type="text" class="form-control" name="uptae" value="${buyer.uptae }">
                </div>
-                
-                <fieldset class="row mb-6">
-                  <div class="col-sm-10">
-                      <input class="form-check-input" type="radio" name="g_gubun"  value="01" <c:if test="${buyer.g_gubun eq'01'}"> checked="checked"</c:if>>
-                        &nbsp;01 사업자등록번호&nbsp;
-                      <input class="form-check-input" type="radio" name="g_gubun"  value="02" <c:if test="${buyer.g_gubun eq'02'}"> checked="checked"</c:if>>
-                        &nbsp;02 해외사업자등록번호&nbsp;
-                      <input class="form-check-input" type="radio" name="g_gubun"  value="03" <c:if test="${buyer.g_gubun eq'03'}"> checked="checked"</c:if>>
-                        &nbsp;03 주민등록번호&nbsp;
-                      <input class="form-check-input" type="radio" name="g_gubun" value="04" <c:if test="${buyer.g_gubun eq'04'}"> checked="checked"</c:if>>
-                        &nbsp;04 외국인&nbsp;
-                  </div>
-                </fieldset>
-                
-               
-                
-                 <div></div>
-                 <div class="col-md-4">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" name="uptae" placeholder="업태" value="${buyer.uptae }">
-                    <label>업태</label>
-                  </div>
-                </div>
-                  <div class="col-md-2" name="orgInput_uptae" >
-                  <div class="form-floating">
-                	<button id="plus_uptae" class="btn btn-secondary" type="button">+</button>
-                  </div>
-                 </div>
-                
-                
-                <div></div>
-                 <div class="col-md-4">
-                  <div class="form-floating">
-                    <input type="text" name="jongmok" class="form-control" value="${buyer.jongmok }">
-                    <label>종목</label>
-                  </div>
-                </div>
-                 <div class="col-md-2" name="orgInput_jongmok" >
-                  <div class="form-floating">
-                	<button id="plus_jongmok" class="btn btn-secondary" type="button">+</button>
-                  </div>
-                 </div>
-                
-                
-                <div></div>
-              <div class="col-lg-3">  
-                <div></div>
-                  <label class="form-label">대표자명</label>
-                 	<div class="col-md-10">
-                  <div class="input-group mb-3">
-                      <input type="text" class="form-control" name="boss_name" value="${buyer.boss_name }">
-                    </div>
-                </div>
+               <div name="orgInput_uptae" >
+              	<button id="plus_uptae" class="btn btn-secondary" type="button">+</button>
+               </div>
+              	</div>
               </div>
-              
-              <div class="col-lg-3">  
-                <div></div>
-                  <label class="form-label">대표 전화번호</label>
-                 	<div class="col-md-11">
-                  <div class="input-group mb-6">
-                      <input type="text" class="form-control" name="tel" value="${buyer.telArr[0]}" onkeyup="inputOnlyNumberFormat(this)">
-                      <span class="input-group-text">-</span>
-                      <input type="text" class="form-control" name="tel" value="${buyer.telArr[1]}" onkeyup="inputOnlyNumberFormat(this)">
-                      <span class="input-group-text">-</span>
-                      <input type="text" class="form-control" name="tel" value="${buyer.telArr[2]}" onkeyup="inputOnlyNumberFormat(this)">
-                    </div>
-                </div>
+            </div> 
+            
+            <div class="row mb-3">
+              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">종목</label>
+              <div class="col-md-6 col-lg-8">
+              <div class="input-group mb-1">
+               <div class="col-md-3" >
+                    <input type="text" class="form-control" name="jongmok" value="${buyer.jongmok }">
+               </div>
+               <div name="orgInput_jongmok" >
+              	<button id="plus_jongmok" class="btn btn-secondary" type="button">+</button>
+               </div>
+              	</div>
               </div>
-              
-              <div class="col-lg-6">  
-                <div></div>
-                 <label class="form-label">대표 이메일</label>
-                  <div class="col-md-12">
-                	<div class="input-group mb-3">
-                      <input type="text" class="form-control" id="email1" name="email" value="${buyer.emailArr[0]}" onkeyup="onlyEngNumber(this)">
-                      <span class="input-group-text">@</span>
-                      <input type="text" class="form-control" id="email2" name="email" value="${buyer.emailArr[1]}">
-                    <select class="form-select" name="selectDomain" id="domain" >
-                      <option value="">직접 입력</option>
-						<option value="naver.com">naver.com</option>
-						<option value="gmail.com">gmail.com</option>
-						<option value="daum.net">daum.net</option>
-						<option value="nate.com">nate.com</option>
-                    </select>
-                    </div>
-                   </div>
-              </div>  
-              
-              
-                <div></div>
-              <div class="col-lg-3">  
-                <div></div>
-                  <label class="form-label">담당자명</label>
-                 	<div class="col-md-10">
-                  <div class="input-group mb-3">
-                      <input type="text" class="form-control" name="man_name" value="${buyer.man_name }">
-                    </div>
-                </div>
-              </div>
-              
-              <div class="col-lg-3">  
-                <div></div>
-                  <label class="form-label">담당자 전화번호</label>
-                 	<div class="col-md-11">
-                  <div class="input-group mb-6">
-                      <input type="text" class="form-control" name="man_tel" value="${buyer.man_telArr[0]}" onkeyup="inputOnlyNumberFormat(this)">
-                      <span class="input-group-text">-</span>
-                      <input type="text" class="form-control" name="man_tel" value="${buyer.man_telArr[1]}" onkeyup="inputOnlyNumberFormat(this)">
-                      <span class="input-group-text">-</span>
-                      <input type="text" class="form-control" name="man_tel" value="${buyer.man_telArr[2]}" onkeyup="inputOnlyNumberFormat(this)">
-                    </div>
-                </div>
-              </div>
-              
-              <div class="col-lg-6">  
-                <div></div>
-                 <label class="form-label">담당자 이메일</label>
-                  <div class="col-md-12">
-                	<div class="input-group mb-3">
-                      <input type="text" class="form-control" id="email1_man" name="man_email" value="${buyer.man_emailArr[0]}" onkeyup="onlyEngNumber(this)">
-                      <span class="input-group-text">@</span>
-                      <input type="text" class="form-control" id="email2_man" name="man_email" value="${buyer.man_emailArr[1]}">
-                      <select class="form-select" name="selectDomain" id="domain_man" >
-                      <option value="">직접 입력</option>
-						<option value="naver.com">naver.com</option>
-						<option value="gmail.com">gmail.com</option>
-						<option value="daum.net">daum.net</option>
-						<option value="nate.com">nate.com</option>
-                    </select>
-                    </div>
-                   </div>
-              </div>  
-              
-                <div class="col-lg-12">  
-                <div></div>
-                 <label class="form-label">주소</label>
-                  <div class="col-md-12">
-                	<div class="input-group mb-1">
-                      <div class="form-floating">
-		                    <input type="text" class="form-control" name="post_no" id="emp_address_zonecode"  placeholder="거래처코드" value="${buyer.post_no}">
-		                    <label for="floatingName">우편번호</label>
-                  	  </div>
-                      <button id="address_kakao" class="btn btn-secondary" type="button">검색</button>
-                      <input type="text" class="form-control" name="addr" id="emp_address_kakao" value="${buyer.addrArr[0]}">
-	                    <div class="form-floating">
-	                    <input type="text" class="form-control" name="addr" id="emp_address_kakao2" placeholder="거래처코드" value="${buyer.addrArr[1]}">
-	                    <label for="floatingName">상세주소</label>
-	                   </div>
-                    </div>
-                   </div>
-              </div>  
-              
-              <div class="col-lg-6">  
-                <div class="col-md-12">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" name="fax" value="${buyer.fax }" placeholder="팩스" onkeyup="inputOnlyNumberFormat(this)">
-                    <label for="floatingName">팩스</label>
-                  </div>
-                </div>
-               </div> 
-               
-               <div class="col-lg-6">  
-                <div class="col-md-12">
-                  <div class="form-floating">
-                    <input type="text" class="form-control" name="man_home" value="${buyer.man_home }" placeholder="홈페이지">
-                    <label for="floatingName">홈페이지</label>
-                  </div>
-                </div>
-               </div> 
-               
+            </div>  
                 
-                <div class="col-12">
-                  <div class="form-floating">
-                    <textarea class="form-control" placeholder="적요" id="floatingTextarea" style="height: 100px;" name="remarks">${buyer.remarks }</textarea>
-                    <label for="floatingTextarea">적요</label>
-                  </div>
-                </div>
+           <div style="padding-top: 40px;"></div>  
+            
+          <div class="row mb-3">
+           <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
+           	<div class="col-md-8 col-lg-2">
+      			<div class="input-group mb-6">
+             		<input name="post_no" type="text" class="form-control" id="emp_address_zonecode" value="${buyer.post_no}" >
+		         <button id="address_kakao" class="btn btn-secondary" type="button">검색</button>
+	        	 </div>
+	          </div>
+         </div>   
+       
+       <div class="row mb-3">
+           <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">주소</label>
+           <div class="col-md-8 col-lg-6">
+           	<div class="input-group mb-6">
+             <input name="addr" type="text" class="form-control" id="emp_address_kakao" value="${buyer.addr }">
+             <input name="addr" type="text" class="form-control" id="emp_address_kakao2" placeholder="상세주소">
+             </div>
+           </div>
+         </div>   
+         
+         
+          <div class="row mb-3">
+              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">대표자명</label>
+              <div class="col-md-6 col-lg-3">
+                <input type="text" class="form-control" name="boss_name" value="${buyer.boss_name }">
+              </div>
+            </div>	
+            
+            
+           <div class="row mb-3">
+                <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">대표 전화번호</label>
+                 <div class="col-md-8 col-lg-3">
+ 	                  <div class="input-group mb-6">
+                 	<input type="text" class="form-control" name="tel" value="${buyer.telArr[0]}" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
+                		<span class="input-group-text">-</span>
+                		<input type="text" class="form-control" name="tel" value="${buyer.telArr[1]}" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
+                		<span class="input-group-text">-</span>
+                		<input type="text" class="form-control" name="tel" value="${buyer.telArr[2]}" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
+				   </div>                 
+				</div>
+          </div>           
                 
-                <div class="text-left">
+          <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">대표 이메일</label>
+                		  <div class="col-md-8 col-lg-5">
+		                	<div class="input-group mb-5">
+		                      <input type="text" class="form-control" id="email1" value="${buyer.emailArr[0]}" name="email" onkeyup="onlyEngNumber(this)">
+		                      <span class="input-group-text">@</span>
+		                      <input type="text" class="form-control" id="email2" value="${buyer.emailArr[1]}" name="email">
+		                      	<select class="form-select" name="selectDomain" id="domain" >
+			                      	<option value="">직접 입력</option>
+									<option value="naver.com">naver.com</option>
+									<option value="gmail.com">gmail.com</option>
+									<option value="daum.net">daum.net</option>
+									<option value="nate.com">nate.com</option>
+		                   		 </select>
+		                    </div>
+	                    </div>
+                    </div>     
+            
+              <div class="row mb-3">
+              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">담당자명</label>
+              <div class="col-md-6 col-lg-3">
+                <input type="text" class="form-control" name="man_name" value="${buyer.man_name}">
+              </div>
+            </div>	
+                
+                
+           <div class="row mb-3">
+                <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">담당자 전화번호</label>
+                 <div class="col-md-8 col-lg-3">
+ 	                  <div class="input-group mb-6">
+                 	<input type="text" class="form-control" name="man_tel" value="${buyer.man_telArr[0]}" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
+                		<span class="input-group-text">-</span>
+                		<input type="text" class="form-control" name="man_tel" value="${buyer.man_telArr[1]}" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
+                		<span class="input-group-text">-</span>
+                		<input type="text" class="form-control" name="man_tel" value="${buyer.man_telArr[2]}" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
+				   </div>                 
+				</div>
+          </div> 
+              
+            <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">담당자 이메일</label>
+                		  <div class="col-md-8 col-lg-5">
+		                	<div class="input-group mb-5">
+		                      <input type="text" class="form-control" id="email1_man" name="man_email" value="${buyer.man_emailArr[0]}" onkeyup="onlyEngNumber(this)">
+		                      <span class="input-group-text">@</span>
+		                      <input type="text" class="form-control" id="email2_man" value="${buyer.man_emailArr[1]}" name="man_email" >
+		                      	<select class="form-select" name="selectDomain" id="domain_man" >
+			                      	<option value="">직접 입력</option>
+									<option value="naver.com">naver.com</option>
+									<option value="gmail.com">gmail.com</option>
+									<option value="daum.net">daum.net</option>
+									<option value="nate.com">nate.com</option>
+		                   		 </select>
+		                    </div>
+	                    </div>
+                    </div>
+              
+              
+             <div class="row mb-3">
+              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">팩스</label>
+              <div class="col-md-6 col-lg-3">
+                <input type="text" class="form-control" name="fax" value="${buyer.fax }" onkeyup="inputOnlyNumberFormat(this)">
+              </div>
+            </div>	
+            
+            <div class="row mb-3">
+              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">홈페이지</label>
+              <div class="col-md-6 col-lg-3">
+                <input type="text" class="form-control" value="${buyer.man_home }" name="man_home">
+              </div>
+            </div>	 
+                    
+                
+                <div class="row mb-3">
+              		<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">적요</label>
+              		<div class="col-md-6 col-lg-6">
+                    <textarea class="form-control" style="height: 100px;"  name="remarks">${buyer.remarks }</textarea>
+                    </div>
+                  </div>
+              
+             
+             
+                
+                <div class="text-right" style="float: right;">
                   <button type="submit" class="btn btn-primary" >수정</button>
                   <button type="reset" class="btn btn-secondary">다시쓰기</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>

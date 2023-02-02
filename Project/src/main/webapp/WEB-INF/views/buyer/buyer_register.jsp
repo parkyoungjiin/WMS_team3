@@ -57,7 +57,7 @@
 		//업태, 종목 항목 input 태그 추가
 		$("#plus_uptae").on("click", function() {
 			
-			var addInput = '<div class="col-md-3">'
+			var addInput = '<div class="col-md-2">'
             				+ '<input type="text" class="form-control" name="uptae">'
             				+ '</div>';
 			
@@ -70,7 +70,7 @@
 		
 		$("#plus_jongmok").on("click", function() {
 			
-			var addInput = '<div class="col-md-3">'
+			var addInput = '<div class="col-md-2">'
 							+ '<input type="text" class="form-control" name="jongmok">'
 							+ '</div>';
 			
@@ -80,14 +80,10 @@
 			trHtml.before(addInput);
 		});
 		
-	});
 		
-	function checkCode() {
+// 	function checkCode() {
+	$("#business_no").keyup(function() {
 		let business_no = $('#business_no').val();
-		
-		if(business_no.length == 0){
-			alert("거래처 코드를 입력해주세요");
-		} else {
 		
 		 $.ajax({
 	            url:'CodeCheck', //Controller에서 요청 받을 주소
@@ -95,20 +91,24 @@
 	            data:{business_no:business_no},
 	            success:function(result){ //컨트롤러에서 넘어온 cnt값을 받는다 
 	                if(result == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 코드 
-	                	alert("사용 가능한 코드입니다.")
+// 	                	alert("사용 가능한 코드입니다.");
+						$("#checkCdResult").html("사용 가능한 코드입니다.");
+						$("#checkCdResult").css("color", "#3CAEFF");
 	                	codeStatus = true;
 	                } else { // cnt가 1일 경우 -> 이미 존재하는 코드
-	                    alert("이미 존재하는 코드입니다.");
+// 	                    alert("이미 존재하는 코드입니다.");
+	                	$("#checkCdResult").html("사용 불가능한 코드입니다.");
+						$("#checkCdResult").css("color", "#B9062F");
 	                    codeStatus = false;
 	                }
 	            },
 	            error:function(){
 	                alert("중복 체크 실패!");
+	                codeStatus = false;
 	            }
 	        });
-		}
-	};
-	
+	});
+});	
 	
 	<!-- 연락처 숫자만 입력되는 유효성 검사 -->
 	function uncomma(str) {
@@ -136,6 +136,11 @@
 	
 	// 등록 작업 막기
 	function fn_registerBuyer(){
+		if(business_no.length == 0){
+			alert("거래처 코드를 입력해주세요");
+			event.preventDefault();
+		} 
+		
 		if(codeStatus == false){
 			alert("거래처 코드를 확인해주세요");
 			event.preventDefault();
@@ -187,7 +192,7 @@ window.onload = function(){
               <!-- 사용 여부 --> 
               <div class="row mb-3">
                 <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사용 여부</label>
-                <div class="col-md-3 col-lg-1">
+                <div class="col-md-3 col-lg-2">
                   <select class="form-select" name="by_use" >
 					<option value="1">사용</option>
 					<option value="2">비사용</option>
@@ -197,12 +202,10 @@ window.onload = function(){
 
 			<div class="row mb-3">
               <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">거래처 코드 (*)</label>
-              <div class="col-md-6 col-lg-3">
-               <div class="input-group mb-1">
+              <div class="col-md-6 col-lg-2">
+<!--                 <button class="btn btn-secondary" type="button" onclick="checkCode()">fn</button> -->
                 <input type="text" class="form-control" name="business_no" id="business_no" required onkeyup="inputOnlyNumberFormat(this)">
-                <button class="btn btn-secondary" type="button" onclick="checkCode()">fn</button>
                 <span id="checkCdResult"></span>
-               </div>
               </div>
             </div>	
             
@@ -229,7 +232,7 @@ window.onload = function(){
             
             <div class="row mb-3">
               <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">업태</label>
-              <div class="col-md-6 col-lg-3">
+              <div class="col-md-6 col-lg-4">
               <div class="input-group mb-1">
                <div class="col-md-3" >
                     <input type="text" class="form-control" name="uptae">
@@ -243,7 +246,7 @@ window.onload = function(){
             
             <div class="row mb-3">
               <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">종목</label>
-              <div class="col-md-6 col-lg-3">
+              <div class="col-md-6 col-lg-4">
               <div class="input-group mb-1">
                <div class="col-md-3" >
                     <input type="text" class="form-control" name="jongmok">
@@ -259,17 +262,17 @@ window.onload = function(){
             
           <div class="row mb-3">
            <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
-           <div class="col-md-8 col-lg-2">
+           	<div class="col-md-8 col-lg-2">
       			<div class="input-group mb-6">
-             <input name="post_no" type="text" class="form-control" id="emp_address_zonecode" >
-		         <button id="address_kakao" class="btn btn-secondary" type="button">우편번호 찾기</button>
+             		<input name="post_no" type="text" class="form-control" id="emp_address_zonecode" >
+		         <button id="address_kakao" class="btn btn-secondary" type="button">검색</button>
 	        	 </div>
 	          </div>
          </div>   
             
          <div class="row mb-3">
            <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">주소</label>
-           <div class="col-md-8 col-lg-6">
+           <div class="col-md-8 col-lg-5">
            	<div class="input-group mb-6">
              <input name="addr" type="text" class="form-control" id="emp_address_kakao" >
              <input name="addr" type="text" class="form-control" id="emp_address_kakao2" placeholder="상세주소">
@@ -303,7 +306,7 @@ window.onload = function(){
 		                	<div class="input-group mb-5">
 		                      <input type="text" class="form-control" id="email1" name="email" onkeyup="onlyEngNumber(this)">
 		                      <span class="input-group-text">@</span>
-		                      <input type="text" class="form-control" id="email2" name="email" required>
+		                      <input type="text" class="form-control" id="email2" name="email">
 		                      	<select class="form-select" name="selectDomain" id="domain" >
 			                      	<option value="">직접 입력</option>
 									<option value="naver.com">naver.com</option>
@@ -344,7 +347,7 @@ window.onload = function(){
 		                	<div class="input-group mb-5">
 		                      <input type="text" class="form-control" id="email1_man" name="man_email" onkeyup="onlyEngNumber(this)">
 		                      <span class="input-group-text">@</span>
-		                      <input type="text" class="form-control" id="email2_man" name="man_email" required>
+		                      <input type="text" class="form-control" id="email2_man" name="man_email" >
 		                      	<select class="form-select" name="selectDomain" id="domain_man" >
 			                      	<option value="">직접 입력</option>
 									<option value="naver.com">naver.com</option>
