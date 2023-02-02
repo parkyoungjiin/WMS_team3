@@ -23,6 +23,17 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 
 <script type="text/javascript">
+	$(function() {
+		$("#plusid").click(function() {
+			let result = "  <div class='row mb-3'>"
+            			+"<label for='th' id='title_label' class='col-md-4 col-lg-3 col-form-label'>창고명</label>"
+            			+"<div class='col-md-8 col-lg-2'>"
+              			+"<input name='wh_area' type='text' id='wh_area' class='form-control' id='fullName' required>"
+            			+"</div>"
+          				+"</div>";
+				$("tbody > tr").after(result);				
+		});
+	});		
 	//------------상세페이지 창 작업-------------
 	function wh_info(wh_cd) {
 		 location.href="WareHouseInfo.wh?wh_cd="+wh_cd;
@@ -44,13 +55,13 @@
 <main id="main" class="main">
 
 	<div class="pagetitle">
-      <h1>창고</h1>
+      <h1>창고 관리</h1>
     </div><!-- End Page Title -->
     
             <div class="card mb-4">
                 <div class="card-header">
 <!--                                 <i class="fas fa-table me-1"></i> -->
-                	창고 조회
+                	창고 관리 목록 조회
                      <button class="btn btn-secondary" onclick="location.href='WareHouseInsertForm.wh'" style="float: right;">창고등록</button>
                  </div>
                  <div class="card-body">
@@ -63,12 +74,13 @@
                                <th>구분</th>
                                <th>관리자명</th>
                                <th>사용여부</th>
+                               <th>상세 내용</th>
                            </tr>
                        </thead>
                       <tbody>
                             <c:forEach var="warehouse" items="${whlist }">
 							<c:if test="${warehouse.wh_use eq '1' }">
-							<tr>
+							<tr id="tr">
 								<td><a href="javascript:void(0);" onclick="wh_info('${warehouse.wh_cd}')">${warehouse.wh_cd }</a></td>	
 								<td><a href="javascript:wh_infoName('${warehouse.wh_cd}','${warehouse.wh_name}');">${warehouse.wh_name }</a></td>	
 								<td>${warehouse.wh_gubun }</td>	
@@ -79,6 +91,13 @@
 								<c:if test="${warehouse.wh_use eq '2'}">
 								<td>미사용</td>
 								</c:if>
+								<td>
+									 <button class="btn" id="plusid">
+									    <div class="inline-flex items-center space-x-2">
+									      <div>+</div>
+									    </div>
+						  			</button>
+								</td>
 							</tr>
 							</c:if>
 							</c:forEach>
