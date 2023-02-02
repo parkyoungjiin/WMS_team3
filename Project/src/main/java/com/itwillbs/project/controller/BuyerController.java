@@ -189,7 +189,7 @@ public class BuyerController {
 		buyer.setEmailArr(emailArr);
 		
 		String [] addrArr = buyer.getAddr().split("\\\\s");
-		System.out.println("주소 배열 확인" + Arrays.toString(addrArr));
+//		System.out.println("주소 배열 확인" + Arrays.toString(addrArr));
 		buyer.setAddrArr(addrArr);
 		
 		String [] ManEmailArr = buyer.getMan_email().split("@");
