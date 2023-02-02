@@ -13,7 +13,8 @@
 				#{wh_tel},
 				#{wh_man_name},
 				#{wh_use},
-				#{remarks}
+				#{remarks},
+				#{post_no}
 			)
 	</insert>
 	<!-- 창고 조회 목록  -->

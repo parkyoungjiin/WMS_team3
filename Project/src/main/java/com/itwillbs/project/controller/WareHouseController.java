@@ -41,7 +41,7 @@ public class WareHouseController {
 	}//whinert 끝
 	
 	//------------창고 등록 작업---------------
-	@GetMapping(value = "WareHouseInserPro.wh")
+	@PostMapping(value = "WareHouseInserPro.wh")
 	public String whinsertPro(@ModelAttribute WareHouseVO vo,HttpServletResponse response) {
 		System.out.println(vo);
 		System.out.println(vo.getWh_tel());
@@ -73,6 +73,14 @@ public class WareHouseController {
 	         vo.setWh_tel1(vo.getWh_tel().substring(0,3));
 	         vo.setWh_tel2(vo.getWh_tel().substring(4,7));
 	         vo.setWh_tel3(vo.getWh_tel().substring(8,12));
+	         if(vo.getWh_addr().equals(",")){
+	 			 vo.setWh_addr("");
+	 		 }else if(!vo.getWh_addr().equals("")) {
+	 			 String[] arr = vo.getWh_addr().split(",");
+	 			 vo.setWh_addr(arr[0]);
+//	 		 	System.out.println(arr[0]);
+	 		 	vo.setWh_addr_detail(arr[1]);
+	 		 }
 		System.out.println(vo);
 		model.addAttribute("wh",vo);
 		return "warehouse/wh_info";
@@ -89,10 +97,16 @@ public class WareHouseController {
 		vo.setWh_tel3(vo.getWh_tel().substring(8,12));
 //		vo.setWh_addr_detail(vo.getWh_addr_detail().substring(0));
 //		System.out.println(vo.getWh_addr_detail().split(","));
-		String[] arr = vo.getWh_addr().split(",");
-		vo.setWh_addr(arr[0]);
-//		System.out.println(arr[0]);
-		vo.setWh_addr_detail(arr[1]);
+		System.out.println(vo.getWh_addr());
+		if(vo.getWh_addr().equals(",")){
+			vo.setWh_addr("");
+		}else if(!vo.getWh_addr().equals("")) {
+			String[] arr = vo.getWh_addr().split(",");
+			vo.setWh_addr(arr[0]);
+//			System.out.println(arr[0]);
+			vo.setWh_addr_detail(arr[1]);
+		}
+		
 		System.out.println(vo);
 		model.addAttribute("wh",vo);
 		return "warehouse/wh_info";

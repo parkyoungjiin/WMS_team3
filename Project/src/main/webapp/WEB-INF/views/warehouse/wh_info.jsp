@@ -1,53 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-<c:set var="path" value="${pageContext.request.contextPath }"/>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="path" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
 <head>
-<!-- 구글 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Kaushan+Script&family=Neucha&display=swap" rel="stylesheet">
-<!-- css -->
-<link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
-<!-- 테이블 -->
+<!-- 부트스트랩 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-<!-- 테이블 -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>	
-<!-- 다음 주소 api -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-window.onload = function(){
-    document.getElementById("wh_addr").addEventListener("click", function(){ //주소입력칸을 클릭하면
-        //카카오 지도 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("wh_addr").value = data.address; // 주소 넣기
-                document.querySelector("input[name=wh_addr_detail]").focus(); //상세입력 포커싱
-            }
-        }).open();
-    });
-}
-</script>
-<!--제이쿼리  -->
+<!-- 폰트어썸 -->
+<script src="https://kit.fontawesome.com/ca93809e69.js" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<title>메인페이지</title>
+<link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
+<link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
+<!-- 카카오 주소 API -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
+var codeStatus = false;
+
 $(function() {
-	let isspace = false;
-	
-	//외부,내부 처리
-	$("input:radio[name='location']").change(function() {
-		var location = $("input:radio[name='location']:checked").val();
+	$("input:radio[name='wh_location']").change(function() {
+		var location = $("input:radio[name='wh_location']:checked").val();
 		alert(location);
 			if(location == '내부'){
 				$("#address").hide();
 			}else if(location == '외부'){
 				$("#address").show();
 			}
-			
-		});
-	//수정 처리
+	});// 내부,외부처리 
+	//------------수정-------------------------
 	$("#updatebutton").click(function() {
 		var params = $("#fr").serialize();
 		$.ajax({
@@ -57,159 +44,216 @@ $(function() {
 			dataType: "html"
 		})
 		.done(function() { // 요청 성공 시
-			if($("input[type='text']").val().trim() == ''){
-				return false;
-		      }
-			alert("성공");
+			alert("수정 하셨습니다.");
 		})
 		.fail(function() {
-			alert("실패");	
+			alert("수정 실패 하셨습니다.");	
 		});
-		
-	});// 수정처리	
-// 	//코드 중복 확인 처리
-// 	$("#wh_cd").change(function() {
-// 			alert("변경 감지");
-// 			let wh_cd = $("#wh_cd").val();
-// 			$.ajax({
-// 				type: "get",
-// 				url: "WhCodeCheck.wh?wh_cd="+wh_cd,
-// 				data: wh_cd,
-// 				dataType: "html",
-// 				success: function(data){
-// 					alert(data);
-// 					if(data == 0){
-// 						alert("중복 아님");
-// 						$("#checkCdResult").html("사용 가능 코드").css("color","green");
-// 						$("#fr").attr("onsubmit","return true");
-// 					}else if(data == 1){
-// 						alert("중복");
-// 						$("#checkCdResult").html("이미 존재 하는 창고 코드 ").css("color","red");
-// 						$("#fr").attr("onsubmit","return false");
-// 					}
-// 				}
-// 			}).fail(function(result) {
-// 				alert("중복아님");
-// 			});
-// 		});//코드 중복
-	});//jquery 끝!
-	
+	});// 수정처리
+});//제이쿼리 끝
+//---------주소 api-----------------------
+window.onload = function(){
+    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("wh_addr").value = data.address; // 주소 넣기
+                document.getElementById("post_no").value = data.zonecode; // 우편번호 넣기
+                document.querySelector("input[id=wh_addr_detail]").focus(); //상세입력 포커싱
+            }
+        }).open();
+    });
+}
+</script>
+<!-- 연락처 숫자만 입력되는 유효성 검사 -->
+<script type="text/javascript">
+function uncomma(str) {
+   str = String(str);
+   return str.replace(/[^\d]+/g, '');
+} 
 
-	
+function inputOnlyNumberFormat(obj) {
+   obj.value = onlynumber(uncomma(obj.value));
+}
+
+function onlynumber(str) {
+   str = String(str);
+   return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
+}
+
 	
 </script>
 
-<style type="text/css">
-	title { 
-		background-color: black; 
-		}
-</style>
-<meta charset="UTF-8">
-<title>내용</title>
+<script>
+
+</script>
 </head>
 <body>
-<!-- top-->
 	<header>
-	<jsp:include page="../inc/top.jsp"/>
+		<!-- top-->
+		<jsp:include page="../inc/top.jsp" />
 	</header>
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
+	
+  <main id ="main" class="main">
+   <div class="pagetitle">
+     <h1>창고 관리</h1>
+   </div>
+	<form name="fr" id="fr">
+	<div class="card-header">
+            창고 상세 정보
+           <c:choose>
+             	<c:when test="${wh.wh_use eq '1'}">
+           		   <select name="wh_use" style="float: right;" name="wh_use">
+		            	<option value="1" selected="selected">사용</option>
+		            	<option value="2">미사용</option>
+            		</select>
+            	</c:when>
+            	<c:otherwise>
+            		 <select name="wh_use" style="float: right;" name="wh_use">
+		            	<option value="1">사용</option>
+		            	<option value="2"  selected="selected">미사용</option>
+            		</select>
+            	</c:otherwise>
+           </c:choose>
+        </div>
+			<div></div>
+		<div class="card mb-4">
+		<!-- Profile Edit Form -->
+		       <div class="card-body">
+			
+                  <form action="EmpInsertPro.em" method="post" enctype="multipart/form-data" id="emp">
+                   <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">창고 코드</label>
+                      <div class="col-md-8 col-lg-2">
+	                	<div class="input-group mb-6">
+                        <input name="wh_cd" type="text" value="${wh.wh_cd }" id="wh_cd" class="form-control" id="wh_cd" required>
+	                    <button id="wh_cd_button" class="btn btn-secondary" type="button">조회</button>
+	                    </div>
+                      </div>
+                    </div>
 
-<form  name="fr" id="fr">
-<table class="table table-bordered" style="width: 500px;">
-	<tr>
-		<th><h1>창고 등록</h1></th>
-	</tr>
-	<tr>
-		<td>
-			<div>창고 코드</div>
-			<input type="text" name="wh_cd" id="wh_cd" value="${wh.wh_cd }" readonly="readonly"><div id="checkCdResult"></div></td>
-	</tr>
-	<tr>		
-		<td><div>창고명 </div>
-			<input type="text" name="wh_name" id="wh_name" value="${wh.wh_name }" required="required">
-		</td><br>	
-	</tr>	
-	<tr>	
-		<td>
-			<div>구분</div>
-			<input type="radio" name="wh_gubun" id="wh_gubun" value="창고" checked="checked">창고		
-			<input type="radio" name="wh_gubun" id="wh_gubun" value="공장">공장		
-		</td><br>	
-	</tr>
-	<tr>	
-		<td>
-			<div>위치 </div>
-			<input type="radio" name="wh_location" value="외부" checked="checked">외부
-			<input type="radio" name="wh_location" value="내부">내부		
-		</td><br>	
-	</tr>	
-	<tr>
-		<td id="address">
-			<div>주소(* 외부 선택 시 필수 등록)</div>
-			<input type="text" name="wh_addr"  value="${wh.wh_addr }" id="wh_addr" required="required"> &nbsp;
-			<br>
-			<input type="text" name="wh_addr_detail" value="${wh.wh_addr_detail }" id ="wh_addr_detail" required="required"> &nbsp;
-			<br>
-			<span style="color: gray;">(상세 주소를 입력해주세요.)</span>
-		</td>
-	</tr>
-	<tr>	
-		<td>
-			<div>전화번호</div>
-			<select name="wh_tel1" id="wh_tel1">
-				<c:choose>
-				<c:when test="${wh.wh_tel1 eq '051' }">
-					<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
-					<option value="052">052</option>
-					<option value="053" >053</option>
-				</c:when>
-				<c:when test="${wh.wh_tel1 eq '052' }">
-					<option value="051">051</option>
-					<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
-					<option value="053" >053</option>
-				</c:when>
-				<c:when test="${wh.wh_tel1 eq '053' }">
-					<option value="051">051</option>
-					<option value="052">052</option>
-					<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
-				</c:when>
-				<c:otherwise>
-					<option value="051">051</option>
-					<option value="052">052</option>
-					<option value="053" >053</option>
-				</c:otherwise>
-				</c:choose>
-			</select>-
-		 	<input type="text" size="1" name="wh_tel2" id="wh_tel2" value="${wh.wh_tel2}">-
-		 	<input type="text" size="1" name="wh_tel3" id="wh_tel3" value="${wh.wh_tel3}">
-		</td><br>	
-	</tr>	
-	<tr>	
-		<td>
-			<div>관리자</div> 
-			<input type="text" name="wh_man_name" id="wh_man_name" value="${wh.wh_man_name}" required="required">
-		</td><br>
-	</tr>	
-	<tr>	
-		<td>
-			<div>사용여부 </div> 
-			<input type="radio" name="wh_use" id="wh_use" value="1" checked="checked">사용
-			<input type="radio" name="wh_use" id="wh_use" value="2">미사용
-		</td><br>
-	</tr>	
-	<tr>	
-		<td>
-			<div>비고:</div>
-			<textarea name="remarks" id="remarks" rows="10" cols=50" required="required">${wh.remarks}</textarea>
-		</td>
-	</tr>
-	<tr>	
-		<td>
-		<input type="button" id="updatebutton" value="수정">
-		</td>
-	</tr>	
-</table>
-</form>
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">창고명</label>
+                      <div class="col-md-8 col-lg-2">
+                        <input name="wh_name" type="text" id="wh_name" value="${wh.wh_name }" class="form-control" id="fullName" required>
+                      </div>
+                    </div>
+					 
+					 
+					 
+					 
+					 <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">구분</label>
+                       <div class="col-md-8 col-lg-5">
+		                	<div class="input-group mb-6">
+		                      	<c:choose>
+		                      		<c:when test="${wh.wh_gubun eq '창고' }">
+				                        <label class="form-check-label" style="margin-right: 30px">
+				                        	<input type="radio" class="form-check-input" id="wh_gubun" name="wh_gubun" value="창고" style="margin-right: 10px" checked>
+				                        	창고
+				                        </label>
+										
+										<label class="form-check-label" style="margin-right: 30px">
+											<input type="radio" class="form-check-input" id="wh_gubun" name="wh_gubun" value="공장" style="margin-right: 10px">
+											공장
+										</label>
+									</c:when>
+									<c:otherwise>
+										<label class="form-check-label" style="margin-right: 30px">
+				                        	<input type="radio" class="form-check-input" id="wh_gubun" name="wh_gubun" value="창고" style="margin-right: 10px">
+				                        	창고
+				                        </label>
+										
+										<label class="form-check-label" style="margin-right: 30px">
+											<input type="radio" class="form-check-input" id="wh_gubun" name="wh_gubun" value="공장" style="margin-right: 10px" checked>
+											공장
+										</label>
+									</c:otherwise>
+								</c:choose>
+		                    </div>
+	                    </div>
+                    </div>
+					
+					
+					<div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">위치</label>
+                       <div class="col-md-8 col-lg-5">
+		                	<div class="input-group mb-6">
+		                        <c:choose>
+		                        	<c:when test="${wh.wh_location eq '외부' }">
+				                        <label class="form-check-label" style="margin-right: 30px">
+				                        	<input type="radio" class="form-check-input" id="wh_location" name="wh_location" value="외부" style="margin-right: 10px" checked="checked">
+				                        	외부
+				                        </label>
+										<label class="form-check-label" style="margin-right: 30px">
+											<input type="radio" class="form-check-input" id="wh_location" name="wh_location" value="내부" style="margin-right: 10px">
+											내부
+										</label>
+									</c:when>
+									<c:otherwise>
+										<label class="form-check-label" style="margin-right: 30px">
+				                        	<input type="radio" class="form-check-input" id="wh_location" name="wh_location" value="외부" style="margin-right: 10px">
+				                        	외부
+				                        </label>
+										<label class="form-check-label" style="margin-right: 30px">
+											<input type="radio" class="form-check-input" id="wh_location" name="wh_location" value="내부" style="margin-right: 10px" checked="checked">
+											내부
+										</label>
+									</c:otherwise>
+								</c:choose>
+		                    </div>
+	                    </div>
+                    </div>
+					
+					<div id="address">
+					<div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
+                      <div class="col-md-8 col-lg-2">
+	                	<div class="input-group mb-6">
+                        <input name="post_no" type="text" value="${wh.post_no }" class="form-control" id="post_no">
+	                    <button id="address_kakao" class="btn btn-secondary" type="button">우편번호 찾기</button>
+	                    </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">주소</label>
+                      <div class="col-md-8 col-lg-3">
+                        <input name="wh_addr" type="text" value="${wh.wh_addr }" class="form-control" id="wh_addr">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">상세주소</label>
+                      <div class="col-md-8 col-lg-3">
+                        <input name="wh_addr_detail" type="text" value="${wh.wh_addr_detail }" class="form-control" id="wh_addr_detail">
+                      </div>
+                    </div>
+				</div>
+                   
+                   
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">연락처</label>
+   	                    <div class="col-md-8 col-lg-3">
+       	                  <div class="input-group mb-6">
+  	                    	<input type="text" class="form-control" value="${wh.wh_tel1 }" id="wh_tel1" name="wh_tel1" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" required>
+                      		<span class="input-group-text">-</span>
+                      		<input type="text" class="form-control" value="${wh.wh_tel2 }" id="wh_tel2" name="wh_tel2" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" required>
+                      		<span class="input-group-text">-</span>
+                      		<input type="text" class="form-control" value="${wh.wh_tel3 }" id="wh_tel13" name="wh_tel13" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required>
+     					   </div>                 
+     					</div>
+                    </div>
+					
+					<div></div>
+                    <div class="text-left">
+                      <button type="button" id="updatebutton" class="btn btn-primary">창고 수정</button>
+                    </div>
+                </div>
+		</div>
+	</form><!-- End Profile Edit Form -->
+	</main>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> -->
 </body>
 </html>

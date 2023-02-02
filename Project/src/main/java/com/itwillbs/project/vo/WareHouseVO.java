@@ -15,13 +15,17 @@ private String wh_tel3;//전화번호
 private String wh_man_name;//관리자명
 private String wh_use;//사용여부
 private String remarks;//적요
-
+private String post_no;// 우편번호
 //-----------getter/setter---------------
 public String getWh_cd() {
 	return wh_cd;
 }
-
-
+public String getPost_no() {
+	return post_no;
+}
+public void setPost_no(String post_no) {
+	this.post_no = post_no;
+}
 public void setWh_cd(String wh_cd) {
 	this.wh_cd = wh_cd;
 }
@@ -81,9 +85,9 @@ public String getWh_addr_detail() {
 	return wh_addr_detail;
 }
 
-
 public void setWh_addr_detail(String wh_addr_detail) {
 	this.wh_addr_detail = wh_addr_detail;
+	wh_addr = wh_addr+","+wh_addr_detail;
 }
 
 
@@ -124,6 +128,7 @@ public String getWh_tel3() {
 
 public void setWh_tel3(String wh_tel3) {
 	this.wh_tel3 = wh_tel3;
+	wh_tel = wh_tel1 + "-" +wh_tel2 +"-"+wh_tel3;
 }
 
 

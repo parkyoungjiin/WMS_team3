@@ -24,51 +24,92 @@
 <%-- <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" /> --%>
 </head>
 <body>
-	<div class ="sidevar">
-		<ul class ="side-menu">
-			<li>
-				<a href="" class="title">인사관리</a>
-				<ul class="side-submenu">
-					<li><a href="EmpInsertForm.em" class="sub-title">사원 등록</a></li>
-					<li><a href="EmployeeList.em?EMP_NAME=${sessionScope.sId }" class="sub-title">사원 조회</a></li>
-				</ul>
-			</li>
-			<li>
-				<a href="" class="title">재고관리</a>
-				<ul class="side-submenu">
-					<li>
-					<!-- 기본 등록 -->
-					<a href="#" class="sub-title">기본 등록</a>
-						<ul class="side-submenu">
-							<li><a href="WareHouseListPro.wh">창고 등록</a></li>
-							<li><a href="BuyerList">거래처 등록</a></li>
-							<li><a href="#">품목 등록</a></li>
-						</ul>
-					</li>
-					<!-- 구매 -->
-					<li>
-					<a href="#" class="sub-title">구매 관리</a>
-					<ul class="side-submenu">
-						<li><a href="#">발주 요청</a></li>
-						<li><a href="#">구매 작업</a></li>
-					</ul>
-					</li>
-					<!-- WMS -->
-					<li>
-					<a href="#" class="sub-title">WMS</a>
-						<ul class="side-submenu">
-							<li><a href="WareHouseManage.wh">창고 관리</a></li>
-							<li><a href="#">입고 관리</a></li>
-							<li><a href="#">출고 관리</a></li>
-							<li><a href="#">재고 조정</a></li>
-						</ul>
-					</li>
-					
-				</ul>
-			</li>
-		</ul>
-	</div>
 
+<!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="${path }/">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>인사 관리</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="EmpInsertForm.em">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>사원 등록</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>사원 조회</span>
+            </a>
+          </li>
+         </ul> 
+      </li><!-- End Components Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>기본 등록</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="WareHouseListPro.wh">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>창고 등록</span>
+            </a>
+          </li>
+          <li>
+            <a href="BuyerList">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>거래처 등록</span>
+            </a>
+          </li>
+          <li>
+            <a href="forms-editors.html">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>품목 등록</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Forms Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>WMS</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+         <li>
+            <a href="WareHouseManage.wh">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>창고 관리</span>
+            </a>
+          </li>
+         <li>
+            <a href="forms-editors.html">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>입고 관리</span>
+            </a>
+          </li>
+         <li>
+            <a href="forms-editors.html">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>출고 관리</span>
+            </a>
+          </li>
+         <li>
+            <a href="forms-editors.html">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>재고 관리</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
+
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
 
 
 </body>
