@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project.mapper.ProductMapper">
+	
+	<!-- 품목 등록 -->
+	<insert id="insertProd">
+		INSERT INTO product
+			VALUES(
+				#{product_cd},
+				#{product_name},
+				#{product_group_bottom_cd},
+				#{size_des},
+				#{unit},
+				#{barcode},
+				#{in_unit_price},
+				#{out_unit_price},
+				#{product_type_cd},
+				#{business_no},
+				#{product_image},
+				#{remarks}
+			)
+	
+	</insert>
+	
+	<!-- 품목코드 중복 확인 -->
+	<select id="existCd" resultType="int">
+		SELECT COUNT(*)
+			FROM product
+			WHERE product_cd = #{product_cd}
+	</select>
+
+</mapper>
