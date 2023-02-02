@@ -22,16 +22,37 @@
 <!-- 카카오 주소 API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
-var codeStatus = false;
+<!-- 권한 여부 판별하여 인사부서인지 판별 -->
+var str = '${priv_cd}'; // 세션에 저장된 권한코드
+
+var priv_cd_emp = str.charAt(0); // 창고조회(1) 여부 판별할 값
+var priv_cd_emp2 = str.charAt(3); // 창고관리(2) 여부 판별할 값
+var priv_cd_emp3 = str.charAt(4); // 재고관리(2) 여부 판별할 값
+
+//사원조회, 사원관리에 대한 권한이 있는 지 판별
+if(priv_cd_emp == '1' || priv_cd_emp2 == '1' || priv_cd_emp3 == '1'){//권한이 있을 경우
+	
+}else{//없을 경우
+	alert("창고등록 권한이 없습니다");
+	history.back();
+}	
 
 $(function() {
+	let location_result = "${wh.wh_location}";
+	if(location_result == '내부'){
+		$("#address").hide();
+	}else if(location == '외부'){
+		$("#address").show();
+	}
+	
+	
 	$("input:radio[name='wh_location']").change(function() {
-		var location = $("input:radio[name='wh_location']:checked").val();
-		alert(location);
+			let location = $("input:radio[name='wh_location']:checked").val();
 			if(location == '내부'){
 				$("#address").hide();
 			}else if(location == '외부'){
 				$("#address").show();
+				
 			}
 	});// 내부,외부처리 
 	//------------수정-------------------------
@@ -80,7 +101,6 @@ function onlynumber(str) {
    str = String(str);
    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
 }
-
 	
 </script>
 
@@ -122,14 +142,12 @@ function onlynumber(str) {
 		<div class="card mb-4">
 		<!-- Profile Edit Form -->
 		       <div class="card-body">
-			
-                  <form action="EmpInsertPro.em" method="post" enctype="multipart/form-data" id="emp">
                    <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">창고 코드</label>
                       <div class="col-md-8 col-lg-2">
 	                	<div class="input-group mb-6">
-                        <input name="wh_cd" type="text" value="${wh.wh_cd }" id="wh_cd" class="form-control" id="wh_cd" required>
-	                    <button id="wh_cd_button" class="btn btn-secondary" type="button">조회</button>
+                        <input name="wh_cd" type="text" value="${wh.wh_cd }" id="wh_cd" class="form-control" id="wh_cd" readonly="readonly">
+<!-- 	                    <button id="wh_cd_button" class="btn btn-secondary" type="button">조회</button> -->
 	                    </div>
                       </div>
                     </div>
@@ -212,7 +230,7 @@ function onlynumber(str) {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
                       <div class="col-md-8 col-lg-2">
 	                	<div class="input-group mb-6">
-                        <input name="post_no" type="text" value="${wh.post_no }" class="form-control" id="post_no">
+                        <input type="text" value="${wh.post_no }" name="post_no" class="form-control" id="post_no">
 	                    <button id="address_kakao" class="btn btn-secondary" type="button">우편번호 찾기</button>
 	                    </div>
                       </div>
@@ -231,7 +249,19 @@ function onlynumber(str) {
                       </div>
                     </div>
 				</div>
+                   <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">관리자</label>
+                      <div class="col-md-8 col-lg-2">
+                        <input name="wh_man_name" type="text" value="${wh.wh_man_name }" class="form-control" id="wh_man_name" required>
+                      </div>
+                    </div>
                    
+                    \<div class="row mb-3">
+              		<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">적요</label>
+              		<div class="col-md-6 col-lg-6">
+                    <textarea class="form-control" style="height: 100px;" name="remarks"></textarea>
+                    </div>
+                  </div>
                    
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">연락처</label>
@@ -241,7 +271,7 @@ function onlynumber(str) {
                       		<span class="input-group-text">-</span>
                       		<input type="text" class="form-control" value="${wh.wh_tel2 }" id="wh_tel2" name="wh_tel2" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" required>
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" value="${wh.wh_tel3 }" id="wh_tel13" name="wh_tel13" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required>
+                      		<input type="text" class="form-control" value="${wh.wh_tel3 }" id="wh_tel3" name="wh_tel3" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required>
      					   </div>                 
      					</div>
                     </div>

@@ -47,7 +47,8 @@
 				wh_tel = #{wh.wh_tel},
 				wh_man_name = #{wh.wh_man_name},
 				wh_use = #{wh.wh_use},
-				remarks = #{wh.remarks}
+				remarks = #{wh.remarks},
+				post_no = #{wh.post_no}
 			WHERE wh_cd = #{wh_cd}	
 	</update>
 	
