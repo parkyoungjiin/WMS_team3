@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <!-- css 경로 설정 -->
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,6 +31,7 @@
 	}
 </script>
 </head>
+
 <!-- 	<div class="nav"> -->
 <!-- 		<div class="company-name"> -->
 <%-- 			<a href="${path }/">SHOOKREAM</a> --%>
@@ -91,6 +93,7 @@
       <c:choose> 
 <%-- 		<%-- 로그인 상태가 아닐 경우 Login, Join 링크 표시 --%>
 <%-- 		<%-- EL 을 사용하여 세션 객체 접근 시 sessionScope.속성명 으로 접근 --%> 
+
 		<c:when test="${empty sessionScope.sId }">
 		
 			<div class="nav-item" style="padding-right: 50px;"><a class="nav-link nav-profile d-flex align-items-center pe-0" href="EmpLoginForm.em">로그인</a></div>
@@ -147,6 +150,42 @@
 	</c:choose>
       </ul>
     </nav><!-- End Icons Navigation -->
-  </header><!-- End Header -->
-
+  </header><!-- End Header -->	
+	</div>
+		<div class="main-menu">
+			<ul class ="menu">
+				<li class="menu">
+					인사관리
+					<ul class="submenu">
+						<li><a href="EmpInsertForm.em">사원 등록</a></li>
+						<li><a href="EmployeeList.em">사원 조회</a></li>
+					</ul>
+				</li>
+				<li>
+					기본등록
+					<ul class="submenu">
+						<li><a href="WareHouseInsertForm.wh">창고 등록</a></li>
+						<li><a href="BuyerList">거래처 등록</a></li>
+						<li><a href="#">품목 등록</a></li>
+					</ul>
+				</li>
+				<li>
+					구매관리
+					<ul class="submenu">
+						<li><a href="#">발주 요청</a></li>
+						<li><a href="#">구매 작업</a></li>
+					</ul>
+				</li>
+				<li>
+					WMS
+					<ul class="submenu">
+						<li><a href="#">창고 관리</a></li>
+						<li><a href="#">입고 관리</a></li>
+						<li><a href="#">출고 관리</a></li>
+						<li><a href="#">재고 조정</a></li>
+					</ul>
+				</li>
+			</ul>
+		
+		</div>
 </html>

@@ -34,7 +34,7 @@
 				WHERE EMP_EMAIL = #{EMP_EMAIL}
 	</select>
 	<select id="getSelectName" resultType="com.itwillbs.project.vo.EmpVo">
-		SELECT EMP_NAME, PRIV_CD
+		SELECT EMP_NAME, PRIV_CD, IDX
 			FROM emp
 				WHERE EMP_EMAIL = #{EMP_EMAIL}
 	</select>
@@ -44,4 +44,46 @@
 				WHERE EMP_EMAIL = #{check_email}
 	</select>
 	
+	<!-- 사원목록 -->
+	<select id="selectEmployeeList" resultType="com.itwillbs.project.vo.EmpVo">
+		SELECT *
+			FROM emp
+	</select>
+	
+	<!-- 현재 로그인한 사원의 권환 조회 -->
+	<select id="selectPrivCode" resultType="String">
+		SELECT PRIV_CD
+			FROM emp
+			WHERE EMP_NAME=#{EMP_NAME}
+	</select>
+	
+	<!-- 사원 상세 정보 -->
+	<select id="selectEmployee" resultType="com.itwillbs.project.vo.EmpVo">
+		SELECT *
+			FROM emp
+			WHERE
+				EMP_NUM = #{EMP_NUM }
+	</select>
+	
+	<!-- 사원 수정 -->
+	<update id="updateEmployee">
+		UPDATE emp
+			SET EMP_NUM = #{EMP_NUM}
+				,EMP_NAME = #{EMP_NAME}
+				,DEPT_CD = #{DEPT_CD}
+				,GRADE_CD = #{GRADE_CD}
+				,EMP_TEL = #{EMP_TEL}
+				,EMP_DTEL = ${EMP_DTEL}
+				,EMP_EMAIL = #{EMP_EMAIL}
+				<if test='newPasswd neq null and newPasswd neq ""'>
+		  			,EMP_PASSWD = #{newPasswd}
+	  			</if>
+	  			,EMP_POST_NO = #{EMP_POST_NO}
+	  			,EMP_ADDR = #{EMP_ADDR}
+	  			,WORK_CD = #{WORK_CD}
+	  			,PRIV_CD = #{PRIV_CD}
+	  			,PHOTO = #{PHOTO}	
+	  		WHERE 
+	  			idx = #{IDX}
+	</update>
 </mapper>

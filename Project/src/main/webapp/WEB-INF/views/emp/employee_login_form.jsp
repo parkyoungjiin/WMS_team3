@@ -22,15 +22,15 @@
 <script type="text/javascript">
 $(function() {
 	$("#domain").on("change", function() {
-		$("#email").val($(this).val());
+		$("#email2").val($(this).val());
 		
 		if($(this).val() == "") {
-			$("#email").prop("readonly", false);
-			$("#email").css("background-color", "white");
-			$("#email").focus();
+			$("#email2").prop("readonly", false);
+			$("#email2").css("background-color", "white");
+			$("#email2").focus();
 		} else {
-			$("#email").prop("readonly", true);
-			$("#email").css("background-color", "lightgray");
+			$("#email2").prop("readonly", true);
+			$("#email2").css("background-color", "lightgray");
 		}
 	})
 	
@@ -110,6 +110,7 @@ function getCookie(cookieName) {
 	</header>
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
+
 	
 	
 	 <main id="main" style="padding-top: 90px;">

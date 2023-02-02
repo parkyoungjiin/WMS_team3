@@ -24,6 +24,7 @@
 <%-- <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" /> --%>
 </head>
 <body>
+
 <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
@@ -109,5 +110,7 @@
     </ul>
 
   </aside><!-- End Sidebar-->
+
+
 </body>
 </html>
