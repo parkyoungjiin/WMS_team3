@@ -26,6 +26,7 @@
 				,#{man_tel}
 				,#{man_email}
 				,#{remarks}
+				,#{by_use}
 			)
 	</insert>
 	
@@ -53,6 +54,7 @@
 			,man_tel =#{man_tel}
 			,man_email =#{man_email}
 			,remarks =#{remarks}
+			,by_use = #{by_use}
 				WHERE business_no = #{business_no }
 	</update>
 	

@@ -7,6 +7,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- 거래처(기본 등록) 권한 판별 -->
+<script type="text/javascript">
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
+	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
+	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
+	
+	//기본등록에 대한 권한이 있는 지 판별
+	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
+</script>
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -54,7 +70,7 @@
                 <div class="card-header">
 <!--                                 <i class="fas fa-table me-1"></i> -->
                      거래처 조회
-                     <button class="btn btn-secondary" onclick="location.href='BuyerRegisterForm'" style="float: right;">신규등록</button>
+                     <button class="btn btn-primary" onclick="location.href='BuyerRegisterForm'" style="float: right;">신규등록</button>
                  </div>
                  <div class="card-body">
                      <table id="datatablesSimple" style="font-size: small;">
@@ -67,6 +83,7 @@
                                <th>대표 전화번호</th>
                                <th>담당자 전화번호</th>
                                <th>주소</th>
+                               <th>사용구분</th>
                                <th>비고</th>
                            </tr>
                        </thead>
@@ -81,6 +98,16 @@
 								<td>${buyerList.tel }</td>
 								<td>${buyerList.man_tel }</td>
 								<td>${buyerList.addr }</td>
+								<td>
+								<c:choose >
+									<c:when test="${buyerList.by_use eq '1' }">
+										<span class="badge bg-success">YES</span>
+									</c:when>		
+									<c:otherwise>
+										<span class="badge bg-warning">NO</span>
+									</c:otherwise>						
+								</c:choose>
+								</td>
 								<td>${buyerList.remarks }</td>
 							</tr> 
 							</c:forEach>  
