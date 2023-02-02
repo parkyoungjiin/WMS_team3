@@ -23,18 +23,6 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 
 <script type="text/javascript">
-// function newBuyer() {
-// 	let width = 800;
-// 	let height = 400;
-// 	let left = (window.screen.width / 2) - (width / 2);;
-//     let top = Math.ceil(( window.screen.height - height )/2); 
-	
-// 	url = "BuyerRegisterForm"; 
-// 	let name = "BuyterRegister";
-// 	let attr = "width=800, height=400, top="+top + ", left=" + left;
-// 	window.open(url, name, attr);
-// }
-
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -45,14 +33,11 @@
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 <main id="main" class="main">
-
 	<div class="pagetitle">
       <h1>거래처</h1>
-    </div><!-- End Page Title -->
-    
+    	</div><!-- End Page Title -->
             <div class="card mb-4">
                 <div class="card-header">
-<!--                                 <i class="fas fa-table me-1"></i> -->
                      거래처 조회
                      <button class="btn btn-secondary" onclick="location.href='BuyerRegisterForm'" style="float: right;">신규등록</button>
                  </div>

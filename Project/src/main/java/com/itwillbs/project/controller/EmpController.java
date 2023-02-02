@@ -271,4 +271,11 @@ public class EmpController {
 			}
 		} // 사원 정보 수정 끝 
 	
+	
+	//-------------마이페이지 이동------------
+	@GetMapping(value = "MyPage.em")
+	public String mypage(HttpSession session) {
+		return "emp/mypage";
+	}//mypage 끝
+	
 }//EmpController 끝
