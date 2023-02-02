@@ -23,19 +23,19 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 <!-- 권한 여부 판별하여 인사부서인지 판별 -->
-// var str = '${priv_cd}' // 세션에 저장된 권한코드
+var str = '${priv_cd}'; // 세션에 저장된 권한코드
 
-// var priv_cd_emp = str.charAt(0); // 창고조회(1) 여부 판별할 값
-// var priv_cd_emp2 = str.charAt(3); // 창고관리(2) 여부 판별할 값
-// var priv_cd_emp3 = str.charAt(4); // 재고관리(2) 여부 판별할 값
+var priv_cd_emp = str.charAt(0); // 창고조회(1) 여부 판별할 값
+var priv_cd_emp2 = str.charAt(3); // 창고관리(2) 여부 판별할 값
+var priv_cd_emp3 = str.charAt(4); // 재고관리(2) 여부 판별할 값
 
-// //사원조회, 사원관리에 대한 권한이 있는 지 판별
-// if(priv_cd_emp == '1' || priv_cd_emp2 == '1' || priv_cd_emp3 == '1'){//권한이 있을 경우
+//사원조회, 사원관리에 대한 권한이 있는 지 판별
+if(priv_cd_emp == '1' || priv_cd_emp2 == '1' || priv_cd_emp3 == '1'){//권한이 있을 경우
 	
-// }else{//없을 경우
-// 	alert("창고등록 권한이 없습니다");
-// 	history.back();
-// }	
+}else{//없을 경우
+	alert("창고등록 권한이 없습니다");
+	history.back();
+}	
 
 $(function() {
 	let location_result = "${wh.wh_location}";
@@ -146,8 +146,8 @@ function onlynumber(str) {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">창고 코드</label>
                       <div class="col-md-8 col-lg-2">
 	                	<div class="input-group mb-6">
-                        <input name="wh_cd" type="text" value="${wh.wh_cd }" id="wh_cd" class="form-control" id="wh_cd" required>
-	                    <button id="wh_cd_button" class="btn btn-secondary" type="button">조회</button>
+                        <input name="wh_cd" type="text" value="${wh.wh_cd }" id="wh_cd" class="form-control" id="wh_cd" readonly="readonly">
+<!-- 	                    <button id="wh_cd_button" class="btn btn-secondary" type="button">조회</button> -->
 	                    </div>
                       </div>
                     </div>
@@ -255,6 +255,13 @@ function onlynumber(str) {
                         <input name="wh_man_name" type="text" value="${wh.wh_man_name }" class="form-control" id="wh_man_name" required>
                       </div>
                     </div>
+                   
+                    \<div class="row mb-3">
+              		<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">적요</label>
+              		<div class="col-md-6 col-lg-6">
+                    <textarea class="form-control" style="height: 100px;" name="remarks"></textarea>
+                    </div>
+                  </div>
                    
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">연락처</label>
