@@ -54,7 +54,7 @@
                 <div class="card-header">
 <!--                                 <i class="fas fa-table me-1"></i> -->
                      거래처 조회
-                     <button class="btn btn-secondary" onclick="location.href='BuyerRegisterForm'" style="float: right;">신규등록</button>
+                     <button class="btn btn-primary" onclick="location.href='BuyerRegisterForm'" style="float: right;">신규등록</button>
                  </div>
                  <div class="card-body">
                      <table id="datatablesSimple" style="font-size: small;">
@@ -67,6 +67,7 @@
                                <th>대표 전화번호</th>
                                <th>담당자 전화번호</th>
                                <th>주소</th>
+                               <th>사용구분</th>
                                <th>비고</th>
                            </tr>
                        </thead>
@@ -81,6 +82,16 @@
 								<td>${buyerList.tel }</td>
 								<td>${buyerList.man_tel }</td>
 								<td>${buyerList.addr }</td>
+								<td>
+								<c:choose >
+									<c:when test="${buyerList.by_use eq '1' }">
+										<span class="badge bg-success">YES</span>
+									</c:when>		
+									<c:otherwise>
+										<span class="badge bg-warning">NO</span>
+									</c:otherwise>						
+								</c:choose>
+								</td>
 								<td>${buyerList.remarks }</td>
 							</tr> 
 							</c:forEach>  

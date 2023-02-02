@@ -205,7 +205,6 @@ $(function() {
                       <div class="col-md-8 col-lg-2">
                         <input name="EMP_NAME" type="text" class="form-control" id="fullName">
                       </div>
-
                     </div>
 
                     <div class="row mb-3">

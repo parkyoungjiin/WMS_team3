@@ -135,24 +135,28 @@ public class BuyerController {
 //		System.out.println("buyer_uptaeArr : " + Arrays.toString(buyer_uptaeArr));
 //		System.out.println("buyer_uptaeArr : " + buyer_uptaeArr[0]);
 //		if(!buyer_uptaeArr[0].equals("")) {
+		if(!buyer.getUptae().equals(",,")) {
 			for(int i=0; i<buyer_uptaeArr.length; i++) {
 				String buyer_uptae = buyer_uptaeArr[i].join("/", buyer_uptaeArr);
 				System.out.println(buyer_uptae);
 				buyer.setUptae(buyer_uptae);
 			}
-//		} else {
-//			buyer.setUptae("");
-//		}
+		} else {
+			buyer.setUptae("");
+		}
 		
 		String [] buyer_jongmokArr = buyer.getJongmok().split(",");
-		if(buyer_jongmokArr[0] != null && !buyer_jongmokArr[0].equals("")) {
+//		if(buyer_jongmokArr[0] != null && !buyer_jongmokArr[0].equals("")) {
+		if(!buyer.getJongmok().equals(",,")) {
 		for(int i=0; i<buyer_jongmokArr.length; i++) {
 			String buyer_jongmok = buyer_jongmokArr[i].join("/", buyer_jongmokArr);
 			buyer.setJongmok(buyer_jongmok);
 		}
 		}else {
-			buyer.setUptae("");
+			buyer.setJongmok("");
 		}
+		
+		System.out.println(buyer);
 		
 		int insertCount = service.registerBuyer(buyer);
 		
@@ -280,7 +284,8 @@ public class BuyerController {
 		// 업태, 종목 결합
 //				System.out.println(buyer.getUptae());
 //				if(buyer.getUptae() != null && !buyer.getUptae().equals("")) {
-		String [] buyer_uptaeArr = buyer.getUptae().split(",");
+		if(!buyer.getUptae().equals(",,")) {
+			String [] buyer_uptaeArr = buyer.getUptae().split(",");
 //				System.out.println("buyer_uptaeArr : " + Arrays.toString(buyer_uptaeArr));
 //				System.out.println("buyer_uptaeArr : " + buyer_uptaeArr[0]);
 //				if(!buyer_uptaeArr[0].equals("")) {
@@ -289,18 +294,19 @@ public class BuyerController {
 				System.out.println(buyer_uptae);
 				buyer.setUptae(buyer_uptae);
 			}
-//				} else {
-//					buyer.setUptae("");
-//				}
+		} else {
+			buyer.setUptae("");
+		}
 		
+		if(!buyer.getUptae().equals(",,")) {
 		String [] buyer_jongmokArr = buyer.getJongmok().split(",");
-		if(buyer_jongmokArr[0] != null && !buyer_jongmokArr[0].equals("")) {
+//		if(buyer_jongmokArr[0] != null && !buyer_jongmokArr[0].equals("")) {
 		for(int i=0; i<buyer_jongmokArr.length; i++) {
 			String buyer_jongmok = buyer_jongmokArr[i].join("/", buyer_jongmokArr);
 			buyer.setJongmok(buyer_jongmok);
 		}
 		}else {
-			buyer.setUptae("");
+			buyer.setJongmok("");
 		}
 		
 		int updateCount = service.updateBuyer(buyer);
