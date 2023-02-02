@@ -84,7 +84,7 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
          <li>
-            <a href="forms-editors.html">
+            <a href="WareHouseManage.wh">
               <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>창고 관리</span>
             </a>
           </li>
