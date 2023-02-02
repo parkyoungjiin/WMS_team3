@@ -36,7 +36,7 @@
 					<li>
 					<a href="#" class="sub-title">WMS</a>
 						<ul class="side-submenu">
-							<li><a href="#">창고 관리</a></li>
+							<li><a href="WareHouseManage.wh">창고 관리</a></li>
 							<li><a href="#">입고 관리</a></li>
 							<li><a href="#">출고 관리</a></li>
 							<li><a href="#">재고 조정</a></li>

@@ -20,6 +20,7 @@
 	<select id="getwhList" resultType="com.itwillbs.project.vo.WareHouseVO">
 		SELECT * 
 			FROM warehouse
+			ORDER BY abs(wh_cd)
 	</select>
 	<!-- 창고 상세 -->
 	<select id="getWarehouse" resultType="com.itwillbs.project.vo.WareHouseVO">

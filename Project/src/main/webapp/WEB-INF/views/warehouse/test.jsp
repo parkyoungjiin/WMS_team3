@@ -34,8 +34,6 @@ window.onload = function(){
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 $(function() {
-	let isspace = false;
-	
 	//외부,내부 처리
 	$("input:radio[name='location']").change(function() {
 		var location = $("input:radio[name='location']:checked").val();
@@ -57,15 +55,12 @@ $(function() {
 			dataType: "html"
 		})
 		.done(function() { // 요청 성공 시
-			if($("input[type='text']").val().trim() == ''){
-				return false;
-		      }
 			alert("성공");
 		})
 		.fail(function() {
 			alert("실패");	
 		});
-		
+	
 	});// 수정처리	
 // 	//코드 중복 확인 처리
 // 	$("#wh_cd").change(function() {
@@ -92,6 +87,9 @@ $(function() {
 // 				alert("중복아님");
 // 			});
 // 		});//코드 중복
+		 
+
+	
 	});//jquery 끝!
 	
 
@@ -116,100 +114,50 @@ $(function() {
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 
 <form  name="fr" id="fr">
-<table class="table table-bordered" style="width: 500px;">
-	<tr>
-		<th><h1>창고 등록</h1></th>
-	</tr>
-	<tr>
-		<td>
-			<div>창고 코드</div>
-			<input type="text" name="wh_cd" id="wh_cd" value="${wh.wh_cd }" readonly="readonly"><div id="checkCdResult"></div></td>
-	</tr>
-	<tr>		
-		<td><div>창고명 </div>
-			<input type="text" name="wh_name" id="wh_name" value="${wh.wh_name }" required="required">
-		</td><br>	
-	</tr>	
-	<tr>	
-		<td>
-			<div>구분</div>
-			<input type="radio" name="wh_gubun" id="wh_gubun" value="창고" checked="checked">창고		
-			<input type="radio" name="wh_gubun" id="wh_gubun" value="공장">공장		
-		</td><br>	
-	</tr>
-	<tr>	
-		<td>
-			<div>위치 </div>
-			<input type="radio" name="wh_location" value="외부" checked="checked">외부
-			<input type="radio" name="wh_location" value="내부">내부		
-		</td><br>	
-	</tr>	
-	<tr>
-		<td id="address">
-			<div>주소(* 외부 선택 시 필수 등록)</div>
-			<input type="text" name="wh_addr"  value="${wh.wh_addr }" id="wh_addr" required="required"> &nbsp;
-			<br>
-			<input type="text" name="wh_addr_detail" value="${wh.wh_addr_detail }" id ="wh_addr_detail" required="required"> &nbsp;
-			<br>
-			<span style="color: gray;">(상세 주소를 입력해주세요.)</span>
-		</td>
-	</tr>
-	<tr>	
-		<td>
-			<div>전화번호</div>
-			<select name="wh_tel1" id="wh_tel1">
-				<c:choose>
-				<c:when test="${wh.wh_tel1 eq '051' }">
-					<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
-					<option value="052">052</option>
-					<option value="053" >053</option>
-				</c:when>
-				<c:when test="${wh.wh_tel1 eq '052' }">
-					<option value="051">051</option>
-					<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
-					<option value="053" >053</option>
-				</c:when>
-				<c:when test="${wh.wh_tel1 eq '053' }">
-					<option value="051">051</option>
-					<option value="052">052</option>
-					<option value="${wh.wh_tel1 }" selected="selected">${wh.wh_tel1 }</option>
-				</c:when>
-				<c:otherwise>
-					<option value="051">051</option>
-					<option value="052">052</option>
-					<option value="053" >053</option>
-				</c:otherwise>
-				</c:choose>
-			</select>-
-		 	<input type="text" size="1" name="wh_tel2" id="wh_tel2" value="${wh.wh_tel2}">-
-		 	<input type="text" size="1" name="wh_tel3" id="wh_tel3" value="${wh.wh_tel3}">
-		</td><br>	
-	</tr>	
-	<tr>	
-		<td>
-			<div>관리자</div> 
-			<input type="text" name="wh_man_name" id="wh_man_name" value="${wh.wh_man_name}" required="required">
-		</td><br>
-	</tr>	
-	<tr>	
-		<td>
-			<div>사용여부 </div> 
-			<input type="radio" name="wh_use" id="wh_use" value="1" checked="checked">사용
-			<input type="radio" name="wh_use" id="wh_use" value="2">미사용
-		</td><br>
-	</tr>	
-	<tr>	
-		<td>
-			<div>비고:</div>
-			<textarea name="remarks" id="remarks" rows="10" cols=50" required="required">${wh.remarks}</textarea>
-		</td>
-	</tr>
-	<tr>	
-		<td>
-		<input type="button" id="updatebutton" value="수정">
-		</td>
-	</tr>	
-</table>
+ <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Email</label>
+      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Password</label>
+      <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">Address</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Address 2</label>
+    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">City</label>
+      <input type="text" class="form-control" id="inputCity">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputState">State</label>
+      <select id="inputState" class="form-control">
+        <option selected>Choose...</option>
+        <option>...</option>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputZip">Zip</label>
+      <input type="text" class="form-control" id="inputZip">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Check me out
+      </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Sign in</button>
 </form>
 </body>
 </html>

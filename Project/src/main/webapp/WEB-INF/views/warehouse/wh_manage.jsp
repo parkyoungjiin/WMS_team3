@@ -22,21 +22,18 @@
 <!-- 카카오 주소 API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <!-- 창고 등록 창 뜨게 하기 -->
+<script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
-	//------------등록 창 작업-------------
-	function wh_insert() {
-		location.href="WareHouseInsertForm.wh";
-	}
-	//------------상세페이지 창 작업-------------
-	function wh_info(wh_cd) {
-		 location.href="WareHouseInfo.wh?wh_cd="+wh_cd;
-	}
-	
-	//------------상세페이지(이름) 창 작업-------------
-	function wh_infoName(wh_cd,wh_name) {
-	     location.href="WareHouseInfoName.wh?wh_cd="+wh_cd+"&wh_name="+wh_name;
-	}
-
+//업태, 종목 항목 input 태그 추가
+	$(function() {
+		$("#plusid").click(function() {
+			let result = 
+				"<tr><td colspan='6'><input type='text' name='wh_area' id='wh_area' required='required'> &nbsp;"
+				+ "<input type='text' name='wh_area_cd' id='wh_area_cd' required='required'>"
+				+"</td></tr>";
+				$("#tr").after(result);				
+		});
+	});		
 </script>
 <title>창고 등록</title>
 </head>
@@ -48,9 +45,9 @@
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 
-<table class="table table-bordered" style="width: 500px; margin-top: 50px;">
+<table id="table" class="table" style="width: 500px; margin-top: 50px;">
 	<tr>
-		<th colspan="5" style="text-align: center;">창고 등록</th>
+		<th colspan="6" style="text-align: center;">창고 등록</th>
 	</tr>
 	<tr>
 		<th>창고코드</th>
@@ -58,10 +55,11 @@
 		<th>구분</th>
 		<th>관리자명</th>
 		<th>사용여부</th>
+		<th>상세</th>
 	</tr>
 	<c:forEach var="warehouse" items="${whlist }">
 	<c:if test="${warehouse.wh_use eq '1' }">
-	<tr>
+	<tr id="tr">
 		<td><a href="javascript:void(0);" onclick="wh_info('${warehouse.wh_cd}')">${warehouse.wh_cd }</a></td>	
 		<td><a href="javascript:wh_infoName('${warehouse.wh_cd}','${warehouse.wh_name}');">${warehouse.wh_name }</a></td>	
 		<td>${warehouse.wh_gubun }</td>	
@@ -72,15 +70,22 @@
 		<c:if test="${warehouse.wh_use eq '2'}">
 		<td>미사용</td>
 		</c:if>
+		<td>
+			 <button class="btn" id="plusid">
+			    <div class="inline-flex items-center space-x-2">
+			      <div>+</div>
+			    </div>
+  			</button>
+		</td>
 	</tr>
+	
 	</c:if>
 	</c:forEach>
 	<tr>
-		<td colspan="5" align="right">
+		<td colspan="6" align="right">
 			<input type="button" value="신규" onclick="wh_insert()">
 		</td>	
 	</tr>	
-	
 </table>
 
 
