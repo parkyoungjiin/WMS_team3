@@ -12,6 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Kaushan+Script&family=Neucha&display=swap" rel="stylesheet">
+<!-- 부트스트랩 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<!-- 폰트어썸 -->
+<script src="https://kit.fontawesome.com/ca93809e69.js" crossorigin="anonymous"></script>
 <!-- css -->
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <!-- js -->
@@ -169,7 +173,11 @@ $(function() {
 		
 	}//fn_insertMember 끝
 </script>
-
+<style type="text/css">
+	#title_label{
+		font-weight: bold;
+	}
+</style>
 <title>사원 등록</title>
 </head>
 <body>
@@ -179,148 +187,202 @@ $(function() {
 	</header>
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
-	<form action="EmpInsertPro.em" method="post" enctype="multipart/form-data" id="emp">
-		<table>
-			<tr>
-				<th>사원명</th>
-				<td>
-				<input type="text" name="EMP_NAME" required="required">
-				</td>
-			</tr>
-			<tr>
-				<th>비밀번호</th>
-				<td>
-				<input type="password" name="EMP_PASSWD" required="required">
-				</td>
-			</tr>
-			<tr>
-				<th>부서명</th>
-				<td>
-					<select name ="DEPT_CD" required="required">
-						<option value="">===부서 선택===</option>
-						<option value="A1">자재팀</option>
-						<option value="A2">구매관리팀</option>
-						<option value="A3">창고관리팀</option>
-						<option value="A4">인사팀</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>직급명</th>
-				<td>
-				<select name ="GRADE_CD" required="required">
-					<option value="">===직급 선택===</option>
-					<option value="B1">사원</option>
-					<option value="B2">대리</option>
-					<option value="B3">과장</option>
-					<option value="B4">부장</option>
-					<option value="B5">이사</option>
-					<option value="B6">대표</option>
-				</select>
-				</td>
-			</tr>
-			<tr>
-				<th>연락처(개인)</th>
-				<td>
-					<input type="text" size="1" value="010" name="EMP_TEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="3"> -
-					<input type="text" size="1" name="EMP_TEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required="required"> -
-					<input type="text" size="1" name="EMP_TEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required="required">
-				</td>
-			</tr>
-			<tr>
-				<th>연락처(사무실)</th>
-				<td>
-					<input type="text" size="1" value="051" name="EMP_DTEL" required="required" onkeyup="inputOnlyNumberFormat(this)" maxlength="3"> -
-					<input type="text" size="1" name="EMP_DTEL" required="required" onkeyup="inputOnlyNumberFormat(this)" maxlength="3"> -
-					<input type="text" size="1" name="EMP_DTEL" required="required" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
-				</td>
-			</tr>
-			<tr>
-				<th>이메일</th>
-				<td id ="checkArea">
-					<input type="text" size="5" id="email1" name="EMP_EMAIL" onkeyup="onlyEngNumber(this)" required="required"> @
-					<input type="text" size="5" id="email2" name="EMP_EMAIL"  required="required">
-					<select name="selectDomain" id="domain"  style="padding: .4em .5em; ">
-						<option value="">직접입력</option>	
-						<option value="naver.com">naver.com</option>
-						<option value="gmail.com">gmail.com</option>
-						<option value="daum.net">daum.net</option>
-						<option value="nate.com">nate.com</option>
-						</select> &nbsp;
-					<button onclick="checkEmail();">이메일 중복 확인</button>
-					<div id ="checkResultArea"></div>
-				</td>
-				<td></td>
+<main id ="main" class="main">
+   <div class="pagetitle">
+     <h1>사원 관리</h1>
+   </div>
+	<div class="card-header">
+            사원 등록
+        </div>
+			<div></div>
+		<div class="card mb-4">
+		<!-- Profile Edit Form -->
+		       <div class="card-body">
+			
+                  <form action="EmpInsertPro.em" method="post" enctype="multipart/form-data" id="emp">
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사원명</label>
+                      <div class="col-md-8 col-lg-2">
+                        <input name="EMP_NAME" type="text" class="form-control" id="fullName">
+                      </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">비밀번호</label>
+                      <div class="col-md-8 col-lg-2">
+                        <input name="EMP_PASSWD" type="password" class="form-control" id="fullName" >
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">부서명</label>
+                      <div class="col-md-8 col-lg-2">
+ 	                     <select name ="DEPT_CD" required="required" class="form-select">
+							<option value="">===부서 선택===</option>
+							<option value="A1">자재팀</option>
+							<option value="A2">구매관리팀</option>
+							<option value="A3">창고관리팀</option>
+							<option value="A4">인사팀</option>
+							</select>
+						</div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">직급명</label>
+                      <div class="col-md-8 col-lg-2">
+							<select name="GRADE_CD" required="required" class="form-select">
+								<option value="">===직급 선택===</option>
+								<option value="B1">사원</option>
+								<option value="B2">대리</option>
+								<option value="B3">과장</option>
+								<option value="B4">부장</option>
+								<option value="B5">이사</option>
+								<option value="B6">대표</option>
+							</select>
+						</div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">연락처(개인)</label>
+  	                    <div class="col-md-8 col-lg-3">
+       	                  <div class="input-group mb-6">
+  	                    	<input type="text" class="form-control" name="EMP_TEL" value="010" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
+                      		<span class="input-group-text">-</span>
+                      		<input type="text" class="form-control" name="EMP_TEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
+                      		<span class="input-group-text">-</span>
+                      		<input type="text" class="form-control" name="EMP_TEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
+     					   </div>                 
+     					</div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">연락처(사무실)</label>
+   	                    <div class="col-md-8 col-lg-3">
+       	                  <div class="input-group mb-6">
+  	                    	<input type="text" class="form-control" name="EMP_DTEL" value="051" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
+                      		<span class="input-group-text">-</span>
+                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
+                      		<span class="input-group-text">-</span>
+                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
+     					   </div>                 
+     					</div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">이메일</label>
+                		  <div class="col-md-8 col-lg-5">
+                		
+		                	<div class="input-group mb-5">
+		                      <input type="text" class="form-control" id="email1" name="EMP_EMAIL" onkeyup="onlyEngNumber(this)" required="required">
+		                      <span class="input-group-text">@</span>
+		                      <input type="text" class="form-control" id="email2" name="EMP_EMAIL" required>
+		                      	<select class="form-select" name="selectDomain" id="domain" >
+			                      	<option value="">직접 입력</option>
+									<option value="naver.com">naver.com</option>
+									<option value="gmail.com">gmail.com</option>
+									<option value="daum.net">daum.net</option>
+									<option value="nate.com">nate.com</option>
+		                   		 </select>
+		                   		 <button onclick="checkEmail();" class="btn btn-secondary" style="margin-left: 30px">이메일 중복 확인</button>
+		                    </div>
+		                   		 <div id ="checkResultArea" class="col-md-8 col-lg-5"></div>
+	                    </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
+                      <div class="col-md-8 col-lg-2">
+	                	<div class="input-group mb-6">
+                        <input name="EMP_POST_NO" type="text" class="form-control" id="emp_address_zonecode" >
+	                    <button id="address_kakao" class="btn btn-secondary" type="button">우편번호 찾기</button>
+	                    </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">주소</label>
+                      <div class="col-md-8 col-lg-3">
+                        <input name="EMP_ADDR" type="text" class="form-control" id="emp_address_kakao" required>
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">상세주소</label>
+                      <div class="col-md-8 col-lg-3">
+                        <input name="EMP_ADDR" type="text" class="form-control" id="emp_address_kakao2" >
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" >입사일</label>
+                      <div class="col-md-8 col-lg-2">
+                        <input name="HIRE_DATE" type="date" class="form-control" id="Twitter">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">재직여부</label>
+                       <div class="col-md-8 col-lg-2">
+		                      	<select class="form-select" name="WORK_CD" required>
+									<option value="">===재직여부 선택===</option>
+									<option value="C1">재직</option>
+									<option value="C2">휴직</option>
+									<option value="C3">퇴사</option>
+								</select>
+	                    </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">권한</label>
+                       <div class="col-md-8 col-lg-5">
+		                	<div class="input-group mb-6">
+		                        <label class="form-check-label" style="margin-right: 30px">
+		                        	<input type="checkbox" class="form-check-input" id="priv_cd1" name="PRIV_CD" value="1" style="margin-right: 10px">
+		                        	기본등록
+		                        </label>
+								<input type="hidden" id="priv_cd1_hidden"  name="PRIV_CD" value="0">
+								
+								<label class="form-check-label" style="margin-right: 30px">
+									<input type="checkbox" class="form-check-input" id="priv_cd2" name="PRIV_CD" value="1" style="margin-right: 10px">
+									사원조회
+								</label>
+								<input type="hidden" id="priv_cd2_hidden"  name="PRIV_CD" value="0">
+								
+								<label class="form-check-label" style="margin-right: 30px">
+									<input type="checkbox" class="form-check-input" id="priv_cd3" name="PRIV_CD" value="1" style="margin-right: 10px">
+									사원관리
+								</label>
+								<input type="hidden" id="priv_cd3_hidden"  name="PRIV_CD" value="0">
+								
+								<label class="form-check-label" style="margin-right: 30px">
+									<input type="checkbox" class="form-check-input" id="priv_cd4" name="PRIV_CD" value="1" style="margin-right: 10px">
+									재고조회
+								</label>
+								<input type="hidden" id="priv_cd4_hidden"  name="PRIV_CD" value="0">
+								
+								<label class="form-check-label" style="margin-right: 30px">
+									<input type="checkbox" class="form-check-input" id="priv_cd5" name="PRIV_CD" value="1" style="margin-right: 10px">
+									재고관리
+								</label>
+								<input type="hidden" id="priv_cd5_hidden"  name="PRIV_CD" value="0">
+		                    </div>
+	                    </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 업로드</label>
+                       <div class="col-md-8 col-lg-3">
+                        <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);">
+                      </div>
+                    </div>
 					
-			</tr>
-			<tr>
-				<th>우편번호</th>
-				<td>
-				<input type="text" name="EMP_POST_NO" id="emp_address_zonecode" required > &nbsp;
-				<button id="address_kakao">우편번호 찾기</button>
-				</td>
-			</tr>
-			<tr>
-				<th>주소</th>
-				<td>
-					<input type="text" name="EMP_ADDR" id="emp_address_kakao" required> &nbsp;
-					<br>
-					<input type="text" name="EMP_ADDR" id ="emp_address_kakao2"> &nbsp;
-					<br>
-					<span style="color: gray;">(상세 주소를 입력해주세요.)</span>
-				</td>
-			</tr>
-			<tr>
-				<th>입사일</th>
-				<td>
-					<input type="date" name="HIRE_DATE" required>
-				</td>
-			</tr>
-			<tr>
-				<th>재직여부</th>
-				<td>
-					<select name="WORK_CD" required>
-						<option value="">===재직여부 선택===</option>
-						<option value="C1">재직</option>
-						<option value="C2">휴직</option>
-						<option value="C3">퇴사</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<th>권한</th>
-				<td>
-					<input type="checkbox" id="priv_cd1" name="PRIV_CD" value="1"><label>기본등록</label>
-					<input type="hidden" id="priv_cd1_hidden"  name="PRIV_CD" value="0">
-					
-					<input type="checkbox" id="priv_cd2" name="PRIV_CD" value="1"><label>사원조회</label>
-					<input type="hidden" id="priv_cd2_hidden"  name="PRIV_CD" value="0">
-					
-					<input type="checkbox" id="priv_cd3" name="PRIV_CD" value="1"><label>사원관리</label>
-					<input type="hidden" id="priv_cd3_hidden"  name="PRIV_CD" value="0">
-					
-					<input type="checkbox" id="priv_cd4" name="PRIV_CD" value="1"><label>재고조회</label>
-					<input type="hidden" id="priv_cd4_hidden"  name="PRIV_CD" value="0">
-					
-					<input type="checkbox" id="priv_cd5" name="PRIV_CD" value="1"><label>재고관리</label>
-					<input type="hidden" id="priv_cd5_hidden"  name="PRIV_CD" value="0">
-				</td>
-			</tr>
-			<tr>
-				<th>사진 업로드</th>
-				<td>
-					<div class="image_form" >
-						<input type="file" id ="input_image" name ="file" onchange="changeImage(event);" required>
-					</div>
-					<div id="image_container"></div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="submit" id ="insertForm" value="등록" onclick="fn_insertMember()">
-				</td>
-			</tr>
-		</table>
-	</form>
+					<div></div>
+                    <div class="text-left">
+                      <button type="submit" class="btn btn-primary">사원 등록</button>
+                    </div>
+                  </form><!-- End Profile Edit Form -->
+                </div>
+		</div>
+</main>
 </body>
 </html>

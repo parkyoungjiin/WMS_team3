@@ -127,18 +127,18 @@ function getCookie(cookieName) {
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                    <p class="text-center small">Enter your username & password to login</p>
+                    <h5 class="card-title text-center pb-0 fs-4">로그인</h5>
+                    <p class="text-center small">이메일, 패스워드를 입력해주세요</p>
                   </div>
 
                   <form action="EmpLoginPro.em" method="post" name ="fform" class="row g-3 needs-validation" novalidate>
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
+                      <label for="yourUsername" class="form-label">이메일</label>
                       <div class="input-group has-validation">
-                       <input type="text" class="form-control" name="EMP_EMAIL" >
+                       <input type="text" class="form-control" id="email" name="EMP_EMAIL" >
                       <span class="input-group-text">@</span>
-                      <input type="text" class="form-control" id="email" name="EMP_EMAIL">
+                      <input type="text" class="form-control" id="email2" name="EMP_EMAIL">
                     <select class="form-select" name="selectDomain" id="domain" >
                       <option value="">직접 입력</option>
 						<option value="naver.com">naver.com</option>
@@ -150,7 +150,7 @@ function getCookie(cookieName) {
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
+                      <label for="yourPassword" class="form-label">패스워드</label>
                       <input type="password" name ="EMP_PASSWD" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
@@ -158,15 +158,15 @@ function getCookie(cookieName) {
                     <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="remember" value="true" id ="checkId">
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                        <label class="form-check-label" for="rememberMe">아이디 저장</label>
                       </div>
                     </div>
                     <div class="col-12">
                       <button class="btn btn-primary w-100" class ="loginbtn" type="submit">Login</button>
                     </div>
-                    <div class="col-12">
-                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
-                    </div>
+<!--                     <div class="col-12"> -->
+<!--                       <p class="small mb-0">Don't have account? <a href="pages-register.html">회원가입</a></p> -->
+<!--                     </div> -->
                   </form>
 
                 </div>

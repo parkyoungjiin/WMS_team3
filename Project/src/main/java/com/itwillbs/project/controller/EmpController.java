@@ -107,7 +107,7 @@ public class EmpController {
 		//주소, 상세주소 결합
 		String [] emp_addrArr = emp.getEMP_ADDR().split(",");
 		for(int i=0; i<emp_addrArr.length; i++) {
-			String EMP_ADDR = emp_addrArr[i].join(" ", emp_addrArr);
+			String EMP_ADDR = emp_addrArr[i].join(",", emp_addrArr);
 //			System.out.println(EMP_ADDR);
 			emp.setEMP_ADDR(EMP_ADDR);
 			
