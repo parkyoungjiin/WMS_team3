@@ -84,11 +84,11 @@
 	            url:'CodeCheck', //Controller에서 요청 받을 주소
 	            type:'post', //POST 방식으로 전달
 	            data:{business_no:business_no},
-	            success:function(result){ //컨트롤러에서 넘어온 cnt값을 받는다 
-	                if(result == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 코드 
+	            success:function(result){ 
+	                if(result == 0){  -> 사용 가능한 코드 
 	                	alert("사용 가능한 코드입니다.")
 	                	codeStatus = true;
-	                } else { // cnt가 1일 경우 -> 이미 존재하는 코드
+	                } else { 
 	                    alert("이미 존재하는 코드입니다.");
 	                    $('#business_no').val('');
 	                    codeStatus = false;
@@ -398,6 +398,40 @@ window.onload = function(){
                   </div>
                 </div>
                 
+              <!-- 체크박스 폼 -->  
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                    <label class="form-check-label" for="gridCheck1">
+                      Example checkbox
+                    </label>
+                  </div>
+
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck2" checked>
+                    <label class="form-check-label" for="gridCheck2">
+                      Example checkbox 2
+                    </label>
+                  </div>
+                </div>
+                
+              <!-- date 폼 -->  
+              <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control">
+                  </div>
+                </div>
+                
+             <!-- 파일 업로드 폼 -->
+             <div class="row mb-3">
+                  <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="file" id="formFile">
+                  </div>
+                </div>
+                
+                 
                 <div class="text-left">
                   <button type="submit" class="btn btn-primary" onclick="fn_registerBuyer()">등록</button>
                   <button type="reset" class="btn btn-secondary">다시쓰기</button>
