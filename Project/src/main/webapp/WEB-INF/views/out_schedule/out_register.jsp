@@ -169,6 +169,7 @@ window.onload = function(){
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 	
 <main id="main" class="main">
+            <form action="OutRegisterPro" method="post">
 
    <div class="pagetitle">
      <h1>출고 관리</h1>
@@ -180,7 +181,6 @@ window.onload = function(){
         </div>
         
        <div class="card-body" style="padding: 50px 80px;">
-<!--             <form action="OutRegisterPro" method="post"> -->
               
               
               	<div class="row mb-3">
@@ -203,14 +203,14 @@ window.onload = function(){
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
 		             		<input name="" type="text" class="form-control" id="" >
-				         <button id="" class="btn btn-secondary" type="button">검색</button>
+				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer">검색</button>
 			        	 </div>
 			          </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">담당자</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
 		             		<input name="" type="text" class="form-control" id="" >
-				         <button id="" class="btn btn-secondary" type="button">검색</button>
+				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_emp">검색</button>
 			        	 </div>
 			          </div>
                     </div>
@@ -228,6 +228,56 @@ window.onload = function(){
                 
                
 			</div> <!-- card-body -->
+			
+			 <!-- Modal Dialog Scrollable -->
+			 <!-- 거래처 검색 -->
+              <div class="modal fade" id="modalDialogScrollable_buyer" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">거래처 검색</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     	<div class="input-group mb-6">
+		             		<input name="" type="text" class="form-control" id="" >
+				         <button id="search_buyer" class="btn btn-secondary" type="button">검색</button>
+			        	 </div>
+			        	 <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+              
+			 <!-- Modal Dialog Scrollable -->
+			 <!-- 담당자 검색 -->
+              <div class="modal fade" id="modalDialogScrollable_emp" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">담당자 검색</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     	<div class="input-group mb-6">
+		             		<input name="" type="text" class="form-control" id="" >
+				         <button id="" class="btn btn-secondary" type="button">검색</button>
+			        	 </div>
+				         <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+			
+			
 		</div> <!-- card mb-4 -->
 		
 		<div class="card mb-4">
@@ -276,15 +326,14 @@ window.onload = function(){
 		              </table>
 		              
 		              <!-- End Table with hoverable rows -->
-<!--            </form>   -->
        			<div class="text-right" style="float: right; padding-top: 50px">
                   <button type="submit" class="btn btn-primary" onclick="fn_registerBuyer()">등록</button>
-                  <button type="reset" class="btn btn-secondary">다시쓰기</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>
        </div>
        
        </div>
+           </form>  
 	</main>
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> -->
 </body>
