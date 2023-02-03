@@ -28,6 +28,7 @@ public class BuyerVo {
 	private String man_email; // 담당자 e-mail
 	private String[] man_emailArr; // 담당자 e-mail
 	private String remarks; // 적요
+	private String by_use; // 사용여부
 	
 	
 	
@@ -166,14 +167,25 @@ public class BuyerVo {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	public String getBy_use() {
+		return by_use;
+	}
+	public void setBy_use(String by_use) {
+		this.by_use = by_use;
+	}
 	@Override
 	public String toString() {
 		return "BuyerVo [business_no=" + business_no + ", cust_name=" + cust_name + ", boss_name=" + boss_name
-				+ ", uptae=" + uptae + ", jongmok=" + jongmok + ", tel=" + tel + ", email=" + email + ", post_no="
-				+ post_no + ", addr=" + addr + ", g_gubun=" + g_gubun + ", fax=" + fax + ", mobile_no=" + mobile_no
-				+ ", man_home=" + man_home + ", man_name=" + man_name + ", man_tel=" + man_tel + ", man_email="
-				+ man_email + ", remarks=" + remarks + "]";
+				+ ", uptae=" + uptae + ", jongmok=" + jongmok + ", tel=" + tel + ", telArr=" + Arrays.toString(telArr)
+				+ ", email=" + email + ", emailArr=" + Arrays.toString(emailArr) + ", post_no=" + post_no + ", addr="
+				+ addr + ", addrArr=" + Arrays.toString(addrArr) + ", g_gubun=" + g_gubun + ", fax=" + fax
+				+ ", mobile_no=" + mobile_no + ", man_home=" + man_home + ", man_name=" + man_name + ", man_tel="
+				+ man_tel + ", man_telArr=" + Arrays.toString(man_telArr) + ", man_email=" + man_email
+				+ ", man_emailArr=" + Arrays.toString(man_emailArr) + ", remarks=" + remarks + ", by_use=" + by_use
+				+ "]";
 	}
+	
+	
 	
 	
 	

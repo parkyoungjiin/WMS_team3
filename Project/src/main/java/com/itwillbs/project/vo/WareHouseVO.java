@@ -29,13 +29,9 @@ public void setPost_no(String post_no) {
 public void setWh_cd(String wh_cd) {
 	this.wh_cd = wh_cd;
 }
-
-
 public String getWh_name() {
 	return wh_name;
 }
-
-
 public void setWh_name(String wh_name) {
 	this.wh_name = wh_name;
 }

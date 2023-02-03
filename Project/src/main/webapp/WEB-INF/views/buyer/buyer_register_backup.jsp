@@ -84,7 +84,34 @@
 		
 	});
 	
-	
+	// 거래처 코드 중복 체크
+	function checkCode() {
+		let business_no = $('#business_no').val();
+		
+		if(business_no.length == 0){
+			alert("거래처 코드를 입력해주세요");
+		} else {
+		
+		 $.ajax({
+	            url:'CodeCheck', //Controller에서 요청 받을 주소
+	            type:'post', //POST 방식으로 전달
+	            data:{business_no:business_no},
+	            success:function(result){ //컨트롤러에서 넘어온 cnt값을 받는다 
+	                if(result == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 코드 
+	                	alert("사용 가능한 코드입니다.")
+	                	codeStatus = true;
+	                } else { // cnt가 1일 경우 -> 이미 존재하는 코드
+	                    alert("이미 존재하는 코드입니다.");
+	                    $('#business_no').val('');
+	                    codeStatus = false;
+	                }
+	            },
+	            error:function(){
+	                alert("중복 체크 실패!");
+	            }
+	        });
+		}
+	};
 	
 	<!-- 연락처 숫자만 입력되는 유효성 검사 -->
 	function uncomma(str) {
@@ -110,6 +137,13 @@
 		}
 	}//onlyEngNumber 끝
 	
+	// 등록 작업 막기
+	function fn_registerBuyer(){
+		if(codeStatus == false){
+			alert("거래처 코드를 확인해주세요");
+			event.preventDefault();
+		}
+	}
 	
 </script>
 <!-- 카카오 주소 API -->
@@ -146,31 +180,31 @@ window.onload = function(){
     
 	<div class="card mb-4">
 		<div class="card-header">
-            거래처 수정
+            거래처 등록
         </div>
         
        <div class="card-body">
          <!-- Floating Labels Form -->
-      <form action="BuyerModifyPro" method="post" class="row g-3">
-            
-        <!-- 사용 여부 --> 
-         <div class="col-lg-12"> 
-           <div class="col-md-1">
-	            <select class="form-select" name="by_use" >
-					<option value="1" <c:if test="${buyer.by_use eq'1'}"> selected="selected" </c:if>>사용</option>
-					<option value="2" <c:if test="${buyer.by_use eq'2'}"> selected="selected" </c:if>>비사용</option>
-	            </select>
-            </div> 
-          </div>
-          
+            <form action="BuyerRegisterPro" method="post" class="row g-3">
+              
+              <!-- 사용 여부 --> 
+		       <div class="col-lg-12"> 
+		         <div class="col-md-1">
+		           <select class="form-select" name="by_use" >
+					<option value="1">사용</option>
+					<option value="2">비사용</option>
+		           </select>
+		          </div> 
+		        </div>
+              
               <div class="col-lg-6">  
                 <div class="col-md-12">
                 <div class="input-group mb-1">
                   <div class="form-floating">
-                    <input type="text" class="form-control" name="business_no" id="business_no" value="${buyer.business_no }" readonly placeholder="거래처코드">
+                    <input type="text" class="form-control" name="business_no" id="business_no" required placeholder="거래처코드" onkeyup="inputOnlyNumberFormat(this)">
                     <label for="floatingName">거래처코드</label>
                   	</div>
-<!--                     <button class="btn btn-secondary" type="button" onclick="checkCode()">fn</button> -->
+                    <button class="btn btn-secondary" type="button" onclick="checkCode()">fn</button>
                   </div>
                 </div>
                </div> 
@@ -182,7 +216,7 @@ window.onload = function(){
                <div class="col-lg-6">  
                 <div class="col-md-12">
                   <div class="form-floating">
-                    <input type="text" class="form-control" name="cust_name" value="${buyer.cust_name }" placeholder="상호">
+                    <input type="text" class="form-control" name="cust_name" placeholder="상호" >
                     <label for="floatingName">상호</label>
                   </div>
                 </div>
@@ -190,13 +224,13 @@ window.onload = function(){
                 
                 <fieldset class="row mb-6">
                   <div class="col-sm-10">
-                      <input class="form-check-input" type="radio" name="g_gubun"  value="01" <c:if test="${buyer.g_gubun eq'01'}"> checked="checked"</c:if>>
+                      <input class="form-check-input" type="radio" name="g_gubun"  value="01" checked>
                         &nbsp;01 사업자등록번호&nbsp;
-                      <input class="form-check-input" type="radio" name="g_gubun"  value="02" <c:if test="${buyer.g_gubun eq'02'}"> checked="checked"</c:if>>
+                      <input class="form-check-input" type="radio" name="g_gubun"  value="02">
                         &nbsp;02 해외사업자등록번호&nbsp;
-                      <input class="form-check-input" type="radio" name="g_gubun"  value="03" <c:if test="${buyer.g_gubun eq'03'}"> checked="checked"</c:if>>
+                      <input class="form-check-input" type="radio" name="g_gubun"  value="03">
                         &nbsp;03 주민등록번호&nbsp;
-                      <input class="form-check-input" type="radio" name="g_gubun" value="04" <c:if test="${buyer.g_gubun eq'04'}"> checked="checked"</c:if>>
+                      <input class="form-check-input" type="radio" name="g_gubun" value="04">
                         &nbsp;04 외국인&nbsp;
                   </div>
                 </fieldset>
@@ -204,27 +238,27 @@ window.onload = function(){
                
                 
                  <div></div>
-                 <div class="col-md-4">
+              	 <div class="col-md-2">
                   <div class="form-floating">
-                    <input type="text" class="form-control" name="uptae" placeholder="업태" value="${buyer.uptae }">
+                    <input type="text" class="form-control" name="uptae" placeholder="업태">
                     <label>업태</label>
                   </div>
-                </div>
-                  <div class="col-md-2" name="orgInput_uptae" >
+                  </div>
+                 <div class="col-md-2" name="orgInput_uptae" >
                   <div class="form-floating">
                 	<button id="plus_uptae" class="btn btn-secondary" type="button">+</button>
                   </div>
                  </div>
-                
+<!--                     <i id="plus_uptae" name="orgInput_uptae" class="fa-solid fa-plus" style="cursor: pointer; vertical-align:middle;"></i> -->
                 
                 <div></div>
-                 <div class="col-md-4">
+                 <div class="col-md-2">
                   <div class="form-floating">
-                    <input type="text" name="jongmok" class="form-control" value="${buyer.jongmok }">
+                    <input type="text" name="jongmok" class="form-control"  placeholder="종목">
                     <label>종목</label>
                   </div>
                 </div>
-                 <div class="col-md-2" name="orgInput_jongmok" >
+                <div class="col-md-2" name="orgInput_jongmok" >
                   <div class="form-floating">
                 	<button id="plus_jongmok" class="btn btn-secondary" type="button">+</button>
                   </div>
@@ -237,7 +271,7 @@ window.onload = function(){
                   <label class="form-label">대표자명</label>
                  	<div class="col-md-10">
                   <div class="input-group mb-3">
-                      <input type="text" class="form-control" name="boss_name" value="${buyer.boss_name }">
+                      <input type="text" class="form-control" name="boss_name">
                     </div>
                 </div>
               </div>
@@ -247,11 +281,11 @@ window.onload = function(){
                   <label class="form-label">대표 전화번호</label>
                  	<div class="col-md-11">
                   <div class="input-group mb-6">
-                      <input type="text" class="form-control" name="tel" value="${buyer.telArr[0]}" onkeyup="inputOnlyNumberFormat(this)">
+                      <input type="text" class="form-control" name="tel" onkeyup="inputOnlyNumberFormat(this)">
                       <span class="input-group-text">-</span>
-                      <input type="text" class="form-control" name="tel" value="${buyer.telArr[1]}" onkeyup="inputOnlyNumberFormat(this)">
+                      <input type="text" class="form-control" name="tel" onkeyup="inputOnlyNumberFormat(this)">
                       <span class="input-group-text">-</span>
-                      <input type="text" class="form-control" name="tel" value="${buyer.telArr[2]}" onkeyup="inputOnlyNumberFormat(this)">
+                      <input type="text" class="form-control" name="tel" onkeyup="inputOnlyNumberFormat(this)">
                     </div>
                 </div>
               </div>
@@ -261,9 +295,9 @@ window.onload = function(){
                  <label class="form-label">대표 이메일</label>
                   <div class="col-md-12">
                 	<div class="input-group mb-3">
-                      <input type="text" class="form-control" id="email1" name="email" value="${buyer.emailArr[0]}" onkeyup="onlyEngNumber(this)">
+                      <input type="text" class="form-control" id="email1" name="email" onkeyup="onlyEngNumber(this)">
                       <span class="input-group-text">@</span>
-                      <input type="text" class="form-control" id="email2" name="email" value="${buyer.emailArr[1]}">
+                      <input type="text" class="form-control" id="email2" name="email">
                     <select class="form-select" name="selectDomain" id="domain" >
                       <option value="">직접 입력</option>
 						<option value="naver.com">naver.com</option>
@@ -282,7 +316,7 @@ window.onload = function(){
                   <label class="form-label">담당자명</label>
                  	<div class="col-md-10">
                   <div class="input-group mb-3">
-                      <input type="text" class="form-control" name="man_name" value="${buyer.man_name }">
+                      <input type="text" class="form-control" name="man_name">
                     </div>
                 </div>
               </div>
@@ -292,11 +326,11 @@ window.onload = function(){
                   <label class="form-label">담당자 전화번호</label>
                  	<div class="col-md-11">
                   <div class="input-group mb-6">
-                      <input type="text" class="form-control" name="man_tel" value="${buyer.man_telArr[0]}" onkeyup="inputOnlyNumberFormat(this)">
+                      <input type="text" class="form-control" name="man_tel" onkeyup="inputOnlyNumberFormat(this)">
                       <span class="input-group-text">-</span>
-                      <input type="text" class="form-control" name="man_tel" value="${buyer.man_telArr[1]}" onkeyup="inputOnlyNumberFormat(this)">
+                      <input type="text" class="form-control" name="man_tel" onkeyup="inputOnlyNumberFormat(this)">
                       <span class="input-group-text">-</span>
-                      <input type="text" class="form-control" name="man_tel" value="${buyer.man_telArr[2]}" onkeyup="inputOnlyNumberFormat(this)">
+                      <input type="text" class="form-control" name="man_tel" onkeyup="inputOnlyNumberFormat(this)">
                     </div>
                 </div>
               </div>
@@ -306,9 +340,9 @@ window.onload = function(){
                  <label class="form-label">담당자 이메일</label>
                   <div class="col-md-12">
                 	<div class="input-group mb-3">
-                      <input type="text" class="form-control" id="email1_man" name="man_email" value="${buyer.man_emailArr[0]}" onkeyup="onlyEngNumber(this)">
+                      <input type="text" class="form-control" id="email1_man" name="man_email" onkeyup="onlyEngNumber(this)">
                       <span class="input-group-text">@</span>
-                      <input type="text" class="form-control" id="email2_man" name="man_email" value="${buyer.man_emailArr[1]}">
+                      <input type="text" class="form-control" id="email2_man" name="man_email" >
                       <select class="form-select" name="selectDomain" id="domain_man" >
                       <option value="">직접 입력</option>
 						<option value="naver.com">naver.com</option>
@@ -326,13 +360,13 @@ window.onload = function(){
                   <div class="col-md-12">
                 	<div class="input-group mb-1">
                       <div class="form-floating">
-		                    <input type="text" class="form-control" name="post_no" id="emp_address_zonecode"  placeholder="거래처코드" value="${buyer.post_no}">
+		                    <input type="text" class="form-control" name="post_no" id="emp_address_zonecode"  placeholder="거래처코드">
 		                    <label for="floatingName">우편번호</label>
                   	  </div>
                       <button id="address_kakao" class="btn btn-secondary" type="button">검색</button>
-                      <input type="text" class="form-control" name="addr" id="emp_address_kakao" value="${buyer.addrArr[0]}">
+                      <input type="text" class="form-control" name="addr" id="emp_address_kakao">
 	                    <div class="form-floating">
-	                    <input type="text" class="form-control" name="addr" id="emp_address_kakao2" placeholder="거래처코드" value="${buyer.addrArr[1]}">
+	                    <input type="text" class="form-control" name="addr" id="emp_address_kakao2" placeholder="거래처코드">
 	                    <label for="floatingName">상세주소</label>
 	                   </div>
                     </div>
@@ -342,7 +376,7 @@ window.onload = function(){
               <div class="col-lg-6">  
                 <div class="col-md-12">
                   <div class="form-floating">
-                    <input type="text" class="form-control" name="fax" value="${buyer.fax }" placeholder="팩스" onkeyup="inputOnlyNumberFormat(this)">
+                    <input type="text" class="form-control" name="fax" placeholder="팩스" onkeyup="inputOnlyNumberFormat(this)">
                     <label for="floatingName">팩스</label>
                   </div>
                 </div>
@@ -351,7 +385,7 @@ window.onload = function(){
                <div class="col-lg-6">  
                 <div class="col-md-12">
                   <div class="form-floating">
-                    <input type="text" class="form-control" name="man_home" value="${buyer.man_home }" placeholder="홈페이지">
+                    <input type="text" class="form-control" name="man_home" placeholder="홈페이지">
                     <label for="floatingName">홈페이지</label>
                   </div>
                 </div>
@@ -360,13 +394,13 @@ window.onload = function(){
                 
                 <div class="col-12">
                   <div class="form-floating">
-                    <textarea class="form-control" placeholder="적요" id="floatingTextarea" style="height: 100px;" name="remarks">${buyer.remarks }</textarea>
+                    <textarea class="form-control" placeholder="적요" id="floatingTextarea" style="height: 100px;" name="remarks"></textarea>
                     <label for="floatingTextarea">적요</label>
                   </div>
                 </div>
                 
                 <div class="text-left">
-                  <button type="submit" class="btn btn-primary" >수정</button>
+                  <button type="submit" class="btn btn-primary" onclick="fn_registerBuyer()">등록</button>
                   <button type="reset" class="btn btn-secondary">다시쓰기</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>
@@ -375,6 +409,6 @@ window.onload = function(){
 			</div>
 		</div>
 	</main>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> -->
 </body>
 </html>
