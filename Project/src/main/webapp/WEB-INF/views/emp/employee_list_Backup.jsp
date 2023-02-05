@@ -25,7 +25,7 @@
 <!-- 카테고리별 모아보기 -->
 <script type="text/javascript">
 	function selectWorkcode() {
-		let workcode = $("#").val();
+		let workcode = $("#workCodeCategory > option:selected").val();
 // 		alert(workcode);
 		$.ajax({
 			type: "GET",
@@ -87,35 +87,23 @@
 	<div class="pagetitle">
       <h1>사원 목록</h1>
     </div><!-- End Page Title -->
-    	<div class="card-body">
-            <div class="card mb-2">
+    
+            <div class="card mb-4">
                 <div class="card-header">
                     <button class="btn btn-secondary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
-                    <!-- Bordered Tabs -->
-              <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" value="c1data-bs-target="#bordered-home" type="button" role="tab" aria-controls="home" aria-selected="true">재직</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">휴직</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">퇴사</button>
-                </li>
-              </ul>
-<!--               <div class="tab-content pt-2" id="borderedTabContent"> -->
-<!--                 <div class="tab-pane fade show active" id="bordered-home" role="tabpanel" aria-labelledby="home-tab"> -->
-<!--                   Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde. -->
-<!--                 </div> -->
-<!--                 <div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab"> -->
-<!--                   Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta. -->
-<!--                 </div> -->
-<!--                 <div class="tab-pane fade" id="bordered-contact" role="tabpanel" aria-labelledby="contact-tab"> -->
-<!--                   Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor. -->
-<!--                 </div> -->
-<!--               </div>End Bordered Tabs -->
-                    
+					<div class="col-md-2">	
+<!-- 					<a href="EmployeeListJson.em?WORK_CD=C1 ">재직</a>	 -->
+<!-- 					<a href="EmployeeListJson.em?WORK_CD=C2 ">휴직</a>	 -->
+<!-- 					<a href="EmployeeListJson.em?WORK_CD=C3 ">퇴사</a>	 -->
+						<select id="workCodeCategory" name="workCodeCategory" class="form-select" onclick="selectWorkcode()">
+							<option>재직상태를 선택해주세요</option>
+							<option selected value="C1">재직</option>
+							<option value="C2">휴직</option>
+							<option value="C3">퇴사</option>
+						</select>
+					</div>
                  </div>
+                 <div class="card-body">
                      <table id="datatablesSimple" style="font-size: small;">
                          <thead>
                              <tr>
