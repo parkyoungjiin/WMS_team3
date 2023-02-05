@@ -58,4 +58,24 @@
 			WHERE wh_cd = #{wh_cd}
 	</select>
 	
+	<insert id="WhAreaInsert">
+		INSERT INTO wh_area
+			VALUES(
+				#{wh_cd},
+				#{wh_area},
+				0,
+				#{wh_cd},
+				0+1
+			)
+	</insert>
+	
+	<select id="getwhAreaList" resultType="com.itwillbs.project.vo.WareHouseVO">
+		SELECT * 
+		FROM  wh_area
+	</select>
+	
+	<delete id="WhAreaDelte">
+		DELETE FROM wh_area
+		WHERE wh_area_cd=#{wh_area_cd}
+	</delete>
 </mapper>
