@@ -37,123 +37,68 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 
-	$(function() {
-		
+// 거래처 목록 조회(모달)
+function load_buyerList() {
 	
-		
-		
+	let buyer_keyword = $("#buyer_keyword").val();
 	
-		//업태, 종목 항목 input 태그 추가
-		$("#plus_uptae").on("click", function() {
-			
-			var addInput = '<div class="col-md-3">'
-            				+ '<input type="text" class="form-control" name="uptae">'
-            				+ '</div>';
-			
-// 			var addInput = '<input type="text" class="form-control" name="uptae">&nbsp';
-// 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
-			var trHtml = $("[name=orgInput_uptae]:last");
-			trHtml.before(addInput);
-		});
-		
-		
-		$("#plus_jongmok").on("click", function() {
-			
-			var addInput = '<div class="col-md-3">'
-							+ '<input type="text" class="form-control" name="jongmok">'
-							+ '</div>';
-			
-// 			var addInput = '<input type="text" class="form-control" name="jongmok">&nbsp';
-// 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
-			var trHtml = $("[name=orgInput_jongmok]:last");
-			trHtml.before(addInput);
-		});
-		
-		
-// 	function checkCode() {
-	$("#business_no").keyup(function() {
-		let business_no = $('#business_no').val();
-		
-		 $.ajax({
-	            url:'CodeCheck', //Controller에서 요청 받을 주소
-	            type:'post', //POST 방식으로 전달
-	            data:{business_no:business_no},
-	            success:function(result){ //컨트롤러에서 넘어온 cnt값을 받는다 
-	                if(result == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 코드 
-// 	                	alert("사용 가능한 코드입니다.");
-						$("#checkCdResult").html("사용 가능한 코드입니다.");
-						$("#checkCdResult").css("color", "#3CAEFF");
-	                	codeStatus = true;
-	                } else { // cnt가 1일 경우 -> 이미 존재하는 코드
-// 	                    alert("이미 존재하는 코드입니다.");
-	                	$("#checkCdResult").html("사용 불가능한 코드입니다.");
-						$("#checkCdResult").css("color", "#B9062F");
-	                    codeStatus = false;
-	                }
-	            },
-	            error:function(){
-	                alert("중복 체크 실패!");
-	                codeStatus = false;
-	            }
-	        });
-	});
-});	
+// 	alert(buyer_keyword);
 	
-	<!-- 연락처 숫자만 입력되는 유효성 검사 -->
-	function uncomma(str) {
-	    str = String(str);
-	    return str.replace(/[^\d]+/g, '');
-	} 
-	 
-	function inputOnlyNumberFormat(obj) {
-	    obj.value = onlynumber(uncomma(obj.value));
-	}
-	 
-	function onlynumber(str) {
-	    str = String(str);
-	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
-	}
+	$.ajax({
+		type: "GET",
+		url: "BuyerListJson?keyword=" + buyer_keyword,
+		dataType: "json"
+	})
+	.done(function(buyerList) { // 요청 성공 시
+// 			$(".modal-body").append(buyerList);
+// 		$("#modal-body > table").empty();	
 	
-	<!-- 이메일 영어만 -->
-	function onlyEngNumber(str) {
-		var regType1 = /^[A-Za-z0-9+]*$/; // regex : 영어, 숫자만 입력
-		if (regType1.test(str.value)) { //영어, 숫자만 입력했을 때
-		}else{//영어, 숫자를 제외한 값 입력 시
-			str.value = ""; // ""으로 초기화
-		}
-	}//onlyEngNumber 끝
-	
-	// 등록 작업 막기
-	function fn_registerBuyer(){
-		if(business_no.length == 0){
-			alert("거래처 코드를 입력해주세요");
-			event.preventDefault();
+		if(buyerList.length == 0){
+// 			$("#buyer_search").append("<div></div>");
+			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
+			$("#buyer_search").css("color","#B9062F");
 		} 
-		
-		if(codeStatus == false){
-			alert("거래처 코드를 확인해주세요");
-			event.preventDefault();
+// 		else {
+// 			$("#buyer_search").remove();
+// 		}
+		for(let buyer of buyerList) {
+			
+			let result = "<tr style='cursor:pointer;'>"
+		                + "<td>" + buyer.business_no + "</td>"
+		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
+               			+ "</tr>";
+             
+			$("#modal-body > table").append(result);
 		}
-	}
-	
-</script>
-<!-- 카카오 주소 API -->
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-window.onload = function(){
-    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-        //카카오 지도 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("emp_address_kakao").value = data.address; // 주소 넣기
-                document.getElementById("emp_address_zonecode").value = data.zonecode; // 우편번호 넣기
-                document.querySelector("input[id=emp_address_kakao2]").focus(); //상세입력 포커싱
-            }
-        }).open();
-    });
+	})
+	.fail(function() {
+		$("#modal-body > table").append("<h3>요청 실패!</h3>");
+	});
 }
+	
+	
+$(function() {
+	
+	// td 클릭 시 해당 value 가져오기
+	$("#buyer_table").on('click','tr',function(){
+		   let td_arr = $(this).find('td');
+		   console.log(td_arr);
+		   
+// 		   $('#no').val($(td_arr[0]).text());
+		   let no = $(td_arr[0]).text();
+// 		   $('#name').val($(td_arr[1]).text());
+		   let cust_name = $(td_arr[1]).text();
+		   console.log(cust_name);
+		   
+		   // td 클릭시 모달 창 닫기
+		   $('#modalDialogScrollable_buyer').modal('hide');
+		   $("#cust_name").val(cust_name);
+	});	   
+});
+
+
 </script>
+
 <style type="text/css">
 #title_label {
 	text-align: center;
@@ -202,7 +147,7 @@ window.onload = function(){
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">거래처</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="" type="text" class="form-control" id="" >
+		             		<input name="cust_name" type="text" class="form-control" id="cust_name" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer">검색</button>
 			        	 </div>
 			          </div>
@@ -238,12 +183,24 @@ window.onload = function(){
                       <h5 class="modal-title">거래처 검색</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="modal-body" style="text-align: center;">
                      	<div class="input-group mb-6">
-		             		<input name="" type="text" class="form-control" id="" >
-				         <button id="search_buyer" class="btn btn-secondary" type="button">검색</button>
+		             		<input name="buyer_keyword" type="text" class="form-control" id="buyer_keyword" >
+				         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_buyerList()">검색</button>
 			        	 </div>
-			        	 <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div>
+<!-- 			        	 <div id="modal-body-result" style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
+			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
+				                <tr>
+				                  <th scope="col">거래처코드</th>
+				                  <th scope="col">상호명</th>
+				                </tr>
+<!-- 				                <tbody> -->
+				                
+<!-- 				                </tbody> -->
+<!-- 				                <tr> -->
+<!-- 				                	<td colspan="2" style="text-align: center;" id="buyer_search">검색 후 이용 바랍니다.</td> -->
+<!-- 				                </tr> -->
+			        	 </table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

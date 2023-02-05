@@ -5,6 +5,7 @@
 	<select id="selectBuyerList" resultType="com.itwillbs.project.vo.BuyerVo">
 		SELECT *
 			FROM buyer
+			WHERE cust_name LIKE '%${keyword}%'
 	</select>
 	
 	<insert id="insertBuyer">
