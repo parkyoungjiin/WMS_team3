@@ -8,7 +8,7 @@ import com.itwillbs.project.vo.BuyerVo;
 public interface BuyerMapper {
 
 	// 거래처 목록 조회
-	List<BuyerVo> selectBuyerList();
+	List<BuyerVo> selectBuyerList(String keyword);
 
 	// 거래처 등록
 	int insertBuyer(BuyerVo buyer);
