@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itwillbs.project.mapper.In_ScheduleMapper">
+<select id="selectInscheduleList" resultType="com.itwillbs.project.vo.InScheduleVO">
+SELECT *
+FROM in_schedule
+</select>
+
+<!-- 입고물품 등록 -->
+<insert id="insertInschedule">
+
+INSERT INTO in_schedule
+VALUES(
+#{IN_SCHEDULE_CD},
+#{IN_TYPE_CD},
+#{BUSINESS_NO},
+#{EMP_NUM},
+now(),
+#{REMARKS},
+#{IN_COMPLETE}
+)
+
+</insert>
+<!-- 입고 물품 등록 끝 -->
+
+
+
+</mapper>

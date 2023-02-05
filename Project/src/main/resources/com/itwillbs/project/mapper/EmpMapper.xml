@@ -34,7 +34,7 @@
 				WHERE EMP_EMAIL = #{EMP_EMAIL}
 	</select>
 	<select id="getSelectName" resultType="com.itwillbs.project.vo.EmpVo">
-		SELECT EMP_NAME, PRIV_CD, IDX
+		SELECT EMP_NAME, PRIV_CD, IDX, EMP_NUM
 			FROM emp
 				WHERE EMP_EMAIL = #{EMP_EMAIL}
 	</select>
@@ -48,9 +48,10 @@
 	<select id="selectEmployeeList" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT *
 			FROM emp
+			WHERE EMP_NAME LIKE '%${keyword}%'
 	</select>
 	
-	<!-- 현재 로그인한 사원의 권환 조회 -->
+	<!-- 현재 로그인한 사원의 권한 조회 -->
 	<select id="selectPrivCode" resultType="String">
 		SELECT PRIV_CD
 			FROM emp

@@ -28,9 +28,9 @@ public class BuyerController {
 	
 	//------------거래처 조회 페이지 이동------------
 	@GetMapping(value = "BuyerList")
-	public String BuyerList(HttpSession session, Model model) {
+	public String BuyerList(@RequestParam(defaultValue = "") String keyword,HttpSession session, Model model) {
 		
-		List<BuyerVo> buyerList = service.getBuyerList();
+		List<BuyerVo> buyerList = service.getBuyerList(keyword);
 		
 		model.addAttribute("buyerList", buyerList);
 		

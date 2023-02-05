@@ -18,7 +18,7 @@ public interface EmpMapper {
 	Integer getEmailCheck(String check_email);
 
 	// ----------사원 목록 출력--------------
-	List<EmpVo> selectEmployeeList();
+	List<EmpVo> selectEmployeeList(String keyword);
 
 	// ---------- 권한 조회 -------------
 	String selectPrivCode(String sId);

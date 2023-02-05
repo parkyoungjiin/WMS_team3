@@ -16,8 +16,8 @@ public class BuyerService {
 	@Autowired
 	private BuyerMapper mapper;
 	
-	public List<BuyerVo> getBuyerList() {
-		return mapper.selectBuyerList();
+	public List<BuyerVo> getBuyerList(String keyword) {
+		return mapper.selectBuyerList(keyword);
 	}
 
 	public int registerBuyer(BuyerVo buyer) {

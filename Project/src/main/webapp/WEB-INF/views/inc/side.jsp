@@ -48,7 +48,7 @@
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="EmployeeList.em">
               <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>사원 조회</span>
             </a>
           </li>
@@ -89,7 +89,7 @@
             </a>
           </li>
          <li>
-            <a href="forms-editors.html">
+            <a href="InRegisterForm">
               <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>입고 관리</span>
             </a>
           </li>
