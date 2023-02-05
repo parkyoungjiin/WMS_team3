@@ -221,13 +221,13 @@ public class EmpController {
 	//===================================== 인사 파트 2 : 채원 ================================================
 		//-------------- 사원 목록 출력------------
 		@GetMapping("/EmployeeList.em")
-		public String emplList(Model model, HttpSession session) {
+		public String emplList(Model model, HttpSession session,@RequestParam(defaultValue = "") String keyword) {
 			String sId = (String)session.getAttribute("sId");
 			if(sId == null || sId == "") {
 				model.addAttribute("msg","접근 권한이 없습니다.");
 				return "fail_back";
 			} else {		
-				List<EmpVo> employeeList = service.getEmployeeList();
+				List<EmpVo> employeeList = service.getEmployeeList(keyword);
 				
 				model.addAttribute("employeeList",employeeList);
 				return "emp/employee_list";
