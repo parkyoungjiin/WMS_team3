@@ -1,12 +1,13 @@
 package com.itwillbs.project.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,14 +27,80 @@ public class WareHouseController {
 	@Autowired
 	private WareHouseService service;
 	
+	
 	//------------창고 리스트 작업---------------
+	@ResponseBody
+	@GetMapping(value = "WareHouseListJsonPro.wh")
+	public void whlist(Model model,HttpServletResponse response) {
+		List<WareHouseVO> whlist = service.getwhList();
+		JSONArray jsonArray = new JSONArray();
+		
+		// 1. List 객체 크기만큼 반복
+		for(WareHouseVO list: whlist) {
+			// 2. JSONObject 클래스 인스턴스 생성
+			// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
+			JSONObject jsonObject = new JSONObject(list);
+			System.out.println(jsonObject);
+			
+			// 참고. 저장되어 있는 JSON 데이터를 꺼낼 수도 있다! - get() 메서드 활용
+//			System.out.println(jsonObject.get("board_pass"));
+			
+			// 3. JSONArray 객체의 put() 메서드를 호출하여 JSONObject 객체 추가
+			jsonArray.put(jsonObject);
+		}
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(jsonArray); // toString() 생략됨
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		//------------창고 구역 리스 작업---------------
+		@ResponseBody
+		@GetMapping(value = "WareHouseAreaListJsonPro.wh")
+		public void wharealist(Model model,HttpServletResponse response) {
+			List<WareHouseVO> wharealist = service.getwhAreaList();
+			JSONArray jsonArray = new JSONArray();
+			System.out.println(wharealist);
+			// 1. List 객체 크기만큼 반복
+			for(WareHouseVO list: wharealist) {
+				// 2. JSONObject 클래스 인스턴스 생성
+				// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
+				JSONObject jsonObject = new JSONObject(list);
+				System.out.println(jsonObject);
+				
+				// 참고. 저장되어 있는 JSON 데이터를 꺼낼 수도 있다! - get() 메서드 활용
+//			System.out.println(jsonObject.get("board_pass"));
+				
+				// 3. JSONArray 객체의 put() 메서드를 호출하여 JSONObject 객체 추가
+				jsonArray.put(jsonObject);
+			}
+		
+//		System.out.println(jsonArray);
+		// => JSONObject 복수개가 배열 형태로 JSONArray 객체에 저장되어 있음
+		// 또한, JSONArray 객체에서 JSONObject 객체를 꺼낼 수도 있다!
+//		JSONObject jsonObject = (JSONObject)jsonArray.get(0); // 첫번째 배열에서 꺼내기
+		// => 이 때, 리턴타입이 Object 타입이므로 JSONObject 타입 형변환 필요
+//		System.out.println(jsonObject.get("board_pass"));
+		
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(jsonArray); // toString() 생략됨
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}//whlist 끝
+	//------------창고 리스트 작업---------------
+	
 	@GetMapping(value = "WareHouseListPro.wh")
-	public String whlist(Model model) {
+	public String whlistPro(Model model) {
 		List<WareHouseVO> whlist = service.getwhList();
 		
 		model.addAttribute("whlist",whlist);
 		return "warehouse/wh_list";
 	}//whlist 끝
+	
+	
 	//------------창고 등록 작업---------------
 	@GetMapping(value = "WareHouseInsertForm.wh")
 	public String whinsert() {
@@ -73,18 +140,48 @@ public class WareHouseController {
 	         vo.setWh_tel1(vo.getWh_tel().substring(0,3));
 	         vo.setWh_tel2(vo.getWh_tel().substring(4,7));
 	         vo.setWh_tel3(vo.getWh_tel().substring(8,12));
+	         
 	         if(vo.getWh_addr().equals(",")){
 	 			 vo.setWh_addr("");
 	 		 }else if(!vo.getWh_addr().equals("")) {
 	 			 String[] arr = vo.getWh_addr().split(",");
 	 			 vo.setWh_addr(arr[0]);
-//	 		 	System.out.println(arr[0]);
-	 		 	vo.setWh_addr_detail(arr[1]);
+	 		 	 vo.setWh_addr_detail(arr[1]);
 	 		 }
 		System.out.println(vo);
 		model.addAttribute("wh",vo);
 		return "warehouse/wh_info";
 	}//whInfo 끝
+	
+	//------------창고 상세페이지 작업---------------
+	@ResponseBody
+	@GetMapping(value = "WareHouseInfoJson.wh")
+	public void whInfoJson(@RequestParam(defaultValue = "1")String wh_cd,Model model,HttpServletResponse response) {
+		WareHouseVO vo = service.getWarehouse(wh_cd);
+		System.out.println(vo);
+		vo.setWh_tel1(vo.getWh_tel().substring(0,3));
+		vo.setWh_tel2(vo.getWh_tel().substring(4,7));
+		vo.setWh_tel3(vo.getWh_tel().substring(8,12));
+		
+		if(vo.getWh_addr().equals(",")){
+			vo.setWh_addr("");
+		}else if(!vo.getWh_addr().equals("")) {
+			String[] arr = vo.getWh_addr().split(",");
+			vo.setWh_addr(arr[0]);
+//	 		 	System.out.println(arr[0]);
+			vo.setWh_addr_detail(arr[1]);
+		}
+		System.out.println(vo);
+		JSONObject jsonObject = new JSONObject(vo);
+		
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(jsonObject); // toString() 생략됨
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}//whInfo 끝
+	
 	
 	//------------창고 상세페이지 작업(이름 클릭 시)---------------
 	@GetMapping(value = "WareHouseInfoName.wh")
@@ -143,4 +240,20 @@ public class WareHouseController {
 		model.addAttribute("whlist",whlist);
 		return "warehouse/wh_manage";
 	}//WhCodeCheck 끝
+	
+	@GetMapping(value = "WareHouseAreaInsertPro.wh")
+	public String manage(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")int wh_cd ) {
+		System.out.println(vo);
+		service.WhAreaInsert(vo);
+		return "redirect:/WareHouseManage.wh";
+	}
+	
+	@GetMapping(value = "WareHouseAreadeletePro.wh")
+	public String managedelete(@RequestParam(defaultValue = "1")int wh_area_cd ) {
+		System.out.println(wh_area_cd);
+		service.WhAreaDelte(wh_area_cd);
+		return "redirect:/WareHouseManage.wh";
+	}
+	
+	
 }//WareHouseController 끝
