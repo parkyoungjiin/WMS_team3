@@ -94,7 +94,7 @@
             </a>
           </li>
          <li>
-            <a href="OutList">
+            <a href="OutList.os">
               <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>출고 관리</span>
             </a>
           </li>

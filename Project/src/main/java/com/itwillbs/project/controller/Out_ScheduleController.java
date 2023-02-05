@@ -34,7 +34,7 @@ public class Out_ScheduleController {
 	
 	
 	// ---------- 출고 관리 - 출고 예정 목록 ----------
-	@GetMapping(value = "OutList")
+	@GetMapping(value = "OutList.os")
 	public String outList() {
 		return "out_schedule/out_list";
 	} // outList 끝

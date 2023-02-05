@@ -22,7 +22,24 @@
 // 		alert("권한이 없습니다");
 // 		history.back();
 // 	}
+	// 체크박스 선택 jQuery
+	$(document).ready(function() {
+		$("#chkAll").click(function() {
+			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+			else $("input[name=chk]").prop("checked", false);
+		});
+		
+		$("input[name=chk]").click(function() {
+			var total = $("input[name=chk]").length;
+			var checked = $("input[name=chk]:checked").length;
+			
+			if(total != checked) $("#chkAll").prop("checked", false);
+			else $("#chkAll").prop("checked", true); 
+		});
+	});
+
 </script>
+
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -62,7 +79,7 @@
 		                <thead>
 		                  <tr>
 		                    <th scope="col">#</th>
-		                    <th scope="col"><input type="checkbox"></th>
+		                    <th scope="col"><input type="checkbox" name="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">받는곳명</th>
