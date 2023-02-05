@@ -1,5 +1,7 @@
 package com.itwillbs.project.mapper;
 
+import java.util.List;
+
 import com.itwillbs.project.vo.ProductVO;
 
 public interface ProductMapper {
@@ -9,6 +11,9 @@ public interface ProductMapper {
 	
 	//------------품목코드 중복 확인-----------------
 	int existCd(int product_cd);
+
+	//--------------품목 그룹 리스트-----------------------
+	public List<ProductVO> selectGroupList(String keyword);
 
 	
 

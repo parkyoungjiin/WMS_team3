@@ -1,5 +1,7 @@
 package com.itwillbs.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,12 @@ public class ProductService {
 	public int existCd(int product_cd) {
 		return mapper.existCd(product_cd);
 	} // existCd() 끝
+
+	//--------------------품목 등록 리스트------------------
+	public List<ProductVO> getProdList(String keyword) {
+		return mapper.selectGroupList(keyword);
+	}
+
 	
 
 }
