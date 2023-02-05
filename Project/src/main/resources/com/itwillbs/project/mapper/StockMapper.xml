@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.project.mapper.StockMapper">
+<!-- 재고 목록 -->
+	<select id="getStockList" resultType="com.itwillbs.project.vo.StockVo">
+		SELECT * 
+			FROM stock_view
 	
+	</select>
+<!-- 재고 조정 -->	
+	<update id="stockUpdate">
+		UPDATE stock
+			SET STOCK_QTY = #{update_qty}
+				WHERE STOCK_CD = #{stock_cd}
+	</update>
 </mapper>

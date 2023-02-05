@@ -183,7 +183,8 @@ public class EmpController {
 			emp = service.getSelectName(emp.getEMP_EMAIL());
 			session.setAttribute("sId", emp.getEMP_NAME()); //이름 저장
 			session.setAttribute("priv_cd", emp.getPRIV_CD()); //권한코드 저장
-			session.setAttribute("idx", emp.getIDX()); //권한코드 저장
+			session.setAttribute("emp_num", emp.getEMP_NUM()); //사원코드 저장
+			session.setAttribute("idx", emp.getIDX()); //idx 저장
 			
 			return "redirect:/";
 		}
@@ -274,8 +275,23 @@ public class EmpController {
 	
 	//-------------마이페이지 이동------------
 	@GetMapping(value = "MyPage.em")
-	public String mypage(HttpSession session) {
-		return "emp/mypage";
+	public String mypage( HttpSession session, @ModelAttribute EmpVo emp, Model model) {
+//		session id에 맞는 사원 정보 가져오기
+		String EMP_NUM = (String)session.getAttribute("emp_num");
+		emp = service.getEmployee(EMP_NUM);
+		// 개인 연락처 분리
+		String emp_phone_number1 = emp.getEMP_TEL().substring(4, 8);
+		String emp_phone_number2 = emp.getEMP_TEL().substring(9, 13);
+		// 사무실 연락처 분리
+		String emp_dtel_number1 = emp.getEMP_DTEL().substring(4,7);
+		String emp_dtel_number2 = emp.getEMP_DTEL().substring(8,12);
+		model.addAttribute("emp", emp);
+		model.addAttribute("emp_phone_number1", emp_phone_number1);
+		model.addAttribute("emp_phone_number2", emp_phone_number2);
+		model.addAttribute("emp_dtel_number1", emp_dtel_number1);
+		model.addAttribute("emp_dtel_number2", emp_dtel_number2);
+		
+		return "emp/employee_mypage";
 	}//mypage 끝
 	
 }//EmpController 끝

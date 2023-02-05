@@ -21,8 +21,100 @@
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
-
+<!-- 재고 수량 조정작업 -->
 <script type="text/javascript">
+	function updateStock(cb) {
+// 		//조정 수량
+// 		var updateStockNum = $("#updateStockNum0").val();
+// 		//재고 번호
+		
+		//버튼에 status.index 해둔 값을 추출 하는 작업
+		var idx = cb.id.replace("updateButton", "");//updateButton을 공백으로 만들어서 status.index 값 출력 
+		console.log("index_ck : " + idx)
+		var updateStockNum = $("#updateStockNum" + idx).val();
+		var stock_cd = $("#stock_cd" + idx).val();
+// 		alert("updateStockNum : " + updateStockNum);
+// 		alert("stock_cd : " + stock_cd);
+		
+// 			alert(updateStockNum);
+// 			alert(stock_cd_num);
+			
+		
+			
+			//--------배열을 사용하여 input 박스 값을 넣음.
+// 		let chk_arr = new Array();
+		
+//  		for(var i=0; i<${fn:length(stockList)}; i++ ){
+// 			var updateStockNum = $("#updateStockNum" + i).val();
+// 			chk_arr.push(updateStockNum);
+			
+// // 			var stock_cd = $("#stock_cd" + i).val();
+// 		}
+// 			alert(chk_arr);
+		
+		
+		if(updateStockNum == ""){
+			alert("조정 할 수량을 입력하세요")
+			$('#updateStockNum' + idx).focus();
+		}else{
+			let confirmUpdate = confirm("재고를 "+updateStockNum +"개로 조정하시겠습니까?");
+			
+			if(confirmUpdate){
+				$.ajax({
+					url: 'stockUpdate.st',
+					type: 'post',
+					data: {
+						updateStockNum : updateStockNum,
+						stock_cd : stock_cd
+					},
+					success: function(result) {
+						if(result > 0){
+							alert("재고가 조정 되었습니다.")
+							location.reload();
+						}else{
+							alert("재고 조정에 실패했습니다.")
+							location.reload();
+						}
+					}//success 끝
+				})//ajax 끝
+			}else{
+				alert("재고 조정작업이 취소되었습니다.")		
+			}
+		}
+		
+		
+
+	}//updateStock 끝
+	
+	//--------모달창에서 재고번호, 창고위치 클릭 시 해당 값을 이동재고번호/이동위치 input 박스 안에 값 넣는 함수-----------
+	$(function() {
+		//검색 버튼 클릭 시 해당 idx저장
+		function saveIdx(cb) {
+			var idx = cb.id
+			alert(idx)
+// 			search_move_cd
+		}		
+		// td 클릭 시 해당 value 가져오기
+		$("#stock_table").on('click','tr',function(){
+			   let td_arr = $(this).find('td');
+			   console.log(td_arr);
+			   
+	// 		   $('#no').val($(td_arr[0]).text());
+			   let stock_no = $(td_arr[0]).text(); //재고번호
+	// 		   $('#name').val($(td_arr[1]).text());
+			   let move_wh_loc_in_area = $(td_arr[1]).text(); //창고위치
+			   console.log(move_wh_loc_in_area);
+			   
+
+			   // td 클릭시 모달 창 닫기
+			   $('#modalDialogScrollable_stock_cd').modal('hide');
+			   $("#move_stock_cd").val(stock_no);
+			   $("#move_wh_loc_in_area").val(move_wh_loc_in_area);
+		});
+});
+	
+	
+	
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -39,7 +131,8 @@
             <div class="card mb-4">
                 <div class="card-header">
                      재고 조회
-                     <button class="btn btn-secondary" onclick="location.href='BuyerRegisterForm'" style="float: right;">신규등록</button>
+<!--                      <button class="btn btn-secondary" onclick="location.href='BuyerRegisterForm'" style="float: right;">재고조정</button> -->
+<!--                      <button class="btn btn-secondary" onclick="location.href='BuyerRegisterForm'" style="float: right;">재고이동</button>&nbsp; -->
                  </div>
                  <div class="card-body">
                      <table id="datatablesSimple" style="font-size: small;">
@@ -61,23 +154,148 @@
                            </tr>
                        </thead>
                       <tbody>
-                                 <c:forEach var="buyerList" items="${buyerList }">
+                                 <c:forEach var="stockList" items="${stockList }" varStatus="status">
 							<tr>
 <!-- 										<td><input type="checkbox"></td> -->
 <!-- 										<td scope="row"></td> -->
-								<td><a href="BuyerDetail?business_no=${buyerList.business_no }"> ${buyerList.business_no }</a></td>
-								<td><a href="BuyerDetail?business_no=${buyerList.business_no }">${buyerList.cust_name }</a></td>
-								<td>${buyerList.boss_name }</td>
-								<td>${buyerList.tel }</td>
-								<td>${buyerList.man_tel }</td>
-								<td>${buyerList.addr }</td>
-								<td>${buyerList.remarks }</td>
+								<td>
+								<a href="#"> ${stockList.stock_cd}</a>
+								</td>
+								<td><a href="#">${stockList.product_cd }</a></td>
+								<td>${stockList.product_name }</td>
+								<td>${stockList.wh_area_cd }</td>
+								<td>${stockList.wh_loc_in_area }</td>
+								<td>${stockList.wh_loc_in_area_cd }</td>
+								<td>${stockList.stock_qty }</td> 
+								<td>
+								<!-- 재고조정에 필요한 조정개수 -->
+								<input type="number" id="updateStockNum${status.index}" size="3" max="${stockList.stock_qty }" min="0">
+								<!-- 재고조정에 필요한 재고번호 -->
+								<input type="hidden" id="stock_cd${status.index}" value="${stockList.stock_cd}">
+								<c:set var="indexNum" value="${status.index}" />
+								
+<%-- 								${requestScope[stock_cd]}  --%>
+<%-- 								${stock_cd.a } --%>
+								<!-- 재고조정 버튼 -->
+								<button id="updateButton${status.index}" class="btn btn-secondary" type="button" onclick="updateStock(this)">재고조정</button>
+								</td>
+								<!-- 이동재고번호 input, 검색 button -->
+								<td>
+								<input type="text" size="3" id ="move_stock_cd">
+								<button id="search_move_cd${status.index}" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_cd" onclick="saveIdx(this)">검색</button>
+								</td>
+								<!-- 이동 위치 -->
+								<td>
+								<input type="text" size="3" id ="move_wh_loc_in_area">
+								</td>
+								<!-- 이동 수량 -->
+								<td><input type="text" size="3" id ="move_stock_num"></td>
+								<td>${stockList.stock_qty }</td><!-- 합계수량 -->
 							</tr> 
 							</c:forEach>  
                         </tbody>
                     </table>
                 </div>
             </div>
+            
+             <!-- Modal Dialog Scrollable -->
+			 <!-- 이동재고번호 검색 -->
+              <div class="modal fade" id="modalDialogScrollable_stock_cd" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">이동재고번호 검색</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     	<div class="input-group mb-6">
+		             		<input name="" type="text" class="form-control" id="stock_keyword" >
+				         <button id="search_stock" class="btn btn-secondary" type="button" onclick="load_stockList">검색</button>
+			        	 </div>
+			        	 <div style="text-align: center;">
+			        	 	<table class='table table-hover' id="stock_table" style="margin-left: auto; margin-right: ">
+				        	 		<tr>
+				        	 			<th scope="col">재고번호</th>
+				        	 			<th scope="col">창고위치</th>
+				        	 		</tr>
+	                                 <c:forEach var="stockList" items="${stockList }" varStatus="status">
+			        	 			<tr>
+				        	 				<td>${stockList.stock_cd }</td>
+				        	 				<td>${stockList.wh_loc_in_area}</td>
+			        	 			</tr>
+	                                 </c:forEach>
+			        	 	
+			        	 	</table>
+			        	 </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+              
+               <!-- Modal Dialog Scrollable -->
+			 <!-- 재고 이동 모달 -->
+              <div class="modal fade" id="modalDialogScrollable_stock_cd" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">재고 이동</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body" style="text-align: center;">
+                     	<div class="input-group mb-6">
+		             		<input name="" type="text" class="form-control" id="move_keyword" >
+				         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_stockList">검색</button>
+			        	 </div>
+			        	 
+			        	 <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+              
+              
+              <!-- 거래처 검색 -->
+              <div class="modal fade" id="modalDialogScrollable_buyer" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">거래처 검색</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body" style="text-align: center;">
+                     	<div class="input-group mb-6">
+		             		<input name="buyer_keyword" type="text" class="form-control" id="buyer_keyword" >
+				         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_buyerList()">검색</button>
+			        	 </div>
+<!-- 			        	 <div id="modal-body-result" style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
+			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
+				                <tr>
+				                  <th scope="col">거래처코드</th>
+				                  <th scope="col">상호명</th>
+				                </tr>
+<!-- 				                <tbody> -->
+				                
+<!-- 				                </tbody> -->
+<!-- 				                <tr> -->
+<!-- 				                	<td colspan="2" style="text-align: center;" id="buyer_search">검색 후 이용 바랍니다.</td> -->
+<!-- 				                </tr> -->
+			        	 </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
 </main>		
 
 
