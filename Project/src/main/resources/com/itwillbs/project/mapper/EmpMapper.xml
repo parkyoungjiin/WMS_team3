@@ -48,6 +48,7 @@
 	<select id="selectEmployeeList" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT *
 			FROM emp
+			WHERE EMP_NAME LIKE '%${keyword}%'
 	</select>
 	
 	<!-- 현재 로그인한 사원의 권환 조회 -->
