@@ -114,10 +114,51 @@ function load_empList() {
 		$("#modal-body-emp > table").append("<h3>요청 실패!</h3>");
 	});
 }
+
+
+// 품목 목록 조회(모달)
+function load_proList() {
+	
+	let pro_keyword = $("#pro_keyword").val();
+	
+	$.ajax({
+		type: "GET",
+		url: "ProListJson?keyword=" + pro_keyword,
+		dataType: "json"
+	})
+	.done(function(proList) { // 요청 성공 시
+// 		$(".modal-body").append(buyerList);
+// 		$("#modal-body > table").empty();	
+	
+// 		if(buyerList.length == 0){
+// 			$("#buyer_search").append("<div></div>");
+// 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
+// 			$("#buyer_search").css("color","#B9062F");
+// 		} 
+// 		else {
+// 			$("#buyer_search").remove();
+// 		}
+		for(let pro of proList) {
+			
+			let result = "<tr style='cursor:pointer;'>"
+		                + "<td>" + pro.product_cd + "</td>"
+		                + "<td>" + pro.product_name + "</td>"
+		                + "<td>" + pro.size_des + "</td>"
+               			+ "</tr>";
+             
+			$("#modal-body-pro > table").append(result);
+		}
+	})
+	.fail(function() {
+		$("#modal-body-pro > table").append("<h3>요청 실패!</h3>");
+	});
+}
 	
 	
+//td 클릭 시 해당 value 가져오기
 $(function() {
 	
+	// 거래처
 	$("#buyer_table").on('click','tr',function(){
 		   let td_arr = $(this).find('td');
 		   console.log(td_arr);
@@ -133,7 +174,8 @@ $(function() {
 		   $("#cust_name").val(cust_name);
 	});	   
 	
-	// td 클릭 시 해당 value 가져오기
+	
+	// 담당자
 	$("#emp_table").on('click','tr',function(){
 		   let td_arr = $(this).find('td');
 		   console.log(td_arr);
@@ -150,32 +192,68 @@ $(function() {
 		   $("#emp_num").val(emp_num);
 	});	   
 	
+	
+	// 품목
+	$("#pro_table").on('click','tr',function(){
+		   let td_arr = $(this).find('td');
+		   
+		   console.log(td_arr);
+		   
+// 		   $('#no').val($(td_arr[0]).text());
+		   let pro_cd = $(td_arr[0]).text();
+		   let pro_name = $(td_arr[1]).text();
+		   let pro_size = $(td_arr[2]).text();
+		   console.log(emp_name);
+		   
+		   // td 클릭시 모달 창 닫기
+		   $('#modalDialogScrollable_pro').modal('hide');
+		   
+		   $("#pro_cd").val(pro_cd);
+		   $("#pro_name").val(pro_name + "["+pro_size+"]");
+		   $("#pro_search_sto").text("품목번호 : " + pro_cd);
+	});	   
+	
+	
+	// 테이블 추가하기
 	$("#plus_out").on("click", function() {
 		var date = $("#testDate").val();
 		var remarks = $("#remarks").val();
 // 		alert(date);
-			var addInput =  '<tbody>'
-							+'<tr>'
-							+ '<td><input type="checkbox"></td>'
+			var addInput =  
+							'<tr>'
+							+ '<td><input type="checkbox" name="chk"></td>'
 							+ '<td>'
 							+ '<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-5">'
-         					+ '<input type="text" class="form-control form-control-sm">'
-	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_search_product_cd">검색</button></div>'
+         					+ '<input type="text" class="form-control form-control-sm" id="pro_cd">'
+	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro">검색</button></div>'
           					+ '</div></td>'
-							+ '<td><input type="text" class="form-control form-control-sm">' + '</td>'
+							+ '<td><input type="text" class="form-control form-control-sm" id="pro_name">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
 							+ '<td><input type="text" class="form-control form-control-sm"></td>'
 							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '"></td>'
 							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '"></td>'
-							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_qty">검색</button></td>'
-            				+ '</tr></tbody>';
+							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto">검색</button></td>'
+            				+ '</tr>';
             				
-			var trHtml = $("[name=out_list]:last");
-			trHtml.after(addInput);
+            				$("#out_list > tbody").append(addInput)
 		});
 });
 
-
+//체크박스 선택 jQuery
+$(document).ready(function() {
+	$("#chkAll").click(function() {
+		if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+		else $("input[name=chk]").prop("checked", false);
+	});
+	
+	$("input[name=chk]").click(function() {
+		var total = $("input[name=chk]").length;
+		var checked = $("input[name=chk]:checked").length;
+		
+		if(total != checked) $("#chkAll").prop("checked", false);
+		else $("#chkAll").prop("checked", true); 
+	});
+});
 </script>
 
 <style type="text/css">
@@ -270,7 +348,7 @@ $(function() {
                     </div>
                     <div class="modal-body" id="modal-body" style="text-align: center;">
                      	<div class="input-group mb-6">
-		             		<input name="buyer_keyword" type="text" class="form-control" id="buyer_keyword" >
+		             		<input name="buyer_keyword" type="text" class="form-control" id="buyer_keyword" placeholder="검색 후 이용 바랍니다.">
 				         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_buyerList()">검색</button>
 			        	 </div>
 <!-- 			        	 <div id="modal-body-result" style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
@@ -321,21 +399,27 @@ $(function() {
               </div><!-- End Modal Dialog Scrollable-->
 			
 			<!-- Modal Dialog Scrollable -->
-			 <!-- 복수개 등록시 품목 코드 검-->
-              <div class="modal fade" id="modalDialogScrollable_search_product_cd" tabindex="-1">
+			 <!-- 품목 검색-->
+              <div class="modal fade" id="modalDialogScrollable_pro" tabindex="-1">
                 <div class="modal-dialog modal-dialog-scrollable">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title"></h5>
+                      <h5 class="modal-title">품목 검색</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="modal-body-pro">
                      	<div class="input-group mb-6">
-		             		<input name="" type="text" class="form-control" id="" >
-				         <button id="" class="btn btn-secondary" type="button">검색</button>
+		             		<input name="pro_keyword" type="text" class="form-control" id="pro_keyword" placeholder="검색 후 이용 바랍니다.">
+				         <button id="search_pro" class="btn btn-secondary" type="button" onclick="load_proList()">검색</button>
 			        	 </div>
-			        	 <div style="text-align: center;">품목을 선택하세요</div>
 <!-- 			        	 <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
+						<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
+				                <tr>
+				                  <th scope="col">품목번호</th>
+				                  <th scope="col">품목명</th>
+				                  <th scope="col">규격</th>
+				                </tr>
+			        	 </table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -346,16 +430,34 @@ $(function() {
               </div><!-- End Modal Dialog Scrollable-->
 		</div> <!-- card mb-4 -->
 			
-			
+		 <!-- Vertically centered Modal -->
+		 <!-- 재고 검색 -->
+              <div class="modal fade" id="modalDialogScrollable_sto" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">재고 검색</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    	<div id="pro_search_sto" style="text-align: center;"></div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Vertically centered Modal-->	
 		<%-- ********************************** 복수개 품목명 입력창(하단부)************************************************* --%>		
 		<div class="card mb-4">
      	  <div class="card-body" style="font-size: small">
-       			<table class="table table-hover">
+       			<table class="table table-hover" id="out_list">
 		                <thead>
 		                  <tr>
-		                    <th scope="col"><input type="checkbox"></th>
+		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">품목코드</th>
-		                    <th scope="col">품목명(규격)</th>
+		                    <th scope="col">품목명[규격]</th>
 <!-- 		                    <th scope="col">규격</th> -->
 		                    <th scope="col" style="width: 50px">수량</th>
 		                    <th scope="col">납기일자</th>
@@ -363,7 +465,7 @@ $(function() {
 		                    <th scope="col">출고대상재고</th>
 		                  </tr>
 		                </thead>
-		                <tbody name="out_list">
+		                <tbody>
 		                  
 		                </tbody>
 		              </table>
