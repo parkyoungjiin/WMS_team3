@@ -55,26 +55,52 @@
 		});
 	});
 	
+// 	$(function() {
+// 		  $('#btnComp').click( function() {
+// 		    if( $(this).val() == '종결' ) {
+// 		      $(this).html('취소');
+// 		    }
+// 		    else {
+// 		      $(this).html('종결');
+// 		    }
+// 		  });
+// 		});
+	
+	
 	$(function() {
-		var btnVal = $("#complete").val();
+		var btnVal = $("#btnComp").val();
 // 		alert(btnVal);
-	// 종결, 완료여부 버튼
-		if(btnVal=="종결") {
-			$(":button").on("click", function() {
-				$("#complete").attr("value","취소");
-				$("#complete").removeClass("btn-success").addClass("btn-warning");
-// 				alert(btnVal)
-			})
-		}
 		
-		if(btnVal=="취소"){
-			$(":button").on("click", function() {
-				$("#complete").attr("value","종결");
-				$("#complete").removeClass("btn-warning").addClass("btn-success");
-// 				alert(btnVal);
-			})
-		}
+		$(":button").click(function() {
+			if(btnVal=="종결") {
+				$('#btnComp').val("취소");
+				
+			}
+			else {
+				$("#btnComp").val("종결");
+			}
+		});
 	});
+// 	$(function() {
+// 		var btnVal = $("#btnComp").val();
+// 		alert(btnVal);
+// 	// 종결, 완료여부 버튼
+// 		if(btnVal=="종결") {
+// 			$(":button").click(function() {
+// 				$("#btnComp").attr("value","취소");
+// 				$("#btnComp").removeClass("btn-success").addClass("btn-warning");
+// // 				alert(btnVal)
+// 			});
+// 		}
+		
+// 		if(btnVal=="취소"){
+// 			$(":button").on("click", function() {
+// 				$(this)).attr("value","종결");
+// 				$(this).removeClass("btn-warning").addClass("btn-success");
+// // 				alert(btnVal);
+// 			});
+// 		}
+// 	});
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -100,7 +126,7 @@
 		                <thead>
 		                  <tr>
 		                    <th scope="col">#</th>
-		                    <th scope="col"><input type="checkbox" name="chkAll"></th>
+		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">받는곳명</th>
@@ -118,21 +144,28 @@
 		                    <th scope="row">1</th>
 		                    <td><input type="checkbox" name="chk"></td>
 		                    <td>${outList.out_schedule_cd }</td>
-		                    <td>발주서/구매</td>
+		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
-		                    <td>${outList.emp_num }</td>
+		                    <td>${outList.emp_name }</td>
 		                    <td>품목명</td>
 		                    <td>${outList.out_date }</td>
 		                    <td>jaego gaetsu</td>
 		                    <td>
-		                    	<input id="complete" type="button" class="btn btn-success btn-sm" value="종결">
+	                   			<input type="button" class="btn btn-secondary btn-sm" id="btnComp" <c:choose><c:when test="${outList.out_complete eq '1' }">value="종결"</c:when><c:otherwise>value="취소"</c:otherwise></c:choose> >
+<%-- 		                    	<c:choose> --%>
+<%-- 		                    		<c:when test="${outList.out_complete eq '1'}"> --%>
+<%-- 		                    		</c:when> --%>
+<%-- 		                    		<c:when test="${outList.out_complete eq '0'}"> --%>
+<!-- 		                    			<input type="button" class="btn btn-warning btn-sm" value="취소"> -->
+<%-- 		                    		</c:when> --%>
+<%-- 		                    	</c:choose> --%>
 		                    </td>
 		                    <td>
 								<c:choose>
-		                    		<c:when test="${outList.out_complete eq '1'}">
+		                    		<c:when test="${outList.out_process eq '1'}">
 		                    			<input type="button" class="btn btn-primary btn-sm" value="완료">
 		                    		</c:when>
-		                    		<c:when test="${outList.out_complete eq '0'}">
+		                    		<c:when test="${outList.out_process eq '0'}">
 		                    			<input type="button" class="btn btn-secondary btn-sm" value="미완료">
 		                    		</c:when>
 		                    	</c:choose>
