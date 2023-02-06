@@ -24,9 +24,13 @@ public class ProductService {
 		return mapper.existCd(product_cd);
 	} // existCd() 끝
 
-	//--------------------품목 등록 리스트------------------
+	//-------------------- 품목 등록 리스트 ------------------
 	public List<ProductVO> getProdList(String keyword) {
 		return mapper.selectGroupList(keyword);
+	}
+	//------------------- 품목 리스트 ------------------------
+	public List<ProductVO> getPdList(String keyword) {
+		return mapper.selectPdList(keyword);
 	}
 
 	

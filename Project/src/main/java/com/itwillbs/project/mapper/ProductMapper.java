@@ -15,6 +15,9 @@ public interface ProductMapper {
 	//--------------품목 그룹 리스트-----------------------
 	public List<ProductVO> selectGroupList(String keyword);
 
+	//------------------- 품목 리스트 조회 --------------------
+	List<ProductVO> selectPdList(String keyword);
+
 	
 
 }

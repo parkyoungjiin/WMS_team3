@@ -71,7 +71,7 @@
             </a>
           </li>
           <li>
-            <a href="ProductListForm.pr">
+            <a href="ProductList">
               <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>품목 등록</span>
             </a>
           </li>

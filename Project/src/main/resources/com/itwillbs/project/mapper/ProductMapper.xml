@@ -22,15 +22,21 @@
 	
 	</insert>
 	
+	<!-- 품목 등록 리스트 -->
+	<select id="selectPdList" resultType="com.itwillbs.project.vo.ProductVO">
+		SELECT * FROM product
+			WHERE product_name LIKE '%${keyword}%'
+	</select>
+	
+	
+	
+	
 	<!-- 품목코드 중복 확인 -->
 	<select id="existCd" resultType="int">
 		SELECT COUNT(*)
 			FROM product
 			WHERE product_cd = #{product_cd}
 	</select>
-	
-	<!-- 품목 등록 리스트 -->
-	
 	
 	<!-- 품목 그룹 리스트 -->
 	<select id="selectGroupList" resultType="com.itwillbs.project.vo.ProductVO">

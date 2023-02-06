@@ -28,11 +28,24 @@ public class ProductController {
 	@Autowired
 	private ProductService service;
 	
-	//-------------- 품목 리스트 폼 이동 --------------
-	@GetMapping(value = "ProductListForm.pr")
-	public String prodList() {
+	//-------------- 품목 리스트 이동 --------------
+	@GetMapping(value = "ProductList")
+	public String ProdList(
+				@RequestParam(defaultValue = "") String keyword,
+				HttpSession session, Model model) {
+		
+		//품목 리스트
+		List<ProductVO> ProdList = service.getPdList(keyword);
+		
+		model.addAttribute("ProdList", ProdList);
+		System.out.println(ProdList);
+		
 		return "product/product_list";
-	}// ProductInsertForm 끝
+		
+	}// ProductList 끝
+	
+
+	
 	
 	//-------------- 품목 등록 폼 이동 --------------
 	@GetMapping(value = "ProductInsertForm")
@@ -67,7 +80,6 @@ public class ProductController {
 		
 		String barcode = year + Pcode;
 				
-		
 		prod.setBarcode(barcode); // 저장
 		
 		System.out.println("barcode : " + barcode);
@@ -147,6 +159,7 @@ public class ProductController {
 	public void groupList(Model model,HttpServletResponse response
 						, @RequestParam(defaultValue = "") String keyword) {
 		
+			//품목 그룹 리스트
 			List<ProductVO> prodList = service.getProdList(keyword);
 			JSONArray jsonArray = new JSONArray();
 			
@@ -167,11 +180,28 @@ public class ProductController {
 	
 }//---------- list 끝----------------------------
 	
+	
+	
+//----------------- 품목 info (상세)----------------------------
+@GetMapping(value="ProdInfo.pr")
+public String prodInfo(
+				@RequestParam(defaultValue = "1")String pd_cd
+				, Model model) {
+	ProductVO prod = service.getProduct(pd_cd);
+
+	return "product/product_info";
+	
+}
+
+	
+//----------------- 품목 info (cd 링크) ----------------------------
 
 
+//----------------- 품목 info (name 링크) ----------------------------
 	
 	
 	
+//--------------------품목 수정-------------------------------
 
 	
 	

@@ -7,7 +7,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-</script>
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -41,53 +40,45 @@
                 <div class="card-header">
 <!--                                 <i class="fas fa-table me-1"></i> -->
                      품목 조회
-                     <button class="btn btn-primary" onclick="location.href='ProductInsertForm'" style="float: right;">신규등록</button>
+                     
                  </div>
                  <div class="card-body">
                      <table id="datatablesSimple" style="font-size: small;">
                          <thead>
                              <tr>
 <!--                               				<th scope="col">#</th> -->
-			                    <th scope="col">품목 코드</th>
-			                    <th scope="col">품목명</th>
-			                    <th scope="col">품목 그룹</th>
-			                    <th scope="col">규격</th>
-			                    <th scope="col">바코드</th>
-			                    <th scope="col">입고 단가</th>
-			                    <th scope="col">출고 단가</th>
-			                    <th scope="col">품목 구분</th>
-			                    <th scope="col">대표 이미지</th>
+			                    <th>품목 코드</th>
+			                    <th>품목명</th>
+			                    <th>품목 그룹</th>
+			                    <th>규격</th>
+			                    <th>바코드</th>
+			                    <th>입고 단가</th>
+			                    <th>출고 단가</th>
+			                    <th>품목 구분</th>
+			                    <th>대표 이미지</th>
                            	</tr>
                        </thead>
                       <tbody>
-                                 <c:forEach var="prodList" items="${prodList }">
+                                 <c:forEach var="ProdList" items="${ProdList }">
 							<tr>
 <!-- 										<td><input type="checkbox"></td> -->
 <!-- 										<td scope="row"></td> -->
-								<td><a href="BuyerDetail?business_no=${prodList.business_no }"> ${buyerList.business_no }</a></td>
-								<td><a href="BuyerDetail?business_no=${prodList.business_no }">${buyerList.cust_name }</a></td>
-								<td>${prodList.product_name }</td>
-								<td>${prodList.product_group_bottom_cd }</td>
-								<td>${prodList.size_des }</td>
-								<td>${prodList.barcode }</td>
-								<td>${prodList.in_unit_price }</td>
-								<td>${prodList.out_unit_price }</td>
-								<td>${prodList.product_type_name }</td>
-<!-- 								<td> -->
-<%-- 								<c:choose > --%>
-<%-- 									<c:when test="${buyerList.by_use eq '1' }"> --%>
-<!-- 										<span class="badge bg-success">YES</span> -->
-<%-- 									</c:when>		 --%>
-<%-- 									<c:otherwise> --%>
-<!-- 										<span class="badge bg-warning">NO</span> -->
-<%-- 									</c:otherwise>						 --%>
-<%-- 								</c:choose> --%>
-<!-- 								</td> -->
-								<td>${prodList.product_image }</td>
+<%-- 								<td><a href="ProdDetail?product_group_bottom_cd=${prodList.product_group_bottom_cd }">${prodList.product_group_bottom_cd }</a></td> --%>
+<%-- 								<td><a href="ProdDetail?product_group_bottom_cd=${prodList.product_group_bottom_cd }">${prodList.product_name }</a></td> --%>
+								<td><a href="#">${ProdList.product_cd }</a></td>
+								<td><a href="#">${ProdList.product_name }</a></td>
+								<td>${ProdList.product_group_bottom_cd }</td>
+								<td>${ProdList.size_des }</td>
+								<td>${ProdList.barcode }</td>
+								<td>${ProdList.in_unit_price }</td>
+								<td>${ProdList.out_unit_price }</td>
+								<td>${ProdList.product_type_cd }</td>
+								<td>${ProdList.product_image }</td>
 							</tr> 
 							</c:forEach>  
                         </tbody>
                     </table>
+                <button class="btn btn-primary" onclick="location.href='ProductInsertForm'" style="float: right;">신규등록</button>
                 </div>
             </div>
 </main>		
