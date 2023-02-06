@@ -38,8 +38,8 @@ public class Out_ScheduleController {
 	
 	// ---------- 출고 관리 - 출고 예정 목록 ----------
 	@GetMapping(value = "OutList.os")
-	public String outList(Model model,@ModelAttribute OutScheduleVO outList) {
-		
+	public String outList(Model model) { //,@ModelAttribute OutScheduleVO outList) {
+		List<OutScheduleVO> outList = service.getOutScheduleList();
 		model.addAttribute("outList", outList);
 		return "out_schedule/out_list";
 	} // outList 끝

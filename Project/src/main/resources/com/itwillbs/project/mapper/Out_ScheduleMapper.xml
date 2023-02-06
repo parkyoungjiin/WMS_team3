@@ -7,4 +7,10 @@
 			FROM product
 			WHERE product_name LIKE '%${keyword}%'
 	</select>
+	
+	<!-- 출고예정목록 조회  -->
+	<select id="selectOutScheduleList" resultType="com.itwillbs.project.vo.OutScheduleVO">
+		SELECT *
+			FROM out_schedule
+	</select>
 </mapper>

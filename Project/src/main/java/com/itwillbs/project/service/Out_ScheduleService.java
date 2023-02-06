@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.project.mapper.Out_ScheduleMapper;
+import com.itwillbs.project.vo.OutScheduleVO;
 import com.itwillbs.project.vo.ProductVO;
 
 @Service
@@ -17,5 +18,10 @@ public class Out_ScheduleService {
 	// 품목 조회 (모달)
 	public List<ProductVO> getProductList(String keyword) {
 		return mapper.selectProList(keyword);
+	}
+
+	// 출고 예정 리스트
+	public List<OutScheduleVO> getOutScheduleList() {
+		return mapper.selectOutScheduleList();
 	}
 }

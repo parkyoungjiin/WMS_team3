@@ -61,14 +61,17 @@
 	// 종결, 완료여부 버튼
 		if(btnVal=="종결") {
 			$(":button").on("click", function() {
-				$("#complete").attr("value","완료");
-				$("#complete").removeClass("btn-secondary").addClass("btn-primary");
-				alert(btnVal)
+				$("#complete").attr("value","취소");
+				$("#complete").removeClass("btn-success").addClass("btn-warning");
+// 				alert(btnVal)
 			})
-		} else if(btnVal=="완료"){
+		}
+		
+		if(btnVal=="취소"){
 			$(":button").on("click", function() {
 				$("#complete").attr("value","종결");
-				$("#complete").removeClass("btn-primary").addClass("btn-secondary");
+				$("#complete").removeClass("btn-warning").addClass("btn-success");
+// 				alert(btnVal);
 			})
 		}
 	});
@@ -110,7 +113,7 @@
 		                  </tr>
 		                </thead>
 		                <tbody>
-<%-- 		                <c:forEach items="${outList }" var="outList"> --%>
+		                <c:forEach items="${outList }" var="outList">
 		                  <tr>
 		                    <th scope="row">1</th>
 		                    <td><input type="checkbox" name="chk"></td>
@@ -118,22 +121,24 @@
 		                    <td>발주서/구매</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_num }</td>
-		                    <td>${outList.품목명 }</td>
+		                    <td>품목명</td>
 		                    <td>${outList.out_date }</td>
-		                    <td>jaego</td>
+		                    <td>jaego gaetsu</td>
 		                    <td>
-		                    	<c:choose>
-		                    		<c:when test="${outList.out_complete eq '1'}">
-		                    			<input type="button" class="btn btn-secondary btn-sm" value="완료">
-		                    		</c:when>
-		                    		<
-		                    	</c:choose>
-		                    	<input type="button" class="btn btn-secondary btn-sm" value="<c:if test='${outList.out_complete eq "1"}'>
-		                    	</c:if>" id="complete">
+		                    	<input id="complete" type="button" class="btn btn-success btn-sm" value="종결">
 		                    </td>
-		                    <td>Designer</td>
+		                    <td>
+								<c:choose>
+		                    		<c:when test="${outList.out_complete eq '1'}">
+		                    			<input type="button" class="btn btn-primary btn-sm" value="완료">
+		                    		</c:when>
+		                    		<c:when test="${outList.out_complete eq '0'}">
+		                    			<input type="button" class="btn btn-secondary btn-sm" value="미완료">
+		                    		</c:when>
+		                    	</c:choose>
+							</td>
 		                  </tr>
-<%-- 		                </c:forEach> --%>
+		                </c:forEach>
 		                  <tr>
 		                    <th scope="row">2</th>
 		                    <td><input type="checkbox" name="chk"></td>
