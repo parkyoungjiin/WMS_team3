@@ -22,6 +22,7 @@ import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.EmpVo;
 import com.itwillbs.project.vo.OutScheduleVO;
 import com.itwillbs.project.vo.ProductVO;
+import com.itwillbs.project.vo.StockVo;
 
 @Controller
 public class Out_ScheduleController {
@@ -170,6 +171,34 @@ public class Out_ScheduleController {
 				// response 객체의 setCharacterEncoding() 메서드로 출력 데이터 인코딩 지정 후
 				// response 객체의 getWriter() 메서드로 PrintWriter 객체를 리턴받아
 				// PrintWriter 객체의 print() 메서드를 호출하여 응답데이터 출력
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().print(jsonArray); // toString() 생략됨
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		// ===============================================================================
+		
+		// ===============================================================================
+		// ---------- 출고 관리 - 출고 예정 등록 폼 - 재고 조회 ----------
+		@GetMapping(value ="/StoListJson", produces = "application/json; charset=utf-8")
+		@ResponseBody
+		public void listJson_sto(
+				@RequestParam(defaultValue = "") String keyword,
+				Model model,
+				HttpServletResponse response) {
+			
+			List<StockVo> stoList = service.getStockList(keyword);
+			JSONArray jsonArray = new JSONArray();
+			
+			for(StockVo sto : stoList) {
+				JSONObject jsonObject = new JSONObject(sto);
+				
+				jsonArray.put(jsonObject);
+			}
+			
+			try {
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().print(jsonArray); // toString() 생략됨
 			} catch (IOException e) {
