@@ -24,4 +24,7 @@ public interface WareHouseMapper {
 			@Param("wh_cd") String wh_cd);
 	//------------창고 코드 중복 확인 작업-----------------
 	int getDB_wh_cd(String wh_cd);
+	void WhAreaInsert(WareHouseVO vo);
+	List<WareHouseVO> getwhAreaList();
+	void WhAreaDelte(int wh_area_cd);
 }
