@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.project.mapper.Out_ScheduleMapper;
 import com.itwillbs.project.vo.OutScheduleVO;
 import com.itwillbs.project.vo.ProductVO;
+import com.itwillbs.project.vo.StockVo;
 
 @Service
 public class Out_ScheduleService {
@@ -23,5 +24,11 @@ public class Out_ScheduleService {
 	// 출고 예정 리스트
 	public List<OutScheduleVO> getOutScheduleList() {
 		return mapper.selectOutScheduleList();
+	}	
+
+	// 재고 조회 (모달)
+	public List<StockVo> getStockList(String keyword) {
+		return mapper.selectStoList(keyword);
+
 	}
 }

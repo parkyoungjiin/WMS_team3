@@ -27,4 +27,7 @@ public interface WareHouseMapper {
 	void WhAreaInsert(WareHouseVO vo);
 	List<WareHouseVO> getwhAreaList();
 	void WhAreaDelte(int wh_area_cd);
+	List<WareHouseVO> getwhAreaLocInList();
+	void WhLocAreaInsert(WareHouseVO vo);
+	void WhLocAreaDelte(int wh_loc_in_area_cd);
 }

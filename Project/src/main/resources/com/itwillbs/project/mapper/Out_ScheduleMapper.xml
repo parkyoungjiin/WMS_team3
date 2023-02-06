@@ -13,4 +13,11 @@
 		SELECT *
 			FROM out_schedule
 	</select>
+	
+	<select id="selectStoList" resultType="com.itwillbs.project.vo.StockVo">
+		SELECT *
+			FROM stock
+			WHERE product_cd LIKE '%${keyword}%'
+
+	</select>
 </mapper>

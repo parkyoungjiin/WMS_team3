@@ -37,6 +37,9 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 
+var idx = 0;
+var selectIdx;
+
 // 거래처 목록 조회(모달)
 function load_buyerList() {
 	
@@ -127,17 +130,7 @@ function load_proList() {
 		dataType: "json"
 	})
 	.done(function(proList) { // 요청 성공 시
-// 		$(".modal-body").append(buyerList);
-// 		$("#modal-body > table").empty();	
-	
-// 		if(buyerList.length == 0){
-// 			$("#buyer_search").append("<div></div>");
-// 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
-// 			$("#buyer_search").css("color","#B9062F");
-// 		} 
-// 		else {
-// 			$("#buyer_search").remove();
-// 		}
+		
 		for(let pro of proList) {
 			
 			let result = "<tr style='cursor:pointer;'>"
@@ -153,8 +146,38 @@ function load_proList() {
 		$("#modal-body-pro > table").append("<h3>요청 실패!</h3>");
 	});
 }
+
+
+// 재고 목록 조회(모달)
+function load_stoList() {
 	
+	let sto_keyword = $(".pro_cd").eq(selectIdx).val();
+// 	alert(sto_keyword);
 	
+	$.ajax({
+		type: "GET",
+		url: "StoListJson?keyword=" + sto_keyword,
+		dataType: "json"
+	})
+	.done(function(stoList) { // 요청 성공 시
+		
+		for(let sto of stoList) {
+			
+			let result = "<tr style='cursor:pointer;'>"
+		                + "<td>" + sto.stock_cd + "</td>"
+		                + "<td>" + sto.stock_qty + "</td>"
+               			+ "</tr>";
+             
+			$("#modal-body-sto > table").append(result);
+		}
+	})
+	.fail(function() {
+		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+	});
+}
+	
+
+
 //td 클릭 시 해당 value 가져오기
 $(function() {
 	
@@ -199,18 +222,15 @@ $(function() {
 		   
 		   console.log(td_arr);
 		   
-// 		   $('#no').val($(td_arr[0]).text());
 		   let pro_cd = $(td_arr[0]).text();
 		   let pro_name = $(td_arr[1]).text();
 		   let pro_size = $(td_arr[2]).text();
-		   console.log(emp_name);
 		   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_pro').modal('hide');
-		   
-		   $("#pro_cd").val(pro_cd);
-		   $("#pro_name").val(pro_name + "["+pro_size+"]");
-		   $("#pro_search_sto").text("품목번호 : " + pro_cd);
+		   $(".pro_cd").eq(selectIdx).val(pro_cd);
+		   $(".pro_name").eq(selectIdx).val(pro_name + "["+pro_size+"]");
+		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
 	});	   
 	
 	
@@ -218,25 +238,34 @@ $(function() {
 	$("#plus_out").on("click", function() {
 		var date = $("#testDate").val();
 		var remarks = $("#remarks").val();
+		
+// 		var count = 0; // 0부터 시작 
+// 		var n = $("#pro_cd" + count); // 현재 pro_cd 항목을 얻음 
+// 		count = count + 1; // 새로운 number를 할당 
+// 		n.attr("pro_cd" + count); // 새로운 number 할당 
+		
+		
 // 		alert(date);
 			var addInput =  
 							'<tr>'
 							+ '<td><input type="checkbox" name="chk"></td>'
 							+ '<td>'
 							+ '<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-5">'
-         					+ '<input type="text" class="form-control form-control-sm" id="pro_cd">'
-	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro">검색</button></div>'
+         					+ '<input type="text" class="form-control form-control-sm pro_cd">'
+	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>'
           					+ '</div></td>'
-							+ '<td><input type="text" class="form-control form-control-sm" id="pro_name">' + '</td>'
+							+ '<td><input type="text" class="form-control form-control-sm pro_name" >' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
 							+ '<td><input type="text" class="form-control form-control-sm"></td>'
 							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '"></td>'
 							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '"></td>'
-							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto">검색</button></td>'
+							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
             				+ '</tr>';
             				
-            				$("#out_list > tbody").append(addInput)
-		});
+            				$("#out_list > tbody").append(addInput);
+            				
+           idx++;	
+	});
 });
 
 //체크박스 선택 jQuery
@@ -306,7 +335,7 @@ $(document).ready(function() {
 		      			<div class="input-group mb-6">
 		             		<input name="cust_name" type="text" class="form-control" id="cust_name" >
 		             		<input name="business_no" type="hidden" class="form-control" id="business_no" >
-				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer">검색</button>
+				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" o>검색</button>
 			        	 </div>
 			          </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">담당자</label>
@@ -436,11 +465,17 @@ $(document).ready(function() {
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title">재고 검색</h5>
+                      <h5 id="pro_search_sto" style="text-align: center;"></h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                    	<div id="pro_search_sto" style="text-align: center;"></div>
+                    <div class="modal-body" id="modal-body-sto">
+                    	
+                    	<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
+				                <tr>
+				                  <th scope="col">재고번호</th>
+				                  <th scope="col">수량</th>
+				                </tr>
+			        	 </table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
