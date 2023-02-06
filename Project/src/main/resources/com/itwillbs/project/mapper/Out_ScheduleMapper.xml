@@ -7,4 +7,11 @@
 			FROM product
 			WHERE product_name LIKE '%${keyword}%'
 	</select>
+	
+	
+	<select id="selectStoList" resultType="com.itwillbs.project.vo.StockVo">
+		SELECT *
+			FROM stock
+			WHERE product_cd LIKE '%${keyword}%'
+	</select>
 </mapper>

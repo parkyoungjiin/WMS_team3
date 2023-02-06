@@ -45,5 +45,14 @@ public List<WareHouseVO> getwhAreaList() {
 public void WhAreaDelte(int wh_area_cd) {
 	mapper.WhAreaDelte(wh_area_cd);
 }
+public List<WareHouseVO> getwhAreaLocInList() {
+	return mapper.getwhAreaLocInList();
+}
+public void WhLocAreaInsert(WareHouseVO vo) {
+	mapper.WhLocAreaInsert(vo);
+}
+public void WhLocAreaDelte(int wh_loc_in_area_cd) {
+	mapper.WhLocAreaDelte(wh_loc_in_area_cd);
+}
 	
 }
