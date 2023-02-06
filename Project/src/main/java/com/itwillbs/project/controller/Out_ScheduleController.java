@@ -1,6 +1,7 @@
 package com.itwillbs.project.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -211,17 +212,34 @@ public class Out_ScheduleController {
 		// ===============================================================================
 		
 		
+		
+		// ---------- 출고 관리 - 출고 예정 등록 폼 - 재고 조회 ----------
 		@PostMapping(value = "/OutRegisterPro")
 		public String outResiterPro(
 				@ModelAttribute OutScheduleVO os, @ModelAttribute OutSchedulePerProductVO osp,
 				Model model) {
 			
-			System.out.println(os);
-			System.out.println(osp);
+			
+//			List<OutSchedulePerProductVO> osArr = Arrays.asList(osp);
+			
+//			for(OutSchedulePerProductVO o2 : osArr) {
+//				System.out.println("o2" + o2);
+//			}
+//			System.out.println(osArr);
+			
+//			String [] buyer_telArr = buyer.getTel().split(",");
+//			for(int i=0; i<buyer_telArr.length; i++) {
+//				String buyer_TEL = buyer_telArr[i].join("-", buyer_telArr);
+//				buyer.setTel(buyer_TEL);
+			
+				
+			
+//			System.out.println(os);
+//			System.out.println(osp);
 			
 			
 //			return "redirect:/OutList.os";
 			return "";
-		}
+		} //outResiterPro 끝
 		
 }

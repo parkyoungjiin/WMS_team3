@@ -37,6 +37,14 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 
+// var date = new Date();
+// var yyyy = date.getFullYear();
+// var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+// var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+ 
+// $("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
+
+
 var idx = 0;
 var selectIdx;
 
@@ -212,7 +220,7 @@ $(function() {
 		   console.log(td_arr);
 		   
 // 		   $('#no').val($(td_arr[0]).text());
-		   let emp_no = $(td_arr[0]).text();
+		   let emp_num = $(td_arr[0]).text();
 		   let dept_cd = $(td_arr[1]).text();
 		   let emp_name = $(td_arr[2]).text();
 		   console.log(emp_name);
@@ -345,7 +353,7 @@ $(document).ready(function() {
               	<div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="out_schedule_cd" type="date" class="form-control" id="Twitter">
+                        <input name="out_schedule_date" type="date" class="form-control" id="out_schedule_date">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">출고유형</label>
                       <div class="col-md-8 col-lg-2">

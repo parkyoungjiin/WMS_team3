@@ -92,11 +92,11 @@
 		                  </tr>
 		                </thead>
 		                <tbody>
-		                <c:forEach items="${outList }" var="outList">
+<%-- 		                <c:forEach items="${outList }" var="outList"> --%>
 		                  <tr>
 		                    <th scope="row">1</th>
 		                    <td><input type="checkbox" name="chk"></td>
-		                    <td>${outList. }</td>
+<%-- 		                    <td>${outList. }</td> --%>
 		                    <td>Designer</td>
 		                    <td>28</td>
 		                    <td>28</td>
@@ -106,7 +106,7 @@
 		                    <td>Designer</td>
 		                    <td>Designer</td>
 		                  </tr>
-		                </c:forEach>
+<%-- 		                </c:forEach> --%>
 		                  <tr>
 		                    <th scope="row">2</th>
 		                    <td><input type="checkbox"></td>
