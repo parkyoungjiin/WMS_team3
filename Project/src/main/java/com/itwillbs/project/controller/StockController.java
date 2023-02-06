@@ -37,7 +37,7 @@ public class StockController {
 	}//stock 끝
 	
 	//--------재고 조정 작업---------
-	@PostMapping(value = "stockUpdate.st")
+	@PostMapping(value = "StockUpdate.st")
 	public void stockUpdate(
 			@RequestParam("updateStockNum") int update_qty,
 			@RequestParam("stock_cd") int stock_cd,
@@ -55,6 +55,26 @@ public class StockController {
 	}//stockUpdate 끝
 	
 	
-	//---------재고번호, 이동위치 검색----------
+	//---------재고 이동----------
+	@PostMapping(value = "stockMove.st")
+	public void stockMove(
+			@RequestParam("current_stock_cd") int current_stock_cd, //현재 재고번호
+			@RequestParam("move_stock_cd") int move_stock_cd, // 이동할 재고번호
+			@RequestParam("move_wh_loc_in_area") int move_wh_loc_in_area, // 이동할 구역
+			@RequestParam("move_stock_num") int move_stock_num, //이동할 개수
+			HttpServletResponse response
+			) {
+		
+		int moveCount = service.stockMove(current_stock_cd, move_stock_cd, move_wh_loc_in_area, move_stock_num);
+		if(moveCount > 0) {
+			try {
+				response.getWriter().print(moveCount); //emailcheck 값을 보내는 작업
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}//if 끝
+		
+	}
+	
 		
 }//BuyerController 끝

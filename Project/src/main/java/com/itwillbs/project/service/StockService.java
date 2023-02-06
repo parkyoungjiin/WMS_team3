@@ -20,4 +20,9 @@ public class StockService {
 	public int stockUpdate(int update_qty, int stock_cd) {
 		return mapper.stockUpdate(update_qty, stock_cd);
 	}
+	//---------재고 이동----------
+	public int stockMove(int current_stock_cd, int move_stock_cd, int move_wh_loc_in_area ,int move_stock_num) {
+		
+		return mapper.stockMove(current_stock_cd, move_stock_cd, move_wh_loc_in_area, move_stock_num);
+	}
 }
