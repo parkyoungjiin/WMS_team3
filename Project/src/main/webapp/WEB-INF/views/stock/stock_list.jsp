@@ -237,12 +237,12 @@ function move_stock(move_cb) {
 <%-- 								${requestScope[stock_cd]}  --%>
 <%-- 								${stock_cd.a } --%>
 								<!-- 재고조정 버튼 -->
-								<button id="updateButton${status.index}" class="btn btn-secondary" type="button" onclick="updateStock(this)">재고조정</button>
+								<button id="updateButton${status.index}" class="btn btn-secondary btn-sm" type="button" onclick="updateStock(this)">재고조정</button>
 								</td>
 								<!-- 이동재고번호 input, 검색 button -->
 								<td>
 								<input type="text" size="3" id ="move_stock_cd${status.index}">
-								<button id="search_move_cd${status.index}" class="btn btn-secondary" type="button" onclick="saveIdx(this)"  data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_cd">검색</button>
+								<button id="search_move_cd${status.index}" class="btn btn-secondary btn-sm" type="button" onclick="saveIdx(this)"  data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_cd">검색</button>
 								</td>
 								<!-- 이동 위치 -->
 								<td>
@@ -251,7 +251,7 @@ function move_stock(move_cb) {
 								<!-- 이동 수량 -->
 								<td><input type="text" size="3" id ="move_stock_num${status.index}"></td>
 								<!-- 재고이동버튼 -->
-								<td><button id="moveButton${status.index}" class="btn btn-secondary" type="button" onclick="move_stock(this)">재고이동</button></td>
+								<td><button id="moveButton${status.index}" class="btn btn-secondary btn-sm" type="button" onclick="move_stock(this)">재고이동</button></td>
 							</tr> 
 							</c:forEach>  
                         </tbody>
