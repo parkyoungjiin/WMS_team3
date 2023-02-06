@@ -62,27 +62,11 @@ public class WareHouseController {
 			List<WareHouseVO> wharealist = service.getwhAreaList();
 			JSONArray jsonArray = new JSONArray();
 			System.out.println(wharealist);
-			// 1. List 객체 크기만큼 반복
 			for(WareHouseVO list: wharealist) {
-				// 2. JSONObject 클래스 인스턴스 생성
-				// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
 				JSONObject jsonObject = new JSONObject(list);
 				System.out.println(jsonObject);
-				
-				// 참고. 저장되어 있는 JSON 데이터를 꺼낼 수도 있다! - get() 메서드 활용
-//			System.out.println(jsonObject.get("board_pass"));
-				
-				// 3. JSONArray 객체의 put() 메서드를 호출하여 JSONObject 객체 추가
 				jsonArray.put(jsonObject);
 			}
-		
-//		System.out.println(jsonArray);
-		// => JSONObject 복수개가 배열 형태로 JSONArray 객체에 저장되어 있음
-		// 또한, JSONArray 객체에서 JSONObject 객체를 꺼낼 수도 있다!
-//		JSONObject jsonObject = (JSONObject)jsonArray.get(0); // 첫번째 배열에서 꺼내기
-		// => 이 때, 리턴타입이 Object 타입이므로 JSONObject 타입 형변환 필요
-//		System.out.println(jsonObject.get("board_pass"));
-		
 		try {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().print(jsonArray); // toString() 생략됨
@@ -90,6 +74,29 @@ public class WareHouseController {
 			e.printStackTrace();
 		}
 	}//whlist 끝
+		//------------창고 구역 리스 작업---------------
+		@ResponseBody
+		@GetMapping(value = "WareHouseLocInListJsonPro.wh")
+		public void whareainlist(Model model,HttpServletResponse response) {
+			List<WareHouseVO> whareainlist = service.getwhAreaLocInList();
+			JSONArray jsonArray = new JSONArray();
+			System.out.println(whareainlist);
+			for(WareHouseVO list: whareainlist) {
+				JSONObject jsonObject = new JSONObject(list);
+				System.out.println(jsonObject);
+				jsonArray.put(jsonObject);
+			}
+			try {
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().print(jsonArray); // toString() 생략됨
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}//whlist 끝
+	
+		
+		
+		
 	//------------창고 리스트 작업---------------
 	
 	@GetMapping(value = "WareHouseListPro.wh")
@@ -232,28 +239,46 @@ public class WareHouseController {
 		System.out.println("COUNT:"+count);
 	}//WhCodeCheck 끝
 	
-	//
+	//------------창고 지역 목록 조회 작업---------------
 	@GetMapping(value = "WareHouseManage.wh")
 	public String manage(Model model) {
 		List<WareHouseVO> whlist = service.getwhList();
 		
 		model.addAttribute("whlist",whlist);
 		return "warehouse/wh_manage";
-	}//WhCodeCheck 끝
-	
+	}//창고 목록 조회 끝
+	//------------창고 지역 등록 작업---------------
 	@GetMapping(value = "WareHouseAreaInsertPro.wh")
 	public String manage(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")int wh_cd ) {
 		System.out.println(vo);
 		service.WhAreaInsert(vo);
 		return "redirect:/WareHouseManage.wh";
-	}
+	}//등록 작업 끝
 	
+	//------------창고 선반 등록 작업---------------
+	@GetMapping(value = "WareHouseLocAreaInsertPro.wh")
+	public String manageLoc(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")int wh_cd ) {
+		System.out.println(vo);
+		service.WhLocAreaInsert(vo);
+		return "redirect:/WareHouseManage.wh";
+	}//선반 등록 끝
+	
+	//------------창고 지역 삭제 작업---------------
 	@GetMapping(value = "WareHouseAreadeletePro.wh")
 	public String managedelete(@RequestParam(defaultValue = "1")int wh_area_cd ) {
 		System.out.println(wh_area_cd);
 		service.WhAreaDelte(wh_area_cd);
 		return "redirect:/WareHouseManage.wh";
-	}
+	}//창고 지역 끝
+	
+	
+	//------------창고 선반 삭제 작업---------------
+	@GetMapping(value = "WareHouseLocAreadeletePro.wh")
+	public String manlocagedelete(@RequestParam(defaultValue = "1")int wh_loc_in_area_cd ) {
+		System.out.println(wh_loc_in_area_cd);
+		service.WhLocAreaDelte(wh_loc_in_area_cd);
+		return "redirect:/WareHouseManage.wh";
+	}//창고 지역 끝
 	
 	
 }//WareHouseController 끝
