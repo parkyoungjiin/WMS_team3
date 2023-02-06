@@ -25,4 +25,8 @@ public class StockService {
 		
 		return mapper.stockMove(current_stock_cd, move_stock_cd, move_wh_loc_in_area, move_stock_num);
 	}
+	//-------키워드에 맞는 재고 검색목록-------
+	public List<StockVo> getStockListSearch(String keyword) {
+		return mapper.getStockListSearch(keyword);
+	}
 }

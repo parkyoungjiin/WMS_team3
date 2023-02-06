@@ -17,5 +17,7 @@ public interface StockMapper {
 			@Param("move_stock_cd") int move_stock_cd, 
 			@Param("move_wh_loc_in_area") int move_wh_loc_in_area,
 			@Param("move_stock_num") int move_stock_num);
+	//-------키워드에 맞는 재고 검색목록-------
+	List<StockVo> getStockListSearch(String keyword);
 	
 }
