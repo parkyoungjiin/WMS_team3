@@ -166,7 +166,7 @@
 					<ul class="submenu">
 						<li><a href="WareHouseInsertForm.wh">창고 등록</a></li>
 						<li><a href="BuyerList">거래처 등록</a></li>
-						<li><a href="ProductListForm.pr">품목 등록</a></li>
+						<li><a href="ProductList">품목 등록</a></li>
 					</ul>
 				</li>
 				<li>
