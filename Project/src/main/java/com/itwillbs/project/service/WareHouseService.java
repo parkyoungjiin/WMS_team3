@@ -36,5 +36,14 @@ public void whModify(WareHouseVO vo,String wh_cd) {
 public int getDB_wh_cd(String wh_cd) {
 	return mapper.getDB_wh_cd(wh_cd);
 }
+public void WhAreaInsert(WareHouseVO vo) {
+	mapper.WhAreaInsert(vo);
+}
+public List<WareHouseVO> getwhAreaList() {
+	return mapper.getwhAreaList();
+}
+public void WhAreaDelte(int wh_area_cd) {
+	mapper.WhAreaDelte(wh_area_cd);
+}
 	
 }

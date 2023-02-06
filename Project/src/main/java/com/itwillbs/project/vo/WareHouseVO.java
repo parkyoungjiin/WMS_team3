@@ -1,5 +1,7 @@
 package com.itwillbs.project.vo;
 
+import java.util.Arrays;
+
 public class WareHouseVO {
 private String wh_cd;//창고 코드
 private String wh_name;//창고명
@@ -16,9 +18,54 @@ private String wh_man_name;//관리자명
 private String wh_use;//사용여부
 private String remarks;//적요
 private String post_no;// 우편번호
+private String wh_area;//창고 구역
+private int wh_area_cd;//창고 구역 번호
+private int wh_ref;//창고 참고 번호 
+private int wh_seq;// 창고 참고 순서
+private int wh_loc_in_area_cd; // 선반 번호
+private String wh_loc_in_area; // 선반 공간
+
 //-----------getter/setter---------------
+
+
 public String getWh_cd() {
 	return wh_cd;
+}
+public String getWh_area() {
+	return wh_area;
+}
+public void setWh_area(String wh_area) {
+	this.wh_area = wh_area;
+}
+public int getWh_area_cd() {
+	return wh_area_cd;
+}
+public void setWh_area_cd(int wh_area_cd) {
+	this.wh_area_cd = wh_area_cd;
+}
+public int getWh_ref() {
+	return wh_ref;
+}
+public void setWh_ref(int wh_ref) {
+	this.wh_ref = wh_ref;
+}
+public int getWh_seq() {
+	return wh_seq;
+}
+public void setWh_seq(int wh_seq) {
+	this.wh_seq = wh_seq;
+}
+public int getWh_loc_in_area_cd() {
+	return wh_loc_in_area_cd;
+}
+public void setWh_loc_in_area_cd(int wh_loc_in_area_cd) {
+	this.wh_loc_in_area_cd = wh_loc_in_area_cd;
+}
+public String getWh_loc_in_area() {
+	return wh_loc_in_area;
+}
+public void setWh_loc_in_area(String wh_loc_in_area) {
+	this.wh_loc_in_area = wh_loc_in_area;
 }
 public String getPost_no() {
 	return post_no;
@@ -156,14 +203,18 @@ public String getRemarks() {
 public void setRemarks(String remarks) {
 	this.remarks = remarks;
 }
-
-
 @Override
 public String toString() {
 	return "WareHouseVO [wh_cd=" + wh_cd + ", wh_name=" + wh_name + ", wh_gubun=" + wh_gubun + ", wh_location="
 			+ wh_location + ", wh_addr=" + wh_addr + ", wh_addr1=" + wh_addr1 + ", wh_addr_detail=" + wh_addr_detail
 			+ ", wh_tel=" + wh_tel + ", wh_tel1=" + wh_tel1 + ", wh_tel2=" + wh_tel2 + ", wh_tel3=" + wh_tel3
-			+ ", wh_man_name=" + wh_man_name + ", wh_use=" + wh_use + ", remarks=" + remarks + "]";
+			+ ", wh_man_name=" + wh_man_name + ", wh_use=" + wh_use + ", remarks=" + remarks + ", post_no=" + post_no
+			+ ", wh_area=" + wh_area + ", wh_area_cd=" + wh_area_cd + ", wh_ref=" + wh_ref
+			+ ", wh_seq=" + wh_seq + ", wh_loc_in_area_cd=" + wh_loc_in_area_cd + ", wh_loc_in_area=" + wh_loc_in_area
+			+ "]";
 }
+
+
+
 
 }
