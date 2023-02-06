@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,6 +21,7 @@ import com.itwillbs.project.service.EmpService;
 import com.itwillbs.project.service.Out_ScheduleService;
 import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.EmpVo;
+import com.itwillbs.project.vo.OutSchedulePerProductVO;
 import com.itwillbs.project.vo.OutScheduleVO;
 import com.itwillbs.project.vo.ProductVO;
 import com.itwillbs.project.vo.StockVo;
@@ -208,5 +210,18 @@ public class Out_ScheduleController {
 		}
 		// ===============================================================================
 		
+		
+		@PostMapping(value = "/OutRegisterPro")
+		public String outResiterPro(
+				@ModelAttribute OutScheduleVO os, @ModelAttribute OutSchedulePerProductVO osp,
+				Model model) {
+			
+			System.out.println(os);
+			System.out.println(osp);
+			
+			
+//			return "redirect:/OutList.os";
+			return "";
+		}
 		
 }
