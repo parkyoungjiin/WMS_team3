@@ -40,7 +40,7 @@
 		//--------창고 리스트 출력-----------	
 		// 게시물 목록 조회를 AJAX + JSON 으로 처리할 load_list() 함수 정의
 		// => 검색타입과 검색어를 파라미터로 지정
-// 			$(function() {
+			$(function() {
 					$.ajax({
 						type: "GET",
 						url: "WareHouseListJsonPro.wh",
@@ -55,7 +55,7 @@
 										+"<td>" + list.wh_man_name + "</td>"
 										+"<td><button class='btn btn-secondary' id='info_search' onclick='info("+list.wh_cd +")'>검색</button></td>"
 										+"</tr>"
-										+"<tr id='tr"+list.wh_cd+"'>"
+										+"<tr id='tr"+list.wh_cd+"' class='hide"+list.wh_cd+"'>"
 										+"<td> <input type='text' placeholder='창고지역' class='hide"+list.wh_cd+"' id='wh_area"+list.wh_cd+"'>"
 										+"<button onclick='tableCreate("+list.wh_cd +")' class='hide"+list.wh_cd+"'>추가</button> </td>"
 										+"</tr>";
@@ -84,13 +84,13 @@
 							+"<td><div></div></td>"
 							+"<input type='hidden' value='"+list.wh_area_cd+"' id='hidden_value'> "
 							+"</tr>"
-							+"<tr id='tr"+list.wh_area_cd+"'>"
+							+"<tr id='tr"+list.wh_cd+"' class='hide"+list.wh_cd+"'>"
 							+"<td>&nbsp;&nbsp;&nbsp;<input type='text' placeholder='선반 위치' class='loc_hide"+list.wh_area_cd+"' id='wh_area_loc"+list.wh_area_cd+"'>"
 							+"<button onclick='loc_tableCreate("+list.wh_area_cd +")' class='loc_hide"+list.wh_area_cd+"'>추가</button> </td>"
 							+"</tr>";
 							$("#tr"+list.wh_cd).after(result);
 						}
-						$("[class^='hide']").hide();
+						$("[class^='hide']").hide()
 					})
 					.fail(function() {
 						$("#tr").append("<h3>요청 실패!</h3>");
@@ -105,8 +105,7 @@
 					.done(function(wharealist) { // 요청 성공 시
 						alert(wharealist);
 						for(let list of wharealist) {
-							let result =
-							"<tr id='tr"+list.wh_loc_in_area_cd+"' class='loc_hide"+list.wh_area_cd+"'>"
+							let result ="<tr id='tr"+list.wh_loc_in_area_cd+"' class='loc_hide"+list.wh_area_cd+"'>"
 							+"<td scope='col'>&nbsp;&nbsp;&nbsp;&nbsp; 선반 위치 :"+list.wh_loc_in_area+ "</td>"
 							+"<td><button class='btn btn-secondary' id='check_button' onclick='loc_tableDelte("+list.wh_loc_in_area_cd+")'>삭제</button> </td>"
 							+"<td><div></div></td>"
@@ -114,13 +113,16 @@
 							+"</tr>";
 							$("#tr"+list.wh_area_cd).after(result);
 						}
-						//------------숨기기--------
 						$("[class^='loc_hide']").hide();
 					})
 					.fail(function() {
 						$("#tr").append("<h3>요청 실패!</h3>");
 					});
-// 		});//제이쿼리 끝		
+					
+					//------------숨기기--------
+					
+				
+		});//제이쿼리 끝		
 			
 		
 		//--------창고 지역 minus 버튼-----------
