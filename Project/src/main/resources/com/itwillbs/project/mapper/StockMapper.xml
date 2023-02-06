@@ -24,7 +24,7 @@
 <!-- 키워드에 맞는 재고 목록 -->
 	<select id="getStockListSearch" resultType="com.itwillbs.project.vo.StockVo">
 		SELECT *
-			FROM stock
+			FROM stock_view
 			WHERE stock_cd LIKE '%${keyword}%'
 	</select>
 

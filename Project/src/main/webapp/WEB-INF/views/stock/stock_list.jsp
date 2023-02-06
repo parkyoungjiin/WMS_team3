@@ -94,9 +94,10 @@
 <script type="text/javascript">
 	//--------모달창에서 재고번호, 창고위치 클릭 시 해당 값을 이동재고번호/이동위치 input 박스 안에 값 넣는 함수-----------
 function saveIdx(cb) {
-	var idx = cb.id.replace("search_move_cd", ""); //클릭한 버튼의 idx값 출력 -> 이동재고번호, 이동위치에 넣을 위치 !
-	alert(idx)
+		var idx = cb.id.replace("search_move_cd", ""); //클릭한 버튼의 idx값 출력 -> 이동재고번호, 이동위치에 넣을 위치 !
+		alert("tr클릭 전 idx : " + idx)
 		$("#stock_table").on('click','tr',function(){
+
 		   let td_arr = $(this).find('td');
 		   console.log(td_arr);
 		   
@@ -104,8 +105,9 @@ function saveIdx(cb) {
 		   let move_wh_loc_in_area = $(td_arr[1]).text(); //창고위치
 		   console.log(move_wh_loc_in_area);
 		   
-		
+			
 		   // td 클릭시 모달 창 닫기
+		   alert("tr클릭 후 idx : " + idx)
 		   $('#modalDialogScrollable_stock_cd').modal('hide');
 		   $("#move_stock_cd" + idx).val(stock_no);
 		   $("#move_wh_loc_in_area" + idx).val(move_wh_loc_in_area);
@@ -127,8 +129,7 @@ function load_stockList() {
 	})
 	.done(function(stockList) { // 요청 성공 시
 // 			$(".modal-body").append(buyerList);
-// 		$("#modal-body > table").empty();	
-	
+		console.log(stockList)
 		if(stockList.length == 0){
 // 			$("#buyer_search").append("<div></div>");
 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
@@ -138,34 +139,39 @@ function load_stockList() {
 // 			$("#buyer_search").remove();
 // 		}
 //             $("#modal-body > td").empty();	
-		 $("#modal-body > table").empty();   //테이블 비우기
+// 		 $("#modal-body-stock > table").empty();   //테이블 비우기
 	
-		  let result = "<table class='table table-hover' id='stock_table' style='margin-left: auto; margin-right:'>"
-             	 + "<tr>"
-                 + "<th scope='col'>재고번호</th>"
-                 + "<th scope='col'>창고명(구역명)</th>"
-                 + "<th scope='col'>창고위치</th>"
-                  + "</tr>"
-                  + "</table>"
+// 	  let result1 = "<table class='table table-hover' id='stock_table' style='margin-left: auto; margin-right:'>"
+//              	 + "<tr>"
+//                  + "<th scope='col'>재고번호</th>"
+//                  + "<th scope='col'>창고명(구역명)</th>"
+//                  + "<th scope='col'>창고위치</th>"
+//                   + "</tr>";
 
- 	         $("#modal-body > table").append(result);
+                  
+//  	         $("#modal-body-stock > table").append(result1);
 
+// 	         $("#modal-body-stock > table > td").html("");
 		 
-		for(let buyer of buyerList) {
-			
-	         let result = "<table class='table table-hover' id='stock_table' style='margin-left: auto; margin-right:'>"
-	                  + "<tr style='cursor:pointer;'>"
-	                     + "<td>" + buyer.business_no + "</td>"
-	                      + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-	                        + "</tr>";
-	                        + "</table>"
-	         $("#modal-body > table").append(result);
+		for(let stock of stockList) {
+			console.log(stock.stock_cd)
+			console.log(stock.wh_name)
+			console.log(stock.wh_area)
+			console.log(stock.wh_loc_in_area)
+	         let result = "<tr style='cursor:pointer;'>"
+		                      + "<td id='stock_cd'>" + stock.stock_cd + "</td>"
+		                      + "<td id='wh_name'>" + stock.wh_name + (stock.wh_area) + "</td>"
+		                      + "<td id='wh_loc_in_area'>" + stock.wh_loc_in_area + "</td>"
+                        + "</tr>"
+                        + "</table>";
+                        
+	         $("#modal-body-stock > table").append(result);
 		}
-	})
+	})//done 끝
 	.fail(function() {
-		$("#modal-body > table").append("<h3>요청 실패!</h3>");
-	});
-}
+		$("#modal-body-stock > table").append("<h3>요청 실패!</h3>");
+	});//fail 끝
+}//stockList 끝
 //========================재고 이동 작업=====================================
 function move_stock(move_cb) {
 		var idx = move_cb.id.replace("moveButton",""); //index 값 저장
@@ -222,10 +228,9 @@ function move_stock(move_cb) {
 				alert("재고 조정작업이 취소되었습니다.")		
 			}
 		}
-// 		}
 		
 		
-}
+}//move_stock 끝
 
 </script>
 </head>
@@ -314,21 +319,18 @@ function move_stock(move_cb) {
                       <h5 class="modal-title">이동재고번호 검색</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id ="modal-body-stock">
                      	<div class="input-group mb-6">
-		             		<input name="" type="text" class="form-control" id="stock_keyword" >
+		             		<input name="" type="text" class="form-control" id="stock_keyword" placeholder="검색 후 이용 바랍니다.">
 				         <button id="search_stock" class="btn btn-primary" type="button" onclick="load_stockList()">검색</button>
 			        	 </div>
-			        	 <div style="text-align: center;">
 			        	 	<table class='table table-hover' id="stock_table" style="margin-left: auto; margin-right: ">
 				        	 		<tr>
 				        	 			<th scope="col">재고번호</th>
 				        	 			<th scope="col">창고명(구역명)</th>
 				        	 			<th scope="col">창고위치</th>
 				        	 		</tr>
-			        	 	
 			        	 	</table>
-			        	 </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

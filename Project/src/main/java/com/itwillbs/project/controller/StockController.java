@@ -112,6 +112,7 @@ public class StockController {
 			// PrintWriter 객체의 print() 메서드를 호출하여 응답데이터 출력
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().print(jsonArray); // toString() 생략됨
+			System.out.println(jsonArray);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
