@@ -7,8 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- 거래처(기본 등록) 권한 판별 -->
 <script type="text/javascript">
+<!-- 거래처(기본 등록) 권한 판별 -->
 // 	var str = '${priv_cd}' // 세션에 저장된 권한코드
 	
 // 	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
@@ -22,22 +22,6 @@
 // 		alert("권한이 없습니다");
 // 		history.back();
 // 	}
-	// 체크박스 선택 jQuery
-	$(document).ready(function() {
-		$("#chkAll").click(function() {
-			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
-			else $("input[name=chk]").prop("checked", false);
-		});
-		
-		$("input[name=chk]").click(function() {
-			var total = $("input[name=chk]").length;
-			var checked = $("input[name=chk]:checked").length;
-			
-			if(total != checked) $("#chkAll").prop("checked", false);
-			else $("#chkAll").prop("checked", true); 
-		});
-	});
-
 </script>
 
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -54,7 +38,41 @@
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
-
+<script type="text/javascript">
+// 체크박스 선택 jQuery
+	$(document).ready(function() {
+		$("#chkAll").click(function() {
+			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+			else $("input[name=chk]").prop("checked", false);
+		});
+	
+		$("input[name=chk]").click(function() {
+			var total = $("input[name=chk]").length;
+			var checked = $("input[name=chk]:checked").length;
+		
+			if(total != checked) $("#chkAll").prop("checked", false);
+			else $("#chkAll").prop("checked", true); 
+		});
+	});
+	
+	$(function() {
+		var btnVal = $("#complete").val();
+// 		alert(btnVal);
+	// 종결, 완료여부 버튼
+		if(btnVal=="종결") {
+			$(":button").on("click", function() {
+				$("#complete").attr("value","완료");
+				$("#complete").removeClass("btn-secondary").addClass("btn-primary");
+				alert(btnVal)
+			})
+		} else if(btnVal=="완료"){
+			$(":button").on("click", function() {
+				$("#complete").attr("value","종결");
+				$("#complete").removeClass("btn-primary").addClass("btn-secondary");
+			})
+		}
+	});
+</script>
 </head>
 <body class="sb-nav-fixed">
 <header>
@@ -92,24 +110,33 @@
 		                  </tr>
 		                </thead>
 		                <tbody>
-		                <c:forEach items="${outList }" var="outList">
+<%-- 		                <c:forEach items="${outList }" var="outList"> --%>
 		                  <tr>
 		                    <th scope="row">1</th>
 		                    <td><input type="checkbox" name="chk"></td>
-		                    <td>${outList. }</td>
-		                    <td>Designer</td>
-		                    <td>28</td>
-		                    <td>28</td>
-		                    <td>2016-05-25</td>
-		                    <td>Designer</td>
-		                    <td>Designer</td>
-		                    <td>Designer</td>
+		                    <td>${outList.out_schedule_cd }</td>
+		                    <td>발주서/구매</td>
+		                    <td>${outList.business_no }</td>
+		                    <td>${outList.emp_num }</td>
+		                    <td>${outList.품목명 }</td>
+		                    <td>${outList.out_date }</td>
+		                    <td>jaego</td>
+		                    <td>
+		                    	<c:choose>
+		                    		<c:when test="${outList.out_complete eq '1'}">
+		                    			<input type="button" class="btn btn-secondary btn-sm" value="완료">
+		                    		</c:when>
+		                    		<
+		                    	</c:choose>
+		                    	<input type="button" class="btn btn-secondary btn-sm" value="<c:if test='${outList.out_complete eq "1"}'>
+		                    	</c:if>" id="complete">
+		                    </td>
 		                    <td>Designer</td>
 		                  </tr>
-		                </c:forEach>
+<%-- 		                </c:forEach> --%>
 		                  <tr>
 		                    <th scope="row">2</th>
-		                    <td><input type="checkbox"></td>
+		                    <td><input type="checkbox" name="chk"></td>
 		                    <td>Developer</td>
 		                    <td>Developer</td>
 		                    <td>35</td>
