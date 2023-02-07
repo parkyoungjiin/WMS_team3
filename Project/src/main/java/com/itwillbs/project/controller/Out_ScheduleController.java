@@ -43,16 +43,15 @@ public class Out_ScheduleController {
 	
 	// ---------- 출고 관리 - 출고 예정 목록 ----------
 	@GetMapping(value = "OutList.os")
-	public String outList(Model model) { //,@ModelAttribute OutScheduleVO outList) {
+	public String outList(Model model, @RequestParam(value="out_schedule_cd", required=false) String out_schedule_cd) { //,@ModelAttribute OutScheduleVO outList) {
 		List<OutScheduleVO> outList = service.getOutScheduleList();
 		model.addAttribute("outList", outList);
 //		System.out.println("종결상태 확인용" + outList);
-		List<OutSchedulePerProductVO> outProdList = service.getOutProdList();
+		List<OutSchedulePerProductVO> outProdList = service.getOutProdList(out_schedule_cd);
 		model.addAttribute("outProdList",outProdList);
 		return "out_schedule/out_list";
 	} // outList 끝
 
-	// -------------
 	
 	// ---------- 출고 관리 - 출고 예정 등록 폼 ----------
 	@GetMapping(value = "OutRegisterForm")

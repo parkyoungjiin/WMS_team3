@@ -18,7 +18,7 @@
 	<select id="selectOutProdList" resultType="com.itwillbs.project.vo.OutSchedulePerProductVO">
 		SELECT *
 			FROM out_schedule_per_product
-<!-- 			WHERE  -->
+			WHERE out_schedule_cd = #{out_schedule_cd}
 	</select>
 		
 	<select id="selectStoList" resultType="com.itwillbs.project.vo.StockVo">

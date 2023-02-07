@@ -28,8 +28,8 @@ public class Out_ScheduleService {
 	}	
 
 	// 출고 예정 리스트 - 품목별
-	public List<OutSchedulePerProductVO> getOutProdList() {
-		return mapper.selectOutProdList();
+	public List<OutSchedulePerProductVO> getOutProdList(String out_schedule_cd) {
+		return mapper.selectOutProdList(out_schedule_cd);
 	}
 
 	// 재고 조회 (모달)

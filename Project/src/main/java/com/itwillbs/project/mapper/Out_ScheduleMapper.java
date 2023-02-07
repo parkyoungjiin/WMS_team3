@@ -23,6 +23,6 @@ public interface Out_ScheduleMapper {
 	List<OutScheduleVO> selectOutScheduleList();
 	
 	// 출고예정 목록 - 상품별
-	List<OutSchedulePerProductVO> selectOutProdList();
+	List<OutSchedulePerProductVO> selectOutProdList(String out_schedule_cd);
 	
 }

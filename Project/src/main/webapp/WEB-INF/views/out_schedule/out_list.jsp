@@ -116,12 +116,36 @@
 <script type="text/javascript">
 	function checkIdx(cb) {
 		var ck_idx = cb.id.replace("scSearch", "");
-// 		alert(ck_idx);	
+		var out_cd = $("#out_schedule_cd" + ck_idx).val();
+		alert(ck_idx);	
+		alert(out_cd);
 
 		$.ajax({
-			type:"GET",
-			url: "OutListJson.os"
+			type:"GET"
+			,url: "OutList.os?out_schedule_cd=" + out_cd
+// 			,data: {
+// 				out_schedule_cd: out_cd
+// 			}
+			,dataType: "html"
 		})
+		.done(function(data) {
+			
+			for(let prod of outProdList) {
+
+				var outList = '<tr>' 
+							  + '<td>' + prod.out_product_cd + '</td>'
+							  + '<td>' + prod.out_product_name + '</td>'
+							  + '<td>' + prod.out_schedule_qty + '</td>'
+							  + '</tr>'
+							  
+				
+				$("#out > tbody").append(outList);
+			}
+		})
+		.fail(function() {
+			$("#out > tbody").append("<h3>요청 실패!</h3>");
+		});
+		
 	}
 </script>
 </head>
@@ -148,20 +172,16 @@
 <!--                      	<div class="input-group mb-6"> -->
 <!-- 			        	 </div> -->
 			        	 <table class='table table-hover' id="out" style="margin-left: auto; margin-right: ">
+				         	<thead>
 				                <tr>
 				                	<th scope="col">품목코드</th>
 				                	<th scope="col">품목명[규격]</th>
 				                	<th scope="col">출고예정수량</th>
 				                	<th scope="col">미출고수량</th>
 				                </tr>
-<%-- 				                <c:forEach items="${outProdList }" var="outProdList"> --%>
-<!-- 					                <tr> -->
-<%-- 					                	<td>${outProdList.out_product_cd }</td> --%>
-<%-- 					                	<td>${outProdList.out_product_name }</td>  --%>
-<%-- 					                	<td>${outProdList.out_schedule_qty }</td> --%>
-<%-- 					                	<td>${outProdList.out_schedule_qty - outProdList.out_qty }</td> --%>
-<!-- 					                </tr> -->
-<%-- 				                </c:forEach> --%>
+							</thead>
+							<tbody>
+							</tbody>
 			        	 </table>
 
                     </div>
@@ -198,7 +218,10 @@
 		                <c:forEach items="${outList }" var="outList" varStatus="status"> 
 		                  <tr>
 		                    <th scope="row"></th>
-		                    <td><input type="checkbox" name="chk"></td>
+		                    <td>
+		                    <input type="checkbox" name="chk">
+		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
+		                    </td>
 		                    <td>${outList.out_schedule_cd }</td>
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
