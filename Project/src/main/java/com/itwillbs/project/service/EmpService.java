@@ -56,5 +56,17 @@ public class EmpService {
 		public int modifyEmployee(EmpVo employee) {
 			return mapper.updateEmployee(employee);
 		} // 사원 수정 끝
-
+		
+		//-----------비밀번호 일치 여부 확인을 위해 비밀번호 가져오기-----------
+		public String getSelectPasswd(String emp_num) {
+			return mapper.getSelectPasswd(emp_num);
+		}
+		//-------비밀번호 일치 시 변경----------
+		public int getUpdatePasswd(String emp_num, String securePasswd) {
+			return mapper.updatePasswd(emp_num, securePasswd);
+		}
+		//세션아이디에 저장된 emp_num에 일치하는 회원정보를 변경
+		public int getupdateMypageInfo(EmpVo emp, String emp_num) {
+			return mapper.updateMypageInfo(emp, emp_num);
+		}
 }
