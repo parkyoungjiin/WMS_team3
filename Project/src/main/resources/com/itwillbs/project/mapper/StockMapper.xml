@@ -5,8 +5,8 @@
 	<select id="getStockList" resultType="com.itwillbs.project.vo.StockVo">
 		SELECT * 
 			FROM stock_view
-	
 	</select>
+	
 <!-- 재고 조정 -->	
 	<update id="stockUpdate">
 		UPDATE stock
@@ -20,4 +20,12 @@
 			WHEN stock_cd = #{move_stock_cd} THEN STOCK_QTY + #{move_stock_num}
 			END
 	</update>
+	
+<!-- 키워드에 맞는 재고 목록 -->
+	<select id="getStockListSearch" resultType="com.itwillbs.project.vo.StockVo">
+		SELECT *
+			FROM stock_view
+			WHERE stock_cd LIKE '%${keyword}%'
+	</select>
+
 </mapper>
