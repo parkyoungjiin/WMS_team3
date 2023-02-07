@@ -37,12 +37,12 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 
-// var date = new Date();
-// var yyyy = date.getFullYear();
-// var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
-// var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+var date = new Date();
+var yyyy = date.getFullYear();
+var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
  
-// $("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
+$("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
 
 
 var idx = 0;
@@ -246,6 +246,8 @@ $(function() {
 		   $('#modalDialogScrollable_pro').modal('hide');
 		   $(".pro_cd").eq(selectIdx).val(pro_cd);
 		   $(".pro_name").eq(selectIdx).val(pro_name + " ["+pro_size+"]");
+		   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
+		   $(".product_sizeArr").eq(selectIdx).val(pro_size); // hidden input 에 규격 넣기
 // 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
 		   
 		   
@@ -284,18 +286,20 @@ $(function() {
 							+ '<td><input type="checkbox" name="chk"></td>'
 							+ '<td>'
 							+ '<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-5">'
-         					+ '<input type="text" class="form-control form-control-sm pro_cd" name="product_cd">'
+         					+ '<input type="text" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required">'
 	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>'
           					+ '</div></td>'
-							+ '<td><input type="text" class="form-control form-control-sm pro_name" >' + '</td>'
+							+ '<td><input type="text" class="form-control form-control-sm pro_name" required="required">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
-							+ '<td><input type="text" class="form-control form-control-sm" name="out_schedule_qty"></td>'
-							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '"></td>'
-							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="remarks"></td>'
+							+ '<td><input type="text" class="form-control form-control-sm" name="out_schedule_qtyArr" required="required"></td>'
+							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="out_dateArr" required="required"></td>'
+							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="remarks_proArr"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
 							+ '<td><span class="stoContent"></span></td>'
-							+ '<input type="hidden" name="stock_cd" class="stock_cd">'
+							+ '<input type="hidden" name="stock_cdArr" class="stock_cd">'
 							+ '<input type="hidden" name="stock_qty" class="stock_qty">'
+							+ '<input type="hidden" name="product_nameArr" class="product_nameArr">'
+							+ '<input type="hidden" name="product_sizeArr" class="product_sizeArr">'
             				+ '</tr>';
             				
             				$("#out_list > tbody").append(addInput);
@@ -353,13 +357,13 @@ $(document).ready(function() {
               	<div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="out_schedule_date" type="date" class="form-control" id="out_schedule_date">
+                        <input name="out_schedule_date" type="date" class="form-control" id="out_schedule_date" required="required">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">출고유형</label>
                       <div class="col-md-8 col-lg-2">
                         <select name="out_category" required="required" class="form-select">
 								<option value="발주서">발주서</option>
-								<option value="구매">구매</option>
+								<option value="구매">출고</option>
 							</select>
                       </div>
                     </div>
@@ -369,7 +373,7 @@ $(document).ready(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">거래처</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="cust_name" type="text" class="form-control" id="cust_name" >
+		             		<input name="cust_name" type="text" class="form-control" id="cust_name" required="required">
 		             		<input name="business_no" type="hidden" class="form-control" id="business_no" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" >검색</button>
 			        	 </div>
@@ -377,7 +381,7 @@ $(document).ready(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">담당자</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="emp_name" type="text" class="form-control" id="emp_name" >
+		             		<input name="emp_name" type="text" class="form-control" id="emp_name" required="required">
 		             		<input name="emp_num" type="hidden" class="form-control" id="emp_num" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_emp">검색</button>
 			        	 </div>
@@ -387,11 +391,11 @@ $(document).ready(function() {
                 <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">납기일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="out_date" type="date" class="form-control" id="testDate">
+                        <input name="out_date" type="date" class="form-control" id="testDate" required="required">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">비고</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="remarks" type="text" class="form-control" id="remarks">
+                        <input name="remarks" type="text" class="form-control" id="remarks" >
                       </div>
                     </div>
                
@@ -523,6 +527,7 @@ $(document).ready(function() {
 		<%-- ********************************** 복수개 품목명 입력창(하단부)************************************************* --%>		
 		<div class="card mb-4">
      	  <div class="card-body" style="font-size: small">
+     	    <input type="button" class="btn btn-secondary btn-sm" value="삭제" id="delete_out">
        			<table class="table table-hover" id="out_list">
 		                <thead>
 		                  <tr>
@@ -543,6 +548,7 @@ $(document).ready(function() {
 		              
 		              <!-- End Table with hoverable rows -->
        			<div class="text-right" style="float: right; padding-top: 50px">
+		        	수량 합계 : <input type="text" style="border: none;" size="5">
                   <button type="submit" class="btn btn-primary" onclick="OutRegister.os">등록</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>

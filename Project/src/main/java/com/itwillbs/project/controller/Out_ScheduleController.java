@@ -1,6 +1,7 @@
 package com.itwillbs.project.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -213,33 +214,62 @@ public class Out_ScheduleController {
 		
 		
 		
-		// ---------- 출고 관리 - 출고 예정 등록 폼 - 재고 조회 ----------
+		// ---------- 출고 관리 - 출고 예정 등록  ----------
 		@PostMapping(value = "/OutRegisterPro")
 		public String outResiterPro(
 				@ModelAttribute OutScheduleVO os, @ModelAttribute OutSchedulePerProductVO osp,
 				Model model) {
 			
 			
-//			List<OutSchedulePerProductVO> osArr = Arrays.asList(osp);
+			// 출고 예정 번호 등록
+			SimpleDateFormat outDate_format = new SimpleDateFormat("yyyyMMdd");
+			String outDate = outDate_format.format(os.getOut_schedule_date());
 			
-//			for(OutSchedulePerProductVO o2 : osArr) {
-//				System.out.println("o2" + o2);
-//			}
-//			System.out.println(osArr);
+			// 뒷자리 일련번호 가져와서 + 1
+			int out_cd = service.getSelectCode(os) + 1;
+
+			String out_code = String.format("%04d", out_cd); //00x 형태 변환
+			String out_schedule_code = outDate + "-" + out_code; // 작성일자(6) + - +예정번호
+			os.setOut_schedule_cd(out_schedule_code); // 공통 출고 예정 번호
 			
-//			String [] buyer_telArr = buyer.getTel().split(",");
-//			for(int i=0; i<buyer_telArr.length; i++) {
-//				String buyer_TEL = buyer_telArr[i].join("-", buyer_telArr);
-//				buyer.setTel(buyer_TEL);
+			// 출고 예정 등록
+			int insertCount = service.insertOutSchedule(os);
 			
+			if(insertCount > 0) {
 				
+				// 출고 예정 품목 등록
+				for(int i = 0; i < osp.getProduct_cdArr().length; i++) {
+					
+					OutSchedulePerProductVO osp2 = new OutSchedulePerProductVO();
+					// 여러값으로 저장해야 할 항목들
+					osp2.setProduct_cd(osp.getProduct_cdArr()[i]); // 품목코드
+					osp2.setProduct_name(osp.getProduct_nameArr()[i]); // 품목명
+					osp2.setProduct_size(osp.getProduct_sizeArr()[i]); // 품목 규격
+					osp2.setOut_schedule_qty(osp.getOut_schedule_qtyArr()[i]); // 출고 예정 수량
+					osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
+					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
+					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
+					
+					System.out.println(osp2);
+					// 단일값으로 저장해야 할 항목들
+					osp2.setOut_schedule_cd(out_schedule_code); // 공통 출고 예정 번호
+					
+					int insertCount2 = service.insertOutProduct(osp2);
+					
+					if(insertCount2 > 0) {
+						return "redirect:/OutList.os";
+					} else {
+						model.addAttribute("msg", "출고 예정 등록 실패!");
+						return "fail_back";
+					}
+					
+				}
+				return "redirect:/OutList.os";
+			}else { // 실패
+				model.addAttribute("msg", "출고 예정 등록 실패!");
+				return "fail_back";
+			}
 			
-//			System.out.println(os);
-//			System.out.println(osp);
-			
-			
-//			return "redirect:/OutList.os";
-			return "";
 		} //outResiterPro 끝
 		
 }

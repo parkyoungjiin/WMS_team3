@@ -3,6 +3,7 @@ package com.itwillbs.project.vo;
 import java.sql.Date;
 
 public class OutScheduleVO {
+	private Date out_schedule_date;
 	private String out_schedule_cd;
 	private String business_no;
 	private String cust_name;
@@ -12,10 +13,15 @@ public class OutScheduleVO {
 	private String remarks;
 	private String out_complete;
 	private String out_category;
-	private String out_process;
 	
 	
 	
+	public Date getOut_schedule_date() {
+		return out_schedule_date;
+	}
+	public void setOut_schedule_date(Date out_schedule_date) {
+		this.out_schedule_date = out_schedule_date;
+	}
 	public String getOut_schedule_cd() {
 		return out_schedule_cd;
 	}
@@ -72,19 +78,15 @@ public class OutScheduleVO {
 	public void setEmp_name(String emp_name) {
 		this.emp_name = emp_name;
 	}
-	public String getOut_process() {
-		return out_process;
-	}
-	public void setOut_process(String out_process) {
-		this.out_process = out_process;
-	}
+	
 	
 	@Override
 	public String toString() {
-		return "OutScheduleVO [out_schedule_cd=" + out_schedule_cd + ", business_no=" + business_no + ", cust_name="
-				+ cust_name + ", emp_num=" + emp_num + ", emp_name=" + emp_name + ", out_date=" + out_date
-				+ ", remarks=" + remarks + ", out_complete=" + out_complete + ", out_category=" + out_category
-				+ ", out_process=" + out_process + "]";
+		return "OutScheduleVO [out_schedule_date=" + out_schedule_date + ", out_schedule_cd=" + out_schedule_cd
+				+ ", business_no=" + business_no + ", cust_name=" + cust_name + ", emp_num=" + emp_num + ", emp_name="
+				+ emp_name + ", out_date=" + out_date + ", remarks=" + remarks + ", out_complete=" + out_complete
+				+ ", out_category=" + out_category + "]";
 	}
+	
 	
 }
