@@ -182,11 +182,10 @@
 		                  </tr>
 		                </thead>
 		                <tbody>
-		                <c:forEach items="${outList }" var="outList">
+		                <c:forEach items="${outList }" var="outList"> 
 		                  <tr>
 		                    <th scope="row"></th>
 		                    <td><input type="checkbox" name="chk"></td>
-		                    <td>${outList. }</td>
 		                    <td>${outList.out_schedule_cd }</td>
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
