@@ -295,5 +295,25 @@ public class WareHouseController {
 		return "redirect:/WareHouseManage.wh";
 	}//창고 지역 끝
 	
-	
+	//------------창고 상세페이지 작업---------------
+		@ResponseBody
+		@GetMapping(value = "WareHouseStockListJsonPro.wh")
+		public void stocklistJson(@ModelAttribute WareHouseVO vo,Model model,HttpServletResponse response) {
+			System.out.println(vo);
+			List<WareHouseVO> stocklist = null;
+				stocklist = service.getStockList(vo);
+				JSONArray jsonArray = new JSONArray();
+			
+			for(WareHouseVO list: stocklist) {
+				JSONObject jsonObject = new JSONObject(list);
+				System.out.println(jsonObject);
+				jsonArray.put(jsonObject);
+			}
+			try {
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().print(jsonArray); // toString() 생략됨
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}//whInfo 끝
 }//WareHouseController 끝

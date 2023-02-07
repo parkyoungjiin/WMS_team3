@@ -61,11 +61,11 @@
 	
 	</insert>
 	<!--  -->
-	<select id="stockHistoryList" resultType="com.itwillbs.project.vo.StockHistoryVo">
-		SELECT *
-			FROM stock_history_view
-				WHERE STOCK_CD = #{stock_cd}
+<!-- 	<select id="stockHistoryList" resultType="com.itwillbs.project.vo.StockHistoryVo"> -->
+<!-- 		SELECT * -->
+<!-- 			FROM stock_history_view -->
+<!-- 				WHERE STOCK_CD = #{stock_cd} -->
 	
-	</select>
+<!-- 	</select> -->
 
 </mapper>

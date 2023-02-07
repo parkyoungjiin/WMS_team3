@@ -51,12 +51,15 @@
 							let result = "<tr id='tr"+list.wh_cd+"'>"
 										+"<td><button id='minus"+list.wh_cd+"' name='minus' value='"+list.wh_cd+"' onclick='minus_button("+list.wh_cd +")' class='btn' type='button'>-</button>"
 										+"<button id='plus"+list.wh_cd+"' name='plus' value='"+list.wh_cd+"'  onclick='plus_button("+list.wh_cd +")' class='btn' type='button'>+</button>"
-										+list.wh_name+"</td>" 
+										+"<a href='javascript:void(0)' onclick='stocklist("+list.wh_cd+",0,0)'>"+list.wh_name+"</a></td>" 
 										+"<td>" + list.wh_man_name + "</td>"
+										+"<td><div></div></td>"
 										+"</tr>"
 										+"<tr id='tr"+list.wh_cd+"' class='hide"+list.wh_cd+"'>"
 										+"<td> <input type='text' placeholder='창고지역' class='hide"+list.wh_cd+"' id='wh_area"+list.wh_cd+"'>"
 										+"<button onclick='tableCreate("+list.wh_cd +")' class='hide"+list.wh_cd+"'>추가</button> </td>"
+										+"<td></td>"
+										+"<td></td>"
 										+"</tr>";
 							$("#table > tbody").append(result);
 						}
@@ -73,21 +76,23 @@
 					})
 					.done(function(wharealist) { // 요청 성공 시
 						for(let list of wharealist) {
+							let tet = null;
 							let result ="<tr id='tr"+list.wh_area_cd+"' class='hide"+list.wh_cd+"'>"
 							+"<td scope='col'>&nbsp;&nbsp;"
 							+"<button id='minus_loc"+list.wh_area_cd+"' name='minus' onclick='loc_minus_button("+list.wh_area_cd +")' class='btn' type='button'>-</button>"
 							+"<button id='plus_loc"+list.wh_area_cd+"' name='plus' onclick='loc_plus_button("+list.wh_area_cd +")' class='btn' type='button'>+</button>"
-							+"<span id='test"+list.wh_area_cd+"'>창고 지역 :"+list.wh_area + "</span></td>"
+							+"<span id='test"+list.wh_area_cd+"'><a href='javascript:void(0)' onclick='stocklist("+tet+","+list.wh_area_cd+",0)'>창고 지역 :"+list.wh_area + "</a></span></td>"
 							+"<td><button class='btn btn-secondary' id='check_button' onclick='tableDelte("+list.wh_area_cd+")'>삭제</button>"
 							+"<button class='btn btn-secondary' id='modify_button2"+list.wh_area_cd+"' onclick='modify("+list.wh_area+","+list.wh_area_cd+")'>변경</button>"
 							+"<button class='btn btn-secondary modify_button2' id='modify_button"+list.wh_area_cd+"' class='modify_button2' onclick='modify_info("+list.wh_area+","+list.wh_area_cd+")'>수정</button></td>"
-// 							+"<td><div></div></td>"
+							+"<td></td>"
 							+"<input type='hidden' value='"+list.wh_area_cd+"' id='hidden_value'> "
 							+"<input type='hidden' value='"+list.wh_area+"' id='area_hidden_value'> "
 							+"</tr>"
 							+"<tr id='tr"+list.wh_cd+"' class='loc_hide"+list.wh_area_cd+"'>"
 							+"<td>&nbsp;&nbsp;&nbsp;<input type='text' placeholder='선반 위치' id='wh_area_loc"+list.wh_area_cd+"'>"
 							+"<button onclick='loc_tableCreate("+list.wh_area_cd +")' class='loc_hide"+list.wh_area_cd+"'>추가</button> </td>"
+							+"<td><div></div></td>"
 							+"<td><div></div></td>"
 							+"</tr>";
 							$("#tr"+list.wh_cd).after(result);
@@ -108,9 +113,11 @@
 					})
 					.done(function(wharealoclist) { // 요청 성공 시
 						for(let list of wharealoclist) {
+							let tet = null;
 							let test = '"'+list.wh_loc_in_area+'"';
 							let result ="<tr id='tr"+list.wh_loc_in_area_cd+"' class='loc_hide"+list.wh_area_cd+"'>"
-							+"<td scope='col'>&nbsp;&nbsp;&nbsp;&nbsp;<span id='text"+list.wh_loc_in_area_cd+"'> 선반 위치 :"+list.wh_loc_in_area+ "</span></td>"
+							+"<td scope='col'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id='text"+list.wh_loc_in_area_cd+"'><a href='javascript:void(0)' onclick='stocklist("+tet+",0,"+list.wh_loc_in_area_cd+")'> 선반 위치 :"+list.wh_loc_in_area+ "</a></span></td>"
+							+"<td></td>"
 							+"<td><button class='btn btn-secondary' id='check_button' onclick='loc_tableDelte("+list.wh_loc_in_area_cd+")'>삭제</button>"
 							+"<button class='btn btn-secondary' id='modify_button2"+list.wh_loc_in_area_cd+"' onclick='modifyloc("+test+","+list.wh_loc_in_area_cd+")'>변경</button>"
 							+"<button class='btn btn-secondary modify_button2' id='modify_button"+list.wh_loc_in_area_cd+"' onclick='modify_loc_info("+test+","+list.wh_loc_in_area_cd+")'>수정</button></td>"
@@ -129,19 +136,23 @@
 		
 		//창고 지역 수정 작업
 		function modify(area,code){
-			//---------type 변환 작업----------
+			if(area != ""){
 				var newText="<input type='text' id='test_text"+code+"'value='"+area+"'>";
 				$("#test"+code).replaceWith(newText);
 				$("#modify_button2"+code).hide();
 				$("#modify_button"+code).show();
 				alert("#test2"+code);
+			}else {
+				alert("창고 지역을 입력 해주세요!");
+			}
 		}
 		
 		function modify_info(area,code){
-			alert(area);
+						
 			var txt = document.getElementById("test_text"+code).value;
-			var newText="&nbsp;<span id='test"+code+"'>창고 구역:"+txt+"</span>";
+			var newText="&nbsp;<span id='test"+code+"'><a href='javascript:void(0)' onclick='stocklist("+code+")'>창고 구역:"+txt+"</a></span>";
 			alert(txt);
+			if(txt != ""){
 			$.ajax({
 				type: "GET",
 				url: "WareHouseAreaUpdatePro.wh",
@@ -159,24 +170,30 @@
 			.fail(function() {
 				alert("정보 실패");
 			});
+		}else{
+			alert("창고 위치을 입력 해주세요!");
 		}
+	}
 		
 		
 		//---------창고 선반 구역 수정-------------
 		function modifyloc(area,code){
-				alert(area);
-				alert(code);
+			if(area != ""){	
 				var newText="<input type='text' id='test2_text"+code+"'value='"+area+"'>";
 				$("#text"+code).replaceWith(newText);
 				$("#modify_button2"+code).hide();
 				$("#modify_button"+code).show();
 				alert("#test"+code);
+			}else{
+				alert("선반 위치를 입력 해주세요!");
+			}
 		}
 		
 		function modify_loc_info(area,code){
 			var txt = document.getElementById("test2_text"+code).value;
-			var newText="&nbsp;<span id='text"+code+"'>선반 위치:"+txt+"</span>";
+			var newText="&nbsp;<span id='text"+code+"'><a href='javascript:void(0)' onclick='stocklist("+code+")'>선반 위치:"+txt+"</a></span>";
 			alert(txt);
+			if(txt != ""){
 			$.ajax({
 				type: "GET",
 				url: "WareHouseLocAreaUpdatePro.wh",
@@ -195,7 +212,10 @@
 			.fail(function() {
 				alert("정보 실패");
 			});
-		}
+		}else {
+			alert("선반 위치를 입력 해주세요!");
+		}	
+	}
 		//--------------------수정 끝------------
 		
 		//--------창고 지역 minus 버튼-----------
@@ -286,7 +306,9 @@
 		var no = Number($("#hidden_value").val()) + 1
 		var tc = new Array();
 		var html = '';
+		let test = $("#wh_area").val();
 		let wh_area = $("#wh_area"+wh_cd).val();
+		alert(wh_area);
 		$.ajax({
 			type: "GET",
 			url: "WareHouseAreaInsertPro.wh",
@@ -296,18 +318,28 @@
 			}
 		})
 		.done(function(vo) { // 요청 성공 시
-			alert("입력 확인");
+			alert("입력 성공");
 		})
 		.fail(function() {
 			alert("정보 실패");
 		});
 		html += '<tr id="tr'+no +'">';
-		html += '<td>창고 지역:'+wh_area+'</td>';
-		html += '"<td><button class="btn btn-secondary" onclick="tableDelte('+no+')">삭제</button></td>"';
+		html += '<td>&nbsp;&nbsp;<button id="minus_loc'+no+'" name="minus" onclick="loc_minus_button('+no +')" class="btn" type="button">-</button>';
+		html += '<button id="plus_loc'+no+'" name="plus" onclick="loc_plus_button('+no +')" class="btn" type="button">+</button>';
+		html += '&nbsp;&nbsp;<span id="test'+no+'"><a href="javascript:void(0)" onclick="stocklist('+wh_cd+')">창고 지역:'+wh_area+'</a></span></td>';
+		html += '<td><button class="btn btn-secondary" onclick="tableDelte('+no+')">삭제</button>';
+		html += '<button class="btn btn-secondary" id="modify_button2" onclick="modify('+wh_area+','+no+')">변경</button>';
+		html += '<button class="btn btn-secondary modify_button2" id="modify_button" onclick="modify_info('+wh_area+','+no+')">수정</button></td>';
 		html += '</tr>';
 		$("#tr"+wh_cd).after(html);
-		
-		}// 창고 지역 입력 끝
+		$(".modify_button2").hide();
+		$("#wh_area"+wh_cd).val("");
+		$(document).on("click","#modify_button2",function(){
+			$("#modify_button").show();
+			$("#modify_button2").hide();
+		});
+			
+	}// 창고 지역 입력 끝
 		
 		//-----------창고 선반 입력---------
 		function loc_tableCreate(wh_cd){
@@ -315,6 +347,7 @@
 			var tc = new Array();
 			var html = '';
 			let wh_area_loc = $("#wh_area_loc"+wh_cd).val();
+			alert(no);
 			$.ajax({
 				type: "GET",
 				url: "WareHouseLocAreaInsertPro.wh",
@@ -330,10 +363,15 @@
 				alert("정보 실패");
 			});
 			html += '<tr id="tr'+no +'">';
-			html += '<td scope="col">&nbsp;&nbsp;&nbsp;&nbsp; 선반 위치 :'+wh_area_loc+'</td>';
-			html += '"<td><button class="btn btn-secondary" onclick="loc_tableDelte('+no+')">삭제</button></td>"';
+			html += '<td>&nbsp;&nbsp;<button id="minus_loc'+no+'" name="minus" onclick="loc_minus_button('+no +')" class="btn" type="button">-</button>';
+			html += '<button id="plus_loc'+no+'" name="plus" onclick="loc_plus_button('+no +')" class="btn" type="button">+</button>';
+			html += '&nbsp;&nbsp;<span id="test'+no+'"><a href="javascript:void(0)" onclick="stocklist('+no+')">창고 지역:'+wh_area_loc+'</a></span></td>';
+			html += '<td><button class="btn btn-secondary" onclick="tableDelte('+no+')">삭제</button>';
+			html += '<button class="btn btn-secondary" id="modify_button2" onclick="modify('+wh_area_loc+','+no+')">변경</button>';
+			html += '<button class="btn btn-secondary modify_button2" id="modify_button" onclick="modify_info('+wh_area_loc+','+no+')">수정</button></td>';
 			html += '</tr>';
 			$("#tr"+wh_cd).after(html);
+			$("#wh_area_loc"+wh_cd).val("");
 			}// 창고 지역 입력 끝
 		
 		//--------창고 지역 삭제 버튼-----------
@@ -343,6 +381,7 @@
 				url: "WareHouseAreadeletePro.wh?wh_area_cd="+code
 			})
 			.done(function() { // 요청 성공 시
+				alert("정보 성공");
 				$("#tr"+code).remove();
 			})
 			.fail(function() {
@@ -357,6 +396,7 @@
 				url: "WareHouseLocAreadeletePro.wh?wh_loc_in_area_cd="+code
 			})
 			.done(function() { // 요청 성공 시
+				alert("정보 실패");
 				$("#tr"+code).remove();
 			})
 			.fail(function() {
@@ -365,20 +405,25 @@
 		}// 창고 지역 삭제 끝
 		
 		//------창고 안 재고 리스트 출력
-		function stocklist(){
+		function stocklist(wh_cd,wh_area_cd,wh_loc_in_area_cd){
 			$.ajax({
 				type: "GET",
 				url: "WareHouseStockListJsonPro.wh",
+				data : {
+					wh_cd : wh_cd,
+					wh_area_cd : wh_area_cd,
+					wh_loc_in_area_cd : wh_loc_in_area_cd
+				},
 				dataType: "json"
 			})
 			.done(function(whlist) { // 요청 성공 시
 				for(let list of whlist) {
 					let result = "<tr>"
-								+"<td></td>"
-								+"<td></td>"
-								+"<td></td>"
-								+"<td></td>"
-								+"<td></td>"
+								+"<td>"+list.stock_cd+"</td>"
+								+"<td>"+list.product_name+"</td>"
+								+"<td>"+list.stock_qty+"</td>"
+								+"<td>"+list.wh_name+"(구역명:"+list.wh_area+")</td>"
+								+"<td>(위치:)"+list.wh_loc_in_area+"</td>"
 								+"</tr>";
 					$("#stocklist > tbody").append(result);
 				}
@@ -388,23 +433,6 @@
 			});// 창고 리스트 출력
 		}
 		
-</script>
-<!-- 카카오 주소 API -->
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-window.onload = function(){
-    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-        //카카오 지도 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("wh_addr").value = data.address; // 주소 넣기
-                document.getElementById("emp_address_zonecode").value = data.zonecode; // 우편번호 넣기
-                document.querySelector("input[id=emp_address_kakao2]").focus(); //상세입력 포커싱
-            }
-        }).open();
-    });
-}
 </script>
 <style type="text/css">
 #title_label {
@@ -504,15 +532,7 @@ window.onload = function(){
                            	</tr>
                     </thead>
                     <tbody>
-                    <tr>
-                    	<td>1</td>
-                    	<td>2</td>
-                    	<td>3</td>
-                    	<td>4</td>
-                    	<td>5</td>
-                    	<td>6</td>
                     </tbody>
-                   <tr> 
                  </table>      
 			</div> <!-- card-body -->
 		</div>

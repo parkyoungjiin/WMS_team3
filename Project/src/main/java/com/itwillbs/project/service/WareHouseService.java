@@ -60,5 +60,9 @@ public void WhAreaupdate(WareHouseVO vo) {
 public void WhAreaLocupdate(WareHouseVO vo) {
 	mapper.WhAreaLocupdate(vo);
 }
+public List<WareHouseVO> getStockList(WareHouseVO vo) {
+	// TODO Auto-generated method stub
+	return mapper.getStockList(vo);
+}
 	
 }
