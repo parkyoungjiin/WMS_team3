@@ -115,7 +115,6 @@ function load_stockList() {
 // 			$(".modal-body").append(buyerList);
 		console.log(stockList)
 		if(stockList.length == 0){
-// 			$("#buyer_search").append("<div></div>");
 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 			$("#buyer_search").css("color","#B9062F");
 		} 
@@ -230,26 +229,33 @@ function save_stock_cd(cb) {
 		type: 'post',
 		data: {
 			stock_cd : stock_cd
-			
 		},
-		success: function(stockHistoryList) {
-			if(result != null){
+		dataType: "json"
+	})//ajax 끝
+		.done(function(stockHistoryList) {
+			alert(stockHistoryList);
+			if(stockHistoryList != null){
 				for(let stockHistory of stockHistoryList) {
 					
 					let result = "<tr style='cursor:pointer;'>"
-				                + "<td>" + buyer.business_no + "</td>"
-				                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
+				                + "<td>" + stockHistory.control_type_cd + "</td>"
+				                + "<td id='cust_name'>" + stockHistory.product_cd + "</td>"
+				                + "<td id='cust_name'>" + stockHistory.source_stock_cd + "</td>"
+				                + "<td id='cust_name'>" + stockHistory.target_stock_cd + "</td>"
+				                + "<td id='cust_name'>" + stockHistory.qty + "</td>"
+				                + "<td id='cust_name'>" + stockHistory.emp_num + "</td>"
+				                + "<td id='cust_name'>" + stockHistory.stock_date + "</td>"
+				                + "<td id='cust_name'>" + stockHistory.remarks + "</td>"
 		               			+ "</tr>";
 		             
-					$("#modal-body > table").append(result);
+					$("#modal-body-stockHistory > table").append(result);
 				}
-			}
 			}else{
 				alert("목록 없음")
 			}
-		}//success 끝
-	})//ajax 끝
-}
+			
+		})//success 끝
+ }
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -372,7 +378,7 @@ function save_stock_cd(cb) {
                       <h5 class="modal-title" style="text-align: center;">재고이력</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="modal-body" style="text-align: center;">
+                    <div class="modal-body" id="modal-body-stockHistory" style="text-align: center;">
                     
 	                    <div class="input-group mb-6">
 			             		<input name="" type="text" class="form-control" id="stock_keyword" placeholder="검색 후 이용 바랍니다.">
