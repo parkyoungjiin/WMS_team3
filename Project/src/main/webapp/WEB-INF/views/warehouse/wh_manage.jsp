@@ -36,6 +36,8 @@
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
+	
+		//--------창고 리스트 출력-----------	
 		// 게시물 목록 조회를 AJAX + JSON 으로 처리할 load_list() 함수 정의
 		// => 검색타입과 검색어를 파라미터로 지정
 			$(function() {
@@ -53,68 +55,108 @@
 										+"<td>" + list.wh_man_name + "</td>"
 										+"<td><button class='btn btn-secondary' id='info_search' onclick='info("+list.wh_cd +")'>검색</button></td>"
 										+"</tr>"
-										+"<tr id='tr"+list.wh_cd+"'>"
+										+"<tr id='tr"+list.wh_cd+"' class='hide"+list.wh_cd+"'>"
 										+"<td> <input type='text' placeholder='창고지역' class='hide"+list.wh_cd+"' id='wh_area"+list.wh_cd+"'>"
 										+"<button onclick='tableCreate("+list.wh_cd +")' class='hide"+list.wh_cd+"'>추가</button> </td>"
 										+"</tr>";
-										
 							$("table > tbody").append(result);
 						}
 					})
 					.fail(function() {
 						$("table > tbody > tr").append("<h3>요청 실패!</h3>");
-					});
+					});// 창고 리스트 출력
 					
 					
-// 					//--------------------창고 지역 리스트 ------------------------
+ 					//--------------------창고 지역 리스트 ------------------------
 					$.ajax({
 						type: "GET",
 						url: "WareHouseAreaListJsonPro.wh",
 						dataType: "json"
 					})
 					.done(function(wharealist) { // 요청 성공 시
-						alert(wharealist);
 						for(let list of wharealist) {
 							let result ="<tr id='tr"+list.wh_area_cd+"' class='hide"+list.wh_cd+"'>"
-							+"<td scope='col'>창고 지역 :"+list.wh_area + "</td>"
+							+"<td scope='col'>&nbsp;&nbsp;"
+							+"<button id='minus_loc"+list.wh_area_cd+"' name='minus' onclick='loc_minus_button("+list.wh_area_cd +")' class='btn' type='button'>-</button>"
+							+"<button id='plus_loc"+list.wh_area_cd+"' name='plus' onclick='loc_plus_button("+list.wh_area_cd +")' class='btn' type='button'>+</button>"
+							+"창고 지역 :"+list.wh_area + "</td>"
 							+"<td><button class='btn btn-secondary' id='check_button' onclick='tableDelte("+list.wh_area_cd+")'>삭제</button> </td>"
+							+"<td><div></div></td>"
 							+"<input type='hidden' value='"+list.wh_area_cd+"' id='hidden_value'> "
+							+"</tr>"
+							+"<tr id='tr"+list.wh_cd+"' class='hide"+list.wh_cd+"'>"
+							+"<td>&nbsp;&nbsp;&nbsp;<input type='text' placeholder='선반 위치' class='loc_hide"+list.wh_area_cd+"' id='wh_area_loc"+list.wh_area_cd+"'>"
+							+"<button onclick='loc_tableCreate("+list.wh_area_cd +")' class='loc_hide"+list.wh_area_cd+"'>추가</button> </td>"
 							+"</tr>";
 							$("#tr"+list.wh_cd).after(result);
 						}
-						$("[class^='hide']").hide();
-						
+						$("[class^='hide']").hide()
 					})
 					.fail(function() {
 						$("#tr").append("<h3>요청 실패!</h3>");
 					});
 					
-			// ---------칸 늘리기 버튼--------------
-// 			$("#plus").click(function() {
-// 				alert("버튼 감지");
-// 				let result = "<div class='row mb-3'>" 
-// 							  +"<label for='th' id='title_label' class='col-md-4 col-lg-3 col-form-label' style='text-align: center;'>창고 지역</label>"
-// 							  +"<div class='col-md-8 col-lg-2'>"
-// 							  +"<input name='wh_addr_detail' id='wh_area' type='text' class='form-control'>"
-// 							  +"</div>"				
-// 							  +"</div>";				
-// 					$("#area_div").after(result);				
-// 			});
+					//---------------선반 위치 출력------------------
+					$.ajax({
+						type: "GET",
+						url: "WareHouseLocInListJsonPro.wh",
+						dataType: "json"
+					})
+					.done(function(wharealist) { // 요청 성공 시
+						alert(wharealist);
+						for(let list of wharealist) {
+							let result ="<tr id='tr"+list.wh_loc_in_area_cd+"' class='loc_hide"+list.wh_area_cd+"'>"
+							+"<td scope='col'>&nbsp;&nbsp;&nbsp;&nbsp; 선반 위치 :"+list.wh_loc_in_area+ "</td>"
+							+"<td><button class='btn btn-secondary' id='check_button' onclick='loc_tableDelte("+list.wh_loc_in_area_cd+")'>삭제</button> </td>"
+							+"<td><div></div></td>"
+							+"<input type='hidden' value='"+list.wh_loc_in_area_cd+"' id='loc_hidden_value'> "
+							+"</tr>";
+							$("#tr"+list.wh_area_cd).after(result);
+						}
+						$("[class^='loc_hide']").hide();
+					})
+					.fail(function() {
+						$("#tr").append("<h3>요청 실패!</h3>");
+					});
 					
-	});		
-			function minus_button(cd) {
-				alert("감지");
+					//------------숨기기--------
+					
+				
+		});//제이쿼리 끝		
+			
+		
+		//--------창고 지역 minus 버튼-----------
+		function loc_minus_button(cd) {
+				$("#minus_loc"+cd).click(function() {
+					$(".loc_hide"+cd).hide();
+				});
+			}//창고 지역 minus 끝
+		
+		//--------창고 지역 plus 버튼-----------
+		function loc_plus_button(cd) {
+				$("#plus_loc"+cd).click(function() {
+					$(".loc_hide"+cd).show();
+			});
+		}// 창고 지역 plus 버튼 끝
+		
+		//--------창고 지역 minus 버튼-----------
+		function minus_button(cd) {
 				$("#minus"+cd).click(function() {
+					$(".loc_hide"+cd).hide();
 					$(".hide"+cd).hide();
 				});
-			}
-			function plus_button(cd) {
-				alert("감ㅈ");
+			}//창고 지역 minus 끝
+		
+		//--------창고 지역 plus 버튼-----------
+		function plus_button(cd) {
 				$("#plus"+cd).click(function() {
+					$(".loc_hide"+cd).show();
 					$(".hide"+cd).show();
 				});
-			}
+		}// 창고 지역 plus 버튼 끝
+			
 		
+		//--------상제 정보 출력-----------
 		function info(wh_cd){
 			alert("버튼 감지"+wh_cd);
 			$.ajax({
@@ -138,7 +180,8 @@
 			.fail(function() {
 				alert("정보 실패");
 			});
-	}
+	}//상세 정보 끝
+	
 	
 	<!-- 연락처 숫자만 입력되는 유효성 검사 -->
 	function uncomma(str) {
@@ -153,7 +196,7 @@
 	function onlynumber(str) {
 	    str = String(str);
 	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
-	}
+	}//연락처 숫자 유효성 검사 끝
 	
 	<!-- 이메일 영어만 -->
 	function onlyEngNumber(str) {
@@ -162,24 +205,11 @@
 		}else{//영어, 숫자를 제외한 값 입력 시
 			str.value = ""; // ""으로 초기화
 		}
-	}//onlyEngNumber 끝
+	}//이메일 영어 끝
 	
-	// 등록 작업 막기
-	function fn_registerBuyer(){
-		if(business_no.length == 0){
-			alert("거래처 코드를 입력해주세요");
-			event.preventDefault();
-		} 
-		
-		if(codeStatus == false){
-			alert("거래처 코드를 확인해주세요");
-			event.preventDefault();
-		}
-	}
 	
 	//-----------창고 지역 입력---------
 	function tableCreate(wh_cd){
-		alert(Number($("#hidden_value").val()) + 1);
 		var no = Number($("#hidden_value").val()) + 1
 		var tc = new Array();
 		var html = '';
@@ -202,15 +232,41 @@
 		html += '<td>창고 지역:'+wh_area+'</td>';
 		html += '"<td><button class="btn btn-secondary" onclick="tableDelte('+no+')">삭제</button></td>"';
 		html += '</tr>';
-					
 		$("#tr"+wh_cd).after(html);
-		}
+		}// 창고 지역 입력 끝
 		
+		//-----------창고 선반 입력---------
+		function loc_tableCreate(wh_cd){
+			var no = Number($("#loc_hidden_value").val()) + 1
+			var tc = new Array();
+			var html = '';
+			let wh_area_loc = $("#wh_area_loc"+wh_cd).val();
+			$.ajax({
+				type: "GET",
+				url: "WareHouseLocAreaInsertPro.wh",
+				data:{
+					wh_loc_in_area : wh_area_loc,
+					wh_area_cd : wh_cd
+				}
+			})
+			.done(function(vo) { // 요청 성공 시
+				alert("입력 확인");
+			})
+			.fail(function() {
+				alert("정보 실패");
+			});
+			html += '<tr id="tr'+no +'">';
+			html += '<td scope="col">&nbsp;&nbsp;&nbsp;&nbsp; 선반 위치 :'+wh_area_loc+'</td>';
+			html += '"<td><button class="btn btn-secondary" onclick="loc_tableDelte('+no+')">삭제</button></td>"';
+			html += '</tr>';
+			$("#tr"+wh_cd).after(html);
+			}// 창고 지역 입력 끝
+		
+		//--------창고 지역 삭제 버튼-----------
 		function tableDelte(code) {
 			$.ajax({
 				type: "GET",
 				url: "WareHouseAreadeletePro.wh?wh_area_cd="+code
-				
 			})
 			.done(function() { // 요청 성공 시
 				$("#tr"+code).remove();
@@ -218,8 +274,23 @@
 			.fail(function() {
 				alert("정보 실패");
 			});
-			
-		}
+		}// 창고 지역 삭제 끝
+		//--------창고 지역 삭제 버튼-----------
+		function loc_tableDelte(code) {
+			$.ajax({
+				type: "GET",
+				url: "WareHouseLocAreadeletePro.wh?wh_loc_in_area_cd="+code
+			})
+			.done(function() { // 요청 성공 시
+				$("#tr"+code).remove();
+			})
+			.fail(function() {
+				alert("정보 실패");
+			});
+		}// 창고 지역 삭제 끝
+		
+		
+		
 </script>
 <!-- 카카오 주소 API -->
 <script
@@ -315,7 +386,7 @@ window.onload = function(){
 	               			</div>
 	               	</div>
                		<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">전화 번호 </label>
-	                <div class="col-md-8 col-lg-2">	
+	                <div class="col-md-8 col-lg-3">	
        	                  <div class="input-group mb-6">
   	                    	<input type="text" class="form-control" value="${wh.wh_tel1 }"id="wh_tel1" name="wh_tel1" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" required>
                       		<span class="input-group-text">-</span>

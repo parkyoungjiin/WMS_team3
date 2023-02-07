@@ -19,4 +19,10 @@ public interface Out_ScheduleMapper {
 
 	int insertOutProduct(OutSchedulePerProductVO osp2);
 	
+	// 출고예정 목록 조회
+	List<OutScheduleVO> selectOutScheduleList();
+	
+	// 출고예정 목록 - 상품별
+	List<OutSchedulePerProductVO> selectOutProdList();
+	
 }

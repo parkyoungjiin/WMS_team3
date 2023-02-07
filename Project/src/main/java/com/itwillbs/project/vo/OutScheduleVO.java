@@ -13,6 +13,7 @@ public class OutScheduleVO {
 	private String remarks;
 	private String out_complete;
 	private String out_category;
+
 	
 	
 	
@@ -34,11 +35,23 @@ public class OutScheduleVO {
 	public void setBusiness_no(String business_no) {
 		this.business_no = business_no;
 	}
+	public String getCust_name() {
+		return cust_name;
+	}
+	public void setCust_name(String cust_name) {
+		this.cust_name = cust_name;
+	}
 	public String getEmp_num() {
 		return emp_num;
 	}
 	public void setEmp_num(String emp_num) {
 		this.emp_num = emp_num;
+	}
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
 	}
 	public Date getOut_date() {
 		return out_date;
@@ -52,6 +65,12 @@ public class OutScheduleVO {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	public String getOut_category() {
+		return out_category;
+	}
+	public void setOut_category(String out_category) {
+		this.out_category = out_category;
+	}
 	public String getOut_complete() {
 		return out_complete;
 	}
@@ -59,6 +78,7 @@ public class OutScheduleVO {
 		this.out_complete = out_complete;
 	}
 	
+
 	public String getOut_category() {
 		return out_category;
 	}
@@ -88,5 +108,6 @@ public class OutScheduleVO {
 				+ ", out_category=" + out_category + "]";
 	}
 	
+
 	
 }
