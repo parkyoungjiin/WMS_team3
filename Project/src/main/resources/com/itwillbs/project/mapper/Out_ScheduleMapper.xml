@@ -26,4 +26,43 @@
 			WHERE product_cd LIKE '%${keyword}%'
 
 	</select>
+	
+	
+	<select id="selectCode" resultType="integer">
+		SELECT 
+			IFNULL(MAX(substring(out_schedule_cd, 10)),0) 
+			FROM out_schedule;
+	</select>
+	
+	
+	<insert id="insertSchedule">
+		INSERT
+			INTO out_schedule VALUES(
+				#{out_schedule_cd}
+				,#{business_no}
+				,#{cust_name}
+				,#{emp_num}
+				,#{emp_name}
+				,#{out_date}
+				,#{remarks}
+				,#{out_category}
+				,0
+			)
+	</insert>
+	
+	<insert id="insertOutProduct">
+		INSERT 
+			INTO out_schedule_per_product VALUES(
+				#{out_schedule_cd}
+				,#{product_cd}
+				,#{product_name}
+				,#{product_size}
+				,#{out_schedule_qty}
+				,#{out_qty}
+				,#{out_date}
+				,#{remarks_pro}
+				,#{stock_cd}
+				,0
+			)
+	</insert>
 </mapper>

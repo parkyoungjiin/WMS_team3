@@ -38,4 +38,17 @@ public class Out_ScheduleService {
 
 	}
 
+	public int getSelectCode(OutScheduleVO os) {
+		return mapper.selectCode(os);
+	}
+
+	// 출고 예정 등록
+	public int insertOutSchedule(OutScheduleVO os) {
+		return mapper.insertSchedule(os);
+	}
+
+	// 출고 예정 품목 등록
+	public int insertOutProduct(OutSchedulePerProductVO osp2) {
+		return mapper.insertOutProduct(osp2);
+	}
 }
