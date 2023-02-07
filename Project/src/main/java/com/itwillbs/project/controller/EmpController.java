@@ -171,7 +171,7 @@ public class EmpController {
 		}
 		//비밀번호 일치 여부 확인을 위해 비밀번호 가져오기
 		
-		String passwd = service.getSelectPass(emp.getEMP_EMAIL());
+		String passwd = service.getSelectPass(emp.getEMP_EMAIL()); //DB에저장된 pass가져오기
 		if(passwd == null || !passwdEncoder.matches(emp.getEMP_PASSWD(), passwd)) { // 실패
 			// Model 객체에 "msg" 속성명으로 "로그인 실패!" 메세지 저장 후
 			// fail_back.jsp 페이지로 포워딩
@@ -289,5 +289,75 @@ public class EmpController {
 		
 		return "emp/employee_mypage";
 	}//mypage 끝
+	
+	
+	//-------------비밀번호 변경----------------
+	@PostMapping(value = "ChangePasswd.em")
+	public String changePass(HttpSession session, 
+			@RequestParam("inputpasswd") String inputpasswd, 
+			@RequestParam("newpasswd") String newpasswd,
+			Model model) {
+		//비밀번호 일치 여부 판별
+//		System.out.println(inputpasswd);
+		String emp_num = (String)session.getAttribute("emp_num"); //판별할 사원번호
+		//비밀번호 해싱 작업
+		BCryptPasswordEncoder passwdEncoder = new BCryptPasswordEncoder();
+		String passwd = service.getSelectPasswd(emp_num); //패스워드 가져오기
+		System.out.println("비밀번호: " + passwd);
+
+
+		if(passwd == null |!passwdEncoder.matches(inputpasswd, passwd)) { //비밀번호 미일치 시
+			model.addAttribute("msg","비밀번호가 일치하지 않습니다.");
+			return "fail_back";
+		}else {
+			//일치할 경우 파라미터 newPassWd를 update
+			String securePasswd = passwdEncoder.encode(newpasswd);
+			//비밀번호 업데이트
+			int updateCount = service.getUpdatePasswd(emp_num,securePasswd);
+			//업데이트 성공 여부 판별
+				if(updateCount > 0) {
+					model.addAttribute("msg","비밀번호 변경에 성공했습니다.");
+					return "fail_back";
+				}else {
+					model.addAttribute("msg","비밀번호 변경에 실패했습니다.");
+					return "fail_back";
+				}
+		}
+	}//changePass 끝
+	
+	//-------------마이페이지 비밀번호 변경------------
+	@PostMapping(value = "updateMypageInfo.me")
+	public String updateMypageInfo(@ModelAttribute EmpVo emp, HttpSession session, Model model) {
+		
+		String emp_num = (String)session.getAttribute("emp_num"); //판별할 사원번호
+
+		//개인 연락처 결합
+		String [] emp_telArr = emp.getEMP_TEL().split(",");
+		for(int i=0; i<emp_telArr.length; i++) {
+			String EMP_TEL = emp_telArr[i].join("-", emp_telArr);
+//					System.out.println(EMP_TEL);
+			emp.setEMP_TEL(EMP_TEL);
+			
+		}
+		//사무실 연락처 결합
+		String [] emp_dtelArr = emp.getEMP_DTEL().split(",");
+		for(int i=0; i<emp_dtelArr.length; i++) {
+			String EMP_DTEL = emp_dtelArr[i].join("-", emp_dtelArr);
+			emp.setEMP_DTEL(EMP_DTEL);
+			
+		}
+		
+//		System.out.println(emp);
+//		return "/";
+		//세션아이디에 저장된 emp_num에 일치하는 회원정보를 변경
+		int updateCount = service.getupdateMypageInfo(emp, emp_num);
+		if(updateCount > 0) {
+			model.addAttribute("msg","정보 변경에 성공했습니다.");
+			return "fail_back";
+		}else {
+			model.addAttribute("msg","정보 변경에 실패했습니다.");
+			return "fail_back";
+		}
+	}//updateMypageInfo 끝
 	
 }//EmpController 끝

@@ -12,6 +12,12 @@ public interface Out_ScheduleMapper {
 	List<ProductVO> selectProList(String keyword);
 
 	List<StockVo> selectStoList(String keyword);
+
+	int selectCode(OutScheduleVO os);
+
+	int insertSchedule(OutScheduleVO os);
+
+	int insertOutProduct(OutSchedulePerProductVO osp2);
 	
 	// 출고예정 목록 조회
 	List<OutScheduleVO> selectOutScheduleList();

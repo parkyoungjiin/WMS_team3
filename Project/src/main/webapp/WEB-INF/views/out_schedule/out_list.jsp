@@ -193,7 +193,7 @@
 		                  </tr>
 		                </thead>
 		                <tbody>
-		                <c:forEach items="${outList }" var="outList">
+		                <c:forEach items="${outList }" var="outList"> 
 		                  <tr>
 		                    <th scope="row"></th>
 		                    <td><input type="checkbox" name="chk"></td>

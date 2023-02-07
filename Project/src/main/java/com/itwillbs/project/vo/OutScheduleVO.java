@@ -3,6 +3,7 @@ package com.itwillbs.project.vo;
 import java.sql.Date;
 
 public class OutScheduleVO {
+	private Date out_schedule_date;
 	private String out_schedule_cd;
 	private String business_no;
 	private String cust_name;
@@ -10,10 +11,18 @@ public class OutScheduleVO {
 	private String emp_name;
 	private Date out_date;
 	private String remarks;
-	private String out_category; // 출고 종류
-	private String out_complete; // 종결여부
-	private String out_process; // 진행상황
+	private String out_complete;
+	private String out_category;
+
 	
+	
+	
+	public Date getOut_schedule_date() {
+		return out_schedule_date;
+	}
+	public void setOut_schedule_date(Date out_schedule_date) {
+		this.out_schedule_date = out_schedule_date;
+	}
 	public String getOut_schedule_cd() {
 		return out_schedule_cd;
 	}
@@ -69,21 +78,35 @@ public class OutScheduleVO {
 		this.out_complete = out_complete;
 	}
 	
-	public String getOut_process() {
-		return out_process;
+
+	public String getOut_category() {
+		return out_category;
 	}
-	public void setOut_process(String out_process) {
-		this.out_process = out_process;
+	public void setOut_category(String out_category) {
+		this.out_category = out_category;
 	}
+	
+	public String getCust_name() {
+		return cust_name;
+	}
+	public void setCust_name(String cust_name) {
+		this.cust_name = cust_name;
+	}
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+	
 	
 	@Override
 	public String toString() {
-		return "OutScheduleVO [out_schedule_cd=" + out_schedule_cd + ", business_no=" + business_no + ", cust_name="
-				+ cust_name + ", emp_num=" + emp_num + ", emp_name=" + emp_name + ", out_date=" + out_date
-				+ ", remarks=" + remarks + ", out_category=" + out_category + ", out_complete=" + out_complete
-				+ ", out_process=" + out_process + "]";
+		return "OutScheduleVO [out_schedule_date=" + out_schedule_date + ", out_schedule_cd=" + out_schedule_cd
+				+ ", business_no=" + business_no + ", cust_name=" + cust_name + ", emp_num=" + emp_num + ", emp_name="
+				+ emp_name + ", out_date=" + out_date + ", remarks=" + remarks + ", out_complete=" + out_complete
+				+ ", out_category=" + out_category + "]";
 	}
-	
 	
 
 	
