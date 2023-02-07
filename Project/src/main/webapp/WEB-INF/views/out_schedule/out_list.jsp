@@ -100,27 +100,29 @@
 						 else {
 						     alert('출고상태 변경이 취소되었습니다.');
 						 }
-
 					},
 					error: function(xhr, textStatus, errorThrown) {
-	 					alert("진생상황 변경 실패"); 
+	 					alert("진행상황 변경 실패"); 
 		 				}
 				});
 			}
 		});
 	}); // 종결상태 변경
 	
-	// 진행상태 조회 > 품목별 조회목록
-	function searchCode('${outList.out_schedule_cd}') {
-		let scCode = $("#scSearch").val();
-		alert(scCode);
-		
-		$("#scSearch").click(function(){
-			
-		});
-		
-	} // 진행상태 조회 > 품목별 조회목록
 
+
+</script>
+
+<script type="text/javascript">
+	function checkIdx(cb) {
+		var ck_idx = cb.id.replace("scSearch", "");
+// 		alert(ck_idx);	
+
+		$.ajax({
+			type:"GET",
+			url: "OutListJson.os"
+		})
+	}
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -145,7 +147,7 @@
                     <div class="modal-body" id="modal-body" style="text-align: center;">
 <!--                      	<div class="input-group mb-6"> -->
 <!-- 			        	 </div> -->
-			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
+			        	 <table class='table table-hover' id="out" style="margin-left: auto; margin-right: ">
 				                <tr>
 				                	<th scope="col">품목코드</th>
 				                	<th scope="col">품목명[규격]</th>
@@ -156,8 +158,8 @@
 <!-- 					                <tr> -->
 <%-- 					                	<td>${outProdList.out_product_cd }</td> --%>
 <%-- 					                	<td>${outProdList.out_product_name }</td>  --%>
-<%-- 					                	<td>${outProdList.out_shedule_qty }</td> --%>
-<%-- 					                	<td>${outProdList.out_shedule_qty - outProdList.out_qty }</td> --%>
+<%-- 					                	<td>${outProdList.out_schedule_qty }</td> --%>
+<%-- 					                	<td>${outProdList.out_schedule_qty - outProdList.out_qty }</td> --%>
 <!-- 					                </tr> -->
 <%-- 				                </c:forEach> --%>
 			        	 </table>
@@ -193,7 +195,7 @@
 		                  </tr>
 		                </thead>
 		                <tbody>
-		                <c:forEach items="${outList }" var="outList"> 
+		                <c:forEach items="${outList }" var="outList" varStatus="status"> 
 		                  <tr>
 		                    <th scope="row"></th>
 		                    <td><input type="checkbox" name="chk"></td>
@@ -201,21 +203,21 @@
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_name }</td>
-		                    <td>${outList. }</td>
+		                    <td>품목명</td>
 		                    <td>${outList.out_date }</td>
 		                    <td>jaego gaetsu</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
-										<input type="button" class="btn btn-sm btn-secondary" id="btnComp" value="취소">
+										<input type="button" class="btn btn-sm btn-secondary" id="btnComp${status.index}" value="취소">
 		                    		</c:when>
 		                    		<c:when test="${outList.out_complete eq '0'}">
-		                    			<input type="button" class="btn btn-secondary btn-sm" id="btnComp" value="종결">
+		                    			<input type="button" class="btn btn-secondary btn-sm" id="btnComp${status.index}" value="종결">
 		                    		</c:when>
 		                    	</c:choose>
 		                    </td>
 		                    <td>
-								<button class="btn btn-secondary btn-sm" id="scSearch" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="searchCode('${outList.out_schedule_cd}')">조회</button>
+								<button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button>
 							</td>
 		                  </tr>
 		                </c:forEach>
