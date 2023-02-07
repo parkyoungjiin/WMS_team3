@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.project.service.In_scheduleService;
 import com.itwillbs.project.vo.InScheduleVO;
@@ -40,21 +41,45 @@ public class In_ScheduleController {
 	//------입고등록 PRO ------
 	@PostMapping("/InscheduleRegisterPro")
 	public String InscheduleRegisterPro(@ModelAttribute InScheduleVO ins
-			,Model model
+			,Model model 
 			,HttpSession session) {
-		
+		System.out.println(ins);
 		int insertCount = service.registerInschedule(ins);
 		if(insertCount > 0) {
+				
 			return "redirect:/InList";
-		}else {
+			}
+		
+		else {
 			model.addAttribute("msg", "등록 실패!");
 			return "fail_back";
-		}
-		
+		} 
 		
 	}
 	//-----------입고 등록 PRO 끝------------
 	
+	//---------입고 수정 -----------
+	@GetMapping("/InModifyForm")
+	public String modify(@ModelAttribute InScheduleVO ins,
+			Model model,
+			HttpSession session,
+			@RequestParam(defaultValue="1") int IN_SCHEDULE_CD) {
+		ins = service.getInschedule(IN_SCHEDULE_CD,false);
+		model.addAttribute("ins", ins);
+		return "in_schedule/in_modifyform";
+	}
+	
+	
+	
+//	//----------진행중 리스트----------
+//	@GetMapping("/InProgressList")
+//	public String progress(Model model, HttpSession session) {
+//		List<InScheduleVO> progress = service.getInprogressList();
+//		
+//		model.addAttribute("progress", progress);
+//		
+//		return "in_schedule/in_progresslist";
+//	}
 	
 	
 	

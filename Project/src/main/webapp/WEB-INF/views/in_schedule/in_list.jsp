@@ -22,6 +22,23 @@
 // 		alert("권한이 없습니다");
 // 		history.back();
 // 	}
+	
+	// 체크박스 선택 jQuery
+	$(document).ready(function() {
+		$("#chkAll").click(function() {
+			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+			else $("input[name=chk]").prop("checked", false);
+		});
+	
+		$("input[name=chk]").click(function() {
+			var total = $("input[name=chk]").length;
+			var checked = $("input[name=chk]:checked").length;
+		
+			if(total != checked) $("#chkAll").prop("checked", false);
+			else $("#chkAll").prop("checked", true); 
+		});
+	});
+
 </script>
 <!-- 폰트어썸 -->
 <script src="https://kit.fontawesome.com/ca93809e69.js" crossorigin="anonymous"></script>
@@ -39,7 +56,51 @@
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#ing").click(function() {
+		$.ajax({
+			type: "get",
+			url: "InProgressList", 
+			data:{
+				id : $("id").val()
+			},
+			dataType: "html"
+		})
+		.done(function() { // 요청 성공 시
+			alert("수정 하셨습니다.");
+			let result ="
+				IN_SCHEDULE_CD
+			";
+		})
+		.fail(function() {
+			alert("수정 실패 하셨습니다.");	
+		});
+	});
+});
 
+
+//------------종결여부
+$(function() {
+		var btnVal = $("#complete").val();
+// 		alert(btnVal);
+	// 종결, 완료여부 버튼
+		if(btnVal=="종결") {
+			$(":button").on("click", function() {
+				$("#complete").attr("value","완료");
+				$("#complete").removeClass("btn-secondary").addClass("btn-primary");
+				alert(btnVal)
+			})
+		} else if(btnVal=="완료"){
+			$(":button").on("click", function() {
+				$("#complete").attr("value","종결");
+				$("#complete").removeClass("btn-primary").addClass("btn-secondary");
+			})
+		}
+	});
+
+
+</script>
 </head>
 <body class="sb-nav-fixed">
 <header>
@@ -59,18 +120,25 @@
                      입고 예정 목록
                      <button class="btn btn-primary" onclick="location.href='InRegisterForm'" style="float: right;">신규등록</button>
                  </div>
+                 <div class="card-header">
+                     <button class="btn btn-primary" onclick="location.href=''">전체</button>
+                     <button class="btn btn-primary" id="ing">진행중</button>
+                     <button class="btn btn-primary" onclick="location.href=''">완료</button>
+                     </div>
                  <div class="card-body">
                  	<table class="table table-hover">
 		                <thead>
 		                  <tr>
 		                    <th scope="col"><i class="fa-solid fa-arrow-down"></i></th>
-		                    <th scope="col"><input type="checkbox"></th>
-		                    <th scope="col">입고예정코드</th>
-		                    <th scope="col">입고유형코드</th>
-		                    <th scope="col">거래처코드</th>
-		                    <th scope="col">담당자(사원번호)</th>
+		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
+		                    <th scope="col">입고예정번호</th>
+		                    <th scope="col">유형</th>
+<!-- 		                    <th scope="col">보낸곳명</th> -->
+		                    <th scope="col">담당자명</th>
+		                    <th scope="col">품목명[규격]</th>
 		                    <th scope="col">납기일자</th>
-		                    <th scope="col">적요</th>
+		                    <th scope="col">입고예정수량합계</th>
+		                    <th scope="col">종결여부</th>
 		                    <th scope="col">진행상태</th>
 		                  </tr>
 		                </thead>
@@ -84,25 +152,27 @@
 <!-- 									
 	<td scope="row"></td> -->
 	<td>${idx.count }</td>
-	<td><input type="checkbox"></td> 
-	
-								<td>${isList.IN_SCHEDULE_CD }</td>
-		                    <td>${isList.IN_TYPE_CD }</td>
-		                    <td>${isList.BUSINESS_NO}</td>
-		                    <td>${isList.EMP_NUM}</td>
-		                    <td>${isList.IN_DATE}</td>
-		                    <td>${isList.REMARKS }</td>
-<%-- 		                     <td>${isList.IN_COMPLETE }</td> --%>
-								<td>
-								<c:choose >
-									<c:when test="${isList.IN_COMPLETE eq '1' }">
-										<span class="badge bg-success">YES</span>
-									</c:when>		
-									<c:otherwise>
-										<span class="badge bg-warning">NO</span>
-									</c:otherwise>						
-								</c:choose>
-								</td>
+							<td><input type="checkbox" name="chk"></td> 
+							<td><a href="">${isList.DATE}-${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
+		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
+<%-- 		                    <td>${isList.BUSINESS_NO}</td> <!-- 보낸곳명 --> --%>
+		                    <td>${isList.EMP_NUM}</td>	<!-- 담당자명 -->
+		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 -->
+		                    <td>${isList.IN_DATE}</td> <!-- 납기일자 -->
+		                    <td></td> <!-- 입고예정수량합계 -->
+		                    <td></td> <!-- 종결여부 -->
+<!-- 		                    <td><input type="button" value="조회"></td> 진행상태 -->
+<%-- <%-- 		                     <td>${isList.IN_COMPLETE }</td> --%> --%>
+<!-- 								<td> -->
+<%-- 								<c:choose > --%>
+<%-- 									<c:when test="${isList.IN_COMPLETE eq '1' }"> --%>
+<!-- 										<span class="badge bg-success">YES</span> -->
+<%-- 									</c:when>		 --%>
+<%-- 									<c:otherwise> --%>
+<!-- 										<span class="badge bg-warning">NO</span> -->
+<%-- 									</c:otherwise>						 --%>
+<%-- 								</c:choose> --%>
+<!-- 								</td> -->
 								
 							</tr> 
 							</c:forEach>  

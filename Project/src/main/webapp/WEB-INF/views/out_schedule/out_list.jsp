@@ -118,19 +118,19 @@
 		                    <td>발주서/구매</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_num }</td>
-		                    <td>${outList.품목명 }</td>
+<%-- 		                    <td>${outList.품목명 }</td> --%>
 		                    <td>${outList.out_date }</td>
 		                    <td>jaego</td>
-		                    <td>
-		                    	<c:choose>
-		                    		<c:when test="${outList.out_complete eq '1'}">
-		                    			<input type="button" class="btn btn-secondary btn-sm" value="완료">
-		                    		</c:when>
-		                    		<
-		                    	</c:choose>
-		                    	<input type="button" class="btn btn-secondary btn-sm" value="<c:if test='${outList.out_complete eq "1"}'>
-		                    	</c:if>" id="complete">
-		                    </td>
+<!-- 		                    <td> -->
+<%-- 		                    	<c:choose> --%>
+<%-- 		                    		<c:when test="${outList.out_complete eq '1'}"> --%>
+<!-- 		                    			<input type="button" class="btn btn-secondary btn-sm" value="완료"> -->
+<%-- 		                    		</c:when> --%>
+<!-- 		                    		< -->
+<%-- 		                    	</c:choose> --%>
+<%-- 		                    	<input type="button" class="btn btn-secondary btn-sm" value="<c:if test='${outList.out_complete eq "1"}'> --%>
+<%-- 		                    	</c:if>" id="complete"> --%>
+<!-- 		                    </td> -->
 		                    <td>Designer</td>
 		                  </tr>
 <%-- 		                </c:forEach> --%>

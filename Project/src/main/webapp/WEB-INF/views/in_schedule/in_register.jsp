@@ -31,7 +31,7 @@
 <!-- 폰트어썸 -->
 <script src="https://kit.fontawesome.com/ca93809e69.js" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
-<title>출고 관리</title>
+<title>입고 관리</title>
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
@@ -149,6 +149,27 @@ window.onload = function(){
     });
 }
 </script>
+<script type="text/javascript">
+function addRow() {
+	  // table element 찾기
+	  const table = document.getElementById('table table-hover');
+	  
+	  // 새 행(Row) 추가
+	  const newRow = table.insertRow();
+	  
+	  // 새 행(Row)에 Cell 추가
+	  const newCell1 = newRow.insertCell(0);
+	  const newCell2 = newRow.insertCell(1);
+	  const newCell3 = newRow.insertCell(2);
+	  const newCell4 = newRow.insertCell(3);
+	  const newCell5 = newRow.insertCell(4);
+	  const newCell6 = newRow.insertCell(5);
+	  
+	  // Cell에 텍스트 추가
+	}
+
+
+</script>
 <style type="text/css">
 #title_label {
 	text-align: center;
@@ -164,7 +185,7 @@ window.onload = function(){
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 	
 <main id="main" class="main">
-
+<form action="InscheduleRegisterPro" method="post">
    <div class="pagetitle">
      <h1>입고 관리</h1>
    </div><!-- End Page Title -->
@@ -174,54 +195,67 @@ window.onload = function(){
             입고 입력
         </div>
         
-           <form action="InscheduleRegisterPro" method="post">
        <div class="card-body" style="padding: 50px 80px;">
+           
               
 <!--               <table> -->
               	<div class="row mb-3">
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">입고예정코드</label>
+              	<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="IN_SCHEDULE_CD" type="text" class="form-control" id="Twitter">
+                        <input name="DATE" type="date" class="form-control" id="Twitter">
                       </div>
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">입고유형코드</label>
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">유형</label>
                       <div class="col-md-8 col-lg-2">
-                         <input name="IN_TYPE_CD" type="text" class="form-control" id="Twitter">
+<!--                         <input name="IN_TYPE_CD" type="text" class="form-control" id="Twitter"> -->
+							<select name ="IN_TYPE_CD">
+							<option value="">선택</option>
+							<option value="견적서">견적서</option>
+							<option value="주문서">주문서</option>
+							</select>
                       </div>
-                    </div>
-                    
-                    
-              	<div class="row mb-3">
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">거래처코드</label>
-                      <div class="col-md-8 col-lg-2">
-		      			<div class="input-group mb-6">
-		             		<input name="BUSINESS_NO" type="text" class="form-control" id="" >
-				         <button id="" class="btn btn-secondary" type="button">검색</button>
-			        	 </div>
-			          </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">담당자</label>
                       <div class="col-md-8 col-lg-2">
-		      			<div class="input-group mb-6">
-		             		<input name="EMP_NUM" type="text" class="form-control" id="" >
-				         <button id="" class="btn btn-secondary" type="button">검색</button>
-			        	 </div>
-			          </div>
-                    </div>
-                
-                <div class="row mb-3">
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">납기일자</label>
+                         <input name="EMP_NUM" type="text" class="form-control" id="Twitter">
+                      </div>
+                      	<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">납기일자</label>
                       <div class="col-md-8 col-lg-2">
                         <input name="IN_DATE" type="date" class="form-control" id="Twitter">
                       </div>
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">적요</label>
-                      <div class="col-md-8 col-lg-2">
-                        <input name="REMARKS" type="text" class="form-control" id="Twitter">
-                      </div>
-                      
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">진행상태</label>
-                      <div class="col-md-8 col-lg-2">
-                        <input name="IN_COMPLETE" type="text" class="form-control" id="Twitter">
-                      </div>
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">비고</label>
+                       <div class="col-md-8 col-lg-2">
+                       <input name="REMARKS" type="text" class="form-control" id="Twitter">
+                       </div>
+                       
                     </div>
+                   
+                    
+                    
+<!--               	<div class="row mb-3"> -->
+<!-- <!-- 		      			<div class="input-group mb-6"> --> -->
+<!-- <!-- 		             		<input name="BUSINESS_NO" type="text" class="form-control" id="" > --> -->
+<!-- <!-- 				         <button id="" class="btn btn-secondary" type="button">검색</button> --> -->
+<!-- <!-- 			        	 </div> --> -->
+			         
+<!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">비고</label> -->
+<!--                       <div class="col-md-8 col-lg-2"> -->
+<!--                          <input name="REMARKS" type="text" class="form-control" id="Twitter"> -->
+<!--                       </div> -->
+<!-- 			          </div> -->
+                    </div>
+                 </div>	
+<!--                 <div class="row mb-3"> -->
+                      
+<!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">적요</label> -->
+<!--                       <div class="col-md-8 col-lg-2"> -->
+<!--                         <input name="REMARKS" type="text" class="form-control" id="Twitter"> -->
+<!--                       </div> -->
+                      
+<!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">진행상태</label> -->
+<!--                       <div class="col-md-8 col-lg-2"> -->
+<!-- <!--                         <input name="IN_COMPLETE" type="text" class="form-control" id="Twitter"> --> -->
+<!--                         <input type="text"  name="IN_COMPLETE" class="form-control" id="Twitter" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="숫자만 입력"> -->
+<!--                       </div> -->
+<!--                     </div> -->
                 
 			</div> <!-- card-body -->
 <!--                </table> -->
@@ -230,26 +264,20 @@ window.onload = function(){
 <!-- 		<div class="card mb-4"> -->
         	
      	  <div class="card-body">
-       			
        			<table class="table table-hover">
 		                <thead>
 		                  <tr>
-		                    <th scope="col"><i class="fa-solid fa-arrow-down"></i></th>
+		                    <th scope="col"><i class="fa-solid fa-arrow-down" onclick="addRow()"></i></th>
 		                    <th scope="col"><input type="checkbox"></th>
-		                    <th scope="col">입고예정코드</th>
-		                    <th scope="col">입고유형코드</th>
-		                    <th scope="col">거래처코드</th>
-		                    <th scope="col">담당자(사원번호)</th>
+		                    <th scope="col">품목코드</th>
+		                    <th scope="col">품목명[규격]</th>
+		                    <th scope="col">수량</th>
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">적요</th>
-		                    <th scope="col">진행상태</th>
 		                  </tr>
 		                </thead>
-		                <tbody>
-		                
-		                </tbody>
-		                 <tbody>
-                          <c:forEach var="isList" items="${islist }" varStatus="idx">
+<!-- 		                 <tbody> -->
+<%--                           <c:forEach var="isList" items="${islist }" varStatus="idx"> --%>
 							<tr>
 <!-- 										<td><input type="checkbox"></td> -->
 <!-- 									
@@ -257,27 +285,28 @@ window.onload = function(){
 	<td>${idx.count }</td>
 	<td><input type="checkbox"></td> 
 	
-							<td>${isList.IN_SCHEDULE_CD }</td>
-		                    <td>${isList.IN_TYPE_CD }</td>
-		                    <td>${isList.BUSINESS_NO}</td>
-		                    <td>${isList.EMP_NUM}</td>
-		                    <td>${isList.IN_DATE}</td>
-		                    <td>${isList.REMARKS }</td>
+							<td> 
+                         <input name="PRODUCT_CD" type="text" class="form-control" id="Twitter" size=1></td>
+		                    <td> <input name="PRODUCT_NAME" type="text" class="form-control" id="Twitter" size=1></td>
+<!-- 		                    <td> <input name="SIZE_DES" type="text" class="form-control" id="Twitter" size=1></td> -->
+		                    <td> <input name="QTY" type="text" class="form-control" id="Twitter" size=1></td>
+		                    <td> <input name="IN_DATE" type="date" class="form-control" id="Twitter" size=1></td>
+		                    <td> <input name="REMARKS" type="text" class="form-control" id="Twitter" size=1></td>
 <%-- 		                     <td>${isList.IN_COMPLETE }</td> --%>
-								<td>
-								<c:choose >
-									<c:when test="${isList.IN_COMPLETE eq '1' }">
-										<span class="badge bg-success">YES</span>
-									</c:when>		
-									<c:otherwise>
-										<span class="badge bg-warning">NO</span>
-									</c:otherwise>						
-								</c:choose>
-								</td>
+<!-- 								<td> -->
+<%-- 								<c:choose > --%>
+<%-- 									<c:when test="${isList.IN_COMPLETE eq '1' }"> --%>
+<!-- 										<span class="badge bg-success">YES</span> -->
+<%-- 									</c:when>		 --%>
+<%-- 									<c:otherwise> --%>
+<!-- 										<span class="badge bg-warning">NO</span> -->
+<%-- 									</c:otherwise>						 --%>
+<%-- 								</c:choose> --%>
+<!-- 								</td> -->
 								
 							</tr> 
-							</c:forEach>  
-                        </tbody>
+<%-- 							</c:forEach>   --%>
+<!--                         </tbody> -->
 		              </table>
 		              
 		              <!-- End Table with hoverable rows -->
@@ -286,10 +315,11 @@ window.onload = function(){
                   <button type="reset" class="btn btn-secondary">다시쓰기</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>
+          
        </div>
-           </form>  
        
        </div>
+        </form>  
 	</main>
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> -->
 </body>

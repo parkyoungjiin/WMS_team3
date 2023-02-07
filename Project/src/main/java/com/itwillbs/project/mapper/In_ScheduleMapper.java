@@ -10,6 +10,12 @@ public interface In_ScheduleMapper {
 	List<InScheduleVO> selectInscheduleList();
 	// 입고 등록
 	int insertInschedule(InScheduleVO ins);
+	
+	//진행 중 목록 조회
+	List<InScheduleVO> selectInprogressList();
+	//입고수정
+	InScheduleVO modifyInschedule();
+	
 
 
 }

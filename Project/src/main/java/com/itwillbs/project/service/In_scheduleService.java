@@ -23,4 +23,15 @@ public class In_scheduleService {
 	public int registerInschedule(InScheduleVO ins) {
 		return mapper.insertInschedule(ins);
 	}
+	//
+//	public List<InScheduleVO> getInprogressList() {
+//		return mapper.selectInprogressList();
+//	}
+
+	//입고 수정
+	public InScheduleVO getInschedule(int iN_SCHEDULE_CD, boolean b) {
+		
+		return mapper.modifyInschedule();
+	}
+
 }
