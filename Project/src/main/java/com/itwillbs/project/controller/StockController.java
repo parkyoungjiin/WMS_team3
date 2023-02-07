@@ -23,6 +23,7 @@ import com.itwillbs.project.service.BuyerService;
 import com.itwillbs.project.service.StockService;
 import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.EmpVo;
+import com.itwillbs.project.vo.StockHistoryVo;
 import com.itwillbs.project.vo.StockVo;
 
 @Controller
@@ -34,27 +35,52 @@ public class StockController {
 	//-----------재고 목록 이동 (기본페이지)------------
 	@GetMapping(value = "StockList.st")
 	public String stock(@ModelAttribute StockVo stock, Model model) {
+		//뷰 테이블에 저장된 재고 목록 가져오기
 		List<StockVo> stockList = service.getStockList();
+		//뷰 테이블에 저장된 재고 목록 저장
 		model.addAttribute("stockList",stockList);
+		
+		
 		return "stock/stock_list";
 	}//stock 끝
-	
-	//--------재고 조정 작업---------
-	@PostMapping(value = "StockUpdate.st")
-	public void stockUpdate(
-			@RequestParam("updateStockNum") int update_qty,
-			@RequestParam("stock_cd") int stock_cd,
-			HttpServletResponse response
-			) {
-		
-		int updateCount = service.stockUpdate(update_qty, stock_cd);
-		if(updateCount > 0) {
+	//------------재고번호 클릭 시 재고번호와 일치하는 history 목록 가져오기 ajax 사용-------------------
+	@PostMapping(value = "StockHistoryList.st")
+	public void stockHistory(Model model, @RequestParam() int stock_cd, HttpServletResponse response) {
+		List<StockHistoryVo> stockHistoryList = service.getStockHistoryList(stock_cd);
+		if(stockHistoryList != null) {
 			try {
-				response.getWriter().print(updateCount); //emailcheck 값을 보내는 작업
+				response.getWriter().print(stockHistoryList); //emailcheck 값을 보내는 작업
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
 		}//if 끝
+	}
+	//--------재고 조정 작업---------
+	@PostMapping(value = "StockUpdate.st")
+	public void stockUpdate(
+			@RequestParam("updateStockNum") int update_qty,//업데이트 하는 수량
+			@RequestParam("stock_cd") int stock_cd, //재고번호
+			@RequestParam("product_cd") String product_cd, //품목코드
+			HttpServletResponse response,
+			HttpSession session
+			) {
+		//업데이트 하는 사원번호 (재고 이력에 등록)
+		String sId = (String)session.getAttribute("emp_num");  
+		//재고 조정
+		int updateCount = service.stockUpdate(update_qty, stock_cd);
+		if(updateCount > 0) {
+			//재고 조정 후 재고이력 테이블에 재고이력을 등록
+			int historyInsertCount = service.getInsertHistory(update_qty, stock_cd, product_cd, sId);
+			if(historyInsertCount > 0) {
+				try {
+					response.getWriter().print(updateCount); //emailcheck 값을 보내는 작업
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}
 	}//stockUpdate 끝
 	
 	
@@ -63,17 +89,26 @@ public class StockController {
 	public void stockMove(
 			@RequestParam("current_stock_cd") int current_stock_cd, //현재 재고번호
 			@RequestParam("move_stock_cd") int move_stock_cd, // 이동할 재고번호
-			@RequestParam("move_wh_loc_in_area") int move_wh_loc_in_area, // 이동할 구역
+			@RequestParam("move_wh_loc_in_area") String move_wh_loc_in_area, // 이동할 구역
 			@RequestParam("move_stock_num") int move_stock_num, //이동할 개수
-			HttpServletResponse response
+			@RequestParam("product_cd") int product_cd, //품목
+			HttpServletResponse response,
+			HttpSession session
 			) {
-		
+		//업데이트 하는 사원번호 (재고 이력에 등록)
+		String sId = (String)session.getAttribute("emp_num");  
+		//이동 작업
 		int moveCount = service.stockMove(current_stock_cd, move_stock_cd, move_wh_loc_in_area, move_stock_num);
 		if(moveCount > 0) {
-			try {
-				response.getWriter().print(moveCount); //emailcheck 값을 보내는 작업
-			} catch (Exception e) {
-				e.printStackTrace();
+			//이동 작업 성공 시 이력 테이블에 등록
+			int historyInsertCount = service.getInsertHistory(current_stock_cd, move_stock_cd, move_stock_num, sId, product_cd);
+			if(historyInsertCount > 0) {
+				
+				try {
+					response.getWriter().print(moveCount); //emailcheck 값을 보내는 작업
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}//if 끝
 		

@@ -27,5 +27,41 @@
 			FROM stock_view
 			WHERE stock_cd LIKE '%${keyword}%'
 	</select>
+	
+<!-- 재고 조정 시 재고이력 테이블에 등록 -->
+	<insert id="insertHistory">
+		INSERT INTO stock_history(STOCK_CD, CONTROL_TYPE_CD, PRODUCT_CD, QTY, EMP_NUM, STOCK_DATE)
+			VALUES (
+			#{stock_cd}
+			,2
+			,#{product_cd}
+			,#{update_qty}
+			,#{sId}
+			,now()
+			)
+			
+	</insert>
+<!-- 재고 이동 시 재고이력 테이블에 등록 -->
+	<insert id="insertHistory_mv">
+		INSERT INTO stock_history(STOCK_CD, CONTROL_TYPE_CD, PRODUCT_CD, SOURCE_STOCK_CD, TARGET_STOCK_CD, QTY, EMP_NUM, STOCK_DATE)
+			VALUES (
+			#{current_stock_cd}
+			,3
+			,#{product_cd}
+			,#{current_stock_cd}
+			,#{move_stock_cd}
+			,#{move_stock_num}
+			,#{sId}
+			,now()
+			)
+	
+	</insert>
+	<!--  -->
+	<select id="stockHistoryList" resultType="com.itwillbs.project.vo.StockHistoryVo">
+		SELECT *
+			FROM stock_history
+				WHERE stock_cd = #{stock_cd}
+	
+	</select>
 
 </mapper>
