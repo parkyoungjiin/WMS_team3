@@ -24,5 +24,8 @@ public interface Out_ScheduleMapper {
 	
 	// 출고예정 목록 - 상품별
 	List<OutSchedulePerProductVO> selectOutProdList(String out_schedule_cd);
+
+	//출고예정 폼 바꾸
+	int updateStatus(String out_complete);
 	
 }

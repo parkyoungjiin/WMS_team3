@@ -64,7 +64,7 @@
 				
 				$.ajax({
 					type: "get",
-					url: "OutList.os",
+					url: "OutComplete.os",
 					data: {
 						out_complete: "0" // 미완료 상태로 변경
 					},
@@ -86,7 +86,7 @@
 			} else if(btnVal=="종결") { // 종결버튼이 활성화 되어있다는 것은 미완료 상태라는 뜻
 				$.ajax({
 					type: "get",
-					url: "OutList.os",
+					url: "OutComplete.os",
 					data: {
 						out_complete: "1"
 					},
@@ -117,33 +117,34 @@
 	function checkIdx(cb) {
 		var ck_idx = cb.id.replace("scSearch", "");
 		var out_cd = $("#out_schedule_cd" + ck_idx).val();
-		alert(ck_idx);	
-		alert(out_cd);
+// 		alert(ck_idx);	
+// 		alert(out_cd);
 
 		$.ajax({
 			type:"GET"
-			,url: "OutList.os?out_schedule_cd=" + out_cd
+			,url: "OutListProd.os?out_schedule_cd=" + out_cd
 // 			,data: {
 // 				out_schedule_cd: out_cd
-// 			}
+// 			} // 컨트롤러에 @Responsebody 없으니까 fail 리턴됨
 			,dataType: "html"
 		})
-		.done(function(data) {
+		.done(function(outProdList) {
 			
 			for(let prod of outProdList) {
-
+				let product_cd = ${prod.out_product_cd}
+				$("#out > tbody").empty();
 				var outList = '<tr>' 
-							  + '<td>' + prod.out_product_cd + '</td>'
+							  + '<td>' + product_cd + '</td>'
 							  + '<td>' + prod.out_product_name + '</td>'
 							  + '<td>' + prod.out_schedule_qty + '</td>'
 							  + '</tr>'
-							  
-				
+				console.log(outList);				
 				$("#out > tbody").append(outList);
 			}
 		})
 		.fail(function() {
-			$("#out > tbody").append("<h3>요청 실패!</h3>");
+// 			console.log(osut_cd);
+			$("#modal-body").html("<h5>요청 실패!</h5>");
 		});
 		
 	}
@@ -172,16 +173,16 @@
 <!--                      	<div class="input-group mb-6"> -->
 <!-- 			        	 </div> -->
 			        	 <table class='table table-hover' id="out" style="margin-left: auto; margin-right: ">
-				         	<thead>
+			                <thead>
 				                <tr>
 				                	<th scope="col">품목코드</th>
 				                	<th scope="col">품목명[규격]</th>
 				                	<th scope="col">출고예정수량</th>
 				                	<th scope="col">미출고수량</th>
 				                </tr>
-							</thead>
-							<tbody>
-							</tbody>
+				            </thead>
+			                <tbody>
+			                </tbody>
 			        	 </table>
 
                     </div>

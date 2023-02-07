@@ -51,4 +51,9 @@ public class Out_ScheduleService {
 	public int insertOutProduct(OutSchedulePerProductVO osp2) {
 		return mapper.insertOutProduct(osp2);
 	}
+	
+	// 출고 예정의  종결상태 변
+	public int updateComplete(String out_complete) {
+		return mapper.updateStatus(out_complete);
+	}
 }
