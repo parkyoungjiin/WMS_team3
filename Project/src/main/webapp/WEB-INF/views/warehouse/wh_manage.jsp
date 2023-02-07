@@ -125,30 +125,6 @@
 						$("#tr").append("<h3>요청 실패!</h3>");
 					});
 					
-					//---------------선반 위치 출력------------------
-					$.ajax({
-						type: "GET",
-						url: "WareHouseLocInListJsonPro.wh",
-						dataType: "json"
-					})
-					.done(function(wharealoclist) { // 요청 성공 시
-						for(let list of wharealoclist) {
-							let test = '"'+list.wh_loc_in_area+'"';
-							let result ="<tr id='tr"+list.wh_loc_in_area_cd+"' class='loc_hide"+list.wh_area_cd+"'>"
-							+"<td scope='col'>&nbsp;&nbsp;&nbsp;&nbsp;<span id='text"+list.wh_loc_in_area_cd+"'> 선반 위치 :"+list.wh_loc_in_area+ "</span></td>"
-							+"<td><button class='btn btn-secondary' id='check_button' onclick='loc_tableDelte("+list.wh_loc_in_area_cd+")'>삭제</button>"
-							+"<button class='btn btn-secondary' id='modify_button2"+list.wh_loc_in_area_cd+"' onclick='modifyloc("+test+","+list.wh_loc_in_area_cd+")'>변경</button>"
-							+"<button class='btn btn-secondary modify_button2' id='modify_button"+list.wh_loc_in_area_cd+"' onclick='modify_loc_info("+test+","+list.wh_loc_in_area_cd+")'>수정</button></td>"
-							+"<input type='hidden' value='"+list.wh_loc_in_area_cd+"' id='loc_hidden_value'> "
-							+"</tr>";
-							$("#tr"+list.wh_area_cd).after(result);
-						}
-						$("[class^='loc_hide']").hide();
-						$(".modify_button2").hide();
-					})
-					.fail(function() {
-						$("#tr").append("<h3>요청 실패!</h3>");
-					});
 		});//제이쿼리 끝		
 		
 		//창고 지역 수정 작업
@@ -388,7 +364,29 @@
 			});
 		}// 창고 지역 삭제 끝
 		
-		
+		//------창고 안 재고 리스트 출력
+		function stocklist(){
+			$.ajax({
+				type: "GET",
+				url: "WareHouseStockListJsonPro.wh",
+				dataType: "json"
+			})
+			.done(function(whlist) { // 요청 성공 시
+				for(let list of whlist) {
+					let result = "<tr>"
+								+"<td></td>"
+								+"<td></td>"
+								+"<td></td>"
+								+"<td></td>"
+								+"<td></td>"
+								+"</tr>";
+					$("#stocklist > tbody").append(result);
+				}
+			})
+			.fail(function() {
+				$("table > tbody > tr").append("<h3>요청 실패!</h3>");
+			});// 창고 리스트 출력
+		}
 		
 </script>
 <!-- 카카오 주소 API -->
@@ -495,7 +493,7 @@ window.onload = function(){
        		</div>
        </div>
        <div class="card-body" style="padding: 50px 80px;">
-  				<table class="table table-hover">  
+  				<table id="stocklist" class="table table-hover">  
   					<thead>
                              <tr>
                                <th scope="col">재고번호</th>
