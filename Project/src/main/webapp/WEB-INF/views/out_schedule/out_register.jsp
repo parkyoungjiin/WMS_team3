@@ -37,12 +37,12 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 
-var date = new Date();
-var yyyy = date.getFullYear();
-var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
-var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+// var date = new Date();
+// var yyyy = date.getFullYear();
+// var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+// var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
  
-$("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
+// $("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
 
 
 var idx = 0;
@@ -271,6 +271,12 @@ $(function() {
 	
 	// 테이블 추가하기
 	$("#plus_out").on("click", function() {
+		
+		if($("#testDate").val().length == 0 ){
+			alert("납기일자를 작성해주세요.");
+			return;
+		}
+		
 		var date = $("#testDate").val();
 		var remarks = $("#remarks").val();
 		
@@ -285,13 +291,13 @@ $(function() {
 							'<tr>'
 							+ '<td><input type="checkbox" name="chk"></td>'
 							+ '<td>'
-							+ '<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-5">'
+							+ '<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-2">'
          					+ '<input type="text" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required">'
 	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>'
           					+ '</div></td>'
 							+ '<td><input type="text" class="form-control form-control-sm pro_name" required="required">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
-							+ '<td><input type="text" class="form-control form-control-sm" name="out_schedule_qtyArr" required="required"></td>'
+							+ '<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" onchange="calculateSum()"></td>'
 							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="out_dateArr" required="required"></td>'
 							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="remarks_proArr"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
@@ -307,9 +313,12 @@ $(function() {
            idx++;	
 	});
 });
+	
 
 //체크박스 선택 jQuery
 $(document).ready(function() {
+	
+
 	$("#chkAll").click(function() {
 		if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
 		else $("input[name=chk]").prop("checked", false);
@@ -322,7 +331,43 @@ $(document).ready(function() {
 		if(total != checked) $("#chkAll").prop("checked", false);
 		else $("#chkAll").prop("checked", true); 
 	});
+	
+	// 체크박스 선택 삭제
+	$("#delete_out").click(function(){
+		
+		if($("input:checkbox[name='chk']:checked").length === 0) {
+			alert("삭제할 항목을 선택해 주세요.");
+			return;
+		}
+		
+		$("input:checkbox[name='chk']:checked").each(function(k,kVal){
+			let a = kVal.parentElement.parentElement;
+			$(a).hide(); // idx 때문에 hide() 씀
+			
+		});
+		
+	});
+	
 });
+
+
+// 수량 합계 계산
+function calculateSum() {
+    var sum = 0;
+    var inputElements = document.getElementsByClassName("out_schedule_qty");
+    for (var i = 0; i < inputElements.length; i++) {
+      if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
+        sum += parseFloat(inputElements[i].value);
+      }
+    }
+    document.getElementById("sum").innerHTML = sum;
+  }
+
+  var inputFields = document.querySelectorAll(".out_schedule_qty");
+  inputFields.forEach(function(inputField) {
+    inputField.addEventListener("input", calculateSum);
+  });
+
 </script>
 
 <style type="text/css">
@@ -536,7 +581,7 @@ $(document).ready(function() {
 		                    <th scope="col">품목코드</th>
 		                    <th scope="col">품목명 [규격]</th>
 <!-- 		                    <th scope="col">규격</th> -->
-		                    <th scope="col" style="width: 50px">수량</th>
+		                    <th scope="col" style="width: 80px">수량</th>
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">비고</th>
 		                    <th scope="col">출고대상재고</th>
@@ -549,8 +594,9 @@ $(document).ready(function() {
 		              
 		              <!-- End Table with hoverable rows -->
        			<div class="text-right" style="float: right; padding-top: 50px">
-		        	수량 합계 : <input type="text" style="border: none;" size="5">
-                  <button type="submit" class="btn btn-primary" onclick="OutRegister.os">등록</button>
+<!-- 		        	수량 합계 : <input type="text" style="border: none;" size="5" > -->
+		        	<span style="font-size: 15px;">수량 합계 : </span><span id="sum" style="padding-right: 50px; font-size: 15px;"></span>
+                  <button type="submit" class="btn btn-primary">등록</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>
        </div>
