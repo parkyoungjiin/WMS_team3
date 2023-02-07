@@ -20,6 +20,7 @@ import com.itwillbs.project.service.EmpService;
 import com.itwillbs.project.service.Out_ScheduleService;
 import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.EmpVo;
+import com.itwillbs.project.vo.OutSchedulePerProductVO;
 import com.itwillbs.project.vo.OutScheduleVO;
 import com.itwillbs.project.vo.ProductVO;
 import com.itwillbs.project.vo.StockVo;
@@ -39,9 +40,11 @@ public class Out_ScheduleController {
 	
 	// ---------- 출고 관리 - 출고 예정 목록 ----------
 	@GetMapping(value = "OutList.os")
-	public String outList(Model model,@ModelAttribute OutScheduleVO outList) {
-		
+	public String outList(Model model) { //,@ModelAttribute OutScheduleVO outList) {
+		List<OutScheduleVO> outList = service.getOutScheduleList();
 		model.addAttribute("outList", outList);
+		List<OutSchedulePerProductVO> outProdList = service.getOutProdList();
+		model.addAttribute("outProdList",outProdList);
 		return "out_schedule/out_list";
 	} // outList 끝
 
