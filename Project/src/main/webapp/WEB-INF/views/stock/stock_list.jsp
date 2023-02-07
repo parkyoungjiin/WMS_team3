@@ -21,6 +21,22 @@
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
+
+<!-- 권한 여부 판별하여 인사부서인지 판별 -->
+<script type="text/javascript">
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_emp = str.charAt(3); // 재고조회(3) 여부 판별할 값
+	var priv_cd_emp2 = str.charAt(4); // 사원관리(2) 여부 판별할 값
+	
+	//사원조회, 사원관리에 대한 권한이 있는 지 판별
+	if(priv_cd_emp == '1' || priv_cd_emp2 == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("재고관리 권한이 없습니다");
+		history.back();
+	}
+</script>
 <!-- 재고 수량 조정작업 -->
 <script type="text/javascript">
 	function updateStock(cb) {
@@ -233,19 +249,19 @@ function save_stock_cd(cb) {
 		dataType: "json"
 	})//ajax 끝
 		.done(function(stockHistoryList) {
-			alert(stockHistoryList);
 			if(stockHistoryList != null){
 				for(let stockHistory of stockHistoryList) {
 					
-					let result = "<tr style='cursor:pointer;'>"
-				                + "<td>" + stockHistory.control_type_cd + "</td>"
-				                + "<td id='cust_name'>" + stockHistory.product_cd + "</td>"
-				                + "<td id='cust_name'>" + stockHistory.source_stock_cd + "</td>"
-				                + "<td id='cust_name'>" + stockHistory.target_stock_cd + "</td>"
-				                + "<td id='cust_name'>" + stockHistory.qty + "</td>"
-				                + "<td id='cust_name'>" + stockHistory.emp_num + "</td>"
-				                + "<td id='cust_name'>" + stockHistory.stock_date + "</td>"
-				                + "<td id='cust_name'>" + stockHistory.remarks + "</td>"
+					let result = 
+								"<tr style='cursor:pointer;'>"
+				                + "<td>" + stockHistory.stock_date + "</td>"
+				                + "<td>" + stockHistory.stock_control_type_name + "</td>"
+				                + "<td>" + stockHistory.product_name + "</td>"
+				                + "<td>" + stockHistory.source_stock_cd + "</td>"
+				                + "<td>" + stockHistory.target_stock_cd + "</td>"
+				                + "<td>" + stockHistory.qty + "</td>"
+				                + "<td>" + stockHistory.emp_name + "</td>"
+				                + "<td>" + stockHistory.remarks + "</td>"
 		               			+ "</tr>";
 		             
 					$("#modal-body-stockHistory > table").append(result);
@@ -381,8 +397,6 @@ function save_stock_cd(cb) {
                     <div class="modal-body" id="modal-body-stockHistory" style="text-align: center;">
                     
 	                    <div class="input-group mb-6">
-			             		<input name="" type="text" class="form-control" id="stock_keyword" placeholder="검색 후 이용 바랍니다.">
-					         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_stockList">검색</button>
 			        	 </div>
 				        	 <table class='table table-hover' id="stock_history_table" style="margin-left: auto; margin-right: ">
 					        	 		<tr>
@@ -391,15 +405,14 @@ function save_stock_cd(cb) {
 					        	 			<th scope="col">품목명</th>
 					        	 			<th scope="col">보낸 재고번호</th>
 					        	 			<th scope="col">받은 재고번호</th>
-					        	 			<th scope="col">수량</th>
-					        	 			<th scope="col">작업자명</th>
+					        	 			<th scope="col">작업수량</th>
+					        	 			<th scope="col">작업자 명</th>
 					        	 			<th scope="col">적요</th>
 					        	 		</tr>
 				        	 	</table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                   </div>
                 </div>

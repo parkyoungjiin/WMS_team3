@@ -35,18 +35,18 @@
 			#{stock_cd}
 			,2
 			,#{product_cd}
-			,0
-			,0
+			,""
+			,""
 			,#{update_qty}
 			,#{sId}
 			,now()
-			,0
+			,"재고 조정작업"
 			)
 			
 	</insert>
 <!-- 재고 이동 시 재고이력 테이블에 등록 -->
 	<insert id="insertHistory_mv">
-		INSERT INTO stock_history(STOCK_CD, CONTROL_TYPE_CD, PRODUCT_CD, SOURCE_STOCK_CD, TARGET_STOCK_CD, QTY, EMP_NUM, STOCK_DATE)
+		INSERT INTO stock_history
 			VALUES (
 			#{current_stock_cd}
 			,3
@@ -56,14 +56,15 @@
 			,#{move_stock_num}
 			,#{sId}
 			,now()
+			,"재고 이동작업" 
 			)
 	
 	</insert>
 	<!--  -->
 	<select id="stockHistoryList" resultType="com.itwillbs.project.vo.StockHistoryVo">
 		SELECT *
-			FROM stock_history
-				WHERE stock_cd = #{stock_cd}
+			FROM stock_history_view
+				WHERE STOCK_CD = #{stock_cd}
 	
 	</select>
 

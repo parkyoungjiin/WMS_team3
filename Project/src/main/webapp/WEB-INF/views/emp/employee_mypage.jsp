@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +20,11 @@
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
+<script type="text/javascript">
+if(${msg} != null){
+	alert("${msg}");
+}
+</script>
 </head>
 <body>
 <header>
