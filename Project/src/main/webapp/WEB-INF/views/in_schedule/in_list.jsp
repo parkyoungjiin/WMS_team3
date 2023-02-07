@@ -8,6 +8,19 @@
 <html>
 <head>
 <!-- 거래처(기본 등록) 권한 판별 -->
+<style type="text/css">
+*{margin:0; padding:0;}
+ul{list-style:none;}
+a{text-decoration:none; color:#333;}
+.wrap{padding:15px; letter-spacing:-0.5px;}
+.tab_menu{position:relative;}
+.tab_menu .list{overflow:hidden;}
+.tab_menu .list li{float:left; margin-right:14px;}
+.tab_menu .list .btn{font-size:13px;}
+.tab_menu .list .cont{display:none; position:absolute; top:25px; left:0; background:#555; color:#fff; text-align:center; width:250px; height:100px; line-height:100px;}
+.tab_menu .list li.is_on .btn{font-weight:bold; color:green;}
+.tab_menu .list li.is_on .cont{display:block;}
+</style>
 <script type="text/javascript">
 // 	var str = '${priv_cd}' // 세션에 저장된 권한코드
 	
@@ -56,51 +69,18 @@
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
-<script type="text/javascript">
-$(function() {
-	$("#ing").click(function() {
-		$.ajax({
-			type: "get",
-			url: "InProgressList", 
-			data:{
-				id : $("id").val()
-			},
-			dataType: "html"
-		})
-		.done(function() { // 요청 성공 시
-			alert("수정 하셨습니다.");
-			let result ="
-				IN_SCHEDULE_CD
-			";
-		})
-		.fail(function() {
-			alert("수정 실패 하셨습니다.");	
-		});
-	});
-});
+<style>
+  .tab_menu{position:relative;}
+  .tab_menu .list{overflow:hidden;}
+  .tab_menu .list li{float:left;}
+  .tab_menu .list .btn{font-size:13px; margin-right:14px;}
+  .tab_menu .list .cont{display:none; position:absolute; background:#555; color:#fff; text-align:center; width:1000px; height:100px; line-height:100px;}
+  .tab_menu .list li.is_on .btn{font-weight:bold; color:green;}
+  .tab_menu .list li.is_on .cont{display:block;}
+</style>
 
 
-//------------종결여부
-$(function() {
-		var btnVal = $("#complete").val();
-// 		alert(btnVal);
-	// 종결, 완료여부 버튼
-		if(btnVal=="종결") {
-			$(":button").on("click", function() {
-				$("#complete").attr("value","완료");
-				$("#complete").removeClass("btn-secondary").addClass("btn-primary");
-				alert(btnVal)
-			})
-		} else if(btnVal=="완료"){
-			$(":button").on("click", function() {
-				$("#complete").attr("value","종결");
-				$("#complete").removeClass("btn-primary").addClass("btn-secondary");
-			})
-		}
-	});
 
-
-</script>
 </head>
 <body class="sb-nav-fixed">
 <header>
@@ -115,16 +95,18 @@ $(function() {
       <h1>입고 관리</h1>
     </div><!-- End Page Title -->
     
-            <div class="card mb-4">
+    
+
+<div class="tab_menu">
+  <ul class="list">
+    <li class="is_on">
+      <a href="#tab1" class="btn">전체</a>
+        <div id="tab1" class="cont">
                 <div class="card-header">
                      입고 예정 목록
                      <button class="btn btn-primary" onclick="location.href='InRegisterForm'" style="float: right;">신규등록</button>
                  </div>
-                 <div class="card-header">
-                     <button class="btn btn-primary" onclick="location.href=''">전체</button>
-                     <button class="btn btn-primary" id="ing">진행중</button>
-                     <button class="btn btn-primary" onclick="location.href=''">완료</button>
-                     </div>
+  
                  <div class="card-body">
                  	<table class="table table-hover">
 		                <thead>
@@ -159,10 +141,10 @@ $(function() {
 		                    <td>${isList.EMP_NUM}</td>	<!-- 담당자명 -->
 		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 -->
 		                    <td>${isList.IN_DATE}</td> <!-- 납기일자 -->
-		                    <td></td> <!-- 입고예정수량합계 -->
+		                    <td></td> <!-- 입고예정량합계 -->
 		                    <td></td> <!-- 종결여부 -->
 <!-- 		                    <td><input type="button" value="조회"></td> 진행상태 -->
-<%-- <%-- 		                     <td>${isList.IN_COMPLETE }</td> --%> --%>
+<%-- <%-- 		                     <td>${isList.IN_COMPLETE }</td> --%> 
 <!-- 								<td> -->
 <%-- 								<c:choose > --%>
 <%-- 									<c:when test="${isList.IN_COMPLETE eq '1' }"> --%>
@@ -180,6 +162,36 @@ $(function() {
 		              </table>
 		             </div>
             </div>
+    </li>
+    <li>
+      <a href="#tab2" class="btn">진행중</a>
+      <div id="tab2" class="cont">Tab Content2</div>
+    </li>
+    <li>
+      <a href="#tab3" class="btn">완료</a>
+      <div id="tab3" class="cont">Tab Content3</div>
+    </li>
+  </ul>
+</div>
+
+<script>
+  const tabList = document.querySelectorAll('.tab_menu .list li');
+  
+  for(var i = 0; i < tabList.length; i++){
+    tabList[i].querySelector('.btn').addEventListener('click', function(e){
+      e.preventDefault();
+      for(var j = 0; j < tabList.length; j++){
+        tabList[j].classList.remove('is_on');
+      }
+      this.parentNode.classList.add('is_on');
+    });
+  }
+</script>
+    
+    
+    
+    
+          
 </main>		
 
 

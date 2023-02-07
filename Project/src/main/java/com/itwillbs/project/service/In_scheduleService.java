@@ -28,10 +28,10 @@ public class In_scheduleService {
 //		return mapper.selectInprogressList();
 //	}
 
-	//입고 수정
-	public InScheduleVO getInschedule(int iN_SCHEDULE_CD, boolean b) {
-		
-		return mapper.modifyInschedule();
+
+	//입고 수정pro
+	public int modifyPro(InScheduleVO ins) {
+		return mapper.updateInschedule(ins);
 	}
 
 }

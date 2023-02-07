@@ -33,12 +33,21 @@ WHERE IN_COMPLETE=1
 
 </select>
 
-<update id="modifyInschedule">
-UPDATE in_schedule SET IN_SCHEDULE_CD 
+<!-- 입고 수정 -->
+<update id="updateInschedule">
+UPDATE in_schedule 
+SET 
+IN_SCHEDULE_CD = #{IN_SCHEDULE_CD},
+IN_TYPE_CD=#{IN_TYPE_CD},
+<!-- 보낸곳명 -->
+EMP_NUM=#{EMP_NUM},
+PRODUCT_NAME=#{PRODUCT_NAME},
+IN_DATE=#{IN_DATE},
+WHERE
+IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
 
 
 
 </update>
 
-<!-- 진행 중 목록 끝 -->
 </mapper>

@@ -231,10 +231,10 @@ function addRow() {
                     
                     
 <!--               	<div class="row mb-3"> -->
-<!-- <!-- 		      			<div class="input-group mb-6"> --> -->
-<!-- <!-- 		             		<input name="BUSINESS_NO" type="text" class="form-control" id="" > --> -->
-<!-- <!-- 				         <button id="" class="btn btn-secondary" type="button">검색</button> --> -->
-<!-- <!-- 			        	 </div> --> -->
+<!-- <!-- 		      			<div class="input-group mb-6"> --> 
+<!-- <!-- 		             		<input name="BUSINESS_NO" type="text" class="form-control" id="" > --> 
+<!-- <!-- 				         <button id="" class="btn btn-secondary" type="button">검색</button> --> 
+<!-- <!-- 			        	 </div> --> 
 			         
 <!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">비고</label> -->
 <!--                       <div class="col-md-8 col-lg-2"> -->
@@ -252,7 +252,7 @@ function addRow() {
                       
 <!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">진행상태</label> -->
 <!--                       <div class="col-md-8 col-lg-2"> -->
-<!-- <!--                         <input name="IN_COMPLETE" type="text" class="form-control" id="Twitter"> --> -->
+<!-- <!--                         <input name="IN_COMPLETE" type="text" class="form-control" id="Twitter"> --> 
 <!--                         <input type="text"  name="IN_COMPLETE" class="form-control" id="Twitter" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="숫자만 입력"> -->
 <!--                       </div> -->
 <!--                     </div> -->

@@ -2,6 +2,7 @@ package com.itwillbs.project.controller;
 
 import java.util.List;
 
+import javax.lang.model.element.ModuleElement;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +65,25 @@ public class In_ScheduleController {
 			Model model,
 			HttpSession session,
 			@RequestParam(defaultValue="1") int IN_SCHEDULE_CD) {
-		ins = service.getInschedule(IN_SCHEDULE_CD,false);
+		ins = service.getInscheduleList(IN_SCHEDULE_CD);
 		model.addAttribute("ins", ins);
 		return "in_schedule/in_modifyform";
+	}
+	
+	@PostMapping("/InModifyPro")
+	public String modifyPro(@ModelAttribute InScheduleVO ins, 
+			@RequestParam(defaultValue="1") int IN_SCHEDULE,
+			Model model) {
+		int updateCount = service.modifyPro(ins);
+		if(updateCount >0) {
+			return "redirect:/InList?IN_SCHEDULE_CD=" +ins.getIN_SCHEDULE_CD();
+			
+		}else {
+			model.addAttribute("msg","수정 실패");
+			return "fail_back";
+			
+		}
+		
 	}
 	
 	
