@@ -6,7 +6,7 @@
 	<insert id="insertProd">
 		INSERT INTO product
 			VALUES(
-				#{product_cd},
+				null,
 				#{product_name},
 				#{product_group_bottom_cd},
 				#{size_des},
@@ -22,11 +22,50 @@
 	
 	</insert>
 	
+	<!-- 품목 등록 리스트 -->
+	<select id="selectPdList" resultType="com.itwillbs.project.vo.ProductVO">
+		SELECT * FROM product
+			WHERE product_name LIKE '%${keyword}%'
+	</select>
+	
+	
+	
+	
 	<!-- 품목코드 중복 확인 -->
 	<select id="existCd" resultType="int">
 		SELECT COUNT(*)
 			FROM product
 			WHERE product_cd = #{product_cd}
 	</select>
+	
+	<!-- 품목 그룹 리스트 -->
+	<select id="selectGroupList" resultType="com.itwillbs.project.vo.ProductVO">
+		SELECT 
+			pgt.product_group_top_cd
+			, pgb.product_group_bottom_cd 
+			, pgb.product_group_bottom_name
+ 		FROM 
+ 			prod_group_bottom pgb, prod_group_top pgt
+		WHERE 
+			pgt.product_group_top_cd = pgb.product_group_top_cd
+		<if test="!keyword.equals('')">
+			<choose>
+				<when test="searchType.equals('product_group_bottom_cd')">
+					product_group_bottom_cd LIKE '%${keyword}%'
+				</when>
+				<when test="searchType.equals('product_group_bottom_name')">
+					product_group_bottom_name LIKE '%${keyword}%' 
+					OR board_content LIKE '%${keyword}%'
+				</when>
+			</choose>		
+		</if>
+<!-- 		ORDER BY -->
+<!-- 			board_re_ref DESC -->
+<!-- 			, board_re_seq ASC -->
+<!-- 		LIMIT  -->
+<!-- 			#{startRow} -->
+<!-- 			, #{listLimit} -->
+	</select>
+	
 
 </mapper>

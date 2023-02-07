@@ -89,77 +89,77 @@
 	
 	
 	// 품목 그룹 목록 조회(모달)
-	function load_PGroupList() {
+// 	function load_PGroupList() {
 		
-		let pGroup_keyword = $("#pGroup_keyword").val();
+// 		let pGroup_keyword = $("#pGroup_keyword").val();
 		
-		alert(pGroup_keyword);
+// 		alert(pGroup_keyword);
 		
-		$.ajax({
-			type: "GET",
-			url: "pGroupListJson?keyword=" + pGroup_keyword,
-			dataType: "json"
-		})
-		.done(function(ProdList) { // 요청 성공 시
-//	 			$(".modal-body").append(buyerList);
-//	 		$("#modal-body > table").empty();	
+// 		$.ajax({
+// 			type: "GET",
+// 			url: "pGroupListJson?keyword=" + pGroup_keyword,
+// 			dataType: "json"
+// 		})
+// 		.done(function(prodList) { // 요청 성공 시
+// //	 			$(".modal-body").append(buyerList);
+// //	 		$("#modal-body > table").empty();	
 		
-			if(ProdList.length == 0){
-//	 			$("#pGroup_search").append("<div></div>");
-				$("#pGroup_search").html("<div>등록된 데이터가 없습니다.</div>");
-				$("#pGroup_search").css("color","#B9062F");
-			} 
-//	 		else {
-//	 			$("#pGroup_search").remove();
-//	 		}
-			for(let list of ProdList) {
+// 			if(prodList.length == 0){
+// //	 			$("#pGroup_search").append("<div></div>");
+// 				$("#pGroup_search").html("<div>등록된 데이터가 없습니다.</div>");
+// 				$("#pGroup_search").css("color","#B9062F");
+// 			} 
+// //	 		else {
+// //	 			$("#pGroup_search").remove();
+// //	 		}
+// 			for(let list of prodList) {
 				
-				let result = "<tr style='cursor:pointer;'>"
-			                + "<td>" +list.product_group_bottom_cd+ "</td>"
-			                + "<td id='product_group_bottom_name'>" +list.product_group_bottom_name+ "</td>"
-	               			+ "</tr>";
+// 				let result = "<tr style='cursor:pointer;'>"
+// 			                + "<td>" +list.product_group_bottom_cd+ "</td>"
+// 			                + "<td id='product_group_bottom_name'>" +list.product_group_bottom_name+ "</td>"
+// 	               			+ "</tr>";
 	             
-				$("#modal-body > table").append(result);
-			}
-		})
-		.fail(function() {
-			$("#modal-body > table").append("<h3>요청 실패!</h3>");
-		});
-	}
+// 				$("#modal-body > table").append(result);
+// 			}
+// 		})
+// 		.fail(function() {
+// 			$("#modal-body > table").append("<h3>요청 실패!</h3>");
+// 		});
+// 	}
 	
-	$(function() {
+// 	$(function() {
 		
-		$("#buyer_table").on('click','tr',function(){
-			   let td_arr = $(this).find('td');
-			   console.log(td_arr);
+// 		$("#buyer_table").on('click','tr',function(){
+// 			   let td_arr = $(this).find('td');
+// 			   console.log(td_arr);
 			   
-//			   $('#no').val($(td_arr[0]).text());
-			   let no = $(td_arr[0]).text();
-//			   $('#name').val($(td_arr[1]).text());
-			   let cust_name = $(td_arr[1]).text();
-			   console.log(cust_name);
+// //			   $('#no').val($(td_arr[0]).text());
+// 			   let no = $(td_arr[0]).text();
+// //			   $('#name').val($(td_arr[1]).text());
+// 			   let cust_name = $(td_arr[1]).text();
+// 			   console.log(cust_name);
 			   
-			   // td 클릭시 모달 창 닫기
-			   $('##modalDialogScrollable_search_product_cd').modal('hide');
-			   $("#cust_name").val(cust_name);
-		});	   
+// 			   // td 클릭시 모달 창 닫기
+// 			   $('#modalDialogScrollable_buyer').modal('hide');
+// 			   $("#cust_name").val(cust_name);
+// 		});	   
 		
-		// td 클릭 시 해당 value 가져오기
-		$("#emp_table").on('click','tr',function(){
-			   let td_arr = $(this).find('td');
-			   console.log(td_arr);
+// 		// td 클릭 시 해당 value 가져오기
+// 		$("#emp_table").on('click','tr',function(){
+// 			   let td_arr = $(this).find('td');
+// 			   console.log(td_arr);
 			   
-//	 		   $('#no').val($(td_arr[0]).text());
-			   let emp_no = $(td_arr[0]).text();
-			   let dept_cd = $(td_arr[1]).text();
-			   let emp_name = $(td_arr[2]).text();
-			   console.log(emp_name);
+// //	 		   $('#no').val($(td_arr[0]).text());
+// 			   let emp_no = $(td_arr[0]).text();
+// 			   let dept_cd = $(td_arr[1]).text();
+// 			   let emp_name = $(td_arr[2]).text();
+// 			   console.log(emp_name);
 			   
-			   // td 클릭시 모달 창 닫기
-			   $('##modalDialogScrollable_search_product_cd').modal('hide');
-			   $("#emp_name").val(emp_name);
-			   $("#emp_num").val(emp_num);
-		});	   
+// 			   // td 클릭시 모달 창 닫기
+// 			   $('#modalDialogScrollable_emp').modal('hide');
+// 			   $("#emp_name").val(emp_name);
+// 			   $("#emp_num").val(emp_num);
+// 		});	   
 	
 	
 	
@@ -222,7 +222,7 @@
 		                    <input type="text" class="form-control" name="product_group_bottom_cd" id="product_group_bottom_cd"  placeholder="품목 그룹">
 		                    <label for="floatingName">* 품목 그룹</label>
                   	  </div>
-                      <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_search_product_cd" onclick="load_PGroupList()">검색</button>
+                      <button id="" class="btn btn-secondary" type="button" onclick="load_PGroupList()">검색</button>
                       <input type="text" class="form-control" name="" id="">
 	                    <div class="form-floating">
 	                   </div>
@@ -346,37 +346,45 @@
                 
                 
                 
-		<!-- Modal Dialog Scrollable -->
-		<!-- 거래처 검색 -->
-              <div class="modal fade" id="modalDialogScrollable_pGroup" tabindex="-1">
-                <div class="modal-dialog modal-dialog-scrollable">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">품목 그룹 검색</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modal-body" style="text-align: center;">
-                     	<div class="input-group mb-6">
-		             		<input name="pGroup_keyword" type="text" class="form-control" id="pGroup_keyword" >
-				         <button id="search_pGroup" class="btn btn-secondary" type="button" onclick="load_PGroupList()" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_search_product_cd">검색</button>
-			        	 </div>
-<!-- 			        	 <div id="modal-body-result" style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
-			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
-				                <tr>
-				                  <th scope="col">거래처코드</th>
-				                  <th scope="col">상호명</th>
-				                </tr>
-			        	 </table>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                  </div>
-                </div>
-              </div>End Modal Dialog Scrollable
+<!--              Modal Dialog Scrollable -->
+<!-- 			 거래처 검색 -->
+<!--               <div class="modal fade" id="modalDialogScrollable_pGroup" tabindex="-1"> -->
+<!--                 <div class="modal-dialog modal-dialog-scrollable"> -->
+<!--                   <div class="modal-content"> -->
+<!--                     <div class="modal-header"> -->
+<!--                       <h5 class="modal-title">품목 그룹 검색</h5> -->
+<!--                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+<!--                     </div> -->
+<!--                     <div class="modal-body" id="modal-body" style="text-align: center;"> -->
+<!--                      	<div class="input-group mb-6"> -->
+<!-- 		             		<input name="pGroup_keyword" type="text" class="form-control" id="pGroup_keyword" > -->
+<!-- 				         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_PGroupList()">검색</button> -->
+<!-- 			        	 </div> -->
+<!-- <!-- 			        	 <div id="modal-body-result" style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> --> -->
+<!-- 			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: "> -->
+<!-- 				                <tr> -->
+<!-- 				                  <th scope="col">거래처코드</th> -->
+<!-- 				                  <th scope="col">상호명</th> -->
+<!-- 				                </tr> -->
+<!-- 			        	 </table> -->
+<!--                     </div> -->
+<!--                     <div class="modal-footer"> -->
+<!--                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+<!--                       <button type="button" class="btn btn-primary">Save changes</button> -->
+<!--                     </div> -->
+<!--                   </div> -->
+<!--                 </div> -->
+<!--               </div>End Modal Dialog Scrollable -->
                 
               
+<!--               <div class="col-lg-6">   -->
+<!--                 <div class="col-md-12"> -->
+<!--                   <div class="form-floating"> -->
+<!--                     <input type="text" class="form-control" name="fax" placeholder="팩스"> -->
+<!--                     <label for="floatingName">큰칸!</label> -->
+<!--                   </div> -->
+<!--                 </div> -->
+<!--                </div>  -->
                
                 
               </form><!-- End floating Labels Form -->      

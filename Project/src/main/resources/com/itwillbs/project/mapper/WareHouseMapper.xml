@@ -23,6 +23,12 @@
 			FROM warehouse
 			ORDER BY abs(wh_cd)
 	</select>
+	<!-- 선반 조회 목록  -->
+	<select id="getwhAreaLocInList" resultType="com.itwillbs.project.vo.WareHouseVO">
+		SELECT * 
+			FROM wh_loc_in_area
+			ORDER BY abs(wh_loc_in_area_cd)
+	</select>
 	<!-- 창고 상세 -->
 	<select id="getWarehouse" resultType="com.itwillbs.project.vo.WareHouseVO">
 		SELECT * 
@@ -51,13 +57,13 @@
 				post_no = #{wh.post_no}
 			WHERE wh_cd = #{wh_cd}	
 	</update>
-	
+	<!-- 코드 중복 확인  -->
 	<select id="getDB_wh_cd" resultType="int">
 		SELECT COUNT(*)
 			FROM warehouse
 			WHERE wh_cd = #{wh_cd}
 	</select>
-	
+	<!-- 창고 지역 등록 -->
 	<insert id="WhAreaInsert">
 		INSERT INTO wh_area
 			VALUES(
@@ -68,14 +74,30 @@
 				0+1
 			)
 	</insert>
-	
+	<!-- 창고 선반 등록 -->
+	<insert id="WhLocAreaInsert">
+		INSERT INTO wh_loc_in_area
+			VALUES(
+				0,
+				#{wh_area_cd},
+				#{wh_loc_in_area},
+				#{wh_loc_in_area_cd},
+				0+1
+			)
+	</insert>
+	<!-- 창고 지역 목록 조회 -->
 	<select id="getwhAreaList" resultType="com.itwillbs.project.vo.WareHouseVO">
 		SELECT * 
 		FROM  wh_area
 	</select>
-	
+	<!-- 창고 지역 삭제  -->
 	<delete id="WhAreaDelte">
 		DELETE FROM wh_area
 		WHERE wh_area_cd=#{wh_area_cd}
+	</delete>
+	<!-- 창고 지역 삭제  -->
+	<delete id="WhLocAreaDelte">
+		DELETE FROM wh_loc_in_area
+		WHERE wh_loc_in_area_cd=#{wh_loc_in_area_cd}
 	</delete>
 </mapper>

@@ -8,11 +8,23 @@
 			WHERE product_name LIKE '%${keyword}%'
 	</select>
 	
+	<!-- 출고예정목록 조회  -->
+	<select id="selectOutScheduleList" resultType="com.itwillbs.project.vo.OutScheduleVO">
+		SELECT *
+			FROM out_schedule
+	</select>
 	
+	<!-- 출고예정목록 조회 - 상품별 -->
+	<select id="selectOutProdList" resultType="com.itwillbs.project.vo.OutSchedulePerProductVO">
+		SELECT *
+			FROM out_schedule_per_product
+	</select>
+		
 	<select id="selectStoList" resultType="com.itwillbs.project.vo.StockVo">
 		SELECT *
 			FROM stock
 			WHERE product_cd LIKE '%${keyword}%'
+
 	</select>
 	
 	

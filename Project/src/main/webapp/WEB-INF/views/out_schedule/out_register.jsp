@@ -339,8 +339,8 @@ $(document).ready(function() {
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 	
-<main id="main" class="main">
-            <form action="OutRegisterPro" method="post">
+	<main id="main" class="main">
+	<form action="OutRegisterPro" method="post">
 
    <div class="pagetitle">
      <h1>출고 관리</h1>
@@ -376,6 +376,7 @@ $(document).ready(function() {
 		             		<input name="cust_name" type="text" class="form-control" id="cust_name" required="required">
 		             		<input name="business_no" type="hidden" class="form-control" id="business_no" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" >검색</button>
+
 			        	 </div>
 			          </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">담당자</label>

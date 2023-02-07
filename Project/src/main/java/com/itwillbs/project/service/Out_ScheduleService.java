@@ -22,9 +22,20 @@ public class Out_ScheduleService {
 		return mapper.selectProList(keyword);
 	}
 
+	// 출고 예정 리스트
+	public List<OutScheduleVO> getOutScheduleList() {
+		return mapper.selectOutScheduleList();
+	}	
+
+	// 출고 예정 리스트 - 품목별
+	public List<OutSchedulePerProductVO> getOutProdList() {
+		return mapper.selectOutProdList();
+	}
+
 	// 재고 조회 (모달)
 	public List<StockVo> getStockList(String keyword) {
 		return mapper.selectStoList(keyword);
+
 	}
 
 	public int getSelectCode(OutScheduleVO os) {
@@ -40,4 +51,5 @@ public class Out_ScheduleService {
 	public int insertOutProduct(OutSchedulePerProductVO osp2) {
 		return mapper.insertOutProduct(osp2);
 	}
+
 }
