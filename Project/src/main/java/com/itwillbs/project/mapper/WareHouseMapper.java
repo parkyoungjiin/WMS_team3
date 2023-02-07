@@ -30,4 +30,6 @@ public interface WareHouseMapper {
 	List<WareHouseVO> getwhAreaLocInList();
 	void WhLocAreaInsert(WareHouseVO vo);
 	void WhLocAreaDelte(int wh_loc_in_area_cd);
+	void WhAreaupdate(WareHouseVO vo);
+	void WhAreaLocupdate(WareHouseVO vo);
 }

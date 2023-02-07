@@ -54,5 +54,11 @@ public void WhLocAreaInsert(WareHouseVO vo) {
 public void WhLocAreaDelte(int wh_loc_in_area_cd) {
 	mapper.WhLocAreaDelte(wh_loc_in_area_cd);
 }
+public void WhAreaupdate(WareHouseVO vo) {
+	mapper.WhAreaupdate(vo);
+}
+public void WhAreaLocupdate(WareHouseVO vo) {
+	mapper.WhAreaLocupdate(vo);
+}
 	
 }

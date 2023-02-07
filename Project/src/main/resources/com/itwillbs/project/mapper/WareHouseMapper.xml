@@ -100,4 +100,16 @@
 		DELETE FROM wh_loc_in_area
 		WHERE wh_loc_in_area_cd=#{wh_loc_in_area_cd}
 	</delete>
+	<!-- 창고 지역 수정  -->
+	<update id="WhAreaupdate">
+		UPDATE wh_area
+			SET wh_area=#{wh_area}
+			WHERE wh_area_cd=#{wh_area_cd}
+	</update>
+	<!-- 창고 지역 수정  -->
+	<update id="WhAreaLocupdate">
+		UPDATE wh_loc_in_area
+			SET wh_loc_in_area=#{wh_loc_in_area}
+			WHERE wh_loc_in_area_cd=#{wh_loc_in_area_cd}
+	</update>
 </mapper>

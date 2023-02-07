@@ -280,5 +280,20 @@ public class WareHouseController {
 		return "redirect:/WareHouseManage.wh";
 	}//창고 지역 끝
 	
+	//------------창고 지역 수정 작업---------------
+	@GetMapping(value = "WareHouseAreaUpdatePro.wh")
+	public String manageupdate(@ModelAttribute WareHouseVO vo) {
+		System.out.println(vo);
+		service.WhAreaupdate(vo);
+		return "redirect:/WareHouseManage.wh";
+	}//창고 지역 끝
+	//------------창고 지역 수정 작업---------------
+	@GetMapping(value = "WareHouseLocAreaUpdatePro.wh")
+	public String manlocageupdate(@ModelAttribute WareHouseVO vo) {
+		System.out.println(vo);
+		service.WhAreaLocupdate(vo);
+		return "redirect:/WareHouseManage.wh";
+	}//창고 지역 끝
+	
 	
 }//WareHouseController 끝
