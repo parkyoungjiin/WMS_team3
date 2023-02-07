@@ -46,6 +46,7 @@ window.onload = function(){
         reader.onload = function(event) {
           var img = document.createElement("img");
           img.setAttribute("src", event.target.result);
+          img.setAttribute("style", "width: 300px; height: 350px; object-fit: cover;");
           document.querySelector("div#image_container").innerHTML = '';
           document.querySelector("div#image_container").appendChild(img);
         };
@@ -278,7 +279,7 @@ $(function() {
        	                  <div class="input-group mb-6">
   	                    	<input type="text" class="form-control" name="EMP_DTEL" value="051" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
+                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
                       		<span class="input-group-text">-</span>
                       		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4">
      					   </div>                 
@@ -287,7 +288,7 @@ $(function() {
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">이메일</label>
-                		  <div class="col-md-8 col-lg-5">
+                		  <div class="col-md-8 col-lg-7">
                 		
 		                	<div class="input-group mb-5">
 		                      <input type="text" class="form-control" id="email1" name="EMP_EMAIL" onkeyup="onlyEngNumber(this)" required="required">
@@ -301,8 +302,9 @@ $(function() {
 									<option value="nate.com">nate.com</option>
 		                   		 </select>
 		                   		 <button onclick="checkEmail();" class="btn btn-secondary" style="margin-left: 30px">이메일 중복 확인</button>
+<!-- 		                   		 <input type="text" id="checkResultArea" class="form-control"> -->
+		                   		 <span id ="checkResultArea" class="input-group-text" style="width:133px "></span>
 		                    </div>
-		                   		 <div id ="checkResultArea" class="col-md-8 col-lg-5"></div>
 	                    </div>
                     </div>
 
@@ -390,9 +392,16 @@ $(function() {
                        <div class="col-md-8 col-lg-3">
                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);">
                       </div>
+               		 
                     </div>
 					
-					<div></div>
+					<div class="row mb-3">
+						<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
+                     	 <div id="image_container" style="width: 300px; height: 350px;">
+                      	</div>
+					</div>
+					<div>
+					</div>
                     <div class="text-left">
                       <button type="submit" class="btn btn-primary">사원 등록</button>
                     </div>

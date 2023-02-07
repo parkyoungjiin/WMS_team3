@@ -41,8 +41,8 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <img src="${path}/resources/test_image.jpg" alt="Profile" class="rounded-circle" style="width:100px; height: 100px;">
-              <h2>Kevin Anderson</h2>
-              <h3>Web Designer</h3>
+              <h2 style="margin-bottom: 15px">${emp.EMP_NAME}</h2>
+              <h3>${emp.GRADE_CD}</h3>
             </div>
           </div>
 
@@ -54,8 +54,7 @@
             <div class="card-body pt-3">
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
-
-                <li class="nav-item">
+				 <li class="nav-item">
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
                 </li>
 
@@ -120,12 +119,12 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form>
+                  <form action="updateMypageInfo.me" method="post">
                     <div class="row mb-3">
                     	<!-- 프로필 이미지 -->
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사원 이미지</label>
                       <div class="col-md-8 col-lg-9">
-                        <img src="assets/img/profile-img.jpg" alt="등록된 사진이 없습니다.">
+                        <img src="${path}/resources/${emp.PHOTO}" alt="등록된 사진이 없습니다.">
                         <div class="pt-2">
                           <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
                           <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
@@ -161,7 +160,7 @@
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">연락처(개인)</label>
-  	                    <div class="col-md-8 col-lg-3">
+  	                    <div class="col-md-8 col-lg-4">
        	                  <div class="input-group mb-6">
   	                    	<input type="text" class="form-control" name="EMP_TEL" value="010" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
                       		<span class="input-group-text">-</span>
@@ -174,11 +173,11 @@
 
                     <div class="row mb-3">
                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">연락처(사무실)</label>
-   	                    <div class="col-md-8 col-lg-3">
+   	                    <div class="col-md-8 col-lg-4">
        	                  <div class="input-group mb-6">
   	                    	<input type="text" class="form-control" name="EMP_DTEL" value="051" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value="${emp_dtel_number1}">
+                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" value="${emp_dtel_number1}">
                       		<span class="input-group-text">-</span>
                       		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value="${emp_dtel_number2}"> 
      					   </div>                 
@@ -206,7 +205,17 @@
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">재직여부</label>
                        <div class="col-md-8 col-lg-2">
-                        <input name="HIRE_DATE" type="text" class="form-control" id="" value="${emp.WORK_CD}" readonly>
+		                 <c:choose>
+	                       <c:when test="${emp.WORK_CD eq 'C1'}">
+                       			 <input name="WORK_CD" type="text" class="form-control" id="" value="재직" readonly>
+	                       </c:when>
+	                       <c:when test="${emp.WORK_CD eq 'C2'}">
+                       			 <input name="WORK_CD" type="text" class="form-control" id="" value="휴직" readonly>
+	                       </c:when>
+	                       <c:when test="${emp.WORK_CD eq 'C3'}">
+                      			  <input name="WORK_CD" type="text" class="form-control" id="" value="퇴사" readonly>
+	                       </c:when>
+	                  </c:choose>
 	                    </div>
                     </div>
 					
@@ -263,26 +272,26 @@
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form>
+                  <form action="ChangePasswd.em" method="post">
 
                     <div class="row mb-3">
-                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">현재 패스워드</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
+                        <input name="inputpasswd" type="password" class="form-control" id="currentPassword" placeholder="확인을 위해 패스워드를 입력 해주세요">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">새 패스워드</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <input name="newpasswd" type="password" class="form-control" id="newPassword" placeholder="새 비밀번호">
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">새 패스워드 재입력</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                        <input name="renewpasswd" type="password" class="form-control" id="renewPassword" placeholder="새 비밀번호 재입력">
                       </div>
                     </div>
 
