@@ -53,9 +53,9 @@
 			if(total != checked) $("#chkAll").prop("checked", false);
 			else $("#chkAll").prop("checked", true); 
 		});
-	});
+	}); // 체크박스 선택
 	
-	// 종결 상태 변경
+	// 종결 상태 변경 (DB에도 값 변경해야함)
 	$(function() {
 		$("#btnComp").click(function() {
 			var btnVal = $("#btnComp").val();
@@ -70,7 +70,7 @@
 					},
 					dataType: "html",
 					success: function(data) {
-						var check = confirm('완료된 출고상태를 변경 하시겠습니까?');
+						var check = confirm('종결된 출고를 취소하시겠습니까?');
 						 if (check) {
 						 	alert('출고가 완료되지 않았습니다.');
 							$("#btnComp").attr("value","종결");
@@ -92,7 +92,7 @@
 					},
 					dataType: "html",
 					success: function(data) {
-						 var check = confirm('출고상황을 완료로 변경 하시겠습니까?');
+						 var check = confirm('해당 출고를 종결하시겠습니까?');
 						 if (check) {
 						 	alert('출고가 완료되었습니다.');
 							$("#btnComp").attr("value","취소");
@@ -108,7 +108,18 @@
 				});
 			}
 		});
-	});
+	}); // 종결상태 변경
+	
+	// 진행상태 조회 > 품목별 조회목록
+	function searchCode('${outList.out_schedule_cd}') {
+		let scCode = $("#scSearch").val();
+		alert(scCode);
+		
+		$("#scSearch").click(function(){
+			
+		});
+		
+	} // 진행상태 조회 > 품목별 조회목록
 
 </script>
 </head>
@@ -177,7 +188,7 @@
 		                    <th scope="col">품목명[규격]</th>
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">출고예정수량합계</th>
-		                    <th scope="col">종결여부</th>
+		                    <th scope="col">종결상태변경</th>
 		                    <th scope="col">진행상태</th>
 		                  </tr>
 		                </thead>
@@ -190,21 +201,21 @@
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_name }</td>
-		                    <td>품목명</td>
+		                    <td>${outList. }</td>
 		                    <td>${outList.out_date }</td>
 		                    <td>jaego gaetsu</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
-										<input type="button"  id="btnComp" class="btn btn-sm btn-secondary" value="취소">
+										<input type="button" class="btn btn-sm btn-secondary" id="btnComp" value="취소">
 		                    		</c:when>
 		                    		<c:when test="${outList.out_complete eq '0'}">
-		                    			<input type="button" id="btnComp" class="btn btn-secondary btn-sm" value="종결">
+		                    			<input type="button" class="btn btn-secondary btn-sm" id="btnComp" value="종결">
 		                    		</c:when>
 		                    	</c:choose>
 		                    </td>
 		                    <td>
-								<button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete">조회</button>
+								<button class="btn btn-secondary btn-sm" id="scSearch" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="searchCode('${outList.out_schedule_cd}')">조회</button>
 							</td>
 		                  </tr>
 		                </c:forEach>

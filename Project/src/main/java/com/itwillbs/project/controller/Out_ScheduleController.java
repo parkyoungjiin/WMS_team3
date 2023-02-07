@@ -43,6 +43,7 @@ public class Out_ScheduleController {
 	public String outList(Model model) { //,@ModelAttribute OutScheduleVO outList) {
 		List<OutScheduleVO> outList = service.getOutScheduleList();
 		model.addAttribute("outList", outList);
+		System.out.println("종결상태 확인용" + outList);
 		List<OutSchedulePerProductVO> outProdList = service.getOutProdList();
 		model.addAttribute("outProdList",outProdList);
 		return "out_schedule/out_list";
