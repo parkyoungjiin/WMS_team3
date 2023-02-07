@@ -55,52 +55,61 @@
 		});
 	});
 	
-// 	$(function() {
-// 		  $('#btnComp').click( function() {
-// 		    if( $(this).val() == '종결' ) {
-// 		      $(this).html('취소');
-// 		    }
-// 		    else {
-// 		      $(this).html('종결');
-// 		    }
-// 		  });
-// 		});
-	
-	
+	// 종결 상태 변경
 	$(function() {
-		var btnVal = $("#btnComp").val();
-// 		alert(btnVal);
-		
-		$(":button").click(function() {
-			if(btnVal=="종결") {
-				$('#btnComp').val("취소");
+		$("#btnComp").click(function() {
+			var btnVal = $("#btnComp").val();
+			
+			if(btnVal=="취소") { // 취소버튼이 활성화일때는 해당상태가 1 > 클릭시 0(미완료 상태)으로 변경
 				
-			}
-			else {
-				$("#btnComp").val("종결");
+				$.ajax({
+					type: "get",
+					url: "OutList.os",
+					data: {
+						out_complete: "0" // 미완료 상태로 변경
+					},
+					dataType: "html",
+					success: function(data) {
+						var check = confirm('완료된 출고상태를 변경 하시겠습니까?');
+						 if (check) {
+						 	alert('출고가 완료되지 않았습니다.');
+							$("#btnComp").attr("value","종결");
+						 }
+						 else {
+						     alert('출고상태 변경이 취소되었습니다.');
+						 }
+					},
+					error: function(xhr, textStatus, errorThrown) {
+	 					alert("진생상황 변경 실패"); 
+		 				}
+				});
+			} else if(btnVal=="종결") { // 종결버튼이 활성화 되어있다는 것은 미완료 상태라는 뜻
+				$.ajax({
+					type: "get",
+					url: "OutList.os",
+					data: {
+						out_complete: "1"
+					},
+					dataType: "html",
+					success: function(data) {
+						 var check = confirm('출고상황을 완료로 변경 하시겠습니까?');
+						 if (check) {
+						 	alert('출고가 완료되었습니다.');
+							$("#btnComp").attr("value","취소");
+						 }
+						 else {
+						     alert('출고상태 변경이 취소되었습니다.');
+						 }
+
+					},
+					error: function(xhr, textStatus, errorThrown) {
+	 					alert("진생상황 변경 실패"); 
+		 				}
+				});
 			}
 		});
 	});
-// 	$(function() {
-// 		var btnVal = $("#btnComp").val();
-// 		alert(btnVal);
-// 	// 종결, 완료여부 버튼
-// 		if(btnVal=="종결") {
-// 			$(":button").click(function() {
-// 				$("#btnComp").attr("value","취소");
-// 				$("#btnComp").removeClass("btn-success").addClass("btn-warning");
-// // 				alert(btnVal)
-// 			});
-// 		}
-		
-// 		if(btnVal=="취소"){
-// 			$(":button").on("click", function() {
-// 				$(this)).attr("value","종결");
-// 				$(this).removeClass("btn-warning").addClass("btn-success");
-// // 				alert(btnVal);
-// 			});
-// 		}
-// 	});
+
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -115,7 +124,41 @@
 	<div class="pagetitle">
       <h1>출고 관리</h1>
     </div><!-- End Page Title -->
-    
+    	
+    	<div class="modal fade" id="modalDialogScrollable_complete" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body" style="text-align: center;">
+<!--                      	<div class="input-group mb-6"> -->
+<!-- 			        	 </div> -->
+			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
+				                <tr>
+				                	<th scope="col">품목코드</th>
+				                	<th scope="col">품목명[규격]</th>
+				                	<th scope="col">출고예정수량</th>
+				                	<th scope="col">미출고수량</th>
+				                </tr>
+<%-- 				                <c:forEach items="${outProdList }" var="outProdList"> --%>
+<!-- 					                <tr> -->
+<%-- 					                	<td>${outProdList.out_product_cd }</td> --%>
+<%-- 					                	<td>${outProdList.out_product_name }</td>  --%>
+<%-- 					                	<td>${outProdList.out_shedule_qty }</td> --%>
+<%-- 					                	<td>${outProdList.out_shedule_qty - outProdList.out_qty }</td> --%>
+<!-- 					                </tr> -->
+<%-- 				                </c:forEach> --%>
+			        	 </table>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+    	
             <div class="card mb-4">
                 <div class="card-header">
                      출고 예정 목록
@@ -131,7 +174,7 @@
 		                    <th scope="col">유형</th>
 		                    <th scope="col">받는곳명</th>
 		                    <th scope="col">담당자명</th>
-		                    <th scope="col">품목명</th>
+		                    <th scope="col">품목명[규격]</th>
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">출고예정수량합계</th>
 		                    <th scope="col">종결여부</th>
@@ -141,7 +184,7 @@
 		                <tbody>
 		                <c:forEach items="${outList }" var="outList">
 		                  <tr>
-		                    <th scope="row">1</th>
+		                    <th scope="row"></th>
 		                    <td><input type="checkbox" name="chk"></td>
 		                    <td>${outList.out_schedule_cd }</td>
 		                    <td>${outList.out_category }</td>
@@ -151,43 +194,23 @@
 		                    <td>${outList.out_date }</td>
 		                    <td>jaego gaetsu</td>
 		                    <td>
-	                   			<input type="button" class="btn btn-secondary btn-sm" id="btnComp" <c:choose><c:when test="${outList.out_complete eq '1' }">value="종결"</c:when><c:otherwise>value="취소"</c:otherwise></c:choose> >
-<%-- 		                    	<c:choose> --%>
-<%-- 		                    		<c:when test="${outList.out_complete eq '1'}"> --%>
-<%-- 		                    		</c:when> --%>
-<%-- 		                    		<c:when test="${outList.out_complete eq '0'}"> --%>
-<!-- 		                    			<input type="button" class="btn btn-warning btn-sm" value="취소"> -->
-<%-- 		                    		</c:when> --%>
-<%-- 		                    	</c:choose> --%>
-		                    </td>
-		                    <td>
-								<c:choose>
-		                    		<c:when test="${outList.out_process eq '1'}">
-		                    			<input type="button" class="btn btn-primary btn-sm" value="완료">
+		                    	<c:choose>
+		                    		<c:when test="${outList.out_complete eq '1'}">
+										<input type="button"  id="btnComp" class="btn btn-sm btn-secondary" value="취소">
 		                    		</c:when>
-		                    		<c:when test="${outList.out_process eq '0'}">
-		                    			<input type="button" class="btn btn-secondary btn-sm" value="미완료">
+		                    		<c:when test="${outList.out_complete eq '0'}">
+		                    			<input type="button" id="btnComp" class="btn btn-secondary btn-sm" value="종결">
 		                    		</c:when>
 		                    	</c:choose>
+		                    </td>
+		                    <td>
+								<button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete">조회</button>
 							</td>
 		                  </tr>
 		                </c:forEach>
-		                  <tr>
-		                    <th scope="row">2</th>
-		                    <td><input type="checkbox" name="chk"></td>
-		                    <td>Developer</td>
-		                    <td>Developer</td>
-		                    <td>35</td>
-		                    <td>35</td>
-		                    <td>2014-12-05</td>
-		                    <td>Developer</td>
-		                    <td>Developer</td>
-		                    <td>Developer</td>
-		                    <td>Developer</td>
-		                  </tr>
-		                  
 		                </tbody>
 		              </table>
+		              <button class="btn btn-primary" onclick="location.href='#'">삭제하기</button>
 		             </div>
             </div>
 </main>		

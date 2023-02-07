@@ -25,7 +25,7 @@
 <!-- 카테고리별 모아보기 -->
 <script type="text/javascript">
 	function selectWorkcode() {
-		let workcode = $("#").val();
+		let workcode = $(".").val();
 // 		alert(workcode);
 		$.ajax({
 			type: "GET",
@@ -94,13 +94,13 @@
                     <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" value="c1data-bs-target="#bordered-home" type="button" role="tab" aria-controls="home" aria-selected="true">재직</button>
+                  <button class="nav-link active work-tab" id="home-tab" data-bs-toggle="tab" value="c1data-bs-target="#bordered-home" type="button" role="tab" aria-controls="home" aria-selected="true" value="C1">재직</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">휴직</button>
+                  <button class="nav-link work-tab" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-profile" type="button" role="tab" aria-controls="profile" aria-selected="false" value="C2">휴직</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">퇴사</button>
+                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-contact" type="button" role="tab" aria-controls="contact" aria-selected="false" value="C3">퇴사</button>
                 </li>
               </ul>
               <div class="tab-content pt-2" id="borderedTabContent">
