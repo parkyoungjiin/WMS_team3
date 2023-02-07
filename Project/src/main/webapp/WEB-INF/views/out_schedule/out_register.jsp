@@ -272,8 +272,7 @@ $(function() {
 	// 테이블 추가하기
 	$("#plus_out").on("click", function() {
 		
-		if($("#testDate").val().length == 0 ){
-			alert("납기일자를 작성해주세요.");
+		if($("#testDate").val().length == 0 || $("#remarks").val().length == 0){
 			return;
 		}
 		
@@ -297,9 +296,9 @@ $(function() {
           					+ '</div></td>'
 							+ '<td><input type="text" class="form-control form-control-sm pro_name" required="required">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
-							+ '<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" onchange="calculateSum()"></td>'
+							+ '<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" onchange="calculateSum();"></td>'
 							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="out_dateArr" required="required"></td>'
-							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="remarks_proArr"></td>'
+							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="remarks_proArr" required="required"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
 							+ '<td><span class="stoContent"></span></td>'
 							+ '<input type="hidden" name="stock_cdArr" class="stock_cd">'
@@ -311,6 +310,8 @@ $(function() {
             				$("#out_list > tbody").append(addInput);
             				
            idx++;	
+           
+//            console.log(idx);
 	});
 });
 	
@@ -343,31 +344,51 @@ $(document).ready(function() {
 		$("input:checkbox[name='chk']:checked").each(function(k,kVal){
 			let a = kVal.parentElement.parentElement;
 			$(a).hide(); // idx 때문에 hide() 씀
-			
+// 			$(a).td.val(0);
+// 			console.log(a);
+// 			$(a).detach(); // hide 쓰니까 값이 다 넘어가서 detach() 씀 // 근데 또 안됨.............
 		});
 		
 	});
 	
+	
+	
 });
 
 
-// 수량 합계 계산
-function calculateSum() {
-    var sum = 0;
-    var inputElements = document.getElementsByClassName("out_schedule_qty");
-    for (var i = 0; i < inputElements.length; i++) {
-      if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
-        sum += parseFloat(inputElements[i].value);
-      }
-    }
-    document.getElementById("sum").innerHTML = sum;
-  }
 
-  var inputFields = document.querySelectorAll(".out_schedule_qty");
-  inputFields.forEach(function(inputField) {
-    inputField.addEventListener("input", calculateSum);
-  });
 
+  // 재고 수량 비교
+//  function calculateQty(){
+	  
+// 	let stoQty = $(".stock_qty").eq(selectIdx).val(); // 재고 수량
+// 	let qty = $(".out_schedule_qty").eq(selectIdx).val(); // 출고 예정 수량
+// 	console.log(qty + "," + stoQty);
+	
+// 	if(qty > stoQty){
+// 		alert("재고 수량을 확인해주세요.");
+// 		$(".stock_qty").eq(selectIdx).focus();
+// 		$(".stock_qty").eq(selectIdx).val('');
+// 	}
+	
+//  }
+  
+//수량 합계 계산
+ function calculateSum() {
+     var sum = 0;
+     var inputElements = document.getElementsByClassName("out_schedule_qty");
+     for (var i = 0; i < inputElements.length; i++) {
+       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
+         sum += parseFloat(inputElements[i].value);
+       }
+     }
+     document.getElementById("sum").innerHTML = sum;
+   }
+
+   var inputFields = document.querySelectorAll(".out_schedule_qty");
+   inputFields.forEach(function(inputField) {
+     inputField.addEventListener("input", calculateSum);
+   });
 </script>
 
 <style type="text/css">

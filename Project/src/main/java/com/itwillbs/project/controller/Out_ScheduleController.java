@@ -252,20 +252,21 @@ public class Out_ScheduleController {
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
 					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
 					
-					System.out.println(osp2);
+//					System.out.println("왜 하나만 " + osp.getProduct_cdArr().length);
+//					System.out.println("왜 하나만 " + osp.getProduct_cdArr()[1]);
 					// 단일값으로 저장해야 할 항목들
 					osp2.setOut_schedule_cd(out_schedule_code); // 공통 출고 예정 번호
 					
 					int insertCount2 = service.insertOutProduct(osp2);
 					
-					if(insertCount2 > 0) {
-						return "redirect:/OutList.os";
-					} else {
-						model.addAttribute("msg", "출고 예정 등록 실패!");
-						return "fail_back";
-					}
 					
 				}
+//				if(insertCount2 > 0) {
+//					return "redirect:/OutList.os";
+//				} else {
+//					model.addAttribute("msg", "출고 예정 등록 실패!");
+//					return "fail_back";
+//				}
 				return "redirect:/OutList.os";
 			}else { // 실패
 				model.addAttribute("msg", "출고 예정 등록 실패!");
