@@ -293,13 +293,13 @@ $(function() {
 // 							+ '<td>' + '규격' + '</td>'
 							+ '<td><input type="text" class="form-control form-control-sm" name="IN_SCHEDULE_QTYArr" required="required"></td>'
 							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="IN_DATEArr" required="required"></td>'
-							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="REMARKS_PROArr"></td>'
+							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="REMARKSArr"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
 							+ '<td><span class="stoContent"></span></td>'
 							+ '<input type="hidden" name="STOCK_CDArr" class="stock_cd">'
 							+ '<input type="hidden" name="stock_qty" class="stock_qty">'
 							+ '<input type="hidden" name="PRODUCT_NAMEArr" class="product_nameArr">'
-							+ '<input type="hidden" name="SIZE_DESArr" class="product_sizeArr">'
+							+ '<input type="hidden" name="PRODUCT_SIZEArr" class="product_sizeArr">'
             				+ '</tr>';
             				
             				$("#out_list > tbody").append(addInput);
@@ -357,7 +357,7 @@ $(document).ready(function() {
               	<div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="DATE" type="date" class="form-control" id="out_schedule_date" required="required">
+                        <input name="IN_SCHEDULE_DATE" type="date" class="form-control" id="in_schedule_date" required="required">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">유형</label>
                       <div class="col-md-8 col-lg-2">
