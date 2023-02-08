@@ -223,7 +223,7 @@
 		                    <input type="checkbox" name="chk">
 		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
 		                    </td>
-		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a></td>
+		                    <td>${outList.out_schedule_cd }</td>
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_name }</td>
