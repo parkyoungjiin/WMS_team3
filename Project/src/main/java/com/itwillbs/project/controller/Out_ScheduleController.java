@@ -295,20 +295,21 @@ public class Out_ScheduleController {
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
 					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
 					
-					System.out.println(osp2);
+//					System.out.println("왜 하나만 " + osp.getProduct_cdArr().length);
+//					System.out.println("왜 하나만 " + osp.getProduct_cdArr()[1]);
 					// 단일값으로 저장해야 할 항목들
 					osp2.setOut_schedule_cd(out_schedule_code); // 공통 출고 예정 번호
 					
 					int insertCount2 = service.insertOutProduct(osp2);
 					
-					if(insertCount2 > 0) {
-						return "redirect:/OutList.os";
-					} else {
-						model.addAttribute("msg", "출고 예정 등록 실패!");
-						return "fail_back";
-					}
 					
 				}
+//				if(insertCount2 > 0) {
+//					return "redirect:/OutList.os";
+//				} else {
+//					model.addAttribute("msg", "출고 예정 등록 실패!");
+//					return "fail_back";
+//				}
 				return "redirect:/OutList.os";
 			}else { // 실패
 				model.addAttribute("msg", "출고 예정 등록 실패!");
@@ -316,5 +317,59 @@ public class Out_ScheduleController {
 			}
 			
 		} //outResiterPro 끝
+
+		
+		
+		// ---------- 출고 관리 - 출고 상세정보  ----------
+		@GetMapping(value = "/OutDetail")
+		public String OutDetail(
+				@ModelAttribute OutScheduleVO os, @ModelAttribute OutSchedulePerProductVO osp,
+				Model model) {
+			
+			os = service.getOSInfo(os.getOut_schedule_cd());
+			List<OutSchedulePerProductVO> ospList = service.getOutProdList(os.getOut_schedule_cd());
+			
+//			System.out.println("ospList : " + ospList);
+			
+			model.addAttribute("os",os);
+			model.addAttribute("ospList",ospList);
+			
+			return "out_schedule/out_modify";
+		}
+		
+		
+		// ---------- 출고 관리 - 출고예정 수정  ----------
+		@PostMapping(value = "/OutModifyPro")
+		public String OutUpdate(@ModelAttribute OutScheduleVO os, @ModelAttribute OutSchedulePerProductVO osp,
+				Model model) {
+			
+			int updateCount = service.updateOutSchedule(os);
+			
+				if(updateCount > 0) {
+				
+				// 품목별 수정
+				for(int i = 0; i < osp.getProduct_cdArr().length; i++) {
+					
+					OutSchedulePerProductVO osp2 = new OutSchedulePerProductVO();
+					// 여러값으로 저장해야 할 항목들
+					osp2.setProduct_cd(osp.getProduct_cdArr()[i]); // 품목코드
+					osp2.setProduct_name(osp.getProduct_nameArr()[i]); // 품목명
+					osp2.setProduct_size(osp.getProduct_sizeArr()[i]); // 품목 규격
+					osp2.setOut_schedule_qty(osp.getOut_schedule_qtyArr()[i]); // 출고 예정 수량
+					osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
+					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
+					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
+					
+					int updateCount2 = service.updateOutSchedulePro(osp2);
+					
+				}
+				return "redirect:/OutList.os";
+			}else { // 실패
+				model.addAttribute("msg", "출고 예정 수정 실패!");
+				return "fail_back";
+			}
+			
+			
+		}
 		
 }

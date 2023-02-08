@@ -44,8 +44,9 @@
  
 // $("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
 
-
-var idx = 0;
+// alert(${ospList.size()});
+var ospSize = ${ospList.size()};
+var idx = ospSize;
 var selectIdx;
 
 // 거래처 목록 조회(모달)
@@ -315,7 +316,7 @@ $(function() {
             				
            idx++;	
            
-//            console.log(idx);
+           console.log(idx);
 	});
 });
 	
@@ -410,40 +411,40 @@ $(document).ready(function() {
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 	
 	<main id="main" class="main">
-	<form action="OutRegisterPro" method="post">
-
+	<form action="OutModifyPro" method="post">
    <div class="pagetitle">
      <h1>출고 관리</h1>
    </div><!-- End Page Title -->
     
 	<div class="card mb-4">
-		<div class="card-header">
-            출고 입력
+		<div class="card-header" style="font-size: 20px;">
+            출고예정번호 : ${os.out_schedule_cd }
+			<input type="hidden" name="out_schedule_cd" value="${os.out_schedule_cd}">
         </div>
         
        <div class="card-body" style="padding: 80px 50px 30px 50px;">
               
               
-              	<div class="row mb-3">
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
-                      <div class="col-md-8 col-lg-2">
-                        <input name="out_schedule_date" type="date" class="form-control" id="out_schedule_date" required="required">
-                      </div>
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">출고유형</label>
-                      <div class="col-md-8 col-lg-2">
-                        <select name="out_category" required="required" class="form-select">
-								<option value="발주서">발주서</option>
-								<option value="구매">출고</option>
-							</select>
-                      </div>
-                    </div>
+<!--               	<div class="row mb-3"> -->
+<!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label> -->
+<!--                       <div class="col-md-8 col-lg-2"> -->
+<!--                         <input name="out_schedule_date" type="date" class="form-control" id="out_schedule_date" readonly="readonly"> -->
+<!--                       </div> -->
+<!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">출고유형</label> -->
+<!--                       <div class="col-md-8 col-lg-2"> -->
+<!--                         <select name="out_category" required="required" class="form-select"> -->
+<!-- 								<option value="발주서">발주서</option> -->
+<!-- 								<option value="구매">출고</option> -->
+<!-- 							</select> -->
+<!--                       </div> -->
+<!--                     </div> -->
                     
                     
               	<div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">거래처</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="cust_name" type="text" class="form-control" id="cust_name" required="required">
+		             		<input name="cust_name" type="text" class="form-control" id="cust_name" required="required" value="${os.cust_name }">
 		             		<input name="business_no" type="hidden" class="form-control" id="business_no" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" >검색</button>
 
@@ -452,7 +453,7 @@ $(document).ready(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">담당자</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="emp_name" type="text" class="form-control" id="emp_name" required="required">
+		             		<input name="emp_name" type="text" class="form-control" id="emp_name" required="required" value="${os.emp_name }">
 		             		<input name="emp_num" type="hidden" class="form-control" id="emp_num" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_emp">검색</button>
 			        	 </div>
@@ -462,11 +463,11 @@ $(document).ready(function() {
                 <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">납기일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="out_date" type="date" class="form-control" id="testDate" required="required">
+                        <input name="out_date" type="date" class="form-control" id="testDate" required="required" value="${os.out_date }">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">비고</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="remarks" type="text" class="form-control" id="remarks" >
+                        <input name="remarks" type="text" class="form-control" id="remarks" value="${os.remarks }">
                       </div>
                     </div>
                
@@ -501,7 +502,7 @@ $(document).ready(function() {
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
+<!--                       <button type="button" class="btn btn-primary">Save changes</button> -->
                     </div>
                   </div>
                 </div>
@@ -532,7 +533,7 @@ $(document).ready(function() {
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
+<!--                       <button type="button" class="btn btn-primary">Save changes</button> -->
                     </div>
                   </div>
                 </div>
@@ -563,7 +564,7 @@ $(document).ready(function() {
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">재고 선택</button>
+<!--                       <button type="button" class="btn btn-primary">재고 선택</button> -->
                     </div>
                   </div>
                 </div>
@@ -572,29 +573,29 @@ $(document).ready(function() {
 			
 		 <!-- Vertically centered Modal -->
 		 <!-- 재고 검색 -->
-              <div class="modal fade" id="modalDialogScrollable_sto" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 id="pro_search_sto" style="text-align: center;"></h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modal-body-sto">
+<!--               <div class="modal fade" id="modalDialogScrollable_sto" tabindex="-1"> -->
+<!--                 <div class="modal-dialog modal-dialog-centered"> -->
+<!--                   <div class="modal-content"> -->
+<!--                     <div class="modal-header"> -->
+<!--                       <h5 id="pro_search_sto" style="text-align: center;"></h5> -->
+<!--                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+<!--                     </div> -->
+<!--                     <div class="modal-body" id="modal-body-sto"> -->
                     	
-                    	<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
-				                <tr>
-				                  <th scope="col">재고번호</th>
-				                  <th scope="col">수량</th>
-				                </tr>
-			        	 </table>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                  </div>
-                </div>
-              </div><!-- End Vertically centered Modal-->	
+<!--                     	<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: "> -->
+<!-- 				                <tr> -->
+<!-- 				                  <th scope="col">재고번호</th> -->
+<!-- 				                  <th scope="col">수량</th> -->
+<!-- 				                </tr> -->
+<!-- 			        	 </table> -->
+<!--                     </div> -->
+<!--                     <div class="modal-footer"> -->
+<!--                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+<!--                       <button type="button" class="btn btn-primary">Save changes</button> -->
+<!--                     </div> -->
+<!--                   </div> -->
+<!--                 </div> -->
+<!--               </div>End Vertically centered Modal	 -->
 		<%-- ********************************** 복수개 품목명 입력창(하단부)************************************************* --%>		
 		<div class="card mb-4">
      	  <div class="card-body" style="font-size: small">
@@ -613,7 +614,24 @@ $(document).ready(function() {
 		                  </tr>
 		                </thead>
 		                <tbody>
-		                  
+		                <c:forEach items="${ospList }" var="ospList" varStatus="status"> 
+		                  	<tr>
+							<td>
+							<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-2">
+         					<input type="text" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }">
+	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>
+          					</div></td>
+							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="${ospList.product_name }"></td>
+							<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" value="${ospList.out_schedule_qty }" onchange="calculateSum();"></td>
+							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${ospList.out_date }" name="out_dateArr" required="required"></td>
+							<td><input type="text" class="form-control form-control-sm" value="${ospList.remarks_pro }" name="remarks_proArr"></td>
+							<td><span class="stoContent"></span></td>
+<!-- 							<input type="hidden" name="stock_cdArr" class="stock_cd"> -->
+<!-- 							<input type="hidden" name="stock_qty" class="stock_qty"> -->
+<!-- 							<input type="hidden" name="product_nameArr" class="product_nameArr"> -->
+<!-- 							<input type="hidden" name="product_sizeArr" class="product_sizeArr"> -->
+            				</tr>
+           				  </c:forEach>
 		                </tbody>
 		              </table>
 		              
@@ -621,7 +639,7 @@ $(document).ready(function() {
        			<div class="text-right" style="float: right; padding-top: 50px">
 <!-- 		        	수량 합계 : <input type="text" style="border: none;" size="5" > -->
 		        	<span style="font-size: 15px;">수량 합계 : </span><span id="sum" style="padding-right: 50px; font-size: 15px;"></span>
-                  <button type="submit" class="btn btn-primary">등록</button>
+                  <button type="submit" class="btn btn-primary">수정</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>
        </div>
