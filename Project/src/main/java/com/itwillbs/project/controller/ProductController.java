@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.itwillbs.project.service.ProductService;
 import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.ProductVO;
-import com.mysql.cj.Session;
 
 @Controller
 public class ProductController {
@@ -41,6 +40,7 @@ public class ProductController {
 		
 		//품목 리스트
 		List<ProductVO> ProdList = service.getPdList(keyword);
+		
 		model.addAttribute("ProdList", ProdList);
 		System.out.println(ProdList);
 		System.out.println("ProdList : " + ProdList);
@@ -69,7 +69,7 @@ public class ProductController {
 			, Model model) {
 		System.out.println(prod);
 		
-		
+		try {
 			//**품목 바코드 결합** 
 			// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 8자리), 자동부여
 			SimpleDateFormat year_format = new SimpleDateFormat("yyMM");
@@ -84,7 +84,7 @@ public class ProductController {
 			
 //		String year = date_format.format(prod.getInsertCdDate());
 
-			try {
+			
 				// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 8자리), 자동부여
 //				String Pcode = Integer.toString(prod.getProduct_group_top_cd())+Integer.toString(prod.getProduct_group_bottom_cd());
 				String Pcode = String.valueOf(prod.getProduct_group_top_cd())+String.valueOf(prod.getProduct_group_bottom_cd());
@@ -226,7 +226,7 @@ public String prodInfo(
 public String productUpdate(
 		@ModelAttribute ProductVO product
 		, Model model
-		, Session session) {
+		, HttpSession session) {
 	
 	int updateCount = service.updateProd(product);
 	
