@@ -52,6 +52,60 @@ a{text-decoration:none; color:#333;}
 		});
 	});
 
+	// 종결 상태 변경
+	$(function() {
+		$("#btnComp").click(function() {
+			var btnVal = $("#btnComp").val();
+			
+			if(btnVal=="취소") { // 취소버튼이 활성화일때는 해당상태가 1 > 클릭시 0(미완료 상태)으로 변경
+				
+				$.ajax({
+					type: "get",
+					url: "InList",
+					data: {
+						in_complete: "0" // 미완료 상태로 변경
+					},
+					dataType: "html",
+					success: function(data) {
+						var check = confirm('완료된 입고상태를 변경 하시겠습니까?');
+						 if (check) {
+						 	alert('입고가 완료되지 않았습니다.');
+							$("#btnComp").attr("value","종결");
+						 }
+						 else {
+						     alert('입고상태 변경이 취소되었습니다.');
+						 }
+					},
+					error: function(xhr, textStatus, errorThrown) {
+	 					alert("진생상황 변경 실패"); 
+		 				}
+				});
+			} else if(btnVal=="종결") { // 종결버튼이 활성화 되어있다는 것은 미완료 상태라는 뜻
+				$.ajax({
+					type: "get",
+					url: "InList",
+					data: {
+						in_complete: "1"
+					},
+					dataType: "html",
+					success: function(data) {
+						 var check = confirm('출고상황을 완료로 변경 하시겠습니까?');
+						 if (check) {
+						 	alert('출고가 완료되었습니다.');
+							$("#btnComp").attr("value","취소");
+						 }
+						 else {
+						     alert('출고상태 변경이 취소되었습니다.');
+						 }
+
+					},
+					error: function(xhr, textStatus, errorThrown) {
+	 					alert("진생상황 변경 실패"); 
+		 				}
+				});
+			}
+		});
+	});
 </script>
 <!-- 폰트어썸 -->
 <script src="https://kit.fontawesome.com/ca93809e69.js" crossorigin="anonymous"></script>
@@ -115,7 +169,7 @@ a{text-decoration:none; color:#333;}
 		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">입고예정번호</th>
 		                    <th scope="col">유형</th>
-<!-- 		                    <th scope="col">보낸곳명</th> -->
+		                    <th scope="col">보낸곳명</th>
 		                    <th scope="col">담당자명</th>
 		                    <th scope="col">품목명[규격]</th>
 		                    <th scope="col">납기일자</th>
@@ -130,31 +184,26 @@ a{text-decoration:none; color:#333;}
 		                 <tbody>
                           <c:forEach var="isList" items="${islist }" varStatus="idx">
 							<tr>
-<!-- 										<td><input type="checkbox"></td> -->
-<!-- 									
-	<td scope="row"></td> -->
+										
 	<td>${idx.count }</td>
 							<td><input type="checkbox" name="chk"></td> 
 							<td><a href="">${isList.DATE}-${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
 		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
-<%-- 		                    <td>${isList.BUSINESS_NO}</td> <!-- 보낸곳명 --> --%>
+		                    <td>${isList.BUSINESS_NO}</td> <!-- 보낸곳명 -->
 		                    <td>${isList.EMP_NUM}</td>	<!-- 담당자명 -->
 		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 -->
 		                    <td>${isList.IN_DATE}</td> <!-- 납기일자 -->
 		                    <td></td> <!-- 입고예정량합계 -->
-		                    <td></td> <!-- 종결여부 -->
-<!-- 		                    <td><input type="button" value="조회"></td> 진행상태 -->
-<%-- <%-- 		                     <td>${isList.IN_COMPLETE }</td> --%> 
-<!-- 								<td> -->
-<%-- 								<c:choose > --%>
-<%-- 									<c:when test="${isList.IN_COMPLETE eq '1' }"> --%>
-<!-- 										<span class="badge bg-success">YES</span> -->
-<%-- 									</c:when>		 --%>
-<%-- 									<c:otherwise> --%>
-<!-- 										<span class="badge bg-warning">NO</span> -->
-<%-- 									</c:otherwise>						 --%>
-<%-- 								</c:choose> --%>
-<!-- 								</td> -->
+		                       <td>
+		                    	<c:choose>
+		                    		<c:when test="${isList.in_complete eq '1'}">
+										<input type="button"  id="btnComp" class="btn btn-sm btn-secondary" value="취소">
+		                    		</c:when>
+		                    		<c:when test="${isList.in_complete eq '0'}">
+		                    			<input type="button" id="btnComp" class="btn btn-secondary btn-sm" value="종결">
+		                    		</c:when>
+		                    	</c:choose>
+		                    </td> 
 								
 							</tr> 
 							</c:forEach>  
@@ -165,13 +214,16 @@ a{text-decoration:none; color:#333;}
     </li>
     <li>
       <a href="#tab2" class="btn">진행중</a>
-      <div id="tab2" class="cont">Tab Content2</div>
+      <div id="tab2" class="cont">ghhg</div>
+           
+            
     </li>
     <li>
       <a href="#tab3" class="btn">완료</a>
-      <div id="tab3" class="cont">Tab Content3</div>
+      <div id="tab3" class="cont">히히</div>
     </li>
   </ul>
+   </div>
 </div>
 
 <script>

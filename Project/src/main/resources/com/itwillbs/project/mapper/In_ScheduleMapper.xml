@@ -4,6 +4,7 @@
 <select id="selectInscheduleList" resultType="com.itwillbs.project.vo.InScheduleVO">
 SELECT *
 FROM in_schedule
+
 </select>
 <!-- 입고물품 등록 -->
 <insert id="insertInschedule">
@@ -12,7 +13,10 @@ VALUES(
 0,
 #{DATE},
 #{IN_TYPE_CD},
+#{BUSINESS_NO},
+#{CUST_NAME},
 #{EMP_NUM},
+#{EMP_NAME},
 #{IN_DATE},
 #{REMARKS},
 #{PRODUCT_CD},
@@ -21,7 +25,8 @@ VALUES(
 #{IN_DATE1},
 #{REMARKS1},
 #{QTY},
-#{IN_QTY}
+#{IN_QTY},
+#{in_complete}
 )
 </insert>
 
@@ -49,5 +54,33 @@ IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
 
 
 </update>
+
+<!-- <select id="selectProcessingList" resultType="com.itwillbs.project.vo.InScheduleVO"> -->
+<!-- SELECT * FROM in_schedule -->
+<!-- WHERE in_complete=0 -->
+
+<!-- </select> -->
+
+<select id="selectCode" resultType="integer">
+SELECT 
+IFNULL(MAX(substring(in_schedule_cd,10)),0)
+FROM in_schedule
+</select>
+
+<insert id="insertOutProduct">
+INSERT INTO IN_SCHEDULE_PER_PRODUCT VALUES(
+#{in_schedule_cd}
+,#{PRODUCT_CD}
+,#{PRODUCT_NAME}
+,#{SIZE_DES}
+,#{IN_SCHEDULE_QTY}
+,#{IN_QTY}
+,#{IN_DATE}
+,#{REMARKS}
+,#{STOCK_CD}
+,0
+)
+
+</insert>
 
 </mapper>

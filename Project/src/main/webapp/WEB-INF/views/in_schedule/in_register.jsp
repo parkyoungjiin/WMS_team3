@@ -37,139 +37,294 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 
-	$(function() {
-		//업태, 종목 항목 input 태그 추가
-		$("#plus_uptae").on("click", function() {
+var date = new Date();
+var yyyy = date.getFullYear();
+var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+ 
+$("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
+
+
+var idx = 0;
+var selectIdx;
+
+// 거래처 목록 조회(모달)
+function load_buyerList() {
+	
+	let buyer_keyword = $("#buyer_keyword").val();
+	
+// 	alert(buyer_keyword);
+	
+	$.ajax({
+		type: "GET",
+		url: "BuyerListJson?keyword=" + buyer_keyword,
+		dataType: "json"
+	})
+	.done(function(buyerList) { // 요청 성공 시
+		 
+// 		$(".modal-body").append(buyerList);
+		$("#modal-body > table").empty();   
+	
+		for(let buyer of buyerList) {
 			
-			var addInput = '<div class="col-md-3">'
-            				+ '<input type="text" class="form-control" name="uptae">'
-            				+ '</div>';
 			
-// 			var addInput = '<input type="text" class="form-control" name="uptae">&nbsp';
-// 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
-			var trHtml = $("[name=orgInput_uptae]:last");
-			trHtml.before(addInput);
-		});
-		
-		
-		$("#plus_jongmok").on("click", function() {
+	         let result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right:'>"
+	                  + "<tr>"
+	                  + "<th scope='col'>거래처코드</th>"
+	                  + "<th scope='col'>상호명</th>"
+	                  + "</tr>"
+	                  + "<tr style='cursor:pointer;'>"
+	                  + "<td>" + buyer.business_no + "</td>"
+	                  + "<td id='cust_name'>" + buyer.cust_name + "</td>"
+	                  + "</tr>";
+	                  + "</table>"
+	                  
+	         $("#modal-body > table").append(result);
 			
-			var addInput = '<div class="col-md-3">'
-							+ '<input type="text" class="form-control" name="jongmok">'
-							+ '</div>';
-			
-// 			var addInput = '<input type="text" class="form-control" name="jongmok">&nbsp';
-// 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
-			var trHtml = $("[name=orgInput_jongmok]:last");
-			trHtml.before(addInput);
-		});
-		
-		
-// 	function checkCode() {
-	$("#business_no").keyup(function() {
-		let business_no = $('#business_no').val();
-		
-		 $.ajax({
-	            url:'CodeCheck', //Controller에서 요청 받을 주소
-	            type:'post', //POST 방식으로 전달
-	            data:{business_no:business_no},
-	            success:function(result){ //컨트롤러에서 넘어온 cnt값을 받는다 
-	                if(result == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 코드 
-// 	                	alert("사용 가능한 코드입니다.");
-						$("#checkCdResult").html("사용 가능한 코드입니다.");
-						$("#checkCdResult").css("color", "#3CAEFF");
-	                	codeStatus = true;
-	                } else { // cnt가 1일 경우 -> 이미 존재하는 코드
-// 	                    alert("이미 존재하는 코드입니다.");
-	                	$("#checkCdResult").html("사용 불가능한 코드입니다.");
-						$("#checkCdResult").css("color", "#B9062F");
-	                    codeStatus = false;
-	                }
-	            },
-	            error:function(){
-	                alert("중복 체크 실패!");
-	                codeStatus = false;
-	            }
-	        });
+// 			let result = "<tr style='cursor:pointer;'>"
+// 		                + "<td>" + buyer.business_no + "</td>"
+// 		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
+//                			+ "</tr>";
+             
+// 			$("#modal-body > table").append(result);
+		}
+	})
+	.fail(function() {
+		$("#modal-body > table").append("<h3>요청 실패!</h3>");
 	});
-});	
-	
-	<!-- 연락처 숫자만 입력되는 유효성 검사 -->
-	function uncomma(str) {
-	    str = String(str);
-	    return str.replace(/[^\d]+/g, '');
-	} 
-	 
-	function inputOnlyNumberFormat(obj) {
-	    obj.value = onlynumber(uncomma(obj.value));
-	}
-	 
-	function onlynumber(str) {
-	    str = String(str);
-	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
-	}
-	
-	<!-- 이메일 영어만 -->
-	function onlyEngNumber(str) {
-		var regType1 = /^[A-Za-z0-9+]*$/; // regex : 영어, 숫자만 입력
-		if (regType1.test(str.value)) { //영어, 숫자만 입력했을 때
-		}else{//영어, 숫자를 제외한 값 입력 시
-			str.value = ""; // ""으로 초기화
-		}
-	}//onlyEngNumber 끝
-	
-	// 등록 작업 막기
-	function fn_registerBuyer(){
-		if(business_no.length == 0){
-			alert("거래처 코드를 입력해주세요");
-			event.preventDefault();
-		} 
-		
-		if(codeStatus == false){
-			alert("거래처 코드를 확인해주세요");
-			event.preventDefault();
-		}
-	}
-	
-</script>
-<!-- 카카오 주소 API -->
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-window.onload = function(){
-    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-        //카카오 지도 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("emp_address_kakao").value = data.address; // 주소 넣기
-                document.getElementById("emp_address_zonecode").value = data.zonecode; // 우편번호 넣기
-                document.querySelector("input[id=emp_address_kakao2]").focus(); //상세입력 포커싱
-            }
-        }).open();
-    });
 }
-</script>
-<script type="text/javascript">
-function addRow() {
-	  // table element 찾기
-	  const table = document.getElementById('table table-hover');
-	  
-	  // 새 행(Row) 추가
-	  const newRow = table.insertRow();
-	  
-	  // 새 행(Row)에 Cell 추가
-	  const newCell1 = newRow.insertCell(0);
-	  const newCell2 = newRow.insertCell(1);
-	  const newCell3 = newRow.insertCell(2);
-	  const newCell4 = newRow.insertCell(3);
-	  const newCell5 = newRow.insertCell(4);
-	  const newCell6 = newRow.insertCell(5);
-	  
-	  // Cell에 텍스트 추가
-	}
 
 
+// 사원 목록 조회(모달)
+function load_empList() {
+	
+	let emp_keyword = $("#emp_keyword").val();
+	
+	$.ajax({
+		type: "GET",
+		url: "EmpListJson?keyword=" + emp_keyword,
+		dataType: "json"
+	})
+	.done(function(empList) { // 요청 성공 시
+// 		$(".modal-body").append(buyerList);
+// 		$("#modal-body-emp > table > td").empty();	
+	
+// 		if(buyerList.length == 0){
+// 			$("#buyer_search").append("<div></div>");
+// 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
+// 			$("#buyer_search").css("color","#B9062F");
+// 		} 
+// 		else {
+// 			$("#buyer_search").remove();
+// 		}
+		for(let emp of empList) {
+			
+			let result = "<tr style='cursor:pointer;'>"
+		                + "<td>" + emp.EMP_NUM + "</td>"
+		                + "<td>" + emp.DEPT_CD + "</td>"
+		                + "<td>" + emp.EMP_NAME + "</td>"
+               			+ "</tr>";
+             
+			$("#modal-body-emp > table").append(result);
+		}
+	})
+	.fail(function() {
+		$("#modal-body-emp > table").append("<h3>요청 실패!</h3>");
+	});
+}
+
+
+// 품목 목록 조회(모달)
+function load_proList() {
+	
+	let pro_keyword = $("#pro_keyword").val();
+	
+	$.ajax({
+		type: "GET",
+		url: "ProListJson?keyword=" + pro_keyword,
+		dataType: "json"
+	})
+	.done(function(proList) { // 요청 성공 시
+		
+		for(let pro of proList) {
+			
+			let result = "<tr style='cursor:pointer;'>"
+		                + "<td>" + pro.product_cd + "</td>"
+		                + "<td>" + pro.product_name + "</td>"
+		                + "<td>" + pro.size_des + "</td>"
+               			+ "</tr>";
+             
+			$("#modal-body-pro > table").append(result);
+		}
+	})
+	.fail(function() {
+		$("#modal-body-pro > table").append("<h3>요청 실패!</h3>");
+	});
+}
+
+
+// 재고 목록 조회(모달)
+// function load_stoList() {
+	
+// 	let sto_keyword = $(".pro_cd").eq(selectIdx).val();
+// // 	alert(sto_keyword);
+	
+// 	$.ajax({
+// 		type: "GET",
+// 		url: "StoListJson?keyword=" + sto_keyword,
+// 		dataType: "json"
+// 	})
+// 	.done(function(stoList) { // 요청 성공 시
+		
+// 		for(let sto of stoList) {
+			
+// 			let result = "<tr style='cursor:pointer;'>"
+// 		                + "<td>" + sto.stock_cd + "</td>"
+// 		                + "<td>" + sto.stock_qty + "</td>"
+//                			+ "</tr>";
+             
+// 			$("#modal-body-sto > table").append(result);
+// 		}
+// 	})
+// 	.fail(function() {
+// 		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+// 	});
+// }
+	
+
+
+//td 클릭 시 해당 value 가져오기
+$(function() {
+	
+	// 거래처
+	$("#buyer_table").on('click','tr',function(){
+		   let td_arr = $(this).find('td');
+		   console.log(td_arr);
+		   
+//		   $('#no').val($(td_arr[0]).text());
+		   let business_no = $(td_arr[0]).text();
+//		   $('#name').val($(td_arr[1]).text());
+		   let cust_name = $(td_arr[1]).text();
+		   console.log(cust_name);
+		   
+		   // td 클릭시 모달 창 닫기
+		   $('#modalDialogScrollable_buyer').modal('hide');
+		   $("#cust_name").val(cust_name);
+		   $("#business_no").val(business_no);
+	});	   
+	
+	
+	// 담당자
+	$("#emp_table").on('click','tr',function(){
+		   let td_arr = $(this).find('td');
+		   console.log(td_arr);
+		   
+// 		   $('#no').val($(td_arr[0]).text());
+		   let emp_num = $(td_arr[0]).text();
+		   let dept_cd = $(td_arr[1]).text();
+		   let emp_name = $(td_arr[2]).text();
+		   console.log(emp_name);
+		   
+		   // td 클릭시 모달 창 닫기
+		   $('#modalDialogScrollable_emp').modal('hide');
+		   $("#emp_name").val(emp_name);
+		   $("#emp_num").val(emp_num);
+	});	   
+	
+	
+	// 품목
+	$("#pro_table").on('click','tr',function(){
+		   let td_arr = $(this).find('td');
+		   
+// 		   console.log(td_arr);
+		   
+		   let pro_cd = $(td_arr[0]).text();
+		   let pro_name = $(td_arr[1]).text();
+		   let pro_size = $(td_arr[2]).text();
+		   
+		   // td 클릭시 모달 창 닫기
+		   $('#modalDialogScrollable_pro').modal('hide');
+		   $(".pro_cd").eq(selectIdx).val(pro_cd);
+		   $(".pro_name").eq(selectIdx).val(pro_name + " ["+pro_size+"]");
+		   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
+		   $(".product_sizeArr").eq(selectIdx).val(pro_size); // hidden input 에 규격 넣기
+// 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
+		   
+		   
+		   $.ajax({
+				type: "GET",
+				url: "StoListJson?keyword=" + pro_cd,
+				dataType: "json"
+			})
+			.done(function(stoList) { // 요청 성공 시
+				
+					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
+					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
+					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);
+			})
+			.fail(function() {
+				$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+			});
+		   
+	});	   
+	
+	
+	// 테이블 추가하기
+	$("#plus_out").on("click", function() {
+		var date = $("#testDate").val();
+		var remarks = $("#remarks").val();
+		
+// 		var count = 0; // 0부터 시작 
+// 		var n = $("#pro_cd" + count); // 현재 pro_cd 항목을 얻음 
+// 		count = count + 1; // 새로운 number를 할당 
+// 		n.attr("pro_cd" + count); // 새로운 number 할당 
+		
+		
+// 		alert(date);
+			var addInput =  
+							'<tr>'
+							+ '<td><input type="checkbox" name="chk"></td>'
+							+ '<td>'
+							+ '<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-5">'
+         					+ '<input type="text" class="form-control form-control-sm pro_cd" name="PRODUCT_CDArr" required="required">'
+	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>'
+          					+ '</div></td>'
+							+ '<td><input type="text" class="form-control form-control-sm pro_name" required="required">' + '</td>'
+// 							+ '<td>' + '규격' + '</td>'
+							+ '<td><input type="text" class="form-control form-control-sm" name="IN_SCHEDULE_QTYArr" required="required"></td>'
+							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="IN_DATEArr" required="required"></td>'
+							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="REMARKS_PROArr"></td>'
+// 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
+							+ '<td><span class="stoContent"></span></td>'
+							+ '<input type="hidden" name="STOCK_CDArr" class="stock_cd">'
+							+ '<input type="hidden" name="stock_qty" class="stock_qty">'
+							+ '<input type="hidden" name="PRODUCT_NAMEArr" class="product_nameArr">'
+							+ '<input type="hidden" name="SIZE_DESArr" class="product_sizeArr">'
+            				+ '</tr>';
+            				
+            				$("#out_list > tbody").append(addInput);
+            				
+           idx++;	
+	});
+});
+
+//체크박스 선택 jQuery
+$(document).ready(function() {
+	$("#chkAll").click(function() {
+		if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+		else $("input[name=chk]").prop("checked", false);
+	});
+	
+	$("input[name=chk]").click(function() {
+		var total = $("input[name=chk]").length;
+		var checked = $("input[name=chk]:checked").length;
+		
+		if(total != checked) $("#chkAll").prop("checked", false);
+		else $("#chkAll").prop("checked", true); 
+	});
+});
 </script>
+
 <style type="text/css">
 #title_label {
 	text-align: center;
@@ -184,8 +339,9 @@ function addRow() {
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 	
-<main id="main" class="main">
-<form action="InscheduleRegisterPro" method="post">
+	<main id="main" class="main">
+	<form action="InscheduleRegisterPro" method="post">
+
    <div class="pagetitle">
      <h1>입고 관리</h1>
    </div><!-- End Page Title -->
@@ -195,131 +351,211 @@ function addRow() {
             입고 입력
         </div>
         
-       <div class="card-body" style="padding: 50px 80px;">
-           
+       <div class="card-body" style="padding: 80px 50px 30px 50px;">
               
-<!--               <table> -->
+              
               	<div class="row mb-3">
-              	<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">일자</label>
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="DATE" type="date" class="form-control" id="Twitter">
+                        <input name="DATE" type="date" class="form-control" id="out_schedule_date" required="required">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">유형</label>
                       <div class="col-md-8 col-lg-2">
-<!--                         <input name="IN_TYPE_CD" type="text" class="form-control" id="Twitter"> -->
-							<select name ="IN_TYPE_CD">
-							<option value="">선택</option>
-							<option value="견적서">견적서</option>
-							<option value="주문서">주문서</option>
+                        <select name="IN_TYPE_CD" required="required" class="form-select">
+								<option value="발주서">발주서</option>
+								<option value="구매">출고</option>
 							</select>
                       </div>
+                    </div>
+                    
+                    
+              	<div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">거래처</label>
+                      <div class="col-md-8 col-lg-2">
+		      			<div class="input-group mb-6">
+		             		<input name="CUST_NAME" type="text" class="form-control" id="cust_name" required="required">
+		             		<input name="BUSINESS_NO" type="hidden" class="form-control" id="business_no" >
+				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" >검색</button>
+
+			        	 </div>
+			          </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">담당자</label>
                       <div class="col-md-8 col-lg-2">
-                         <input name="EMP_NUM" type="text" class="form-control" id="Twitter">
-                      </div>
-                      	<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">납기일자</label>
+		      			<div class="input-group mb-6">
+		             		<input name="EMP_NAME" type="text" class="form-control" id="emp_name" required="required">
+		             		<input name="EMP_NUM" type="hidden" class="form-control" id="emp_num" >
+				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_emp">검색</button>
+			        	 </div>
+			          </div>
+                    </div>
+                
+                <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">납기일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="IN_DATE" type="date" class="form-control" id="Twitter">
+                        <input name="IN_DATE" type="date" class="form-control" id="testDate" required="required">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">비고</label>
-                       <div class="col-md-8 col-lg-2">
-                       <input name="REMARKS" type="text" class="form-control" id="Twitter">
-                       </div>
-                       
+                      <div class="col-md-8 col-lg-2">
+                        <input name="REMARKS" type="text" class="form-control" id="remarks" >
+                      </div>
                     </div>
-                   
-                    
-                    
-<!--               	<div class="row mb-3"> -->
-<!-- <!-- 		      			<div class="input-group mb-6"> --> 
-<!-- <!-- 		             		<input name="BUSINESS_NO" type="text" class="form-control" id="" > --> 
-<!-- <!-- 				         <button id="" class="btn btn-secondary" type="button">검색</button> --> 
-<!-- <!-- 			        	 </div> --> 
-			         
-<!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">비고</label> -->
-<!--                       <div class="col-md-8 col-lg-2"> -->
-<!--                          <input name="REMARKS" type="text" class="form-control" id="Twitter"> -->
-<!--                       </div> -->
-<!-- 			          </div> -->
-                    </div>
-                 </div>	
-<!--                 <div class="row mb-3"> -->
-                      
-<!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">적요</label> -->
-<!--                       <div class="col-md-8 col-lg-2"> -->
-<!--                         <input name="REMARKS" type="text" class="form-control" id="Twitter"> -->
-<!--                       </div> -->
-                      
-<!--                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">진행상태</label> -->
-<!--                       <div class="col-md-8 col-lg-2"> -->
-<!-- <!--                         <input name="IN_COMPLETE" type="text" class="form-control" id="Twitter"> --> 
-<!--                         <input type="text"  name="IN_COMPLETE" class="form-control" id="Twitter" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="숫자만 입력"> -->
-<!--                       </div> -->
-<!--                     </div> -->
-                
+               
+               <div class="row mb-3" style="float: right;">
+                    	<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">
+	           				<input type="button" class="btn btn-secondary btn-sm" value="추가하기" id="plus_out">
+	           			</label>
+                    </div> 
 			</div> <!-- card-body -->
-<!--                </table> -->
-<!-- 		</div> card mb-4 -->
-		
-<!-- 		<div class="card mb-4"> -->
-        	
-     	  <div class="card-body">
-       			<table class="table table-hover">
+			
+			 <!-- Modal Dialog Scrollable -->
+			 <!-- 거래처 검색 -->
+              <div class="modal fade" id="modalDialogScrollable_buyer" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">거래처 검색</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body" style="text-align: center;">
+                     	<div class="input-group mb-6">
+		             		<input name="buyer_keyword" type="text" class="form-control" id="buyer_keyword" placeholder="검색 후 이용 바랍니다.">
+				         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_buyerList()">검색</button>
+			        	 </div>
+<!-- 			        	 <div id="modal-body-result" style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
+			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
+				                <tr>
+				                  <th scope="col">거래처코드</th>
+				                  <th scope="col">상호명</th>
+				                </tr>
+			        	 </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+              
+			 <!-- Modal Dialog Scrollable -->
+			 <!-- 담당자 검색 -->
+              <div class="modal fade" id="modalDialogScrollable_emp" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">담당자 검색</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-emp">
+                     	<div class="input-group mb-6">
+		             		<input name="emp_keyword" type="text" class="form-control" id="emp_keyword" placeholder="검색 후 이용 바랍니다.">
+				         <button id="search_emp" class="btn btn-secondary" type="button" onclick="load_empList()">검색</button>
+			        	 </div>
+<!-- 				         <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
+ 						<table class='table table-hover' id="emp_table" style="margin-left: auto; margin-right: ">
+				                <tr>
+				                  <th scope="col">사원번호</th>
+				                  <th scope="col">부서</th>
+				                  <th scope="col">사원명</th>
+				                </tr>
+			        	 </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+			
+			<!-- Modal Dialog Scrollable -->
+			 <!-- 품목 검색-->
+              <div class="modal fade" id="modalDialogScrollable_pro" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">품목 검색</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-pro">
+                     	<div class="input-group mb-6">
+		             		<input name="pro_keyword" type="text" class="form-control" id="pro_keyword" placeholder="검색 후 이용 바랍니다.">
+				         <button id="search_pro" class="btn btn-secondary" type="button" onclick="load_proList()">검색</button>
+			        	 </div>
+<!-- 			        	 <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
+						<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
+				                <tr>
+				                  <th scope="col">품목번호</th>
+				                  <th scope="col">품목명</th>
+				                  <th scope="col">규격</th>
+				                </tr>
+			        	 </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">재고 선택</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+		</div> <!-- card mb-4 -->
+			
+		 <!-- Vertically centered Modal -->
+		 <!-- 재고 검색 -->
+              <div class="modal fade" id="modalDialogScrollable_sto" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 id="pro_search_sto" style="text-align: center;"></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-sto">
+                    	
+                    	<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
+				                <tr>
+				                  <th scope="col">재고번호</th>
+				                  <th scope="col">수량</th>
+				                </tr>
+			        	 </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Vertically centered Modal-->	
+		<%-- ********************************** 복수개 품목명 입력창(하단부)************************************************* --%>		
+		<div class="card mb-4">
+     	  <div class="card-body" style="font-size: small">
+     	    <input type="button" class="btn btn-secondary btn-sm" value="삭제" id="delete_out">
+       			<table class="table table-hover" id="out_list">
 		                <thead>
 		                  <tr>
-		                    <th scope="col"><i class="fa-solid fa-arrow-down" onclick="addRow()"></i></th>
-		                    <th scope="col"><input type="checkbox"></th>
+		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">품목코드</th>
-		                    <th scope="col">품목명[규격]</th>
-		                    <th scope="col">수량</th>
+		                    <th scope="col">품목명 [규격]</th>
+		                    <th scope="col" style="width: 50px">수량</th>
 		                    <th scope="col">납기일자</th>
-		                    <th scope="col">적요</th>
+		                    <th scope="col">비고</th>
 		                  </tr>
 		                </thead>
-<!-- 		                 <tbody> -->
-<%--                           <c:forEach var="isList" items="${islist }" varStatus="idx"> --%>
-							<tr>
-<!-- 										<td><input type="checkbox"></td> -->
-<!-- 									
-	<td scope="row"></td> -->
-	<td>${idx.count }</td>
-	<td><input type="checkbox"></td> 
-	
-							<td> 
-                         <input name="PRODUCT_CD" type="text" class="form-control" id="Twitter" size=1></td>
-		                    <td> <input name="PRODUCT_NAME" type="text" class="form-control" id="Twitter" size=1></td>
-<!-- 		                    <td> <input name="SIZE_DES" type="text" class="form-control" id="Twitter" size=1></td> -->
-		                    <td> <input name="QTY" type="text" class="form-control" id="Twitter" size=1></td>
-		                    <td> <input name="IN_DATE" type="date" class="form-control" id="Twitter" size=1></td>
-		                    <td> <input name="REMARKS" type="text" class="form-control" id="Twitter" size=1></td>
-<%-- 		                     <td>${isList.IN_COMPLETE }</td> --%>
-<!-- 								<td> -->
-<%-- 								<c:choose > --%>
-<%-- 									<c:when test="${isList.IN_COMPLETE eq '1' }"> --%>
-<!-- 										<span class="badge bg-success">YES</span> -->
-<%-- 									</c:when>		 --%>
-<%-- 									<c:otherwise> --%>
-<!-- 										<span class="badge bg-warning">NO</span> -->
-<%-- 									</c:otherwise>						 --%>
-<%-- 								</c:choose> --%>
-<!-- 								</td> -->
-								
-							</tr> 
-<%-- 							</c:forEach>   --%>
-<!--                         </tbody> -->
+		                <tbody>
+		                  
+		                </tbody>
 		              </table>
 		              
 		              <!-- End Table with hoverable rows -->
        			<div class="text-right" style="float: right; padding-top: 50px">
-                  <button type="submit" class="btn btn-primary" >등록</button>
-                  <button type="reset" class="btn btn-secondary">다시쓰기</button>
+		        	수량 합계 : <input type="text" style="border: none;" size="5">
+                  <button type="submit" class="btn btn-primary" onclick="OutRegister.os">등록</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>
-          
        </div>
-       
+		
+
        </div>
-        </form>  
+     </form>  
 	</main>
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> -->
 </body>

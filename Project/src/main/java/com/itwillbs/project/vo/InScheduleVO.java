@@ -3,10 +3,13 @@ package com.itwillbs.project.vo;
 import java.sql.Date;
 
 public class InScheduleVO {
-	private int IN_SCHEDULE_CD;
+	private String IN_SCHEDULE_CD;
 	private Date DATE;
 	private String IN_TYPE_CD;
+	private String BUSINESS_NO;
+	private String CUST_NAME;
 	private String EMP_NUM;
+	private String EMP_NAME;
 	private Date IN_DATE;
 	private String REMARKS;
 	private String PRODUCT_CD;
@@ -16,11 +19,11 @@ public class InScheduleVO {
 	private String REMARKS1;
 	private int QTY;
 	private int IN_QTY;
-	
-	public int getIN_SCHEDULE_CD() {
+	private String in_complete;
+	public String getIN_SCHEDULE_CD() {
 		return IN_SCHEDULE_CD;
 	}
-	public void setIN_SCHEDULE_CD(int iN_SCHEDULE_CD) {
+	public void setIN_SCHEDULE_CD(String iN_SCHEDULE_CD) {
 		IN_SCHEDULE_CD = iN_SCHEDULE_CD;
 	}
 	public Date getDATE() {
@@ -35,11 +38,29 @@ public class InScheduleVO {
 	public void setIN_TYPE_CD(String iN_TYPE_CD) {
 		IN_TYPE_CD = iN_TYPE_CD;
 	}
+	public String getBUSINESS_NO() {
+		return BUSINESS_NO;
+	}
+	public void setBUSINESS_NO(String bUSINESS_NO) {
+		BUSINESS_NO = bUSINESS_NO;
+	}
+	public String getCUST_NAME() {
+		return CUST_NAME;
+	}
+	public void setCUST_NAME(String cUST_NAME) {
+		CUST_NAME = cUST_NAME;
+	}
 	public String getEMP_NUM() {
 		return EMP_NUM;
 	}
 	public void setEMP_NUM(String eMP_NUM) {
 		EMP_NUM = eMP_NUM;
+	}
+	public String getEMP_NAME() {
+		return EMP_NAME;
+	}
+	public void setEMP_NAME(String eMP_NAME) {
+		EMP_NAME = eMP_NAME;
 	}
 	public Date getIN_DATE() {
 		return IN_DATE;
@@ -95,13 +116,21 @@ public class InScheduleVO {
 	public void setIN_QTY(int iN_QTY) {
 		IN_QTY = iN_QTY;
 	}
+	public String getIn_complete() {
+		return in_complete;
+	}
+	public void setIn_complete(String in_complete) {
+		this.in_complete = in_complete;
+	}
 	@Override
 	public String toString() {
 		return "InScheduleVO [IN_SCHEDULE_CD=" + IN_SCHEDULE_CD + ", DATE=" + DATE + ", IN_TYPE_CD=" + IN_TYPE_CD
-				+ ", EMP_NUM=" + EMP_NUM + ", IN_DATE=" + IN_DATE + ", REMARKS=" + REMARKS + ", PRODUCT_CD="
-				+ PRODUCT_CD + ", PRODUCT_NAME=" + PRODUCT_NAME + ", SIZE_DES=" + SIZE_DES + ", IN_DATE1=" + IN_DATE1
-				+ ", REMARKS1=" + REMARKS1 + ", QTY=" + QTY + ", IN_QTY=" + IN_QTY + "]";
+				+ ", BUSINESS_NO=" + BUSINESS_NO + ", CUST_NAME=" + CUST_NAME + ", EMP_NUM=" + EMP_NUM + ", EMP_NAME="
+				+ EMP_NAME + ", IN_DATE=" + IN_DATE + ", REMARKS=" + REMARKS + ", PRODUCT_CD=" + PRODUCT_CD
+				+ ", PRODUCT_NAME=" + PRODUCT_NAME + ", SIZE_DES=" + SIZE_DES + ", IN_DATE1=" + IN_DATE1 + ", REMARKS1="
+				+ REMARKS1 + ", QTY=" + QTY + ", IN_QTY=" + IN_QTY + ", in_complete=" + in_complete + "]";
 	}
+	
 	
 	
 	
