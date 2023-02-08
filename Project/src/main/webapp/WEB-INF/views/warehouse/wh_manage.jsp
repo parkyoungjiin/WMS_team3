@@ -172,6 +172,7 @@
 			});
 		}else{
 			alert("창고 위치을 입력 해주세요!");
+			return false;
 		}
 	}
 		
@@ -186,6 +187,7 @@
 				alert("#test"+code);
 			}else{
 				alert("선반 위치를 입력 해주세요!");
+				return false;
 			}
 		}
 		
@@ -214,6 +216,7 @@
 			});
 		}else {
 			alert("선반 위치를 입력 해주세요!");
+			return false;
 		}	
 	}
 		//--------------------수정 끝------------
@@ -309,6 +312,7 @@
 		let test = $("#wh_area").val();
 		let wh_area = $("#wh_area"+wh_cd).val();
 		alert(wh_area);
+		if(html != ""){
 		$.ajax({
 			type: "GET",
 			url: "WareHouseAreaInsertPro.wh",
@@ -338,7 +342,9 @@
 			$("#modify_button").show();
 			$("#modify_button2").hide();
 		});
-			
+		}else {
+			alert("창고 위치를 입력 하세요");
+		}	
 	}// 창고 지역 입력 끝
 		
 		//-----------창고 선반 입력---------
@@ -348,6 +354,8 @@
 			var html = '';
 			let wh_area_loc = $("#wh_area_loc"+wh_cd).val();
 			alert(no);
+			
+			if(html != ""){
 			$.ajax({
 				type: "GET",
 				url: "WareHouseLocAreaInsertPro.wh",
@@ -372,7 +380,10 @@
 			html += '</tr>';
 			$("#tr"+wh_cd).after(html);
 			$("#wh_area_loc"+wh_cd).val("");
-			}// 창고 지역 입력 끝
+			}else {
+				alert("선반 위치를 입력 하세요");
+				}// 창고 지역 입력 끝
+			}
 		
 		//--------창고 지역 삭제 버튼-----------
 		function tableDelte(code) {
