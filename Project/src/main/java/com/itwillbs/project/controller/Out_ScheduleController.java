@@ -306,6 +306,7 @@ public class Out_ScheduleController {
 			os = service.getOSInfo(os.getOut_schedule_cd());
 			List<OutSchedulePerProductVO> ospList = service.getOutProdList(os.getOut_schedule_cd());
 			
+			
 //			System.out.println("ospList : " + ospList);
 			
 			model.addAttribute("os",os);
@@ -322,6 +323,8 @@ public class Out_ScheduleController {
 			
 			int updateCount = service.updateOutSchedule(os);
 			
+			System.out.println("os : " + os);
+			
 				if(updateCount > 0) {
 				
 				// 품목별 수정
@@ -336,6 +339,10 @@ public class Out_ScheduleController {
 					osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
 					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
+					
+					osp2.setOut_schedule_cd(os.getOut_schedule_cd());
+					
+					System.out.println("osp2 : " + osp2);
 					
 					int updateCount2 = service.updateOutSchedulePro(osp2);
 					

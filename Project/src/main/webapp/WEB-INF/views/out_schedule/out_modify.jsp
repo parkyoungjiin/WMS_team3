@@ -200,7 +200,7 @@ $(function() {
 	// 거래처
 	$("#buyer_table").on('click','tr',function(){
 		   let td_arr = $(this).find('td');
-		   console.log(td_arr);
+// 		   console.log(td_arr);
 		   
 //		   $('#no').val($(td_arr[0]).text());
 		   let business_no = $(td_arr[0]).text();
@@ -212,6 +212,7 @@ $(function() {
 		   $('#modalDialogScrollable_buyer').modal('hide');
 		   $("#cust_name").val(cust_name);
 		   $("#business_no").val(business_no);
+		   console.log(business_no);
 	});	   
 	
 	
@@ -224,12 +225,13 @@ $(function() {
 		   let emp_num = $(td_arr[0]).text();
 		   let dept_cd = $(td_arr[1]).text();
 		   let emp_name = $(td_arr[2]).text();
-		   console.log(emp_name);
+		   
 		   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_emp').modal('hide');
 		   $("#emp_name").val(emp_name);
 		   $("#emp_num").val(emp_num);
+		   console.log(emp_num);
 	});	   
 	
 	
@@ -246,9 +248,9 @@ $(function() {
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_pro').modal('hide');
 		   $(".pro_cd").eq(selectIdx).val(pro_cd);
-		   $(".pro_name").eq(selectIdx).val(pro_name + " ["+pro_size+"]");
+		   $(".pro_name").eq(selectIdx).val(pro_name);
+		   $(".pro_size").eq(selectIdx).val(pro_size); // 규격 따로 넣기
 		   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
-		   $(".product_sizeArr").eq(selectIdx).val(pro_size); // hidden input 에 규격 넣기
 // 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
 		   
 		   
@@ -300,7 +302,7 @@ $(function() {
 	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>'
           					+ '</div></td>'
 							+ '<td><input type="text" class="form-control form-control-sm pro_name" required="required">' + '</td>'
-// 							+ '<td>' + '규격' + '</td>'
+							+ '<td><input type="text" class="form-control form-control-sm pro_size" required="required" name="product_sizeArr" size="1"></td>'
 							+ '<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" onchange="calculateSum();"></td>'
 							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="out_dateArr" required="required"></td>'
 							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="remarks_proArr"></td>'
@@ -309,14 +311,14 @@ $(function() {
 							+ '<input type="hidden" name="stock_cdArr" class="stock_cd">'
 							+ '<input type="hidden" name="stock_qty" class="stock_qty">'
 							+ '<input type="hidden" name="product_nameArr" class="product_nameArr">'
-							+ '<input type="hidden" name="product_sizeArr" class="product_sizeArr">'
+// 							+ '<input type="hidden" name="product_sizeArr" class="product_sizeArr">'
             				+ '</tr>';
             				
             				$("#out_list > tbody").append(addInput);
             				
            idx++;	
            
-           console.log(idx);
+           console.log(selectIdx);
 	});
 });
 	
@@ -605,8 +607,8 @@ $(document).ready(function() {
 		                  <tr>
 <!-- 		                    <th scope="col"><input type="checkbox" id="chkAll"></th> -->
 		                    <th scope="col">품목코드</th>
-		                    <th scope="col">품목명 [규격]</th>
-<!-- 		                    <th scope="col">규격</th> -->
+		                    <th scope="col">품목명</th>
+		                    <th scope="col">규격</th>
 		                    <th scope="col" style="width: 80px">수량</th>
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">비고</th>
@@ -621,15 +623,16 @@ $(document).ready(function() {
          					<input type="text" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }">
 	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>
           					</div></td>
-							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="${ospList.product_name }"></td>
+							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="${ospList.product_name }" name="product_nameArr"></td>
+							<td><input type="text" class="form-control form-control-sm pro_size" required="required" value="${ospList.product_size }" name="product_sizeArr" size="1"></td>
 							<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" value="${ospList.out_schedule_qty }" onchange="calculateSum();"></td>
 							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${ospList.out_date }" name="out_dateArr" required="required"></td>
 							<td><input type="text" class="form-control form-control-sm" value="${ospList.remarks_pro }" name="remarks_proArr"></td>
-							<td><span class="stoContent"></span></td>
-<!-- 							<input type="hidden" name="stock_cdArr" class="stock_cd"> -->
+							<td><span class="stoContent">재고번호 : ${ospList.stock_cd }</span></td>
+							<input type="hidden" name="stock_cdArr" class="stock_cd" value="${ospList.stock_cd }">
 <!-- 							<input type="hidden" name="stock_qty" class="stock_qty"> -->
 <!-- 							<input type="hidden" name="product_nameArr" class="product_nameArr"> -->
-<!-- 							<input type="hidden" name="product_sizeArr" class="product_sizeArr"> -->
+<%-- 							<input type="hidden" name="product_sizeArr" class="product_sizeArr" value="${ospList.product_size }"> --%>
             				</tr>
            				  </c:forEach>
 		                </tbody>
