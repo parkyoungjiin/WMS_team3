@@ -78,7 +78,7 @@
         </ul>
       </li><!-- End Forms Nav -->
 
-		<li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-layout-text-window-reverse"></i><span>WMS</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -94,21 +94,9 @@
             </a>
           </li>
          <li>
-            <a href="#" data-bs-target="#out-nav" data-bs-toggle="collapse" >
-              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>출고 관리</span><i class="bi bi-chevron-up ms-auto"></i>
+            <a href="OutList.os">
+              <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>출고 관리</span>
             </a>
-            <ul id="out-nav" >
-            	<li>
-	            	<a href="OutList.os" data-bs-parent="#sidebar-nav">
-					   <i class="fa fa-square fa-2xs"></i>&nbsp;<span>출고예정</span>
-	            	</a>
-				</li>
-            	<li>
-	            	<a href="#">
-					   <i class="fa fa-square fa-2xs"></i>&nbsp;<span>출고처리</span>
-	            	</a>
-				</li>
-            </ul>
           </li>
          <li>
             <a href="StockList.st">
@@ -117,6 +105,7 @@
           </li>
         </ul>
       </li><!-- End Tables Nav -->
+
 
     </ul>
 

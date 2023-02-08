@@ -52,8 +52,23 @@ public class Out_ScheduleService {
 		return mapper.insertOutProduct(osp2);
 	}
 	
-	// 출고 예정의  종결상태 변
-	public int updateComplete(String out_complete) {
-		return mapper.updateStatus(out_complete);
+	// 출고 예정의  종결상태 변경
+	public int updateComplete(String out_complete, String out_schedule_cd) {
+		return mapper.updateStatus(out_complete, out_schedule_cd);
+	}
+
+	//출고 예정 상세 정보 조회
+	public OutScheduleVO getOSInfo(String out_schedule_cd) {
+		return mapper.selectOSInfo(out_schedule_cd);
+	}
+
+	//출고 예정 수정
+	public int updateOutSchedule(OutScheduleVO os) {
+		return mapper.updateOS(os);
+	}
+
+	//출고 예정 수정(상품별 수정)
+	public int updateOutSchedulePro(OutSchedulePerProductVO osp2) {
+		return mapper.updateOSPro(osp2);
 	}
 }

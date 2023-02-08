@@ -2,6 +2,8 @@ package com.itwillbs.project.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.itwillbs.project.vo.OutSchedulePerProductVO;
 import com.itwillbs.project.vo.OutScheduleVO;
 import com.itwillbs.project.vo.ProductVO;
@@ -26,6 +28,20 @@ public interface Out_ScheduleMapper {
 	List<OutSchedulePerProductVO> selectOutProdList(String out_schedule_cd);
 
 	//출고예정 폼 바꾸
+
+	int updateStatus(@Param("out_complete") String out_complete, 
+					@Param("out_schedule_cd")String out_schedule_cd);
+
 	int updateStatus(String out_complete);
+
+	// 출고 예정 상세 정보
+	OutScheduleVO selectOSInfo(String out_schedule_cd);
+
+	// 출고 예정 수정
+	int updateOS(OutScheduleVO os);
+
+	// 출고 예정 상품별 수정
+	int updateOSPro(OutSchedulePerProductVO osp2);
+
 	
 }

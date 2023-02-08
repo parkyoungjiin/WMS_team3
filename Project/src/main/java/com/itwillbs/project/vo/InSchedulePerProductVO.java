@@ -6,6 +6,7 @@ import java.util.Arrays;
 public class InSchedulePerProductVO {
 
 	private String IN_SCHEDULE_CD; //입고예정코드
+
 	private String[] IN_SCHEDULE_CDArr; //입고예정코드
 	private int PRODUCT_CD; //품목코드
 	private int[] PRODUCT_CDArr; //품목코드
@@ -23,11 +24,11 @@ public class InSchedulePerProductVO {
 	private String[] REMARKS_Arr; //적요
 	private String STOCK_CD;
 	private String[] STOCK_CDArr;
-	private String IN_COMPLETE; //진행상태
-	private String[] IN_COMPLETEArr; //진행상태
+	private String IN_COMPLETE;
 	public String getIN_SCHEDULE_CD() {
 		return IN_SCHEDULE_CD;
 	}
+
 	public void setIN_SCHEDULE_CD(String iN_SCHEDULE_CD) {
 		IN_SCHEDULE_CD = iN_SCHEDULE_CD;
 	}
@@ -43,6 +44,7 @@ public class InSchedulePerProductVO {
 	public void setPRODUCT_CD(int pRODUCT_CD) {
 		PRODUCT_CD = pRODUCT_CD;
 	}
+
 	public int[] getPRODUCT_CDArr() {
 		return PRODUCT_CDArr;
 	}
@@ -58,6 +60,7 @@ public class InSchedulePerProductVO {
 	public String[] getPRODUCT_NAMEArr() {
 		return PRODUCT_NAMEArr;
 	}
+
 	public void setPRODUCT_NAMEArr(String[] pRODUCT_NAMEArr) {
 		PRODUCT_NAMEArr = pRODUCT_NAMEArr;
 	}
@@ -139,25 +142,21 @@ public class InSchedulePerProductVO {
 	public void setIN_COMPLETE(String iN_COMPLETE) {
 		IN_COMPLETE = iN_COMPLETE;
 	}
-	public String[] getIN_COMPLETEArr() {
-		return IN_COMPLETEArr;
-	}
-	public void setIN_COMPLETEArr(String[] iN_COMPLETEArr) {
-		IN_COMPLETEArr = iN_COMPLETEArr;
-	}
-	
+
 	@Override
 	public String toString() {
-		return "InSchedulePerProductVO [IN_SCHEDULE_CD=" + IN_SCHEDULE_CD + ", IN_SCHEDULE_CDArr="
-				+ Arrays.toString(IN_SCHEDULE_CDArr) + ", PRODUCT_CD=" + PRODUCT_CD + ", PRODUCT_CDArr="
-				+ Arrays.toString(PRODUCT_CDArr) + ", PRODUCT_NAME=" + PRODUCT_NAME + ", PRODUCT_NAMEArr="
-				+ Arrays.toString(PRODUCT_NAMEArr) + ", SIZE_DES=" + SIZE_DES + ", SIZE_DESArr="
-				+ Arrays.toString(SIZE_DESArr) + ", IN_SCHEDULE_QTY=" + IN_SCHEDULE_QTY + ", IN_SCHEDULE_QTYArr="
-				+ Arrays.toString(IN_SCHEDULE_QTYArr) + ", IN_QTY=" + IN_QTY + ", IN_QTYArr="
+		return "InSchedulePerProductVO [IN_SCHEDULE_CD=" + IN_SCHEDULE_CD + ", PRODUCT_CD=" + PRODUCT_CD
+				+ ", PRODUCT_CDArr=" + Arrays.toString(PRODUCT_CDArr) + ", PRODUCT_NAME=" + PRODUCT_NAME
+				+ ", PRODUCT_NAMEArr=" + Arrays.toString(PRODUCT_NAMEArr) + ", PRODUCT_SIZE=" + PRODUCT_SIZE
+				+ ", PRODUCT_SIZEArr=" + Arrays.toString(PRODUCT_SIZEArr) + ", IN_SCHEDULE_QTY=" + IN_SCHEDULE_QTY
+				+ ", IN_SCHEDULE_QTYArr=" + Arrays.toString(IN_SCHEDULE_QTYArr) + ", IN_QTY=" + IN_QTY + ", IN_QTYArr="
 				+ Arrays.toString(IN_QTYArr) + ", IN_DATE=" + IN_DATE + ", IN_DATEArr=" + Arrays.toString(IN_DATEArr)
 				+ ", REMARKS=" + REMARKS + ", REMARKS_Arr=" + Arrays.toString(REMARKS_Arr) + ", STOCK_CD=" + STOCK_CD
 				+ ", STOCK_CDArr=" + Arrays.toString(STOCK_CDArr) + ", IN_COMPLETE=" + IN_COMPLETE + ", IN_COMPLETEArr="
 				+ Arrays.toString(IN_COMPLETEArr) + "]";
+
 	}
+	
+	
 	
 }
