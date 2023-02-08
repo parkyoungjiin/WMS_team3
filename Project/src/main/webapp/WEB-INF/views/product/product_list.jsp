@@ -49,7 +49,8 @@
 <!--                               				<th scope="col">#</th> -->
 			                    <th>품목 코드</th>
 			                    <th>품목명</th>
-			                    <th>품목 그룹</th>
+			                    <th>거래처명</th>
+			                    <th>품목 그룹명</th>
 			                    <th>규격</th>
 			                    <th>바코드</th>
 			                    <th>입고 단가</th>
@@ -67,12 +68,13 @@
 <%-- 								<td><a href="ProdDetail?product_group_bottom_cd=${prodList.product_group_bottom_cd }">${prodList.product_name }</a></td> --%>
 								<td><a href="ProdModify?product_cd=${ProdList.product_cd }">${ProdList.product_cd }</a></td>
 								<td><a href="ProdModify?product_cd=${ProdList.product_cd }">${ProdList.product_name }</a></td>
-								<td>${ProdList.product_group_bottom_cd }</td>
+								<td>${ProdList.cust_name }</td>
+								<td>${ProdList.product_group_bottom_name }</td>
 								<td>${ProdList.size_des }</td>
 								<td>${ProdList.barcode }</td>
 								<td>${ProdList.in_unit_price }</td>
 								<td>${ProdList.out_unit_price }</td>
-								<td>${ProdList.product_type_cd }</td>
+								<td>${ProdList.product_type_name }</td>
 								<td>${ProdList.product_image } <img alt="noImg" src="./upload/noImg.png" width="100" height="100"></td>
 							</tr> 
 							</c:forEach>  
