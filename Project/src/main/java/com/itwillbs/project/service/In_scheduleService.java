@@ -1,5 +1,6 @@
 package com.itwillbs.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +46,8 @@ public class In_scheduleService {
 //	public List<InScheduleVO> getProcessingList() {
 //		return mapper.selectProcessingList();
 //	}
+
+	public InSchedulePerProductVO getInschedulePerInfo(InSchedulePerProductVO vo2) {
+		return mapper.getInschedulePerInfo(vo2);
+	}
 }

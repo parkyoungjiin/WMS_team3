@@ -75,5 +75,11 @@
 	,0
 	)
 	</insert>
+	
+	<select id="getInschedulePerInfo" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
+		SELECT *
+			FROM in_schedule_per_product
+			WHERE IN_SCHEDULE_PER_CD = #{IN_SCHEDULE_PER_CD}
+	</select>
 
 </mapper>

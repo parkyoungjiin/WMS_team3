@@ -1,5 +1,6 @@
 package com.itwillbs.project.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.itwillbs.project.vo.InSchedulePerProductVO;
@@ -22,4 +23,5 @@ public interface In_ScheduleMapper {
 	//
 	int selectCode(InScheduleVO ins);
 	int insertOutProduct(InSchedulePerProductVO insp2);
+	InSchedulePerProductVO getInschedulePerInfo(InSchedulePerProductVO vo2);
 }
