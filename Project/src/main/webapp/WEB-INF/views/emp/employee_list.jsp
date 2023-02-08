@@ -24,40 +24,40 @@
 
 <!-- 카테고리별 모아보기 -->
 <script type="text/javascript">
-	function selectWorkcode() {
-		let workcode = $(".").val();
-// 		alert(workcode);
-		$.ajax({
-			type: "GET",
-			url: "EmployeeListJson.em?WORK_CD=" + workcode,
-// 			data: WORK_CD=workcode,<img id='empImg' src=" + pageContext.request.contextPath + "/resources/"
-			dataType: "json"
+// 	function selectWorkcode() {
+// 		let workcode = $(".").val();
+// // 		alert(workcode);
+// 		$.ajax({
+// 			type: "GET",
+// 			url: "EmployeeListJson.em?WORK_CD=" + workcode,
+// // 			data: WORK_CD=workcode,<img id='empImg' src=" + pageContext.request.contextPath + "/resources/"
+// 			dataType: "json"
 			
-		})
-		.done(function(employeeList) {
-			$("#datatablesSimple > tbody").html("");
-			for(let employee of employeeList) {
-				let result = "<tr style='text-align:center'>"
-							+ "<td>" + employee.IDX + "</td>"
-							+ "<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'>" + + "</td>"
-							+ "<td>" + employee.EMP_NUM + "</td>"
-							+ "<td><a href='EmployeeDetail.em?EMP_NUM=" + employee.EMP_NUM + "'>" + employee.EMP_NAME  + "</a></td>"
-							+ "<td>" + employee.DEPT_CD + "</td>"
-							+ "<td>" + employee.GRADE_CD + "</td>"
-							+ "<td>" + employee.EMP_TEL + "</td>"
-							+ "<td>" + employee.EMP_DTEL + "</td>"
-							+ "<td>" + employee.EMP_EMAIL + "</td>"
-							+ "<td><input type='button' class='btn btn-secondary btn-sm' value='수정' onclick=\location.href='EmployeeModifyForm.em?EMP_NUM=" 
-									+ employee.EMP_NUM + "'\></td>"										
-							+ "</tr>"
+// 		})
+// 		.done(function(employeeList) {
+// 			$("#datatablesSimple > tbody").html("");
+// 			for(let employee of employeeList) {
+// 				let result = "<tr style='text-align:center'>"
+// 							+ "<td>" + employee.IDX + "</td>"
+// 							+ "<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'>" + + "</td>"
+// 							+ "<td>" + employee.EMP_NUM + "</td>"
+// 							+ "<td><a href='EmployeeDetail.em?EMP_NUM=" + employee.EMP_NUM + "'>" + employee.EMP_NAME  + "</a></td>"
+// 							+ "<td>" + employee.DEPT_CD + "</td>"
+// 							+ "<td>" + employee.GRADE_CD + "</td>"
+// 							+ "<td>" + employee.EMP_TEL + "</td>"
+// 							+ "<td>" + employee.EMP_DTEL + "</td>"
+// 							+ "<td>" + employee.EMP_EMAIL + "</td>"
+// 							+ "<td><input type='button' class='btn btn-secondary btn-sm' value='수정' onclick=\location.href='EmployeeModifyForm.em?EMP_NUM=" 
+// 									+ employee.EMP_NUM + "'\></td>"										
+// 							+ "</tr>"
 							
-				$("#datatablesSimple > tbody").append(result);
-			}
-		})
-		.fail(function() {
-			$("#card-body > tbody).before("<h5>조회된 정보가 없습니다</h5>");
-		});
-	}	
+// 				$("#datatablesSimple > tbody").append(result);
+// 			}
+// 		})
+// 		.fail(function() {
+// 			$("#card-body > tbody).before("<h5>조회된 정보가 없습니다</h5>");
+// 		});
+// 	}	
 
 </script>
 <script type="text/javascript">
@@ -120,16 +120,53 @@
 								<th width="150">관리하기</th>
                           	</tr>
 	                    </thead>
-	                    <tbody></tbody>
+                    	<div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
+	                    <tbody>
+				            	<c:forEach var="employee" items="${employeeList }">
+				            		<c:if test="${employee.WORK_CD eq 'C1' }">
+				            			<tr style='text-align:center'>
+				            				<td>${employee.IDX }</td>
+				            				<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'></td>
+				            				<td>${employee.EMP_NUM }</td>
+				            				<td><a href="EmployeeDetail.em?EMP_NUM=${employee.EMP_NUM }"></a></td>
+				            				<td>${employee.GRADE_CD }</td>
+				            			</tr>
+			<!-- 							+ "<td>" + employee.EMP_TEL + "</td>" -->
+			<!--  							+ "<td>" + employee.EMP_DTEL + "</td>" -->
+			<!-- 							+ "<td>" + employee.EMP_EMAIL + "</td>" -->
+			<!-- 						+ "<td><input type='button' class='btn btn-secondary btn-sm' value='수정' onclick=\location.href='EmployeeModifyForm.em?EMP_NUM="  -->
+			<!-- 							+ employee.EMP_NUM + "'\></td>"										 -->
+				            		</c:if>
+				            	</c:forEach>
+				            </div>
+	                    
+	                    
+	                    </tbody>
 						<!-- ajax로 표시할 위치 -->
                     </table>
                 </div>
-<!--                 <div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab"> -->
-<!-- 	             </div> -->
-<!--                 <div class="tab-pane fade" id="bordered-contact" role="tabpanel" aria-labelledby="contact-tab"> -->
-<!--                   Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor. -->
-<!--                 </div> -->
-<!--               </div>End Bordered Tabs -->
+                <div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
+	            	<c:forEach var="employee" items="${employeeList }">
+	            		<c:if test="${employee.WORK_CD eq 'C1' }">
+	            			<tr style='text-align:center'>
+	            				<td>${employee.IDX }</td>
+	            				<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'></td>
+	            				<td>${employee.EMP_NUM }</td>
+	            				<td><a href="EmployeeDetail.em?EMP_NUM=${employee.EMP_NUM }"></a></td>
+	            				<td>${employee.GRADE_CD }</td>
+	            			</tr>
+<!-- 							+ "<td>" + employee.EMP_TEL + "</td>" -->
+<!--  							+ "<td>" + employee.EMP_DTEL + "</td>" -->
+<!-- 							+ "<td>" + employee.EMP_EMAIL + "</td>" -->
+<!-- 						+ "<td><input type='button' class='btn btn-secondary btn-sm' value='수정' onclick=\location.href='EmployeeModifyForm.em?EMP_NUM="  -->
+<!-- 							+ employee.EMP_NUM + "'\></td>"										 -->
+	            		</c:if>
+	            	</c:forEach>
+	            </div>
+                <div class="tab-pane fade" id="bordered-contact" role="tabpanel" aria-labelledby="contact-tab">
+                  Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                </div>
+              </div> <%-- End Bordered Tabs--%>
                     
                  </div>
                      

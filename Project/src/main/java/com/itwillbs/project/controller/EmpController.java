@@ -317,7 +317,7 @@ public class EmpController {
 			//업데이트 성공 여부 판별
 				if(updateCount > 0) {
 					model.addAttribute("msg","비밀번호 변경에 성공했습니다.");
-					return "fail_back";
+					return "redirect:/MyPage.em";
 				}else {
 					model.addAttribute("msg","비밀번호 변경에 실패했습니다.");
 					return "fail_back";

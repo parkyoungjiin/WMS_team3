@@ -24,12 +24,32 @@ private int wh_ref;//창고 참고 번호
 private int wh_seq;// 창고 참고 순서
 private int wh_loc_in_area_cd; // 선반 번호
 private String wh_loc_in_area; // 선반 공간
-
+private String stock_cd;//재고 번호
+private String product_name;//품목명
+private String stock_qty; //재고 수량
 //-----------getter/setter---------------
 
 
 public String getWh_cd() {
 	return wh_cd;
+}
+public String getStock_cd() {
+	return stock_cd;
+}
+public void setStock_cd(String stock_cd) {
+	this.stock_cd = stock_cd;
+}
+public String getProduct_name() {
+	return product_name;
+}
+public void setProduct_name(String product_name) {
+	this.product_name = product_name;
+}
+public String getStock_qty() {
+	return stock_qty;
+}
+public void setStock_qty(String stock_qty) {
+	this.stock_qty = stock_qty;
 }
 public String getWh_area() {
 	return wh_area;

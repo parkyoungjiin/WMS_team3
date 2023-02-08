@@ -65,15 +65,15 @@
 <!-- 										<td scope="row"></td> -->
 <%-- 								<td><a href="ProdDetail?product_group_bottom_cd=${prodList.product_group_bottom_cd }">${prodList.product_group_bottom_cd }</a></td> --%>
 <%-- 								<td><a href="ProdDetail?product_group_bottom_cd=${prodList.product_group_bottom_cd }">${prodList.product_name }</a></td> --%>
-								<td><a href="#">${ProdList.product_cd }</a></td>
-								<td><a href="#">${ProdList.product_name }</a></td>
+								<td><a href="ProdModify?product_cd=${ProdList.product_cd }">${ProdList.product_cd }</a></td>
+								<td><a href="ProdModify?product_cd=${ProdList.product_cd }">${ProdList.product_name }</a></td>
 								<td>${ProdList.product_group_bottom_cd }</td>
 								<td>${ProdList.size_des }</td>
 								<td>${ProdList.barcode }</td>
 								<td>${ProdList.in_unit_price }</td>
 								<td>${ProdList.out_unit_price }</td>
 								<td>${ProdList.product_type_cd }</td>
-								<td>${ProdList.product_image }</td>
+								<td>${ProdList.product_image } <img alt="noImg" src="./upload/noImg.png" width="100" height="100"></td>
 							</tr> 
 							</c:forEach>  
                         </tbody>
