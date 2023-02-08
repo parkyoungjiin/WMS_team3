@@ -51,6 +51,10 @@ IN_DATE=#{IN_DATE},
 WHERE
 IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
 
+<select id="getInschedulePerList" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
+SELECT *
+	FROM in_inschedule_per_product
+</select>
 
 
 </update>

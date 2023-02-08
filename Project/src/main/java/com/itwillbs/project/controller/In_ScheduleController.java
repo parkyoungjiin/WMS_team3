@@ -273,6 +273,14 @@ public class In_ScheduleController {
 //		return "in_schedule/in_progresslist";
 //	}
 	
+	//--------입고예정 목록 표시 페이지 이동 -----------
+	@GetMapping("/In_Per_List")
+	public String in_per_list(Model model) {
+		List<InSchedulePerProductVO>list = service.getInschedulePerList();
+		
+		
+		return "in_schedule/in_schedule_per_list";
+	}//입고예정 목록 표시 페이지 이동 끝
 	
 	
 }
