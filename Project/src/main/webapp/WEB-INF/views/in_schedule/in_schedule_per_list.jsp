@@ -44,6 +44,7 @@
 		$("#chkAll").click(function() {
 			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
 			else $("input[name=chk]").prop("checked", false);
+		
 		});
 	
 		$("input[name=chk]").click(function() {
@@ -61,52 +62,6 @@
 		window.open("In_Per_List_popup", "입고처리", "width=1200, height=750, top=50, left=50")
 	}
 	
-	// ------------재고, 창고조회---------------
-	function stock() {
-		
-		let buyer_keyword = $("#buyer_keyword").val();
-		
-//	 	alert(buyer_keyword);
-		
-		$.ajax({
-			type: "GET",
-			url: "BuyerListJson?keyword=" + buyer_keyword,
-			dataType: "json"
-		})
-		.done(function(buyerList) { // 요청 성공 시
-			 
-//	 		$(".modal-body").append(buyerList);
-			$("#modal-body > table").empty();   
-		
-			for(let buyer of buyerList) {
-				
-				
-		         let result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right:'>"
-		                  + "<tr>"
-		                  + "<th scope='col'>거래처코드</th>"
-		                  + "<th scope='col'>상호명</th>"
-		                  + "</tr>"
-		                  + "<tr style='cursor:pointer;'>"
-		                  + "<td>" + buyer.business_no + "</td>"
-		                  + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-		                  + "</tr>";
-		                  + "</table>"
-		                  
-		         $("#modal-body > table").append(result);
-				
-//	 			let result = "<tr style='cursor:pointer;'>"
-//	 		                + "<td>" + buyer.business_no + "</td>"
-//	 		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-//	                			+ "</tr>";
-	             
-//	 			$("#modal-body > table").append(result);
-			}
-		})
-		.fail(function() {
-			$("#modal-body > table").append("<h3>요청 실패!</h3>");
-		});
-	}
-
 
 </script>
 </head>
@@ -120,7 +75,7 @@
 <main id="main" class="main">
 
 	<div class="pagetitle">
-      <h1>출고 관리</h1>
+      <h1>입고 관리</h1>
     </div><!-- End Page Title -->
     	
     	<div class="modal fade" id="modalDialogScrollable_complete" tabindex="-1">
@@ -159,7 +114,7 @@
     	
             <div class="card mb-4">
                 <div class="card-header">
-                     출고 예정 목록
+                     입고 처리 목록
                      <button class="btn btn-primary" onclick="location.href='OutRegisterForm'" style="float: right;">신규등록</button>
                  </div>
                  <div class="card-body">
@@ -174,35 +129,23 @@
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">입고예정수량</th>
 		                    <th scope="col">입고수량</th>
-		                    <th scope="col">입고예정수량 합계</th>
+		                    <th scope="col">미입고수량</th>
 		                    <th scope="col">적요</th>
 		                  </tr>
 		                </thead>
 		                <tbody>
-		                <c:forEach items="${outList }" var="outList"> 
+		                <c:forEach items="${list }" var="list"> 
 		                  <tr>
 		                    <th scope="row"></th>
-		                    <td><input type="checkbox" name="chk"></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td>
-		                    	<c:choose>
-		                    		<c:when test="${outList.out_complete eq '1'}">
-										<input type="button"  id="btnComp" class="btn btn-sm btn-secondary" value="취소">
-		                    		</c:when>
-		                    		<c:when test="${outList.out_complete eq '0'}">
-		                    			<input type="button" id="btnComp" class="btn btn-secondary btn-sm" value="종결">
-		                    		</c:when>
-		                    	</c:choose>
-		                    </td>
-		                    <td>
-								<button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete">조회</button>
-							</td>
+		                    <td><input type="checkbox" name="chk" value="${status.index}"></td>
+		                    <td>${list.IN_SCHEDULE_CD }</td>
+		                    <td>${list.PRODUCT_CD }</td>
+		                    <td>${list.PRODUCT_NAME }</td>
+		                    <td>${list.IN_DATE }</td>
+		                    <td>${list.IN_SCHEDULE_QTY }</td>
+		                    <td>${list.IN_QTY }</td>
+		                    <td>${list.IN_SCHEDULE_QTY - list.IN_QTY}</td>
+		                    <td>${list.REMARKS }</td>
 		                  </tr>
 		                </c:forEach>
 		                </tbody>
@@ -211,89 +154,7 @@
 		             </div>
             </div>
             
-              <!-- Extra Large Modal -->
-         
-              <div class="modal fade" id="largeModal_test" tabindex="-1">
-                <div class="modal-dialog modal-xl">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" style="text-align: center;">입고처리</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modal-body-stockHistory" style="text-align: center;">
-                    
-                     <div class="input-group mb-6" id ="stock_history_div">
-	                    <table class="table table-hover" id="stock_history_table" style="margin-left: auto; margin-right: ">
-							<tr>
-					 			<th scope="col">입고예정번호</th>
-					 			<th scope="col">품목명</th>
-					 			<th scope="col">입고예정수량</th>
-					 			<th scope="col">입고수량</th>
-					 			<th scope="col">재고번호</th>
-					 			<th scope="col">구역명_선반위치</th>
-				 			</tr>
-				 			<tr>
-					 			<td>20230207-0007</td>
-					 			<td>서울우유 딸기</td>
-					 			<td>2</td>
-					 			<td>
-					 				<!-- 입고처리할 수량 입력칸 -->
-					 				<input type="text" class="form-control-sm" id="in_qty_input" name="in_qty" size="1">
-					 			</td>
-					 			<td>
-					 				<!-- 재고번호 자동 입력될 칸 -->
-									<input type="text" class="form-control-sm" id ="stock_cd_input" name="stock_cd" size="5">
-									<!-- 재고번호 검색 버튼 -->					 			
-						 			<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#stock_search">검색</button></td>
-					 			<td>
-					 				<!-- 구역명_선반위치 -->
-									<input type="text" class="form-control-sm" id ="wh_area_loc_input" name="wh_area_wh_loc">					 			
-					 			</td>
-				 			</tr>
-		 				</table>
-		        	 </div>
-				        	 
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                  </div>
-                </div>
-              </div><!-- End Extra Large Modal-->
-              
-      		 <!-- 재고 검색 시 나오는 모달 -->
-              <div class="modal fade" id="stock_search" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 id="pro_search_sto" style="text-align: center;"></h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="modal-body-sto">
-                    	
-                    	<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
-				                <tr>
-				                  <th scope="col">재고번호</th>
-				                  <th scope="col">수량</th>
-				                </tr>
-			        	 </table>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                  </div>
-                </div>
-              </div><!-- End Vertically centered Modal-->	
-              
 </main>		
-
-
-  <!-- 테이블 템플릿 css/js -->
-  <script src="${path}/resources/js/scripts.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-  <script src="${path}/resources/js/datatables-simple-demo.js"></script>
-<!--   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
   
 </body>
 </html>
