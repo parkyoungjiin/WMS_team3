@@ -252,6 +252,7 @@ function save_stock_cd(cb) {
 			if(stockHistoryList != null){
 				
 				$("#stock_history_div > table").remove();   
+				$("#stock_history_div > table > tr").remove();   
 
 				
 				

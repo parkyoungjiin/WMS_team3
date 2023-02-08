@@ -112,7 +112,7 @@
 
 
 </script>
-
+<!-- 진행상태 조회 -->
 <script type="text/javascript">
 	function checkIdx(cb) {
 		var ck_idx = cb.id.replace("scSearch", "");
@@ -126,16 +126,17 @@
 // 			,data: {
 // 				out_schedule_cd: out_cd
 // 			} // 컨트롤러에 @Responsebody 없으니까 fail 리턴됨
-			,dataType: "html"
+			,dataType: "json"
 		})
 		.done(function(outProdList) {
-			
+			console.log(outProdList);
 			for(let prod of outProdList) {
-				let product_cd = ${prod.out_product_cd}
+// 				let product_cd = ${prod.out_product_cd}
 				$("#out > tbody").empty();
 				var outList = '<tr>' 
-							  + '<td>' + product_cd + '</td>'
-							  + '<td>' + prod.out_product_name + '</td>'
+							  + '<td>' + prod.product_cd + '</td>'
+							  + '<td>' + prod.product_name + '</td>'
+							  + '<td>' + prod.out_schedule_qty + '</td>'
 							  + '<td>' + prod.out_schedule_qty + '</td>'
 							  + '</tr>'
 				console.log(outList);				
