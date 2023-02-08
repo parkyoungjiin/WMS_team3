@@ -18,7 +18,14 @@
 	<select id="selectOutProdList" resultType="com.itwillbs.project.vo.OutSchedulePerProductVO">
 		SELECT *
 			FROM out_schedule_per_product
+			WHERE out_schedule_cd = #{out_schedule_cd}
 	</select>
+	
+	<!-- 출고예정 - 진행상황 변경 -->
+	<update id="updateStatus">
+		UPDATE out_schedele
+			SET 
+	</update>
 		
 	<select id="selectStoList" resultType="com.itwillbs.project.vo.StockVo">
 		SELECT *

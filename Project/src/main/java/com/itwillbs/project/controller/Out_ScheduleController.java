@@ -46,12 +46,55 @@ public class Out_ScheduleController {
 	public String outList(Model model) { //,@ModelAttribute OutScheduleVO outList) {
 		List<OutScheduleVO> outList = service.getOutScheduleList();
 		model.addAttribute("outList", outList);
-		List<OutSchedulePerProductVO> outProdList = service.getOutProdList();
-		model.addAttribute("outProdList",outProdList);
+//		System.out.println("종결상태 확인용" + outList);
 		return "out_schedule/out_list";
 	} // outList 끝
 
+	// ---------- 출고 예정 목록 - 품목별(진행상태) --------------
+	@ResponseBody
+	@GetMapping(value="OutListProd.os")
+	public void outListProd(Model model, @RequestParam(value="out_schedule_cd", required=false) String out_schedule_cd, HttpServletResponse response) {
+//		System.out.println("품목별조회"+out_schedule_cd);
+		List<OutSchedulePerProductVO> outProdList = service.getOutProdList(out_schedule_cd);
+		
+		JSONArray jsonArray = new JSONArray();
+		
+		// 1. List 객체 크기만큼 반복
+		for(OutSchedulePerProductVO outProd : outProdList) {
+			// 2. JSONObject 클래스 인스턴스 생성
+			// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
+			JSONObject jsonObject = new JSONObject(outProd);
+	//		System.out.println(jsonObject);
+			
+			// 3. JSONArray 객체의 put() 메서드를 호출하여 JSONObject 객체 추가
+			jsonArray.put(jsonObject);
+		}
+		
+		try {
+			// 생성된 JSON 객체를 활용하여 응답 데이터를 직접 생성 후 웹페이지에 출력
+			// response 객체의 setCharacterEncoding() 메서드로 출력 데이터 인코딩 지정 후
+			// response 객체의 getWriter() 메서드로 PrintWriter 객체를 리턴받아
+			// PrintWriter 객체의 print() 메서드를 호출하여 응답데이터 출력
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(jsonArray); // toString() 생략됨
+			System.out.println(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	} // outListProd() 끝
 	
+	//------------- 출고예정목록 - 종결버튼 변경--------------------
+	@GetMapping(value="/OutComplete.os")
+	public String changeComplete(@RequestParam("out_complete") String out_complete) {
+		System.out.println("종결값:" + out_complete);
+		int updateCount = service.updateComplete(out_complete);
+		
+		if(updateCount > 0) {
+			return "out_schedule/out_list";
+		} else {
+			return "";
+		}
+	}
 	
 	// ---------- 출고 관리 - 출고 예정 등록 폼 ----------
 	@GetMapping(value = "OutRegisterForm")

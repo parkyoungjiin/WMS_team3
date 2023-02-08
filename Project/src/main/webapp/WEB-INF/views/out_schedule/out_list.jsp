@@ -53,9 +53,9 @@
 			if(total != checked) $("#chkAll").prop("checked", false);
 			else $("#chkAll").prop("checked", true); 
 		});
-	});
+	}); // 체크박스 선택
 	
-	// 종결 상태 변경
+	// 종결 상태 변경 (DB에도 값 변경해야함)
 	$(function() {
 		$("#btnComp").click(function() {
 			var btnVal = $("#btnComp").val();
@@ -64,13 +64,13 @@
 				
 				$.ajax({
 					type: "get",
-					url: "OutList.os",
+					url: "OutComplete.os",
 					data: {
 						out_complete: "0" // 미완료 상태로 변경
 					},
 					dataType: "html",
 					success: function(data) {
-						var check = confirm('완료된 출고상태를 변경 하시겠습니까?');
+						var check = confirm('종결된 출고를 취소하시겠습니까?');
 						 if (check) {
 						 	alert('출고가 완료되지 않았습니다.');
 							$("#btnComp").attr("value","종결");
@@ -86,13 +86,13 @@
 			} else if(btnVal=="종결") { // 종결버튼이 활성화 되어있다는 것은 미완료 상태라는 뜻
 				$.ajax({
 					type: "get",
-					url: "OutList.os",
+					url: "OutComplete.os",
 					data: {
 						out_complete: "1"
 					},
 					dataType: "html",
 					success: function(data) {
-						 var check = confirm('출고상황을 완료로 변경 하시겠습니까?');
+						 var check = confirm('해당 출고를 종결하시겠습니까?');
 						 if (check) {
 						 	alert('출고가 완료되었습니다.');
 							$("#btnComp").attr("value","취소");
@@ -100,16 +100,55 @@
 						 else {
 						     alert('출고상태 변경이 취소되었습니다.');
 						 }
-
 					},
 					error: function(xhr, textStatus, errorThrown) {
-	 					alert("진생상황 변경 실패"); 
+	 					alert("진행상황 변경 실패"); 
 		 				}
 				});
 			}
 		});
-	});
+	}); // 종결상태 변경
+	
 
+
+</script>
+<!-- 진행상태 조회 -->
+<script type="text/javascript">
+	function checkIdx(cb) {
+		var ck_idx = cb.id.replace("scSearch", "");
+		var out_cd = $("#out_schedule_cd" + ck_idx).val();
+// 		alert(ck_idx);	
+// 		alert(out_cd);
+
+		$.ajax({
+			type:"GET"
+			,url: "OutListProd.os?out_schedule_cd=" + out_cd
+// 			,data: {
+// 				out_schedule_cd: out_cd
+// 			} // 컨트롤러에 @Responsebody 없으니까 fail 리턴됨
+			,dataType: "json"
+		})
+		.done(function(outProdList) {
+			console.log(outProdList);
+			for(let prod of outProdList) {
+// 				let product_cd = ${prod.out_product_cd}
+				$("#out > tbody").empty();
+				var outList = '<tr>' 
+							  + '<td>' + prod.product_cd + '</td>'
+							  + '<td>' + prod.product_name + '</td>'
+							  + '<td>' + prod.out_schedule_qty + '</td>'
+							  + '<td>' + prod.out_schedule_qty + '</td>'
+							  + '</tr>'
+				console.log(outList);				
+				$("#out > tbody").append(outList);
+			}
+		})
+		.fail(function() {
+// 			console.log(osut_cd);
+			$("#modal-body").html("<h5>요청 실패!</h5>");
+		});
+		
+	}
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -134,21 +173,17 @@
                     <div class="modal-body" id="modal-body" style="text-align: center;">
 <!--                      	<div class="input-group mb-6"> -->
 <!-- 			        	 </div> -->
-			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
+			        	 <table class='table table-hover' id="out" style="margin-left: auto; margin-right: ">
+			                <thead>
 				                <tr>
 				                	<th scope="col">품목코드</th>
 				                	<th scope="col">품목명[규격]</th>
 				                	<th scope="col">출고예정수량</th>
 				                	<th scope="col">미출고수량</th>
 				                </tr>
-<%-- 				                <c:forEach items="${outProdList }" var="outProdList"> --%>
-<!-- 					                <tr> -->
-<%-- 					                	<td>${outProdList.out_product_cd }</td> --%>
-<%-- 					                	<td>${outProdList.out_product_name }</td>  --%>
-<%-- 					                	<td>${outProdList.out_shedule_qty }</td> --%>
-<%-- 					                	<td>${outProdList.out_shedule_qty - outProdList.out_qty }</td> --%>
-<!-- 					                </tr> -->
-<%-- 				                </c:forEach> --%>
+				            </thead>
+			                <tbody>
+			                </tbody>
 			        	 </table>
 
                     </div>
@@ -177,15 +212,18 @@
 		                    <th scope="col">품목명[규격]</th>
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">출고예정수량합계</th>
-		                    <th scope="col">종결여부</th>
+		                    <th scope="col">종결상태변경</th>
 		                    <th scope="col">진행상태</th>
 		                  </tr>
 		                </thead>
 		                <tbody>
-		                <c:forEach items="${outList }" var="outList"> 
+		                <c:forEach items="${outList }" var="outList" varStatus="status"> 
 		                  <tr>
 		                    <th scope="row"></th>
-		                    <td><input type="checkbox" name="chk"></td>
+		                    <td>
+		                    <input type="checkbox" name="chk">
+		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
+		                    </td>
 		                    <td>${outList.out_schedule_cd }</td>
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
@@ -196,15 +234,15 @@
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
-										<input type="button"  id="btnComp" class="btn btn-sm btn-secondary" value="취소">
+										<input type="button" class="btn btn-sm btn-secondary" id="btnComp${status.index}" value="취소">
 		                    		</c:when>
 		                    		<c:when test="${outList.out_complete eq '0'}">
-		                    			<input type="button" id="btnComp" class="btn btn-secondary btn-sm" value="종결">
+		                    			<input type="button" class="btn btn-secondary btn-sm" id="btnComp${status.index}" value="종결">
 		                    		</c:when>
 		                    	</c:choose>
 		                    </td>
 		                    <td>
-								<button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete">조회</button>
+								<button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button>
 							</td>
 		                  </tr>
 		                </c:forEach>

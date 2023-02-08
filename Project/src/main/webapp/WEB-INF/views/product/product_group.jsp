@@ -23,26 +23,26 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 //--------------ajax list 출력 ----------------
-	$(function() {	
-	$.ajax({
-		type: "GET",
-		url: "ProdGroupList",
-		dataType: "json"
-		})
-		.done(function(prodList) { // 요청 성공 시
-		for(let list of prodList) {
-			let result = "<tr>"
-			+"<td>"+list.product_group_bottom_cd+"</td>" 
-			+"<td>"+list.product_group_bottom_name+"</td>"
-			+"<td><button class='btn btn-secondary' id='info_search' onclick='info("+list.product_group_top_cd +")'>검색</button></td>"
-			+"</tr>";
-			$("table > tbody").append(result);
-		}
-		})
-		.fail(function() {
-			$("table > tbody > tr").append("<h3>요청 실패!</h3>");
-		});
-	});
+// 	$(function() {	
+// 	$.ajax({
+// 		type: "GET",
+// 		url: "ProdGroupList",
+// 		dataType: "json"
+// 		})
+// 		.done(function(prodList) { // 요청 성공 시
+// 		for(let list of prodList) {
+// 			let result = "<tr>"
+// 			+"<td>"+list.product_group_bottom_cd+"</td>" 
+// 			+"<td>"+list.product_group_bottom_name+"</td>"
+// 			+"<td><button class='btn btn-secondary' id='info_search' onclick='info("+list.product_group_top_cd +")'>검색</button></td>"
+// 			+"</tr>";
+// 			$("table > tbody").append(result);
+// 		}
+// 		})
+// 		.fail(function() {
+// 			$("table > tbody > tr").append("<h3>요청 실패!</h3>");
+// 		});
+// 	});
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -67,10 +67,10 @@
               	</tr>
           </thead>
 		  <tbody id="dynamicTbody">
-	
-	</tbody>
-                    </table>
-                </div>
+			
+		  </tbody>
+         </table>
+            </div>
             </div>
 </main>		
 
