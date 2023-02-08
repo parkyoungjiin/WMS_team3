@@ -37,9 +37,9 @@ public class EmpService {
 
 	// ==============================================인사 2 채원========================================================
 	//---------------- 사원 목록 ----------------------------
-		public List<EmpVo> getEmployeeList(String keyword) {
-			return mapper.selectEmployeeList(keyword);
-		} // 사원 목록 끝
+		public List<EmpVo> getEmployeeList(String WORK_CD) {
+			return mapper.selectEmployeeList(WORK_CD);
+		} // 사원 목록 끝 String keyword
 		
 		//-----------------현재 로그인한 사원의 권한정보 조회------------------------
 		public String getPrivCode(String sId) {

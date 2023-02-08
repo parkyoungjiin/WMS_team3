@@ -19,8 +19,8 @@ public interface EmpMapper {
 	//이메일 중복 체크
 	Integer getEmailCheck(String check_email);
 
-	// ----------사원 목록 출력--------------
-	List<EmpVo> selectEmployeeList(String keyword);
+	// ----------사원 목록 출력-------------- String keyword
+	List<EmpVo> selectEmployeeList(String WORK_CD);
 
 	// ---------- 권한 조회 -------------
 	String selectPrivCode(String sId);

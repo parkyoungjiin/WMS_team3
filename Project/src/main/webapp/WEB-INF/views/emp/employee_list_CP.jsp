@@ -25,7 +25,7 @@
 <!-- 카테고리별 모아보기 -->
 <script type="text/javascript">
 	function selectWorkcode() {
-		var workcode = 'C1'; //$("#workCodeCategory > option:selected").val();
+		let workcode = $("#workCodeCategory > option:selected").val();
 // 		alert(workcode);
 		$.ajax({
 			type: "GET",
@@ -35,11 +35,11 @@
 			
 		})
 		.done(function(employeeList) {
-			$("#datatablesSimple > tbody").empty();
+			$("#datatablesSimple > tbody").html("");
 			for(let employee of employeeList) {
 				let result = "<tr style='text-align:center'>"
 							+ "<td>" + employee.IDX + "</td>"
-							+ "<td> + </td>"
+							+ "<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'>" + + "</td>"
 							+ "<td>" + employee.EMP_NUM + "</td>"
 							+ "<td><a href='EmployeeDetail.em?EMP_NUM=" + employee.EMP_NUM + "'>" + employee.EMP_NAME  + "</a></td>"
 							+ "<td>" + employee.DEPT_CD + "</td>"
@@ -55,9 +55,24 @@
 			}
 		})
 		.fail(function() {
-			$("#datatablesSimple > table").before("<h5>조회된 정보가 없습니다</h5>");
+			$("#datatablesSimple> tbody").before("<h5>조회된 정보가 없습니다</h5>");
 		});
 	}	
+
+</script>
+<script type="text/javascript">
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_emp = str.charAt(1); // 사원조회(1) 여부 판별할 값
+	var priv_cd_emp2 = str.charAt(2); // 사원관리(2) 여부 판별할 값
+	
+	//사원조회, 사원관리에 대한 권한이 있는 지 판별
+	if(priv_cd_emp == '1' || priv_cd_emp2 == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("조회 권한이 없습니다");
+		history.back();
+	}
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -77,6 +92,9 @@
                 <div class="card-header">
                     <button class="btn btn-secondary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
 					<div class="col-md-2">	
+<!-- 					<a href="EmployeeListJson.em?WORK_CD=C1 ">재직</a>	 -->
+<!-- 					<a href="EmployeeListJson.em?WORK_CD=C2 ">휴직</a>	 -->
+<!-- 					<a href="EmployeeListJson.em?WORK_CD=C3 ">퇴사</a>	 -->
 						<select id="workCodeCategory" name="workCodeCategory" class="form-select" onclick="selectWorkcode()">
 							<option>재직상태를 선택해주세요</option>
 							<option selected value="C1">재직</option>
@@ -102,30 +120,10 @@
                           	</tr>
 	                    </thead>
 	                    <tbody>
-	                    <c:forEach items="${employeeList }" var="emp">
-	                    <c:if test="${emp.WORK_CD eq 'C1' }">
-		                    <tr>
-		                    	<td>1</td>
-		                    	<td>2</td>
-		                    	<td></td>
-		                    	<td></td>
-		                    	<td></td>
-		                    	<td></td>
-		                    	<td></td>
-		                    	<td></td>
-		                    	<td></td>
-		                    	<td></td>
-		                    	<td>
-		                    	</td>
-		                    </tr>
-		                 </c:if>   
-		                 </c:forEach>  
-							<!-- ajax로 표시할 위치 -->
+						<!-- ajax로 표시할 위치 -->
 						</tbody>
                     </table>
                 </div>
-            		<input type='button' class='btn btn-secondary btn-sm' value='수정' onclick="location.href='EmployeeModifyForm.em?EMP_NUM=${emp.EMP_NUM }'">
-            		<input type='button' class='btn btn-secondary btn-sm' value='상세정보조' onclick="location.href='MyPage.em?EMP_NUM=${emp.EMP_NUM }'">
             </div>
 </main>		
 

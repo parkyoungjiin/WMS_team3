@@ -12,6 +12,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -226,31 +228,78 @@ public class EmpController {
 			List<EmpVo> employeeList = service.getEmployeeList(keyword);
 			
 			model.addAttribute("employeeList",employeeList);
-			return "emp/employee_list";
-		
-			
+			return "emp/employee_list";			
 		} // 사원 목록 끝 
+		
+		// --------- 사원목록 json -------------
+		@ResponseBody
+		@GetMapping(value="EmployeeListJson.em")
+		public void listJson(Model model, HttpServletResponse response,@RequestParam(defaultValue = "") String WORK_CD) {
+			List<EmpVo> employeeList = service.getEmployeeList(WORK_CD);
+			System.out.println("리스트 워크코드" + WORK_CD);
+			
+			JSONArray jsonArray = new JSONArray();
+			
+			for(EmpVo employee : employeeList) { 
+				JSONObject jsonObject = new JSONObject(employee);
+				jsonArray.put(jsonObject);
+			}
+			
+			try {
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().print(jsonArray); // toString() 생략
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}// 사원 목록 json 끝
 		
 		// ------------ 사원 상세정보 조회 ------------------
 		@GetMapping(value="/EmployeeDetail.em")
 		public String empDetail(@RequestParam String EMP_NUM, HttpSession session, @ModelAttribute EmpVo employee, Model model) {
 			String sId = (String)session.getAttribute("sId");
-			String PRIV_CD = service.getPrivCode(sId);
-			System.out.println("PRIV_CD 값 확인 : " + PRIV_CD);
-			if(PRIV_CD.equals("11100")) {		
-				employee = service.getEmployee(EMP_NUM);
-				model.addAttribute("employee", employee);
-				return "emp/employee_detail";
-			} else {
-				model.addAttribute("msg","접근 권한이 없습니다.");
-				return "fail_back";
-			}	
+//			String PRIV_CD = service.getPrivCode(sId);
+
+			employee = service.getEmployee(EMP_NUM);
+			model.addAttribute("employee", employee);
+			return "emp/employee_detail";
+		
 		} // 사원 상세정보 조회 끝
 			
 		// ------------ 사원 정보 수정 폼 --------------------
 		@GetMapping(value="/EmployeeModifyForm.em")
 		public String empModifyForm(@RequestParam String EMP_NUM, Model model) {
 			EmpVo employee = service.getEmployee(EMP_NUM);
+			// 사무실 전화번호 분리하기
+			String dTelArr[] = employee.getEMP_DTEL().split("-");
+			System.out.println(dTelArr[0] + ", " + dTelArr[2]);
+			String dTel1 = dTelArr[1];
+			String dTel2 = dTelArr[2];
+			model.addAttribute("dTel1",dTel1);
+			model.addAttribute("dTel2",dTel2);
+			
+			// 전화번호 분리하기
+			String telArr[] = employee.getEMP_TEL().split("-");
+	//						System.out.println(telArr[1] + ", 두번째는" + telArr[2]);
+			String tel1 = telArr[1];
+			String tel2 = telArr[2];
+			model.addAttribute("tel1",tel1);
+			model.addAttribute("tel2",tel2);
+			
+			// email 분리하기
+			String emailArr[] = employee.getEMP_EMAIL().split("@");
+			String email1 = emailArr[0];
+			String email2 = emailArr[1];
+			model.addAttribute("email1", email1);
+			model.addAttribute("email2",email2);
+			
+			// 
+			String addrArr[] = employee.getEMP_ADDR().split(",");
+			String addr1 = addrArr[0];
+			String addr2 = addrArr[1];
+			model.addAttribute("addr1",addr1);
+			model.addAttribute("addr2",addr2);
+			System.out.println( "주소 "+employee.getEMP_ADDR());
+			
 			model.addAttribute("employee", employee);
 			return "emp/employee_modify_form";
 		} // 사원 정보 폼 끝

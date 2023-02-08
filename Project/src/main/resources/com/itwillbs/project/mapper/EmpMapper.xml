@@ -44,11 +44,11 @@
 				WHERE EMP_EMAIL = #{check_email}
 	</select>
 	
-	<!-- 사원목록 -->
+	<!-- 사원목록 EMP_NAME LIKE '%${keyword}%' -->
 	<select id="selectEmployeeList" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT *
 			FROM emp
-			WHERE EMP_NAME LIKE '%${keyword}%'
+			WHERE WORK_CD=#{WORK_CD}
 	</select>
 	
 	<!-- 현재 로그인한 사원의 권한 조회 -->
@@ -76,9 +76,9 @@
 				,EMP_TEL = #{EMP_TEL}
 				,EMP_DTEL = ${EMP_DTEL}
 				,EMP_EMAIL = #{EMP_EMAIL}
-				<if test='newPasswd neq null and newPasswd neq ""'>
-		  			,EMP_PASSWD = #{newPasswd}
-	  			</if>
+<!-- 				<if test='newPasswd neq null and newPasswd neq ""'> -->
+<!-- 		  			,EMP_PASSWD = #{newPasswd} -->
+<!-- 	  			</if> -->
 	  			,EMP_POST_NO = #{EMP_POST_NO}
 	  			,EMP_ADDR = #{EMP_ADDR}
 	  			,WORK_CD = #{WORK_CD}

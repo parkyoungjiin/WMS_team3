@@ -199,12 +199,27 @@
               </div><!-- End Modal Dialog Scrollable-->
     	
             <div class="card mb-4">
-<!--                 <div class="card-header"> -->
-<!--                      출고 예정 목록 -->
+                <div class="card-header">
+                     출고 예정 목록
                      <button class="btn btn-primary" onclick="location.href='OutRegisterForm'" style="float: right;">신규등록</button>
                  </div>
-                 <div class="card-body">
-                 <table class="table table-hover" style="padding: 20px;">
+                 <div class="card-body" style="width:95%">
+                 
+                 <!-- Default Tabs -->
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">전체</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">완료</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">진행중</button>
+                </li>
+              </ul>
+              <div class="tab-content pt-2" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+					  <table class="table table-hover" style="padding: 10px;">
 		                <thead>
 		                  <tr>
 		                    <th scope="col">#</th>
@@ -253,6 +268,117 @@
 		                </c:forEach>
 		                </tbody>
 		              </table>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> <%-- 진행 --%>
+                	<table class="table table-hover" style="padding: 20px;">
+		                <thead>
+		                  <tr>
+		                    <th scope="col">#</th>
+		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
+		                    <th scope="col">출고예정번호</th>
+		                    <th scope="col">유형</th>
+		                    <th scope="col">받는곳명</th>
+		                    <th scope="col">담당자명</th>
+		                    <th scope="col">품목명[규격]</th>
+		                    <th scope="col">납기일자</th>
+		                    <th scope="col">출고예정수량합계</th>
+		                    <th scope="col">종결상태변경</th>
+		                    <th scope="col">진행상태</th>
+		                  </tr>
+		                </thead>
+		                <tbody>
+		                <c:if test="${outList.out_complete eq '0' }">
+		                <c:forEach items="${outList }" var="outList" varStatus="status"> 
+		                  <tr>
+		                    <th scope="row"></th>
+		                    <td>
+		                    <input type="checkbox" name="chk">
+		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
+		                    <input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }">
+		                    </td>
+		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a></td>
+		                    <td>${outList.out_category }</td>
+		                    <td>${outList.business_no }</td>
+		                    <td>${outList.emp_name }</td>
+		                    <td>품목명 체크</td>
+		                    <td>${outList.out_date }</td>
+		                    <td>jaego gaetsu</td>
+		                    <td>
+		                    	<c:choose>
+		                    		<c:when test="${outList.out_complete eq '1'}">
+										<input type="button" class="btn btn-sm btn-secondary" id="btnComp${status.index}" value="취소" onclick="compCng(this)">
+		                    		</c:when>
+		                    		<c:when test="${outList.out_complete eq '0'}">
+		                    			<input type="button" class="btn btn-secondary btn-sm" id="btnComp${status.index}" value="종결" onclick="compCng(this)">
+		                    		</c:when>
+		                    	</c:choose>
+		                    </td>
+		                    <td>
+								<button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button>
+							</td>
+		                  </tr>
+		                </c:forEach>
+		                </c:if>
+		                </tbody>
+		              </table>
+                </div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                  Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
+                </div>
+              </div><!-- End Default Tabs -->
+                 
+                 
+                 
+                 
+<!--                  <table class="table table-hover" style="padding: 20px;"> -->
+<!-- 		                <thead> -->
+<!-- 		                  <tr> -->
+<!-- 		                    <th scope="col">#</th> -->
+<!-- 		                    <th scope="col"><input type="checkbox" id="chkAll"></th> -->
+<!-- 		                    <th scope="col">출고예정번호</th> -->
+<!-- 		                    <th scope="col">유형</th> -->
+<!-- 		                    <th scope="col">받는곳명</th> -->
+<!-- 		                    <th scope="col">담당자명</th> -->
+<!-- 		                    <th scope="col">품목명[규격]</th> -->
+<!-- 		                    <th scope="col">납기일자</th> -->
+<!-- 		                    <th scope="col">출고예정수량합계</th> -->
+<!-- 		                    <th scope="col">종결상태변경</th> -->
+<!-- 		                    <th scope="col">진행상태</th> -->
+<!-- 		                  </tr> -->
+<!-- 		                </thead> -->
+<!-- 		                <tbody> -->
+<%-- 		                <c:forEach items="${outList }" var="outList" varStatus="status">  --%>
+<!-- 		                  <tr> -->
+<!-- 		                    <th scope="row"></th> -->
+<!-- 		                    <td> -->
+<!-- 		                    <input type="checkbox" name="chk"> -->
+<%-- 		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }"> --%>
+<%-- 		                    <input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }"> --%>
+<!-- 		                    </td> -->
+<%-- 		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a></td> --%>
+<%-- 		                    <td>${outList.out_category }</td> --%>
+<%-- 		                    <td>${outList.business_no }</td> --%>
+<%-- 		                    <td>${outList.emp_name }</td> --%>
+<!-- 		                    <td>품목명 체크</td> -->
+<%-- 		                    <td>${outList.out_date }</td> --%>
+<!-- 		                    <td>jaego gaetsu</td> -->
+<!-- 		                    <td> -->
+<%-- 		                    	<c:choose> --%>
+<%-- 		                    		<c:when test="${outList.out_complete eq '1'}"> --%>
+<%-- 										<input type="button" class="btn btn-sm btn-secondary" id="btnComp${status.index}" value="취소" onclick="compCng(this)"> --%>
+<%-- 		                    		</c:when> --%>
+<%-- 		                    		<c:when test="${outList.out_complete eq '0'}"> --%>
+<%-- 		                    			<input type="button" class="btn btn-secondary btn-sm" id="btnComp${status.index}" value="종결" onclick="compCng(this)"> --%>
+<%-- 		                    		</c:when> --%>
+<%-- 		                    	</c:choose> --%>
+<!-- 		                    </td> -->
+<!-- 		                    <td> -->
+<%-- 								<button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button> --%>
+<!-- 							</td> -->
+<!-- 		                  </tr> -->
+<%-- 		                </c:forEach> --%>
+<!-- 		                </tbody> -->
+<!-- 		              </table> -->
 		              <button class="btn btn-primary" onclick="location.href='#'">삭제하기</button>
 		             </div>
             </div>
