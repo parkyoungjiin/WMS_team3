@@ -206,13 +206,13 @@ $(function() {
 		   let business_no = $(td_arr[0]).text();
 //		   $('#name').val($(td_arr[1]).text());
 		   let cust_name = $(td_arr[1]).text();
-		   console.log(cust_name);
+// 		   console.log(cust_name);
 		   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_buyer').modal('hide');
 		   $("#cust_name").val(cust_name);
 		   $("#business_no").val(business_no);
-		   console.log(business_no);
+		   console.log("거래처코드 : " + business_no);
 	});	   
 	
 	
@@ -231,9 +231,9 @@ $(function() {
 		   $('#modalDialogScrollable_emp').modal('hide');
 		   $("#emp_name").val(emp_name);
 		   $("#emp_num").val(emp_num);
-		   console.log(emp_num);
+		   console.log("사원번호 : " + emp_num);
+// 		   console.log($("#emp_num").val());
 	});	   
-	
 	
 	// 품목
 	$("#pro_table").on('click','tr',function(){
@@ -245,15 +245,6 @@ $(function() {
 		   let pro_name = $(td_arr[1]).text();
 		   let pro_size = $(td_arr[2]).text();
 		   
-		   // td 클릭시 모달 창 닫기
-		   $('#modalDialogScrollable_pro').modal('hide');
-		   $(".pro_cd").eq(selectIdx).val(pro_cd);
-		   $(".pro_name").eq(selectIdx).val(pro_name);
-		   $(".pro_size").eq(selectIdx).val(pro_size); // 규격 따로 넣기
-		   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
-// 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
-		   
-		   
 		   $.ajax({
 				type: "GET",
 				url: "StoListJson?keyword=" + pro_cd,
@@ -261,6 +252,18 @@ $(function() {
 			})
 			.done(function(stoList) { // 요청 성공 시
 				
+					if(stoList.length === 0){
+						alert("재고가 없는 품목입니다.");
+						return;
+					}
+					
+			
+					// td 클릭시 모달 창 닫기
+			 		   $('#modalDialogScrollable_pro').modal('hide');
+			 		   $(".pro_cd").eq(selectIdx).val(pro_cd);
+			 		   $(".pro_name").eq(selectIdx).val(pro_name);
+			 		   $(".pro_size").eq(selectIdx).val(pro_size); // 규격 따로 넣기
+			 		   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
 					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
 					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
 					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);
@@ -270,6 +273,41 @@ $(function() {
 			});
 		   
 	});	   
+// 	// 품목
+// 	$("#pro_table").on('click','tr',function(){
+// 		   let td_arr = $(this).find('td');
+		   
+// // 		   console.log(td_arr);
+		   
+// 		   let pro_cd = $(td_arr[0]).text();
+// 		   let pro_name = $(td_arr[1]).text();
+// 		   let pro_size = $(td_arr[2]).text();
+		   
+// 		   // td 클릭시 모달 창 닫기
+// 		   $('#modalDialogScrollable_pro').modal('hide');
+// 		   $(".pro_cd").eq(selectIdx).val(pro_cd);
+// 		   $(".pro_name").eq(selectIdx).val(pro_name);
+// 		   $(".pro_size").eq(selectIdx).val(pro_size); // 규격 따로 넣기
+// 		   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
+// // 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
+		   
+		   
+// 		   $.ajax({
+// 				type: "GET",
+// 				url: "StoListJson?keyword=" + pro_cd,
+// 				dataType: "json"
+// 			})
+// 			.done(function(stoList) { // 요청 성공 시
+				
+// 					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
+// 					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
+// 					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);
+// 			})
+// 			.fail(function() {
+// 				$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+// 			});
+		   
+// 	});	   
 	
 	
 	// 테이블 추가하기
@@ -447,7 +485,7 @@ $(document).ready(function() {
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
 		             		<input name="cust_name" type="text" class="form-control" id="cust_name" required="required" value="${os.cust_name }">
-		             		<input name="business_no" type="hidden" class="form-control" id="business_no" >
+		             		<input name="business_no" type="hidden" class="form-control" id="business_no" value="${os.business_no }">
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" >검색</button>
 
 			        	 </div>
@@ -456,7 +494,7 @@ $(document).ready(function() {
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
 		             		<input name="emp_name" type="text" class="form-control" id="emp_name" required="required" value="${os.emp_name }">
-		             		<input name="emp_num" type="hidden" class="form-control" id="emp_num" >
+		             		<input name="emp_num" type="hidden" class="form-control" id="emp_num" value="${os.emp_num }">
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_emp">검색</button>
 			        	 </div>
 			          </div>

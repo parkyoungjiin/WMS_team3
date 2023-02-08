@@ -31,7 +31,7 @@
 <!-- 폰트어썸 -->
 <script src="https://kit.fontawesome.com/ca93809e69.js" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
-<title>메인페이지</title>
+<title>거래처 관리</title>
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
@@ -98,7 +98,7 @@
 		
 		
 // 	function checkCode() {
-	$("#business_no").keyup(function() {
+	$("#business_no").change(function() {
 		let business_no = $('#business_no').val();
 		
 		 $.ajax({
@@ -248,7 +248,7 @@ window.onload = function(){
             
             <div class="row mb-3">
               <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">업태</label>
-              <div class="col-md-6 col-lg-4">
+              <div class="col-md-6 col-lg-6">
               <div class="input-group mb-1">
                <div class="col-md-3" >
                     <input type="text" class="form-control" name="uptae">
@@ -262,7 +262,7 @@ window.onload = function(){
             
             <div class="row mb-3">
               <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">종목</label>
-              <div class="col-md-6 col-lg-4">
+              <div class="col-md-6 col-lg-6">
               <div class="input-group mb-1">
                <div class="col-md-3" >
                     <input type="text" class="form-control" name="jongmok">
