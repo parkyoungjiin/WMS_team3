@@ -78,26 +78,26 @@ public class OutScheduleVO {
 		this.out_complete = out_complete;
 	}
 	
-
-	public String getOut_category() {
-		return out_category;
-	}
-	public void setOut_category(String out_category) {
-		this.out_category = out_category;
-	}
-	
-	public String getCust_name() {
-		return cust_name;
-	}
-	public void setCust_name(String cust_name) {
-		this.cust_name = cust_name;
-	}
-	public String getEmp_name() {
-		return emp_name;
-	}
-	public void setEmp_name(String emp_name) {
-		this.emp_name = emp_name;
-	}
+//
+//	public String getOut_category() {
+//		return out_category;
+//	}
+//	public void setOut_category(String out_category) {
+//		this.out_category = out_category;
+//	}
+//	
+//	public String getCust_name() {
+//		return cust_name;
+//	}
+//	public void setCust_name(String cust_name) {
+//		this.cust_name = cust_name;
+//	}
+//	public String getEmp_name() {
+//		return emp_name;
+//	}
+//	public void setEmp_name(String emp_name) {
+//		this.emp_name = emp_name;
+//	}
 	
 	
 	@Override

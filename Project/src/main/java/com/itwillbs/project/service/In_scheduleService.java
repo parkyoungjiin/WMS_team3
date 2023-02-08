@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.project.mapper.In_ScheduleMapper;
 import com.itwillbs.project.vo.BuyerVo;
+import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
 
 @Service
@@ -23,4 +24,27 @@ public class In_scheduleService {
 	public int registerInschedule(InScheduleVO ins) {
 		return mapper.insertInschedule(ins);
 	}
+	//
+//	public List<InScheduleVO> getInprogressList() {
+//		return mapper.selectInprogressList();
+//	}
+
+
+	//입고 수정pro
+	public int modifyPro(InScheduleVO ins) {
+		return mapper.updateInschedule(ins);
+	}
+
+	public int getSelectCode(InScheduleVO ins) {
+		return mapper.selectCode(ins);
+	}
+
+	public int insertInProduct(InSchedulePerProductVO insp2) {
+		return mapper.insertOutProduct(insp2);
+	}
+
+//	public List<InScheduleVO> getProcessingList() {
+//		return mapper.selectProcessingList();
+//	}
+
 }

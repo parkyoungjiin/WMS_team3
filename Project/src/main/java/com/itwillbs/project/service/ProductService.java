@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.project.mapper.BuyerMapper;
 import com.itwillbs.project.mapper.ProductMapper;
+import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.ProductVO;
 
 @Service
@@ -24,15 +26,26 @@ public class ProductService {
 		return mapper.existCd(product_cd);
 	} // existCd() 끝
 
-	//-------------------- 품목 등록 리스트 ------------------
-	public List<ProductVO> getProdList(String keyword) {
-		return mapper.selectGroupList(keyword);
+	//-------------------- 품목 그룹 리스트 ------------------
+	public List<ProductVO> getProdList() {
+		return mapper.selectGroupList();
 	}
+	
 	//------------------- 품목 리스트 ------------------------
 	public List<ProductVO> getPdList(String keyword) {
 		return mapper.selectPdList(keyword);
 	}
-
 	
+	public ProductVO getProdInfo(int product_cd) {
+		return mapper.selectProdInfo(product_cd);
+	}
+
+	//--------------------품목 수정---------------------------
+	public int updateProd(ProductVO product) {
+		return mapper.modifyProd(product);
+	}
+	
+
+
 
 }

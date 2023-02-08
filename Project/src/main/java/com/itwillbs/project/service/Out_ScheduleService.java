@@ -28,8 +28,8 @@ public class Out_ScheduleService {
 	}	
 
 	// 출고 예정 리스트 - 품목별
-	public List<OutSchedulePerProductVO> getOutProdList() {
-		return mapper.selectOutProdList();
+	public List<OutSchedulePerProductVO> getOutProdList(String out_schedule_cd) {
+		return mapper.selectOutProdList(out_schedule_cd);
 	}
 
 	// 재고 조회 (모달)
@@ -50,5 +50,10 @@ public class Out_ScheduleService {
 	// 출고 예정 품목 등록
 	public int insertOutProduct(OutSchedulePerProductVO osp2) {
 		return mapper.insertOutProduct(osp2);
+	}
+	
+	// 출고 예정의  종결상태 변
+	public int updateComplete(String out_complete) {
+		return mapper.updateStatus(out_complete);
 	}
 }
