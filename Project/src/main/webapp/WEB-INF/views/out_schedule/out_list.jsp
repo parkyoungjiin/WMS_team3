@@ -56,15 +56,17 @@
 	}); // 체크박스 선택
 	
 	// 종결 상태 변경 (DB에도 값 변경해야함)
-	$(function() {
-		$("#btnComp").click(function() {
-			var btnVal = $("#btnComp").val();
-			
+	function compCng(cc){
+		var cIdx = cc.id.replace("btnComp", "");
+		var btnVal = $("#btnComp" + cIdx).val();
+		var out_cd = $("#out_schedule_cd" + cIdx).val();
+// 		console.log("확인 작업 : " + btnVal + cIdx);
+		
 			if(btnVal=="취소") { // 취소버튼이 활성화일때는 해당상태가 1 > 클릭시 0(미완료 상태)으로 변경
-				
+// 				alert(btnVal);
 				$.ajax({
 					type: "get",
-					url: "OutComplete.os",
+					url: "OutComplete.os?out_schedule_cd=" + out_cd,
 					data: {
 						out_complete: "0" // 미완료 상태로 변경
 					},
@@ -73,7 +75,7 @@
 						var check = confirm('종결된 출고를 취소하시겠습니까?');
 						 if (check) {
 						 	alert('출고가 완료되지 않았습니다.');
-							$("#btnComp").attr("value","종결");
+							$("#btnComp" + cIdx).attr("value","종결");
 						 }
 						 else {
 						     alert('출고상태 변경이 취소되었습니다.');
@@ -84,9 +86,10 @@
 		 				}
 				});
 			} else if(btnVal=="종결") { // 종결버튼이 활성화 되어있다는 것은 미완료 상태라는 뜻
+// 				alert(btnVal);
 				$.ajax({
 					type: "get",
-					url: "OutComplete.os",
+					url: "OutComplete.os?out_schedule_cd=" + out_cd,
 					data: {
 						out_complete: "1"
 					},
@@ -95,7 +98,7 @@
 						 var check = confirm('해당 출고를 종결하시겠습니까?');
 						 if (check) {
 						 	alert('출고가 완료되었습니다.');
-							$("#btnComp").attr("value","취소");
+							$("#btnComp" + cIdx).attr("value","취소");
 						 }
 						 else {
 						     alert('출고상태 변경이 취소되었습니다.');
@@ -106,8 +109,8 @@
 		 				}
 				});
 			}
-		});
-	}); // 종결상태 변경
+
+	} // 종결상태 변경
 	
 
 
@@ -115,10 +118,10 @@
 <!-- 진행상태 조회 -->
 <script type="text/javascript">
 	function checkIdx(cb) {
-		var ck_idx = cb.id.replace("scSearch", "");
-		var out_cd = $("#out_schedule_cd" + ck_idx).val();
-// 		alert(ck_idx);	
-// 		alert(out_cd);
+		var ck_idx = cb.id.replace("scSearch", ""); // checkIdx 함수의 id 값 scSearch 를 공백으로 바꾸면 남는 값이 idx값이 됨
+		var out_cd = $("#out_schedule_cd" + ck_idx).val(); // out_cd hidden 으로 숨겨져 있는 input의 out_schedule~+위의 구해진 idx값이 id인 곳으로 가서 value값 가져옴
+		alert(ck_idx);	
+		alert(out_cd);
 
 		$.ajax({
 			type:"GET"
@@ -150,6 +153,7 @@
 		
 	}
 </script>
+<link rel ="shortcut icon" href="#">
 </head>
 <body class="sb-nav-fixed">
 <header>
@@ -223,21 +227,22 @@
 		                    <td>
 		                    <input type="checkbox" name="chk">
 		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
+		                    <input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }">
 		                    </td>
 		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a></td>
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_name }</td>
-		                    <td>품목명</td>
+		                    <td>품목명 체크</td>
 		                    <td>${outList.out_date }</td>
 		                    <td>jaego gaetsu</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
-										<input type="button" class="btn btn-sm btn-secondary" id="btnComp${status.index}" value="취소">
+										<input type="button" class="btn btn-sm btn-secondary" id="btnComp${status.index}" value="취소" onclick="compCng(this)">
 		                    		</c:when>
 		                    		<c:when test="${outList.out_complete eq '0'}">
-		                    			<input type="button" class="btn btn-secondary btn-sm" id="btnComp${status.index}" value="종결">
+		                    			<input type="button" class="btn btn-secondary btn-sm" id="btnComp${status.index}" value="종결" onclick="compCng(this)">
 		                    		</c:when>
 		                    	</c:choose>
 		                    </td>

@@ -23,8 +23,10 @@
 	
 	<!-- 출고예정 - 진행상황 변경 -->
 	<update id="updateStatus">
-		UPDATE out_schedele
+		UPDATE out_schedule
 			SET 
+				out_complete = #{out_complete}
+			WHERE out_schedule_cd = #{out_schedule_cd}
 	</update>
 		
 	<select id="selectStoList" resultType="com.itwillbs.project.vo.StockVo">
