@@ -92,6 +92,18 @@
             <a href="InRegisterForm">
               <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>입고 관리</span>
             </a>
+            <ul id="out-nav" >
+            	<li>
+	            	<a href="#" data-bs-parent="#sidebar-nav">
+					   <i class="fa fa-square fa-2xs"></i>&nbsp;<span>입고예정</span>
+	            	</a>
+				</li>
+            	<li>
+	            	<a href="In_Per_List">
+					   <i class="fa fa-square fa-2xs"></i>&nbsp;<span>입고처리</span>
+	            	</a>
+				</li>
+            </ul>
           </li>
          <li>
             <a href="#" data-bs-target="#out-nav" data-bs-toggle="collapse" >

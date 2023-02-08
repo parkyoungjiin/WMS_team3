@@ -78,10 +78,10 @@ public class In_ScheduleController {
 				InSchedulePerProductVO insp2 = new InSchedulePerProductVO();
 				insp2.setPRODUCT_CD(insp.getPRODUCT_CDArr()[i]);
 				insp2.setPRODUCT_NAME(insp.getPRODUCT_NAMEArr()[i]);
-				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
+//				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
 				insp2.setIN_SCHEDULE_QTY(insp.getIN_SCHEDULE_QTYArr()[i]);
-				insp2.setREMARKS(insp.getREMARKSArr()[i]);
-				insp2.setIN_DATE(insp.getIN_DATEArr()[i]);
+//				insp2.setREMARKS(insp.getREMARKSArr()[i]);
+//				insp2.setIN_DATE(insp.getIN_DATEArr()[i]);
 				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
 				
 				insp2.setIN_SCHEDULE_CD(in_schedule_code);

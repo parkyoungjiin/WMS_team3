@@ -44,6 +44,7 @@
 		$("#chkAll").click(function() {
 			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
 			else $("input[name=chk]").prop("checked", false);
+		
 		});
 	
 		$("input[name=chk]").click(function() {
@@ -61,127 +62,6 @@
 		window.open("In_Per_List_popup", "입고처리", "width=1200, height=750, top=50, left=50")
 	}
 	
-	// ------------재고, 창고조회---------------
-	function stock() {
-		
-		let buyer_keyword = $("#buyer_keyword").val();
-		
-//	 	alert(buyer_keyword);
-		
-		$.ajax({
-			type: "GET",
-			url: "BuyerListJson?keyword=" + buyer_keyword,
-			dataType: "json"
-		})
-		.done(function(buyerList) { // 요청 성공 시
-			 
-//	 		$(".modal-body").append(buyerList);
-			$("#modal-body > table").empty();   
-		
-			for(let buyer of buyerList) {
-				
-				
-		         let result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right:'>"
-		                  + "<tr>"
-		                  + "<th scope='col'>거래처코드</th>"
-		                  + "<th scope='col'>상호명</th>"
-		                  + "</tr>"
-		                  + "<tr style='cursor:pointer;'>"
-		                  + "<td>" + buyer.business_no + "</td>"
-		                  + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-		                  + "</tr>";
-		                  + "</table>"
-		                  
-		         $("#modal-body > table").append(result);
-				
-//	 			let result = "<tr style='cursor:pointer;'>"
-//	 		                + "<td>" + buyer.business_no + "</td>"
-//	 		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-//	                			+ "</tr>";
-	             
-//	 			$("#modal-body > table").append(result);
-			}
-		})
-		.fail(function() {
-			$("#modal-body > table").append("<h3>요청 실패!</h3>");
-		});
-	}
-
-	
-		function load_PGroupList() {
-			
-			let pGroup_keyword = $("#pGroup_keyword").val();
-			
-			alert(pGroup_keyword);
-			
-			$.ajax({
-				type: "GET",
-				url: "pGroupListJson?keyword=" + pGroup_keyword,
-				dataType: "json"
-			})
-			.done(function(ProdList) { // 요청 성공 시
-//		 			$(".modal-body").append(buyerList);
-//		 		$("#modal-body > table").empty();	
-			
-				if(ProdList.length == 0){
-//		 			$("#pGroup_search").append("<div></div>");
-					$("#pGroup_search").html("<div>등록된 데이터가 없습니다.</div>");
-					$("#pGroup_search").css("color","#B9062F");
-				} 
-//		 		else {
-//		 			$("#pGroup_search").remove();
-//		 		}
-				for(let list of ProdList) {
-					
-					let result = "<tr style='cursor:pointer;'>"
-				                + "<td>" +list.product_group_bottom_cd+ "</td>"
-				                + "<td id='product_group_bottom_name'>" +list.product_group_bottom_name+ "</td>"
-		               			+ "</tr>";
-		             
-					$("#modal-body > table").append(result);
-				}
-			})
-			.fail(function() {
-				$("#modal-body > table").append("<h3>요청 실패!</h3>");
-			});
-		}
-		
-		$(function() {
-			
-			$("#buyer_table").on('click','tr',function(){
-				   let td_arr = $(this).find('td');
-				   console.log(td_arr);
-				   
-//				   $('#no').val($(td_arr[0]).text());
-				   let no = $(td_arr[0]).text();
-//				   $('#name').val($(td_arr[1]).text());
-				   let cust_name = $(td_arr[1]).text();
-				   console.log(cust_name);
-				   
-				   // td 클릭시 모달 창 닫기
-				   $('##modalDialogScrollable_search_product_cd').modal('hide');
-				   $("#cust_name").val(cust_name);
-			});	   
-			
-			// td 클릭 시 해당 value 가져오기
-			$("#emp_table").on('click','tr',function(){
-				   let td_arr = $(this).find('td');
-				   console.log(td_arr);
-				   
-//		 		   $('#no').val($(td_arr[0]).text());
-				   let emp_no = $(td_arr[0]).text();
-				   let dept_cd = $(td_arr[1]).text();
-				   let emp_name = $(td_arr[2]).text();
-				   console.log(emp_name);
-				   
-				   // td 클릭시 모달 창 닫기
-				   $('##modalDialogScrollable_search_product_cd').modal('hide');
-				   $("#emp_name").val(emp_name);
-				   $("#emp_num").val(emp_num);
-			});	   
-		
-		
-	});
 
 </script>
 </head>
@@ -195,7 +75,7 @@
 <main id="main" class="main">
 
 	<div class="pagetitle">
-      <h1>출고 관리</h1>
+      <h1>입고 관리</h1>
     </div><!-- End Page Title -->
     	
     	<div class="modal fade" id="modalDialogScrollable_complete" tabindex="-1">
@@ -234,7 +114,7 @@
     	
             <div class="card mb-4">
                 <div class="card-header">
-                     입고 예정 목록
+                     입고 처리 목록
                      <button class="btn btn-primary" onclick="location.href='OutRegisterForm'" style="float: right;">신규등록</button>
                  </div>
                  <div class="card-body">
@@ -257,7 +137,7 @@
 		                <c:forEach items="${list }" var="list"> 
 		                  <tr>
 		                    <th scope="row"></th>
-		                    <td><input type="checkbox" name="chk"></td>
+		                    <td><input type="checkbox" name="chk" value="${status.index}"></td>
 		                    <td>${list.IN_SCHEDULE_CD }</td>
 		                    <td>${list.PRODUCT_CD }</td>
 		                    <td>${list.PRODUCT_NAME }</td>
