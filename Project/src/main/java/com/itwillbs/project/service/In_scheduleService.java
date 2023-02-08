@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.project.mapper.In_ScheduleMapper;
 import com.itwillbs.project.vo.BuyerVo;
+import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
 
 @Service
@@ -23,4 +24,9 @@ public class In_scheduleService {
 	public int registerInschedule(InScheduleVO ins) {
 		return mapper.insertInschedule(ins);
 	}
+	
+	//----------입고 예정 리스트----------
+	public List<InSchedulePerProductVO> getInschedulePerList() {
+		return mapper.getInschedulePerList();
+	}//입고 예정 리스트 끝
 }
