@@ -53,25 +53,101 @@
 			if(total != checked) $("#chkAll").prop("checked", false);
 			else $("#chkAll").prop("checked", true); 
 		});
-	});
+	}); // 체크박스 선택
 	
+	// 종결 상태 변경 (DB에도 값 변경해야함)
 	$(function() {
-		var btnVal = $("#complete").val();
-// 		alert(btnVal);
-	// 종결, 완료여부 버튼
-		if(btnVal=="종결") {
-			$(":button").on("click", function() {
-				$("#complete").attr("value","완료");
-				$("#complete").removeClass("btn-secondary").addClass("btn-primary");
-				alert(btnVal)
-			})
-		} else if(btnVal=="완료"){
-			$(":button").on("click", function() {
-				$("#complete").attr("value","종결");
-				$("#complete").removeClass("btn-primary").addClass("btn-secondary");
-			})
-		}
-	});
+		$("#btnComp").click(function() {
+			var btnVal = $("#btnComp").val();
+			
+			if(btnVal=="취소") { // 취소버튼이 활성화일때는 해당상태가 1 > 클릭시 0(미완료 상태)으로 변경
+				
+				$.ajax({
+					type: "get",
+					url: "OutComplete.os",
+					data: {
+						out_complete: "0" // 미완료 상태로 변경
+					},
+					dataType: "html",
+					success: function(data) {
+						var check = confirm('종결된 출고를 취소하시겠습니까?');
+						 if (check) {
+						 	alert('출고가 완료되지 않았습니다.');
+							$("#btnComp").attr("value","종결");
+						 }
+						 else {
+						     alert('출고상태 변경이 취소되었습니다.');
+						 }
+					},
+					error: function(xhr, textStatus, errorThrown) {
+	 					alert("진생상황 변경 실패"); 
+		 				}
+				});
+			} else if(btnVal=="종결") { // 종결버튼이 활성화 되어있다는 것은 미완료 상태라는 뜻
+				$.ajax({
+					type: "get",
+					url: "OutComplete.os",
+					data: {
+						out_complete: "1"
+					},
+					dataType: "html",
+					success: function(data) {
+						 var check = confirm('해당 출고를 종결하시겠습니까?');
+						 if (check) {
+						 	alert('출고가 완료되었습니다.');
+							$("#btnComp").attr("value","취소");
+						 }
+						 else {
+						     alert('출고상태 변경이 취소되었습니다.');
+						 }
+					},
+					error: function(xhr, textStatus, errorThrown) {
+	 					alert("진행상황 변경 실패"); 
+		 				}
+				});
+			}
+		});
+	}); // 종결상태 변경
+	
+
+
+</script>
+
+<script type="text/javascript">
+	function checkIdx(cb) {
+		var ck_idx = cb.id.replace("scSearch", "");
+		var out_cd = $("#out_schedule_cd" + ck_idx).val();
+// 		alert(ck_idx);	
+// 		alert(out_cd);
+
+		$.ajax({
+			type:"GET"
+			,url: "OutListProd.os?out_schedule_cd=" + out_cd
+// 			,data: {
+// 				out_schedule_cd: out_cd
+// 			} // 컨트롤러에 @Responsebody 없으니까 fail 리턴됨
+			,dataType: "html"
+		})
+		.done(function(outProdList) {
+			
+			for(let prod of outProdList) {
+				let product_cd = ${prod.out_product_cd}
+				$("#out > tbody").empty();
+				var outList = '<tr>' 
+							  + '<td>' + product_cd + '</td>'
+							  + '<td>' + prod.out_product_name + '</td>'
+							  + '<td>' + prod.out_schedule_qty + '</td>'
+							  + '</tr>'
+				console.log(outList);				
+				$("#out > tbody").append(outList);
+			}
+		})
+		.fail(function() {
+// 			console.log(osut_cd);
+			$("#modal-body").html("<h5>요청 실패!</h5>");
+		});
+		
+	}
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -86,7 +162,37 @@
 	<div class="pagetitle">
       <h1>출고 관리</h1>
     </div><!-- End Page Title -->
-    
+    	
+    	<div class="modal fade" id="modalDialogScrollable_complete" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body" style="text-align: center;">
+<!--                      	<div class="input-group mb-6"> -->
+<!-- 			        	 </div> -->
+			        	 <table class='table table-hover' id="out" style="margin-left: auto; margin-right: ">
+			                <thead>
+				                <tr>
+				                	<th scope="col">품목코드</th>
+				                	<th scope="col">품목명[규격]</th>
+				                	<th scope="col">출고예정수량</th>
+				                	<th scope="col">미출고수량</th>
+				                </tr>
+				            </thead>
+			                <tbody>
+			                </tbody>
+			        	 </table>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+    	
             <div class="card mb-4">
                 <div class="card-header">
                      출고 예정 목록
@@ -97,59 +203,51 @@
 		                <thead>
 		                  <tr>
 		                    <th scope="col">#</th>
-		                    <th scope="col"><input type="checkbox" name="chkAll"></th>
+		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">받는곳명</th>
 		                    <th scope="col">담당자명</th>
-		                    <th scope="col">품목명</th>
+		                    <th scope="col">품목명[규격]</th>
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">출고예정수량합계</th>
-		                    <th scope="col">종결여부</th>
+		                    <th scope="col">종결상태변경</th>
 		                    <th scope="col">진행상태</th>
 		                  </tr>
 		                </thead>
 		                <tbody>
-<%-- 		                <c:forEach items="${outList }" var="outList"> --%>
+		                <c:forEach items="${outList }" var="outList" varStatus="status"> 
 		                  <tr>
-		                    <th scope="row">1</th>
-		                    <td><input type="checkbox" name="chk"></td>
+		                    <th scope="row"></th>
+		                    <td>
+		                    <input type="checkbox" name="chk">
+		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
+		                    </td>
 		                    <td>${outList.out_schedule_cd }</td>
-		                    <td>발주서/구매</td>
+		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
-		                    <td>${outList.emp_num }</td>
-		                    <td>${outList.품목명 }</td>
+		                    <td>${outList.emp_name }</td>
+		                    <td>품목명</td>
 		                    <td>${outList.out_date }</td>
-		                    <td>jaego</td>
+		                    <td>jaego gaetsu</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
-		                    			<input type="button" class="btn btn-secondary btn-sm" value="완료">
+										<input type="button" class="btn btn-sm btn-secondary" id="btnComp${status.index}" value="취소">
 		                    		</c:when>
-		                    		<
+		                    		<c:when test="${outList.out_complete eq '0'}">
+		                    			<input type="button" class="btn btn-secondary btn-sm" id="btnComp${status.index}" value="종결">
+		                    		</c:when>
 		                    	</c:choose>
-		                    	<input type="button" class="btn btn-secondary btn-sm" value="<c:if test='${outList.out_complete eq "1"}'>
-		                    	</c:if>" id="complete">
 		                    </td>
-		                    <td>Designer</td>
+		                    <td>
+								<button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button>
+							</td>
 		                  </tr>
-<%-- 		                </c:forEach> --%>
-		                  <tr>
-		                    <th scope="row">2</th>
-		                    <td><input type="checkbox" name="chk"></td>
-		                    <td>Developer</td>
-		                    <td>Developer</td>
-		                    <td>35</td>
-		                    <td>35</td>
-		                    <td>2014-12-05</td>
-		                    <td>Developer</td>
-		                    <td>Developer</td>
-		                    <td>Developer</td>
-		                    <td>Developer</td>
-		                  </tr>
-		                  
+		                </c:forEach>
 		                </tbody>
 		              </table>
+		              <button class="btn btn-primary" onclick="location.href='#'">삭제하기</button>
 		             </div>
             </div>
 </main>		

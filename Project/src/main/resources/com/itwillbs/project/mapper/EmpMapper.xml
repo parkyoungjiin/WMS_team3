@@ -87,4 +87,28 @@
 	  		WHERE 
 	  			idx = #{IDX}
 	</update>
+	<!-- 비밀번호 변경을 위해 emp_num일치하는 passwd 가져오기 -->
+	<select id="getSelectPasswd" resultType="string">
+		SELECT EMP_PASSWD
+			FROM emp
+				WHERE EMP_NUM = #{emp_num}
+	</select>
+	<!-- 마이페이지 : 비밀번호 수정 -->
+	<update id="updatePasswd">
+		UPDATE emp
+			SET EMP_PASSWD = #{securePasswd}
+				WHERE EMP_NUM = #{emp_num}
+		
+	</update>
+	<!-- 마이페이지 : 개인정보 수정 -->
+	<update id="updateMypageInfo">
+		UPDATE emp
+			SET 
+				EMP_TEL = #{emp.EMP_TEL},
+				EMP_DTEL = #{emp.EMP_DTEL}
+	  		WHERE 
+	  			EMP_NUM = #{emp_num}
+	
+	</update>
+
 </mapper>
