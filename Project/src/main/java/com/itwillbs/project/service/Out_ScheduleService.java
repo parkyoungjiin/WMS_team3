@@ -52,9 +52,9 @@ public class Out_ScheduleService {
 		return mapper.insertOutProduct(osp2);
 	}
 	
-	// 출고 예정의  종결상태 변
-	public int updateComplete(String out_complete) {
-		return mapper.updateStatus(out_complete);
+	// 출고 예정의  종결상태 변경
+	public int updateComplete(String out_complete, String out_schedule_cd) {
+		return mapper.updateStatus(out_complete, out_schedule_cd);
 	}
 
 	//출고 예정 상세 정보 조회

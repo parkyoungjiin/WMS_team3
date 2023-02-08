@@ -85,9 +85,9 @@ public class Out_ScheduleController {
 	
 	//------------- 출고예정목록 - 종결버튼 변경--------------------
 	@GetMapping(value="/OutComplete.os")
-	public String changeComplete(@RequestParam("out_complete") String out_complete) {
+	public String changeComplete(@RequestParam(value="out_complete") String out_complete, @RequestParam(value="out_schedule_cd", required=false) String out_schedule_cd) {
 		System.out.println("종결값:" + out_complete);
-		int updateCount = service.updateComplete(out_complete);
+		int updateCount = service.updateComplete(out_complete,out_schedule_cd);
 		
 		if(updateCount > 0) {
 			return "out_schedule/out_list";
