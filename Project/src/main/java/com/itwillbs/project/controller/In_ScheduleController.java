@@ -45,9 +45,7 @@ public class In_ScheduleController {
 	public String islist(Model model, HttpSession session
 			) {
 		List<InScheduleVO> islist = service.getInscheduleList();
-//		List<InScheduleVO> isprolist = service.getProcessingList();
 		model.addAttribute("islist", islist);
-//		model.addAttribute("isprolist", isprolist);
 		
 		return "in_schedule/in_list";
 	} //입고예정 목록 표시 페이지 이동 끝 
@@ -67,7 +65,7 @@ public class In_ScheduleController {
 			@ModelAttribute InSchedulePerProductVO insp) {
 		
 		SimpleDateFormat inDate_format = new SimpleDateFormat("yyyyMMdd");
-		String inDate = inDate_format.format(ins.getDATE());
+		String inDate = inDate_format.format(ins.getIN_SCHEDULE_DATE());
 		
 		int in_cd = service.getSelectCode(ins) +1;
 		
@@ -80,9 +78,9 @@ public class In_ScheduleController {
 				InSchedulePerProductVO insp2 = new InSchedulePerProductVO();
 				insp2.setPRODUCT_CD(insp.getPRODUCT_CDArr()[i]);
 				insp2.setPRODUCT_NAME(insp.getPRODUCT_NAMEArr()[i]);
-				insp2.setSIZE_DES(insp.getSIZE_DESArr()[i]);
+				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
 				insp2.setIN_SCHEDULE_QTY(insp.getIN_SCHEDULE_QTYArr()[i]);
-				insp2.setREMARKS_PRO(insp.getREMARKS_PROArr()[i]);
+				insp2.setREMARKS(insp.getREMARKSArr()[i]);
 				insp2.setIN_DATE(insp.getIN_DATEArr()[i]);
 				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
 				
@@ -90,12 +88,12 @@ public class In_ScheduleController {
 				System.out.println(insp);
 				int insertCount2 = service.insertInProduct(insp2);
 				
-				if(insertCount2 > 0) {
-					return "redirect:/InList";
-				}else {
-					model.addAttribute("msg","입고 등록 실패");
-					return "fail_back";
-				}
+//				if(insertCount2 > 0) {
+//					return "redirect:/InList";
+//				}else {
+//					model.addAttribute("msg","입고 등록 실패");
+//					return "fail_back";
+//				}
 			}
 			return "redirect:/InList";
 		}else {
