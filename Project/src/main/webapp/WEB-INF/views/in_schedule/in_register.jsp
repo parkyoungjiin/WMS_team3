@@ -403,6 +403,7 @@ $(document).ready(function() {
                <div class="row mb-3" style="float: right;">
                     	<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">
 	           				<input type="button" class="btn btn-secondary btn-sm" value="추가하기" id="plus_out">
+	           				<input type="button" class="btn btn-secondary btn-sm" value="테스트" id="test_btn" data-bs-toggle="modal" data-bs-target="#largeModal_test">
 	           			</label>
                     </div> 
 			</div> <!-- card-body -->
@@ -525,6 +526,14 @@ $(document).ready(function() {
                   </div>
                 </div>
               </div><!-- End Vertically centered Modal-->	
+              
+              
+              
+              
+            
+              
+              
+              
 		<%-- ********************************** 복수개 품목명 입력창(하단부)************************************************* --%>		
 		<div class="card mb-4">
      	  <div class="card-body" style="font-size: small">

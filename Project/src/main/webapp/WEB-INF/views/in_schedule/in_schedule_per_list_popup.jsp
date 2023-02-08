@@ -58,7 +58,7 @@
 	//-------------입고처리 시 팝업창 ----------------
 	
 	function in_schedule_process() {
-		window.open("In_Per_List_popup", "입고처리", "width=1200, height=750, top=50, left=50")
+		window.open()
 	}
 	
 	// ------------재고, 창고조회---------------
@@ -110,17 +110,14 @@
 
 </script>
 </head>
-<body class="sb-nav-fixed">
+<body>
 <header>
 	<!-- top-->
-		<jsp:include page="../inc/top.jsp"/>
+	<div></div>
 	</header>
 	<!-- side -->
-	<jsp:include page="../inc/side.jsp"></jsp:include>
-<main id="main" class="main">
-
 	<div class="pagetitle">
-      <h1>출고 관리</h1>
+      <h1>출고 처리</h1>
     </div><!-- End Page Title -->
     	
     	<div class="modal fade" id="modalDialogScrollable_complete" tabindex="-1">
@@ -162,53 +159,36 @@
                      출고 예정 목록
                      <button class="btn btn-primary" onclick="location.href='OutRegisterForm'" style="float: right;">신규등록</button>
                  </div>
-                 <div class="card-body">
-                 <table class="table table-hover" style="padding: 20px;">
-		                <thead>
-		                  <tr>
-		                    <th scope="col">#</th>
-		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
-		                    <th scope="col">입고예정번호</th>
-		                    <th scope="col">보낸곳명</th>
-		                    <th scope="col">품목명</th>
-		                    <th scope="col">납기일자</th>
-		                    <th scope="col">입고예정수량</th>
-		                    <th scope="col">입고수량</th>
-		                    <th scope="col">입고예정수량 합계</th>
-		                    <th scope="col">적요</th>
-		                  </tr>
-		                </thead>
-		                <tbody>
-		                <c:forEach items="${outList }" var="outList"> 
-		                  <tr>
-		                    <th scope="row"></th>
-		                    <td><input type="checkbox" name="chk"></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td></td>
-		                    <td>
-		                    	<c:choose>
-		                    		<c:when test="${outList.out_complete eq '1'}">
-										<input type="button"  id="btnComp" class="btn btn-sm btn-secondary" value="취소">
-		                    		</c:when>
-		                    		<c:when test="${outList.out_complete eq '0'}">
-		                    			<input type="button" id="btnComp" class="btn btn-secondary btn-sm" value="종결">
-		                    		</c:when>
-		                    	</c:choose>
-		                    </td>
-		                    <td>
-								<button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete">조회</button>
-							</td>
-		                  </tr>
-		                </c:forEach>
-		                </tbody>
-		              </table>
-		              <button class="btn btn-primary" onclick="in_schedule_process()">입고처리</button>
-		             </div>
+                  <div class="input-group mb-6" id ="stock_history_div">
+	                    <table class="table table-hover" id="stock_history_table" style="margin-left: auto; margin-right: ">
+							<tr>
+					 			<th scope="col">입고예정번호</th>
+					 			<th scope="col">품목명</th>
+					 			<th scope="col">입고예정수량</th>
+					 			<th scope="col">입고수량</th>
+					 			<th scope="col">재고번호</th>
+					 			<th scope="col">구역명_선반위치</th>
+				 			</tr>
+				 			<tr>
+					 			<td>20230207-0007</td>
+					 			<td>서울우유 딸기</td>
+					 			<td>2</td>
+					 			<td>
+					 				<!-- 입고처리할 수량 입력칸 -->
+					 				<input type="text" class="form-control-sm" id="in_qty_input" name="in_qty" size="1">
+					 			</td>
+					 			<td>
+					 				<!-- 재고번호 자동 입력될 칸 -->
+									<input type="text" class="form-control-sm" id ="stock_cd_input" name="stock_cd" size="5">
+									<!-- 재고번호 검색 버튼 -->					 			
+						 			<button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#stock_search">검색</button></td>
+					 			<td>
+					 				<!-- 구역명_선반위치 -->
+									<input type="text" class="form-control-sm" id ="wh_area_loc_input" name="wh_area_wh_loc">					 			
+					 			</td>
+				 			</tr>
+		 				</table>
+		        	 </div>
             </div>
             
               <!-- Extra Large Modal -->
@@ -286,7 +266,6 @@
                 </div>
               </div><!-- End Vertically centered Modal-->	
               
-</main>		
 
 
   <!-- 테이블 템플릿 css/js -->

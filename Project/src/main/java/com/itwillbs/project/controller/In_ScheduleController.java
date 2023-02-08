@@ -274,12 +274,21 @@ public class In_ScheduleController {
 //	}
 	
 	//--------입고예정 목록 표시 페이지 이동 -----------
-	@GetMapping("/In_Per_List")
-	public String in_per_list(Model model) {
-		List<InSchedulePerProductVO>list = service.getInschedulePerList();
+	@GetMapping(value = "/In_Per_List")
+	public String in_per_list() {
+//		List<InSchedulePerProductVO> list = service.getInschedulePerList();
 		
 		
 		return "in_schedule/in_schedule_per_list";
+	}//입고예정 목록 표시 페이지 이동 끝
+	
+	//-------------입고처리 팝업창-----------
+	@GetMapping(value = "/In_Per_List_popup")
+	public String in_per_list_popup() {
+//		List<InSchedulePerProductVO> list = service.getInschedulePerList();
+		
+		
+		return "in_schedule/in_schedule_per_list_popup";
 	}//입고예정 목록 표시 페이지 이동 끝
 	
 	
