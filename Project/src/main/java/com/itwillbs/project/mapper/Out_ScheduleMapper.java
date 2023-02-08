@@ -27,5 +27,14 @@ public interface Out_ScheduleMapper {
 
 	//출고예정 폼 바꾸
 	int updateStatus(String out_complete);
+
+	// 출고 예정 상세 정보
+	OutScheduleVO selectOSInfo(String out_schedule_cd);
+
+	// 출고 예정 수정
+	int updateOS(OutScheduleVO os);
+
+	// 출고 예정 상품별 수정
+	int updateOSPro(OutSchedulePerProductVO osp2);
 	
 }

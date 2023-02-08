@@ -74,4 +74,9 @@ INSERT INTO IN_SCHEDULE_PER_PRODUCT VALUES(
 
 </insert>
 
+<select id="getInschedulePerList" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
+	SELECT *
+		FROM in_inschedule_per_product
+	</select>
+
 </mapper>

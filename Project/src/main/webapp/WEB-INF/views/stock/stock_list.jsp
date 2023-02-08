@@ -250,21 +250,49 @@ function save_stock_cd(cb) {
 	})//ajax 끝
 		.done(function(stockHistoryList) {
 			if(stockHistoryList != null){
+				
+				$("#stock_history_div > table").remove();   
+				$("#stock_history_div > table > tr").remove();   
+
+				
+				
+				let result = '<table class="table table-hover" id="stock_history_table" style="margin-left: auto; margin-right: ">'
+				+ "<tr>"
+				+ "<h3 style='text-align: center;'>재고번호: " + stock_cd + "번</h3>"
+				+ "</tr>"
+				+ '<tr>'
+	 			+ '<th scope="col">작업일자</th>'
+	 			+ '<th scope="col">작업구분</th>'
+	 			+ '<th scope="col">품목명</th>'
+	 			+ '<th scope="col">보낸 재고번호</th>'
+	 			+ '<th scope="col">받은 재고번호</th>'
+	 			+ '<th scope="col">작업수량</th>'
+	 			+ '<th scope="col">작업자 명</th>'
+	 			+ '<th scope="col">적요</th>'
+	 			+ '</tr>'
+ 				+ '</table>';
+
+	 			
+				$("#stock_history_div").append(result);
+
+			
 				for(let stockHistory of stockHistoryList) {
 					
-					let result = 
-								"<tr style='cursor:pointer;'>"
-				                + "<td>" + stockHistory.stock_date + "</td>"
-				                + "<td>" + stockHistory.stock_control_type_name + "</td>"
-				                + "<td>" + stockHistory.product_name + "</td>"
-				                + "<td>" + stockHistory.source_stock_cd + "</td>"
-				                + "<td>" + stockHistory.target_stock_cd + "</td>"
-				                + "<td>" + stockHistory.qty + "</td>"
-				                + "<td>" + stockHistory.emp_name + "</td>"
-				                + "<td>" + stockHistory.remarks + "</td>"
-		               			+ "</tr>";
+					let result2 = 
+					
+					"<tr style='cursor:pointer;'>"
+	                + "<td>" + stockHistory.stock_date + "</td>"
+	                + "<td>" + stockHistory.stock_control_type_name + "</td>"
+	                + "<td>" + stockHistory.product_name + "</td>"
+	                + "<td>" + stockHistory.source_stock_cd + "</td>"
+	                + "<td>" + stockHistory.target_stock_cd + "</td>"
+	                + "<td>" + stockHistory.qty + "</td>"
+	                + "<td>" + stockHistory.emp_name + "</td>"
+	                + "<td>" + stockHistory.remarks + "</td>"
+           			+ "</tr>";
+
 		             
-					$("#modal-body-stockHistory > table").append(result);
+					$("#stock_history_table").append(result2);
 				}
 			}else{
 				alert("목록 없음")
@@ -338,7 +366,7 @@ function save_stock_cd(cb) {
 								</td>
 								<!-- 이동 위치 -->
 								<td>
-								<input type="text" size="5" class="form-control-sm" id ="move_wh_loc_in_area${status.index}">
+								<input type="text" size="5" class="form-control-sm" id ="move_wh_loc_in_area${status.index}" >
 								</td>
 								<!-- 이동 수량 -->
 								<td><input type="text" size="3" class="form-control-sm" id ="move_stock_num${status.index}"></td>
@@ -396,20 +424,10 @@ function save_stock_cd(cb) {
                     </div>
                     <div class="modal-body" id="modal-body-stockHistory" style="text-align: center;">
                     
-	                    <div class="input-group mb-6">
+	                    <div class="input-group mb-6" id ="stock_history_div">
+	                    <!-- 조회 클릭 시 table이 ajax로 들어가는 영역 -->
 			        	 </div>
-				        	 <table class='table table-hover' id="stock_history_table" style="margin-left: auto; margin-right: ">
-					        	 		<tr>
-					        	 			<th scope="col">작업일자</th>
-					        	 			<th scope="col">작업구분</th>
-					        	 			<th scope="col">품목명</th>
-					        	 			<th scope="col">보낸 재고번호</th>
-					        	 			<th scope="col">받은 재고번호</th>
-					        	 			<th scope="col">작업수량</th>
-					        	 			<th scope="col">작업자 명</th>
-					        	 			<th scope="col">적요</th>
-					        	 		</tr>
-				        	 	</table>
+				        	 
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

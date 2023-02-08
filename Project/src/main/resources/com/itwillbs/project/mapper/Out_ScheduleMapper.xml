@@ -72,4 +72,36 @@
 				,0
 			)
 	</insert>
+	
+	<select id="selectOSInfo" resultType="com.itwillbs.project.vo.OutScheduleVO">
+		SELECT *
+			FROM out_schedule
+			WHERE out_schedule_cd = #{out_schedule_cd}
+	</select>
+	
+	<update id="updateOS">
+		UPDATE out_schedule
+			SET
+			  business_no = #{business_no}
+		     ,cust_name = #{cust_name}
+		     ,emp_num = #{emp_num}
+		     ,emp_name = #{emp_name}
+		     ,out_date = #{out_date}
+		     ,remarks = #{remarks}
+		   WHERE out_schedule_cd = #{out_schedule_cd}
+	</update>
+	
+	<update id="updateOSPro">
+		UPDATE out_schedule_per_product
+			SET
+			 ,product_cd = #{product_cd}
+		     ,product_name = #{product_name}
+		     ,product_size = #{product_size}
+		     ,out_schedule_qty = #{out_schedule_qty}
+		     ,out_qty = #{out_qty}
+		     ,out_date = #{out_date}
+		     ,remarks_pro = #{remarks_pro}
+		     ,stock_cd = #{stock_cd}
+		   WHERE out_schedule_cd = #{out_schedule_cd}
+	</update>
 </mapper>
