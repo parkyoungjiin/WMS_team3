@@ -4,7 +4,6 @@
 	<select id="selectInscheduleList" resultType="com.itwillbs.project.vo.InScheduleVO">
 	SELECT *
 	FROM in_schedule
-	
 	</select>
 	<!-- 입고물품 등록 -->
 	<insert id="insertInschedule">
@@ -29,13 +28,11 @@
 	#{in_complete}
 	)
 	</insert>
-	
 	<!-- 진행 중 목록 조회 -->
 	<select id="selectInprogressList" resultType="com.itwillbs.project.vo.InScheduleVO">
 	SELECT *
 	FROM in_schedule
 	WHERE IN_COMPLETE=1
-	
 	</select>
 	
 	<!-- 입고 수정 -->
@@ -50,17 +47,13 @@
 	IN_DATE=#{IN_DATE},
 	WHERE
 	IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
-	
-	
-	
-	
 	</update>
+	
+	<!-- 입고예정 리스트  -->
 	<select id="getInschedulePerList" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 	SELECT *
 		FROM in_inschedule_per_product
 	</select>
-	
-	
 	<!-- <select id="selectProcessingList" resultType="com.itwillbs.project.vo.InScheduleVO"> -->
 	<!-- SELECT * FROM in_schedule -->
 	<!-- WHERE in_complete=0 -->
@@ -86,7 +79,6 @@
 	,#{STOCK_CD}
 	,0
 	)
-	
 	</insert>
 
 </mapper>
