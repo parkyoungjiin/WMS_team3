@@ -52,13 +52,8 @@
 	<!-- 입고예정 리스트  -->
 	<select id="getInschedulePerList" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 	SELECT *
-		FROM in_inschedule_per_product
+		FROM in_schedule_per_product
 	</select>
-	<!-- <select id="selectProcessingList" resultType="com.itwillbs.project.vo.InScheduleVO"> -->
-	<!-- SELECT * FROM in_schedule -->
-	<!-- WHERE in_complete=0 -->
-	
-	<!-- </select> -->
 	
 	<select id="selectCode" resultType="integer">
 	SELECT 
