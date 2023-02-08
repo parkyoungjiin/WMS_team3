@@ -24,40 +24,40 @@
 
 <!-- 카테고리별 모아보기 -->
 <script type="text/javascript">
-// 	function selectWorkcode() {
-// 		let workcode = $(".").val();
-// // 		alert(workcode);
-// 		$.ajax({
-// 			type: "GET",
-// 			url: "EmployeeListJson.em?WORK_CD=" + workcode,
-// // 			data: WORK_CD=workcode,<img id='empImg' src=" + pageContext.request.contextPath + "/resources/"
-// 			dataType: "json"
+	function selectWorkcode() {
+		let workcode = $("#workCodeCategory > option:selected").val();
+// 		alert(workcode);
+		$.ajax({
+			type: "GET",
+			url: "EmployeeListJson.em?WORK_CD=" + workcode,
+// 			data: WORK_CD=workcode,<img id='empImg' src=" + pageContext.request.contextPath + "/resources/"
+			dataType: "json"
 			
-// 		})
-// 		.done(function(employeeList) {
-// 			$("#datatablesSimple > tbody").html("");
-// 			for(let employee of employeeList) {
-// 				let result = "<tr style='text-align:center'>"
-// 							+ "<td>" + employee.IDX + "</td>"
-// 							+ "<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'>" + + "</td>"
-// 							+ "<td>" + employee.EMP_NUM + "</td>"
-// 							+ "<td><a href='EmployeeDetail.em?EMP_NUM=" + employee.EMP_NUM + "'>" + employee.EMP_NAME  + "</a></td>"
-// 							+ "<td>" + employee.DEPT_CD + "</td>"
-// 							+ "<td>" + employee.GRADE_CD + "</td>"
-// 							+ "<td>" + employee.EMP_TEL + "</td>"
-// 							+ "<td>" + employee.EMP_DTEL + "</td>"
-// 							+ "<td>" + employee.EMP_EMAIL + "</td>"
-// 							+ "<td><input type='button' class='btn btn-secondary btn-sm' value='수정' onclick=\location.href='EmployeeModifyForm.em?EMP_NUM=" 
-// 									+ employee.EMP_NUM + "'\></td>"										
-// 							+ "</tr>"
+		})
+		.done(function(employeeList) {
+			$("#datatablesSimple > tbody").html("");
+			for(let employee of employeeList) {
+				let result = "<tr style='text-align:center'>"
+							+ "<td>" + employee.IDX + "</td>"
+							+ "<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'>" + + "</td>"
+							+ "<td>" + employee.EMP_NUM + "</td>"
+							+ "<td><a href='EmployeeDetail.em?EMP_NUM=" + employee.EMP_NUM + "'>" + employee.EMP_NAME  + "</a></td>"
+							+ "<td>" + employee.DEPT_CD + "</td>"
+							+ "<td>" + employee.GRADE_CD + "</td>"
+							+ "<td>" + employee.EMP_TEL + "</td>"
+							+ "<td>" + employee.EMP_DTEL + "</td>"
+							+ "<td>" + employee.EMP_EMAIL + "</td>"
+							+ "<td><input type='button' class='btn btn-secondary btn-sm' value='수정' onclick=\location.href='EmployeeModifyForm.em?EMP_NUM=" 
+									+ employee.EMP_NUM + "'\></td>"										
+							+ "</tr>"
 							
-// 				$("#datatablesSimple > tbody").append(result);
-// 			}
-// 		})
-// 		.fail(function() {
-// 			$("#card-body > tbody).before("<h5>조회된 정보가 없습니다</h5>");
-// 		});
-// 	}	
+				$("#datatablesSimple > tbody").append(result);
+			}
+		})
+		.fail(function() {
+			$("#datatablesSimple> tbody").before("<h5>조회된 정보가 없습니다</h5>");
+		});
+	}	
 
 </script>
 <script type="text/javascript">
@@ -87,25 +87,24 @@
 	<div class="pagetitle">
       <h1>사원 목록</h1>
     </div><!-- End Page Title -->
-    	<div class="card-body">
-            <div class="card mb-2">
+    
+            <div class="card mb-4">
                 <div class="card-header">
                     <button class="btn btn-secondary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
-                    <!-- Bordered Tabs -->
-              <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active work-tab" id="home-tab" data-bs-toggle="tab" value="c1data-bs-target="#bordered-home" type="button" role="tab" aria-controls="home" aria-selected="true" value="C1">재직</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link work-tab" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-profile" type="button" role="tab" aria-controls="profile" aria-selected="false" value="C2">휴직</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-contact" type="button" role="tab" aria-controls="contact" aria-selected="false" value="C3">퇴사</button>
-                </li>
-              </ul>
-              <div class="tab-content pt-2" id="borderedTabContent">
-                <div class="tab-pane fade show active" id="bordered-home" role="tabpanel" aria-labelledby="home-tab">
-					<table id="datatablesSimple" style="font-size: small;">
+					<div class="col-md-2">	
+<!-- 					<a href="EmployeeListJson.em?WORK_CD=C1 ">재직</a>	 -->
+<!-- 					<a href="EmployeeListJson.em?WORK_CD=C2 ">휴직</a>	 -->
+<!-- 					<a href="EmployeeListJson.em?WORK_CD=C3 ">퇴사</a>	 -->
+						<select id="workCodeCategory" name="workCodeCategory" class="form-select" onclick="selectWorkcode()">
+							<option>재직상태를 선택해주세요</option>
+							<option selected value="C1">재직</option>
+							<option value="C2">휴직</option>
+							<option value="C3">퇴사</option>
+						</select>
+					</div>
+                 </div>
+                 <div class="card-body">
+                     <table id="datatablesSimple" style="font-size: small;">
                          <thead>
                              <tr>
 								<th>인덱스</th>
@@ -120,59 +119,12 @@
 								<th width="150">관리하기</th>
                           	</tr>
 	                    </thead>
-                    	<div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
 	                    <tbody>
-				            	<c:forEach var="employee" items="${employeeList }">
-				            		<c:if test="${employee.WORK_CD eq 'C1' }">
-				            			<tr style='text-align:center'>
-				            				<td>${employee.IDX }</td>
-				            				<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'></td>
-				            				<td>${employee.EMP_NUM }</td>
-				            				<td><a href="EmployeeDetail.em?EMP_NUM=${employee.EMP_NUM }"></a></td>
-				            				<td>${employee.GRADE_CD }</td>
-				            			</tr>
-			<!-- 							+ "<td>" + employee.EMP_TEL + "</td>" -->
-			<!--  							+ "<td>" + employee.EMP_DTEL + "</td>" -->
-			<!-- 							+ "<td>" + employee.EMP_EMAIL + "</td>" -->
-			<!-- 						+ "<td><input type='button' class='btn btn-secondary btn-sm' value='수정' onclick=\location.href='EmployeeModifyForm.em?EMP_NUM="  -->
-			<!-- 							+ employee.EMP_NUM + "'\></td>"										 -->
-				            		</c:if>
-				            	</c:forEach>
-				            </div>
-	                    
-	                    
-	                    </tbody>
 						<!-- ajax로 표시할 위치 -->
+						</tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
-	            	<c:forEach var="employee" items="${employeeList }">
-	            		<c:if test="${employee.WORK_CD eq 'C1' }">
-	            			<tr style='text-align:center'>
-	            				<td>${employee.IDX }</td>
-	            				<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'></td>
-	            				<td>${employee.EMP_NUM }</td>
-	            				<td><a href="EmployeeDetail.em?EMP_NUM=${employee.EMP_NUM }"></a></td>
-	            				<td>${employee.GRADE_CD }</td>
-	            			</tr>
-<!-- 							+ "<td>" + employee.EMP_TEL + "</td>" -->
-<!--  							+ "<td>" + employee.EMP_DTEL + "</td>" -->
-<!-- 							+ "<td>" + employee.EMP_EMAIL + "</td>" -->
-<!-- 						+ "<td><input type='button' class='btn btn-secondary btn-sm' value='수정' onclick=\location.href='EmployeeModifyForm.em?EMP_NUM="  -->
-<!-- 							+ employee.EMP_NUM + "'\></td>"										 -->
-	            		</c:if>
-	            	</c:forEach>
-	            </div>
-                <div class="tab-pane fade" id="bordered-contact" role="tabpanel" aria-labelledby="contact-tab">
-                  Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
-                </div>
-              </div> <%-- End Bordered Tabs--%>
-                    
-                 </div>
-                     
-                </div>
             </div>
-        </div>    
 </main>		
 
 

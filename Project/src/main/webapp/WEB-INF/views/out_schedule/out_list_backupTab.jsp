@@ -199,8 +199,8 @@
               </div><!-- End Modal Dialog Scrollable-->
     	
             <div class="card mb-4">
-<!--                 <div class="card-header"> -->
-<!--                      출고 예정 목록 -->
+                <div class="card-header">
+                     출고 예정 목록
                      <button class="btn btn-primary" onclick="location.href='OutRegisterForm'" style="float: right;">신규등록</button>
                  </div>
                  <div class="card-body">
