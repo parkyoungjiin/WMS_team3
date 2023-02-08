@@ -76,4 +76,9 @@
 	)
 	</insert>
 
+	<select id="searchStockNum" resultType="com.itwillbs.project.vo.StockVo">
+		SELECT *
+			FROM stock_view
+				WHERE STOCK_CD LIKE '%${keyword}%' || PRODUCT_NAME LIKE '%${keyword}%' || WH_NAME LIKE '%${keyword}%' 
+	</select>
 </mapper>
