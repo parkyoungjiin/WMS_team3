@@ -111,7 +111,7 @@
 <%-- 								<td><a href="BuyerDetail?business_no=${prodList.business_no }"> ${buyerList.business_no }</a></td> --%>
 <%-- 								<td><a href="BuyerDetail?business_no=${prodList.business_no }">${buyerList.cust_name }</a></td> --%>
 								<td>${prodList.product_group_bottom_cd }</td>
-								<td>${prodList.product_name }</td>
+								<td>${prodList.product_group_bottom_name }</td>
 								<td>
 <%-- 								<c:choose > --%>
 <%-- 									<c:when test="${buyerList.by_use eq '1' }"> --%>
