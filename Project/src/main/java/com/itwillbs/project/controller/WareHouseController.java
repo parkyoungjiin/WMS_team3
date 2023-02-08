@@ -303,7 +303,7 @@ public class WareHouseController {
 			List<WareHouseVO> stocklist = null;
 				stocklist = service.getStockList(vo);
 				JSONArray jsonArray = new JSONArray();
-			
+				System.out.println(stocklist);
 			for(WareHouseVO list: stocklist) {
 				JSONObject jsonObject = new JSONObject(list);
 				System.out.println(jsonObject);

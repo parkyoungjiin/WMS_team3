@@ -112,20 +112,17 @@
 			SET wh_loc_in_area=#{wh_loc_in_area}
 			WHERE wh_loc_in_area_cd=#{wh_loc_in_area_cd}
 	</update>
-	
+	<!-- 창고 내에 재고 리스트 목록  -->
 	<select id="getStockList" resultType="com.itwillbs.project.vo.WareHouseVO">
 		SELECT * 
 			FROM stock_view
 			WHERE 
-			<if test="!wh_cd.equals('')">
 				wh_cd = #{wh_cd}
-			</if>
-			<if test="wh_area_cd != 0">
-				wh_area_cd = #{wh_area_cd}
-			</if>
-			<if test="wh_loc_in_area_cd != 0">
-				wh_loc_in_area_cd = #{wh_loc_in_area_cd}
-			</if>
-			
+					<if test="wh_area_cd != 0">
+						AND	wh_area_cd = #{wh_area_cd}
+					</if>
+					<if test="wh_loc_in_area_cd != 0">
+						AND	wh_loc_in_area_cd = #{wh_loc_in_area_cd}
+					</if>
 	</select>
 </mapper>

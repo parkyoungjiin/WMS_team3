@@ -130,7 +130,7 @@ a{text-decoration:none; color:#333;}
   .tab_menu .list .btn{font-size:13px; margin-right:14px;}
   .tab_menu .list .cont{display:none; position:absolute; background:#555; color:#fff; text-align:center; width:1000px; height:100px; line-height:100px;}
   .tab_menu .list li.is_on .btn{font-weight:bold; color:green;}
-  .tab_menu .list li.is_on .cont{display:block;}
+  .tab_menu .list li.is_on .cont{display:block; color:green;} 
 </style>
 
 
@@ -150,16 +150,16 @@ a{text-decoration:none; color:#333;}
     </div><!-- End Page Title -->
     
     
-
-<div class="tab_menu">
-  <ul class="list">
-    <li class="is_on">
-      <a href="#tab1" class="btn">전체</a>
-        <div id="tab1" class="cont">
-                <div class="card-header">
+  <div class="card-header">
                      입고 예정 목록
                      <button class="btn btn-primary" onclick="location.href='InRegisterForm'" style="float: right;">신규등록</button>
                  </div>
+<div class="tab_menu">
+  <ul class="list">
+    <li class="is_on">
+      <a href="#tab1" class="btn">	</a>
+        <div id="tab1" class="cont" >
+              
   
                  <div class="card-body">
                  	<table class="table table-hover">
@@ -187,19 +187,19 @@ a{text-decoration:none; color:#333;}
 										
 	<td>${idx.count }</td>
 							<td><input type="checkbox" name="chk"></td> 
-							<td><a href="">${isList.DATE}-${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
+							<td><a href="">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
 		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
-		                    <td>${isList.BUSINESS_NO}</td> <!-- 보낸곳명 -->
-		                    <td>${isList.EMP_NUM}</td>	<!-- 담당자명 -->
-		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 -->
+		                    <td>${isList.CUST_NAME}</td> <!-- 보낸곳명 -->
+		                    <td>${isList.EMP_NAME}</td>	<!-- 담당자명 -->
+		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 pro--> 
 		                    <td>${isList.IN_DATE}</td> <!-- 납기일자 -->
 		                    <td></td> <!-- 입고예정량합계 -->
 		                       <td>
 		                    	<c:choose>
-		                    		<c:when test="${isList.in_complete eq '1'}">
+		                    		<c:when test="${isList.IN_COMPLETE eq '1'}">
 										<input type="button"  id="btnComp" class="btn btn-sm btn-secondary" value="취소">
 		                    		</c:when>
-		                    		<c:when test="${isList.in_complete eq '0'}">
+		                    		<c:when test="${isList.IN_COMPLETE eq '0'}">
 		                    			<input type="button" id="btnComp" class="btn btn-secondary btn-sm" value="종결">
 		                    		</c:when>
 		                    	</c:choose>
@@ -209,7 +209,7 @@ a{text-decoration:none; color:#333;}
 							</c:forEach>  
                         </tbody>
 		              </table>
-		             </div>
+           </div>
             </div>
     </li>
     <li>
@@ -223,8 +223,8 @@ a{text-decoration:none; color:#333;}
       <div id="tab3" class="cont">히히</div>
     </li>
   </ul>
-   </div>
 </div>
+   </div>
 
 <script>
   const tabList = document.querySelectorAll('.tab_menu .list li');

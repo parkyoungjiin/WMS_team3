@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itwillbs.project.mapper.In_ScheduleMapper">
+<!-- 입고 예정리스트 -->
 <select id="selectInscheduleList" resultType="com.itwillbs.project.vo.InScheduleVO">
-SELECT *
-FROM in_schedule
-
+SELECT * FROM in_schedule
 </select>
-<!-- 입고물품 등록 -->
+<!-- 입고예정물품 등록 -->
 <insert id="insertInschedule">
 INSERT INTO in_schedule
 VALUES(
-0,
-#{DATE},
+#{IN_SCHEDULE_CD},
 #{IN_TYPE_CD},
 #{BUSINESS_NO},
 #{CUST_NAME},
@@ -19,14 +17,7 @@ VALUES(
 #{EMP_NAME},
 #{IN_DATE},
 #{REMARKS},
-#{PRODUCT_CD},
-#{PRODUCT_NAME},
-#{SIZE_DES},
-#{IN_DATE1},
-#{REMARKS1},
-#{QTY},
-#{IN_QTY},
-#{in_complete}
+0
 )
 </insert>
 
@@ -69,10 +60,10 @@ FROM in_schedule
 
 <insert id="insertOutProduct">
 INSERT INTO IN_SCHEDULE_PER_PRODUCT VALUES(
-#{in_schedule_cd}
+#{IN_SCHEDULE_CD}
 ,#{PRODUCT_CD}
 ,#{PRODUCT_NAME}
-,#{SIZE_DES}
+,#{PRODUCT_SIZE}
 ,#{IN_SCHEDULE_QTY}
 ,#{IN_QTY}
 ,#{IN_DATE}
@@ -82,5 +73,10 @@ INSERT INTO IN_SCHEDULE_PER_PRODUCT VALUES(
 )
 
 </insert>
+
+<select id="getInschedulePerList" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
+	SELECT *
+		FROM in_inschedule_per_product
+	</select>
 
 </mapper>
