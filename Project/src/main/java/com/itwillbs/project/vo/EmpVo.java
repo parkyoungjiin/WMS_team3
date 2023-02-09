@@ -13,6 +13,7 @@ public class EmpVo {
 	private String EMP_NUM;
 	private String EMP_NAME;
 	private String DEPT_CD; //부서코드
+	private String DEPT_NAME; //부서명
 	private String GRADE_CD; //직급코드
 	private String EMP_TEL; //연락처(개인)
 	private String EMP_DTEL; //연락처(사무실) 
@@ -50,6 +51,12 @@ public class EmpVo {
 	}
 	public void setDEPT_CD(String dEPT_CD) {
 		DEPT_CD = dEPT_CD;
+	}
+	public String getDEPT_NAME() {
+		return DEPT_NAME;
+	}
+	public void setDEPT_NAME(String dEPT_NAME) {
+		DEPT_NAME = dEPT_NAME;
 	}
 	public String getGRADE_CD() {
 		return GRADE_CD;
@@ -126,11 +133,12 @@ public class EmpVo {
 	@Override
 	public String toString() {
 		return "EmpVo [IDX=" + IDX + ", EMP_NUM=" + EMP_NUM + ", EMP_NAME=" + EMP_NAME + ", DEPT_CD=" + DEPT_CD
-				+ ", GRADE_CD=" + GRADE_CD + ", EMP_TEL=" + EMP_TEL + ", EMP_DTEL=" + EMP_DTEL + ", EMP_EMAIL="
-				+ EMP_EMAIL + ", EMP_PASSWD=" + EMP_PASSWD + ", EMP_POST_NO=" + EMP_POST_NO + ", EMP_ADDR=" + EMP_ADDR
-				+ ", HIRE_DATE=" + HIRE_DATE + ", WORK_CD=" + WORK_CD + ", PRIV_CD=" + PRIV_CD + ", PHOTO=" + PHOTO
-				+ ", file=" + file + "]";
+				+ ", DEPT_NAME=" + DEPT_NAME + ", GRADE_CD=" + GRADE_CD + ", EMP_TEL=" + EMP_TEL + ", EMP_DTEL="
+				+ EMP_DTEL + ", EMP_EMAIL=" + EMP_EMAIL + ", EMP_PASSWD=" + EMP_PASSWD + ", EMP_POST_NO=" + EMP_POST_NO
+				+ ", EMP_ADDR=" + EMP_ADDR + ", HIRE_DATE=" + HIRE_DATE + ", WORK_CD=" + WORK_CD + ", PRIV_CD="
+				+ PRIV_CD + ", PHOTO=" + PHOTO + ", file=" + file + "]";
 	}
+	
 
 	
 	

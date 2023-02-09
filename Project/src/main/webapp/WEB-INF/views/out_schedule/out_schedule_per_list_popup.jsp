@@ -34,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Kaushan+Script&family=Neucha&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
-<title>입고 관리</title>
+<title>출고 관리</title>
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
@@ -42,15 +42,13 @@
 <script type="text/javascript">
 // 체크박스 선택 jQuery
 	
-	
+
 	$(document).ready(function() {
-		//체크 박스 전체 선택
 		$("#chkAll").click(function() {
 			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
 			else $("input[name=chk]").prop("checked", false);
 		});
-		
-		//??
+	
 		$("input[name=chk]").click(function() {
 			var total = $("input[name=chk]").length;
 			var checked = $("input[name=chk]:checked").length;
@@ -59,18 +57,14 @@
 			else $("#chkAll").prop("checked", true); 
 		});
 		
-		//서브밋 막기 작업(하다 말음)
-		$("in_submit").click(function() {
-			var in_qty_input =$("#in_qty_input").val();
-			if()
-		});
+		
 	});
 	
-	//-------------입고처리 시 팝업창 ----------------
+	//-------------출고처리 시 팝업창 ----------------
 	
-	function in_schedule_process() {
-		window.open("In_Per_List_popup", "입고처리", "width=1200, height=750, top=50, left=50")
-	}
+// 	function in_schedule_process() {
+// 		window.open("Out_Per_List_popup", "출고", "width=1200, height=750, top=50, left=50")
+// 	}
 	
 	// ------------재고, 창고조회---------------
 	function stock_num_search_fn() {
@@ -87,33 +81,7 @@
 		.done(function(stockList) { // 요청 성공 시
 			 console.log(stockList)
 //	 		$(".modal-body").append(buyerList);
-		
-			 if(stockList.length == 0){
-					$("#modal-body-sto > table ").remove();   //테이블 비우고
-
-					let no_result = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
-						+ "<tr style='cursor:pointer;'>"
-		                + '<th scope=col">재고번호</th>'
-		                + '<th scope=col">품목명</th>'
-		                + '<th scope=col">구역명</th>'
-		                + '<th scope=col">위치명</th>'
-		                + '</tr>'
-						+ "<tr style='cursor:pointer;'>"
-						+ "<td colspan ='4'>"
-						+ "<h4 style='font-weight: bold; text-align: center;'>검색결과가 없습니다."
-						+ "</h4>"
-						+ "</td>"
-						+ "</tr>";
-				 		+ '</table>';
-
-		// // 			$("#buyer_search").append("<div></div>");
-//		 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
-//		 			$("#buyer_search").css("color","#B9062F");
-			         $("#modal-body-sto").append(no_result);
-			 }else{
-				 
-			
-			$("#modal-body-sto > table").remove();   //테이블 비우고
+			$("#modal-body-sto > table ").remove();   //테이블 비우고
 			
 				let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
 					+ "<tr style='cursor:pointer;'>"
@@ -121,6 +89,7 @@
 	                + '<th scope=col">품목명</th>'
 	                + '<th scope=col">구역명</th>'
 	                + '<th scope=col">위치명</th>'
+	                + '<th scope=col">수량</th>'
 	                + '</tr>'
   			 		+ '</table>'
 				
@@ -129,15 +98,15 @@
 			for(let stock of stockList) {
 		         let result = 
 		        	 	"<tr style='cursor:pointer;'>"
-		        	 	  + "<td>" + stock.stock_cd + "</td>"
+		                  + "<td>" + stock.stock_cd + "</td>"
 		                  + "<td>" + stock.product_name + "</td>"
 		                  + "<td>" + stock.wh_name + "("+ stock.wh_area + "구역)" + "</td>"
 		                  + "<td>" + stock.wh_loc_in_area + "</td>"
+		                  + "<td>" + stock.stock_qty + "</td>"
 		                  + "</tr>";
 
 	 			$("#stock_search_table").append(result);
-			}//for 긑
-		 }//else 끝
+			}
 		})
 		.fail(function() {
 	 			$("modal-body-sto").append("<h3>요청 실패!</h3>");
@@ -145,16 +114,19 @@
 		});
 	}
 	
-	//--------------재고,창고 조회 된 tr값 클릭 시 해당 idx에 값을 넣음. ------------
+	
 	function input_search_idx(cb) {
 
 		var idx = cb.id.replace("stock_search_btn", "");
-// 		alert(idx);
+		var stock_idx = $(cb).val();
+		alert(stock_idx);
+		
+		$("#search_keyword").val(stock_idx);
 		
 		$("#modal-body-sto").on('click','tr',function(){
 // 			alert("클릭 후 :" +idx);
-			
-// 			console.log("클릭된다.")
+
+			console.log("클릭된다.")
 		   let td_arr = $(this).find('td');
 		   console.log(td_arr);
 		   
@@ -162,27 +134,27 @@
 		   let stock_cd = $(td_arr[0]).text();
 //		   $('#name').val($(td_arr[1]).text());
 		   let wh_name = $(td_arr[2]).text();
+		   let stock_qty = $(td_arr[4]).text();
 		   console.log(stock_cd);
 		   
 		   // td 클릭시 모달 창 닫기
 		   $('#stock_search').modal('hide');
 		   $("#stock_cd_input" + idx).val(stock_cd);
 		   $("#wh_area_loc_input" + idx).val(wh_name);
+		   $("#stock_qty" + idx).val(stock_qty);
 			idx = "";
-	});	   
+	});	  
+		
+		$("#out_qty_input" + idx).change(function(){
+// 			alert("감지");
+			
+		});
 		
 	}
-	// 거래처
-$(function() {
 	
 	
 		
 		
-});
-	
-	
-	
-	
 
 
 </script>
@@ -190,13 +162,13 @@ $(function() {
 <body class="sb-nav-fixed">
 <header>
 	<!-- top-->
-		<jsp:include page="../inc/top.jsp"/>
+<%-- 		<jsp:include page="../inc/top.jsp"/> --%>
 	</header>
 	<!-- side -->
 <main id="main" class="main"  style="margin-left: 10px;">
 
 	<div class="pagetitle" >
-      <h1>입고 관리</h1>
+      <h1>출고 관리</h1>
     </div><!-- End Page Title -->
     	
     	<div class="modal fade" id="modalDialogScrollable_complete" tabindex="-1">
@@ -232,58 +204,58 @@ $(function() {
                   </div>
                 </div>
               </div><!-- End Modal Dialog Scrollable-->
-    	 <form action="./In_Per_Schedule_Process" method="post"> 
+    	
             <div class="card mb-4">
                 <div class="card-header">
-                     출고 예정 목록
+                     출고 처리
                  </div>
                <div class="card-body">
                   <div class="input-group mb-6" id ="stock_history_div">
 	                    <table class="table table-hover" id="stock_history_table" style="margin-left: auto; margin-right: ">
 							<tr>
-					 			<th scope="col">입고예정번호</th>
+					 			<th scope="col">출고예정번호</th>
 					 			<th scope="col">품목명</th>
-					 			<th scope="col">입고예정수량</th>
-					 			<th scope="col">입고수량</th>
+					 			<th scope="col">출고예정수량</th>
 					 			<th scope="col">재고번호</th>
 					 			<th scope="col">구역명_선반위치</th>
+					 			<th scope="col">재고량</th>
+					 			<th scope="col">출고수량</th>
 				 			</tr>
-
 				 			<c:forEach var="list" items="${list }" varStatus="status">
-				 				<input type="hidden" value="${list.IN_SCHEDULE_QTY }" name="IN_SCHEDULE_QTYArr">
-				 				<input type="hidden" value="${list.IN_SCHEDULE_PER_CD }" name="IN_SCHEDULE_PER_CDArr">
-				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
-				 				<input type="hidden" value="${list.IN_COMPLETE}" name="IN_COMPLETE">			
 				 			<tr>
-					 			<td>${list.IN_SCHEDULE_CD }</td>
-					 			<td>${list.PRODUCT_NAME }</td>
-					 			<td>${list.IN_SCHEDULE_QTY }</td>
+					 			<td>${list.out_schedule_cd }</td>
+					 			<td>${list.product_name }</td>
+					 			<td>${list.out_schedule_qty }</td>
 					 			<td>
-					 				<!-- 입고처리할 수량 입력칸 -->
-					 				<input type="text" class="form-control-sm" id="in_qty_input" name="IN_QTYArr" size="1" required>
-					 			</td>
-					 			<td>
+					 			    <div class="input-group input-group-sm mb-2">
 					 				<!-- 재고번호 자동 입력될 칸 -->
-									<input type="text" class="form-control-sm" id ="stock_cd_input${status.index}" name="STOCK_CDArr" size="5">				 			
-					 			</td>
-					 			<td>
+									<input type="text" class="form-control form-control-sm" id ="stock_cd_input${status.index}" name="stock_cd" size="1" value="${list.stock_cd }" readonly="readonly">
 									<!-- 재고번호 검색 버튼 -->					 			
-                      				<button type="button" class="btn btn-secondary" id ="stock_search_btn${status.index}" data-bs-toggle="modal" data-bs-target="#stock_search" onclick="input_search_idx(this)">모달열려라</button>
+                      				<button type="button" class="btn btn-secondary" id ="stock_search_btn${status.index}" value="${list.stock_cd }" data-bs-toggle="modal" data-bs-target="#stock_search" onclick="input_search_idx(this)">검색</button>
+					 				</div>
 					 			<td>
 					 				<!-- 구역명_선반위치 -->
-									<input type="text" class="form-control-sm" id ="wh_area_loc_input${status.index}" name="WH_LOC_IN_AREA_CDArr" required>					 			
+									<input type="text" class="form-control form-control-sm" id ="wh_area_loc_input${status.index}" name="wh_area_wh_loc" readonly="readonly">					 			
+					 			</td>
+					 			<td>
+					 				<!-- 재고수량 -->
+									<input type="text" class="form-control form-control-sm" id ="stock_qty${status.index}" name="stock_qty" size="1" readonly="readonly" required="required">					 			
+					 			</td>
+					 			<td>
+					 				<!-- 출고처리할 수량 입력칸 -->
+					 				<input type="text" class="form-control form-control-sm" id="out_qty_input${status.index}" name="out_qty" size="1" required="required">
 					 			</td>
 				 			</tr>
 				 			</c:forEach>
 		 				</table>
 		        	 </div>
-           	 	 </div>
-           	 	<div>
-		              <button class="btn btn-primary" id="in_submit" type="submit">입고처리</button>
-           	 	</div>
-           	 
+	           	 	<div>
+			              <button class="btn btn-primary" onclick="out_schedule_process()"  style="float: right;">출고</button>
+	           	 	</div>
+           	 </div>
+		              
 		 </div>
-         </form>  
+            
               <!-- Extra Large Modal -->
          
               
@@ -299,12 +271,12 @@ $(function() {
                     <div class="modal-body" id="modal-body-sto">
            	            <div class="input-group mb-6"  style="margin-bottom: 10px">
                     	
-	             		<input name="search_keyword" type="text" class="form-control" id="search_keyword" placeholder="검색 후 이용 바랍니다.">
+	             		<input name="search_keyword" type="text" class="form-control" id="search_keyword" placeholder="검색 후 이용 바랍니다." readonly="readonly">
    						<button id="search_buyer" class="btn btn-primary" type="button" onclick="stock_num_search_fn()">검색</button>
    						</div>
                     	<table class='table table-hover' id="stock_search_table" style="margin-left: auto; margin-right: ">
 				                <tr>
-				                  <th scope="col" >재고번호</th>
+				                  <th scope="col">재고번호</th>
 				                  <th scope="col">품목명</th>
 				                  <th scope="col">구역명</th>
 				                  <th scope="col">위치명</th>
@@ -319,6 +291,8 @@ $(function() {
               </div><!-- End Vertically centered Modal-->	
               
 </main>		
+
+
   <!-- 테이블 템플릿 css/js -->
   <script src="${path}/resources/js/scripts.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>

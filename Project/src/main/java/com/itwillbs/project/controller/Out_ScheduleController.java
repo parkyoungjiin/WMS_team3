@@ -2,6 +2,7 @@ package com.itwillbs.project.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -287,10 +288,15 @@ public class Out_ScheduleController {
 					osp2.setProduct_size(osp.getProduct_sizeArr()[i]); // 품목 규격
 					osp2.setOut_schedule_qty(osp.getOut_schedule_qtyArr()[i]); // 출고 예정 수량
 					
-					if(osp.getRemarks_proArr()[i] == null) {
-						osp2.setRemarks_pro("");
-					} else {
-						osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
+					for(int r = 0; r < osp.getRemarks_proArr().length; r++) {
+						
+					    System.out.println(osp.getRemarks_proArr()[r] + "/");
+						
+					    if(osp.getRemarks_proArr()[r] == null || osp.getRemarks_proArr()[r].length() == 0) {
+					    	osp2.setRemarks_pro("");
+					    } else {
+					    	osp2.setRemarks_pro(osp.getRemarks_proArr()[r]); // 비고
+					    }
 					}
 					
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
@@ -381,8 +387,41 @@ public class Out_ScheduleController {
 				return "fail_back";
 			}
 			
-			
 		}
 		
 		
+		//--------출고처리 목록 표시 페이지 이동 -----------
+		@GetMapping("/Out_Per_List")
+		public String out_per_list(Model model) {
+			List<OutSchedulePerProductVO> ospList = service.getOutschedulePerList();
+//			System.out.println("처리리스트 : " + ospList);
+			model.addAttribute("list",ospList);
+			return "out_schedule/out_schedule_per_list";
+		}// 출고 처리 목록 표시 페이지 이동 끝
+		
+		
+		//-------------출고처리 팝업창-----------
+		@GetMapping(value = "/Out_Per_List_popup")
+		public String out_per_list_popup(@ModelAttribute OutSchedulePerProductVO vo,Model model) {
+//			System.out.println(vo.getOut_schedule_per_cdArr().length);
+			System.out.println(vo);
+
+			try {
+				List<OutSchedulePerProductVO> list = new ArrayList<OutSchedulePerProductVO>();
+					for(int i=0;i<=vo.getOut_schedule_per_cdArr().length-1;i++) {
+						OutSchedulePerProductVO vo2 = new OutSchedulePerProductVO();
+						vo2.setOut_schedule_per_cd(vo.getOut_schedule_per_cdArr()[i]);
+						vo2 = service.getOutschedulePerInfo(vo2); 
+						list.add(vo2);
+						
+					}
+					System.out.println(list);
+					model.addAttribute("list",list);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "out_schedule/out_schedule_per_list_popup";
+		}//출고처리 팝업창 끝
+
 }

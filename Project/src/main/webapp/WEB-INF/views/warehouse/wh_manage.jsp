@@ -27,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Kaushan+Script&family=Neucha&display=swap" rel="stylesheet">
 <!-- 부트스트랩 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link href="${path}/resources/css/bootstrap.min.css" rel="stylesheet">
 <!-- 폰트어썸 -->
 <script src="https://kit.fontawesome.com/ca93809e69.js" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
@@ -38,8 +38,6 @@
 <script type="text/javascript">
 	
 		//--------창고 리스트 출력-----------	
-		// 게시물 목록 조회를 AJAX + JSON 으로 처리할 load_list() 함수 정의
-		// => 검색타입과 검색어를 파라미터로 지정
 			$(function() {
 					$.ajax({
 						type: "GET",
@@ -62,6 +60,7 @@
 										+"<td></td>"
 										+"</tr>";
 							$("#table > tbody").append(result);
+							console.log(result);
 						}
 					})
 					.fail(function() {
@@ -97,6 +96,7 @@
 							+"<td><div></div></td>"
 							+"</tr>";
 							$("#tr"+list.wh_cd).after(result);
+							console.log(result);
 						}
 						$("[class^='hide']").hide();
 						$("[class^='loc_hide']").hide();
@@ -127,6 +127,7 @@
 							+"<input type='hidden' value='"+list.wh_loc_in_area_cd+"' id='loc_hidden_value'> "
 							+"</tr>";
 							$("#tr"+list.wh_area_cd).after(result);
+							console.log(result);
 						}
 						$("[class^='loc_hide']").hide();
 						$(".modify_button2").hide();
@@ -226,32 +227,24 @@
 		
 		//--------창고 지역 minus 버튼-----------
 		function loc_minus_button(cd) {
-// 				$("#minus_loc"+cd).click(function() {
 				$(".loc_hide"+cd).hide();	
-// 				});
 			}//창고 지역 minus 끝
 		
 		//--------창고 지역 plus 버튼-----------
 		function loc_plus_button(cd) {
 				alert(cd);
 				$(".loc_hide"+cd).show();
-// 			});
 		}// 창고 지역 plus 버튼 끝
 		
 		//--------창고 지역 minus 버튼-----------
 		function minus_button(cd) {
-// 				$("#minus"+cd).click(function() {
-// 					$(".loc_hide"+cd).hide();
 					$(".hide"+cd).hide();
-// 				});
 			}//창고 지역 minus 끝
 		
 		//--------창고 지역 plus 버튼-----------
 		function plus_button(cd) {
-// 				$("#plus"+cd).click(function() {
-// 					$(".loc_hide"+cd).show();
+					alert(cd);
 					$(".hide"+cd).show();
-// 				});
 		}// 창고 지역 plus 버튼 끝
 			
 		

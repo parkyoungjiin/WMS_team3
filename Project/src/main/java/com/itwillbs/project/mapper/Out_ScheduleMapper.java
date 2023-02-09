@@ -43,12 +43,19 @@ public interface Out_ScheduleMapper {
 	// 출고 예정 상품별 수정
 	int updateOSPro(OutSchedulePerProductVO osp2);
 
+
 	// 출고리스트 상품 갯수
 	int selectExtraPdCount(String outSchCd);
 
 	// 출고리스트 상품갯수 가져오기
 	OutSchedulePerProductVO selectOutPdName(String outSchCd);
 
+
+	// 출고 처리 목록
+	List<OutSchedulePerProductVO> selectOsProList();
+
+	// 출고 처리 품목 정보
+	OutSchedulePerProductVO selectOsProInfo(OutSchedulePerProductVO vo2);
 
 
 	

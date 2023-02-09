@@ -85,4 +85,14 @@ public class Out_ScheduleService {
 	public int updateOutSchedulePro(OutSchedulePerProductVO osp2) {
 		return mapper.updateOSPro(osp2);
 	}
+
+	//출고 처리 목록
+	public List<OutSchedulePerProductVO> getOutschedulePerList() {
+		return mapper.selectOsProList();
+	}
+
+	//출고 팝업 정보
+	public OutSchedulePerProductVO getOutschedulePerInfo(OutSchedulePerProductVO vo2) {
+		return mapper.selectOsProInfo(vo2);
+	}
 }
