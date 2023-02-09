@@ -63,30 +63,30 @@ function load_buyerList() {
 	.done(function(buyerList) { // 요청 성공 시
 		 
 // 		$(".modal-body").append(buyerList);
-		$("#modal-body > table").empty();   
+// 		$("#modal-body > table").empty();   
 	
 		for(let buyer of buyerList) {
 			
 			
-	         let result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right:'>"
-	                  + "<tr>"
-	                  + "<th scope='col'>거래처코드</th>"
-	                  + "<th scope='col'>상호명</th>"
-	                  + "</tr>"
-	                  + "<tr style='cursor:pointer;'>"
-	                  + "<td>" + buyer.business_no + "</td>"
-	                  + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-	                  + "</tr>";
-	                  + "</table>"
+// 	         let result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right:'>"
+// 	                  + "<tr>"
+// 	                  + "<th scope='col'>거래처코드</th>"
+// 	                  + "<th scope='col'>상호명</th>"
+// 	                  + "</tr>"
+// 	                  + "<tr style='cursor:pointer;'>"
+// 	                  + "<td>" + buyer.business_no + "</td>"
+// 	                  + "<td id='cust_name'>" + buyer.cust_name + "</td>"
+// 	                  + "</tr>";
+// 	                  + "</table>"
 	                  
-	         $("#modal-body > table").append(result);
+// 	         $("#modal-body > table").append(result);
 			
-// 			let result = "<tr style='cursor:pointer;'>"
-// 		                + "<td>" + buyer.business_no + "</td>"
-// 		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-//                			+ "</tr>";
+			let result = "<tr style='cursor:pointer;'>"
+		                + "<td>" + buyer.business_no + "</td>"
+		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
+               			+ "</tr>";
              
-// 			$("#modal-body > table").append(result);
+			$("#modal-body > table").append(result);
 		}
 	})
 	.fail(function() {
@@ -206,11 +206,13 @@ $(function() {
 //		   $('#name').val($(td_arr[1]).text());
 		   let cust_name = $(td_arr[1]).text();
 		   console.log(cust_name);
+		   console.log("거래처 코드 : " + business_no);
 		   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_buyer').modal('hide');
 		   $("#cust_name").val(cust_name);
 		   $("#business_no").val(business_no);
+		   
 	});	   
 	
 	
