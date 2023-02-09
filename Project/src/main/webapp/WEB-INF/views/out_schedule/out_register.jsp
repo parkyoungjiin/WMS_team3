@@ -242,15 +242,6 @@ $(function() {
 		   let pro_name = $(td_arr[1]).text();
 		   let pro_size = $(td_arr[2]).text();
 		   
-		   // td 클릭시 모달 창 닫기
-		   $('#modalDialogScrollable_pro').modal('hide');
-		   $(".pro_cd").eq(selectIdx).val(pro_cd);
-		   $(".pro_name").eq(selectIdx).val(pro_name + " ["+pro_size+"]");
-		   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
-		   $(".product_sizeArr").eq(selectIdx).val(pro_size); // hidden input 에 규격 넣기
-// 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
-		   
-		   
 		   $.ajax({
 				type: "GET",
 				url: "StoListJson?keyword=" + pro_cd,
@@ -258,6 +249,19 @@ $(function() {
 			})
 			.done(function(stoList) { // 요청 성공 시
 				
+					if(stoList.length === 0){
+						alert("재고가 없는 품목입니다.");
+						return;
+					}
+					
+			
+					// td 클릭시 모달 창 닫기
+					   $('#modalDialogScrollable_pro').modal('hide');
+					   $(".pro_cd").eq(selectIdx).val(pro_cd);
+					   $(".pro_name").eq(selectIdx).val(pro_name + " ["+pro_size+"]");
+					   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
+					   $(".product_sizeArr").eq(selectIdx).val(pro_size); // hidden input 에 규격 넣기
+//			 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
 					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
 					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
 					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);

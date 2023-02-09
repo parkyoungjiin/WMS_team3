@@ -1,5 +1,6 @@
 package com.itwillbs.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.itwillbs.project.mapper.In_ScheduleMapper;
 import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
+import com.itwillbs.project.vo.StockVo;
 
 @Service
 public class In_scheduleService {
@@ -45,4 +47,13 @@ public class In_scheduleService {
 //	public List<InScheduleVO> getProcessingList() {
 //		return mapper.selectProcessingList();
 //	}
+
+
+	public InSchedulePerProductVO getInschedulePerInfo(InSchedulePerProductVO vo2) {
+		return mapper.getInschedulePerInfo(vo2);
+	}
+//-----------재고 번호 받아오기 (팝업창)-----------
+	public List<StockVo> getSerachStockNum(String keyword) {
+		return mapper.searchStockNum(keyword);
+	}
 }

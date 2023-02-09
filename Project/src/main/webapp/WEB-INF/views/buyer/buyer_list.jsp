@@ -84,7 +84,7 @@
                                <th>담당자 전화번호</th>
                                <th>주소</th>
                                <th>사용구분</th>
-                               <th>비고</th>
+                               <th>업태</th>
                            </tr>
                        </thead>
                       <tbody>
@@ -108,7 +108,7 @@
 									</c:otherwise>						
 								</c:choose>
 								</td>
-								<td>${buyerList.remarks }</td>
+								<td>${buyerList.uptae }</td>
 							</tr> 
 							</c:forEach>  
                         </tbody>

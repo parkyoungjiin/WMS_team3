@@ -96,7 +96,7 @@
 	<update id="updateOSPro">
 		UPDATE out_schedule_per_product
 			SET
-			 ,product_cd = #{product_cd}
+			 product_cd = #{product_cd}
 		     ,product_name = #{product_name}
 		     ,product_size = #{product_size}
 		     ,out_schedule_qty = #{out_schedule_qty}
