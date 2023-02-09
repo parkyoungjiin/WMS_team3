@@ -204,6 +204,8 @@ public class InSchedulePerProductVO {
 				+ Arrays.toString(IN_SCHEDULE_QTYArr) + ", IN_QTY=" + IN_QTY + ", IN_QTYArr="
 				+ Arrays.toString(IN_QTYArr) + ", IN_DATE=" + IN_DATE + ", IN_DATEArr=" + Arrays.toString(IN_DATEArr)
 				+ ", REMARKS=" + REMARKS + ", REMARKS_Arr=" + Arrays.toString(REMARKS_Arr) + ", STOCK_CD=" + STOCK_CD
-				+ ", STOCK_CDArr=" + Arrays.toString(STOCK_CDArr) + ", IN_COMPLETE=" + IN_COMPLETE + "]";
+				+ ", STOCK_CDArr=" + Arrays.toString(STOCK_CDArr) + ", IN_COMPLETE=" + IN_COMPLETE
+				+ ", IN_SCHEDULE_PER_CD=" + IN_SCHEDULE_PER_CD + ", IN_SCHEDULE_PER_CDArr="
+				+ Arrays.toString(IN_SCHEDULE_PER_CDArr) + "]";
 	}
 }

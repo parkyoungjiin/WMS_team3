@@ -172,10 +172,11 @@
 					 			<th scope="col">재고번호</th>
 					 			<th scope="col">구역명_선반위치</th>
 				 			</tr>
+				 			<c:forEach var="list" items="${list }">
 				 			<tr>
-					 			<td>20230207-0007</td>
-					 			<td>서울우유 딸기</td>
-					 			<td>2</td>
+					 			<td>${list.IN_SCHEDULE_CD }</td>
+					 			<td>${list.PRODUCT_NAME }</td>
+					 			<td>${list.IN_SCHEDULE_QTY }</td>
 					 			<td>
 					 				<!-- 입고처리할 수량 입력칸 -->
 					 				<input type="text" class="form-control-sm" id="in_qty_input" name="in_qty" size="1">
@@ -190,6 +191,7 @@
 									<input type="text" class="form-control-sm" id ="wh_area_loc_input" name="wh_area_wh_loc">					 			
 					 			</td>
 				 			</tr>
+				 			</c:forEach>
 		 				</table>
 		        	 </div>
            	 </div>
