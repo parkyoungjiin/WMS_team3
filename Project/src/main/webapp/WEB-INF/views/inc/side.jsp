@@ -116,7 +116,7 @@
 	            	</a>
 				</li>
             	<li>
-	            	<a href="#">
+	            	<a href="Out_Per_List">
 					   <i class="fa fa-square fa-2xs"></i>&nbsp;<span>출고처리</span>
 	            	</a>
 				</li>

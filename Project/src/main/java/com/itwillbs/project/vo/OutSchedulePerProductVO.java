@@ -4,7 +4,10 @@ import java.sql.Date;
 import java.util.Arrays;
 
 public class OutSchedulePerProductVO {
+	
 	private String out_schedule_cd;
+	private String out_schedule_per_cd;
+	private String[] out_schedule_per_cdArr;
 	private int product_cd;
 	private int[] product_cdArr;
 	private String product_name;
@@ -30,6 +33,20 @@ public class OutSchedulePerProductVO {
 	}
 	public void setOut_schedule_cd(String out_schedule_cd) {
 		this.out_schedule_cd = out_schedule_cd;
+	}
+	
+	public String getOut_schedule_per_cd() {
+		return out_schedule_per_cd;
+	}
+	public void setOut_schedule_per_cd(String out_schedule_per_cd) {
+		this.out_schedule_per_cd = out_schedule_per_cd;
+	}
+	
+	public String[] getOut_schedule_per_cdArr() {
+		return out_schedule_per_cdArr;
+	}
+	public void setOut_schedule_per_cdArr(String[] out_schedule_per_cdArr) {
+		this.out_schedule_per_cdArr = out_schedule_per_cdArr;
 	}
 	public int getProduct_cd() {
 		return product_cd;
@@ -140,19 +157,20 @@ public class OutSchedulePerProductVO {
 	public void setOut_completeArr(String[] out_completeArr) {
 		this.out_completeArr = out_completeArr;
 	}
-	
-	
 	@Override
 	public String toString() {
-		return "OutSchedulePerProductVO [out_schedule_cd=" + out_schedule_cd + ", product_cd=" + product_cd
-				+ ", product_cdArr=" + Arrays.toString(product_cdArr) + ", out_schedule_qty=" + out_schedule_qty
-				+ ", out_schedule_qtyArr=" + Arrays.toString(out_schedule_qtyArr) + ", out_qty=" + out_qty
-				+ ", out_qtyArr=" + Arrays.toString(out_qtyArr) + ", out_date=" + out_date + ", out_dateArr="
+		return "OutSchedulePerProductVO [out_schedule_cd=" + out_schedule_cd + ", out_schedule_per_cd="
+				+ out_schedule_per_cd + ", out_schedule_per_cdArr=" + Arrays.toString(out_schedule_per_cdArr)
+				+ ", product_cd=" + product_cd + ", product_cdArr=" + Arrays.toString(product_cdArr) + ", product_name="
+				+ product_name + ", product_nameArr=" + Arrays.toString(product_nameArr) + ", product_size="
+				+ product_size + ", product_sizeArr=" + Arrays.toString(product_sizeArr) + ", out_schedule_qty="
+				+ out_schedule_qty + ", out_schedule_qtyArr=" + Arrays.toString(out_schedule_qtyArr) + ", out_qty="
+				+ out_qty + ", out_qtyArr=" + Arrays.toString(out_qtyArr) + ", out_date=" + out_date + ", out_dateArr="
 				+ Arrays.toString(out_dateArr) + ", remarks_pro=" + remarks_pro + ", remarks_proArr="
 				+ Arrays.toString(remarks_proArr) + ", stock_cd=" + stock_cd + ", stock_cdArr="
 				+ Arrays.toString(stock_cdArr) + ", out_complete=" + out_complete + ", out_completeArr="
 				+ Arrays.toString(out_completeArr) + "]";
 	}
-
+	
 	
 }

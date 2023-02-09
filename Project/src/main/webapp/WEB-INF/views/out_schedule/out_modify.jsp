@@ -792,6 +792,7 @@ function input_search_idx(cb) {
 		                
 		                  	<tr>
 							<td>
+
 							<div class="input-group input-group-sm mb-2">
          					<input type="text" style="text-align: center;" id="product_cdArr${status.index}" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }">
 	         				<button class="btn btn-secondary" id="product_search_btn${status.index }" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="input_search_idx(this)">검색</button></div>
@@ -802,6 +803,8 @@ function input_search_idx(cb) {
 							<td><input type="date" style="text-align: center; border:none" class="form-control form-control-sm" id="out_dateArr${status.index }" value="${ospList.out_date }" name="out_dateArr" required="required"></td>
 							<td><input type="text" style="text-align: center;" class="form-control form-control-sm" value="${ospList.remarks_pro }" id="remarks_proArr${status.index }" name="remarks_proArr" ></td>
 							<td><span class="stoContent" style="justify-content: center; align-items: center; display: flex;" >재고번호 : ${ospList.stock_cd }</span></td>
+
+
 <!-- 							<input type="hidden" name="stock_qty" class="stock_qty"> -->
 <!-- 							<input type="hidden" name="product_nameArr" class="product_nameArr"> -->
 <%-- 							<input type="hidden" name="product_sizeArr" class="product_sizeArr" value="${ospList.product_size }"> --%>
