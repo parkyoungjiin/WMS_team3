@@ -55,7 +55,7 @@
 	<select id="selectEmpList" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT *
 			FROM emp 
-  </select>
+  	</select>
 	
 	
 	<!-- 현재 로그인한 사원의 권한 조회 -->

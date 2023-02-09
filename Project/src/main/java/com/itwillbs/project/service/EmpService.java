@@ -55,6 +55,7 @@ public class EmpService {
 
 		//-----------------사원 수정--------------------
 		public int modifyEmployee(EmpVo employee) {
+			System.out.println("서비스 확인 : " +employee);
 			return mapper.updateEmployee(employee);
 		} // 사원 수정 끝
 		

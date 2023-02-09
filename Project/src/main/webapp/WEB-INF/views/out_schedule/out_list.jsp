@@ -249,7 +249,7 @@
 		                    </td>
 		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a></td>
 		                    <td>${outList.out_category }</td>
-		                    <td>${outList.business_no }</td>
+		                    <td>${outList.cust_name }</td>
 		                    <td>${outList.emp_name }</td>
 		                    <td></td>
 		                    <td>${outList.out_date }</td>

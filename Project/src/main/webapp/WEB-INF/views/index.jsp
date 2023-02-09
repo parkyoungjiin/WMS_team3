@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title"><a href="OutList.os">출고예정</a> <span>| Today</span></h5>
+                  <h5 class="card-title"><a href="OutList.os">출고예정</a> <span>| Recent</span></h5>
 
                   <table class="table table-borderless datatable">
                     <thead>
@@ -89,7 +89,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="out" items="${outList }" end="5">
+                    <c:forEach var="out" items="${outList }" end="4">
                       <tr>
                         <th scope="row">${out.out_schedule_cd }</th>
                         <td>${out.cust_name }</td>
@@ -97,10 +97,10 @@
                         <td>${out.out_date }</td>
                         <c:choose>
                         	<c:when test="${out.out_complete eq '0'}">
-                        		<td><input type="button" class="btn btn-sm btn-warning" value="진행중"></td>
+                        		<td><span class="badge bg-warning">진행중</span></td>
                         	</c:when>
                         	<c:otherwise>
-                        		<td><input type="button" class="btn btn-sm btn-primary" value="완료"></td>
+                        		<td><span class="badge bg-success">완료</span></td>
                         	</c:otherwise>
                         </c:choose>
                       </tr>
@@ -129,7 +129,7 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title"><a href="In_Per_List">입고예정 </a><span>| Today</span></h5>
+                  <h5 class="card-title"><a href="In_Per_List">입고예정 </a><span>| Recent</span></h5>
 
                   <table class="table table-borderless datatable">
                    <thead>
@@ -142,7 +142,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="in" items="${inList }" end="5">
+                    <c:forEach var="in" items="${inList }" end="4">
                       <tr>
                         <th scope="row">${out.IN_SCHEDULE_CD }</th>
                         <td>${in.CUST_NAME }</td>

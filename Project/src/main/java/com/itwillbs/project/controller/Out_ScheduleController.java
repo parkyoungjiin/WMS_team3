@@ -45,11 +45,12 @@ public class Out_ScheduleController {
 	
 	// ---------- 출고 관리 - 출고 예정 목록 ----------
 	@GetMapping(value = "OutList.os")
-	public String outList(Model model, @ModelAttribute OutSchedulePerProductVO perOut) { 
+	public String outList(Model model) { 
 		List<OutScheduleVO> outList = service.getOutScheduleList();
 		model.addAttribute("outList", outList);
-//		System.out.println("종결상태 확인용" + outList);
-//		List<OutSchedulVO> perOutList = service.
+//		String perName = service.concatName();
+//		System.out.println(perName);
+//		model.addAttribute("perName",perName);
 		
 		return "out_schedule/out_list";
 	} // outList 끝

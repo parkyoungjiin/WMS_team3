@@ -57,6 +57,9 @@ public interface Out_ScheduleMapper {
 	// 출고 처리 품목 정보
 	OutSchedulePerProductVO selectOsProInfo(OutSchedulePerProductVO vo2);
 
+	// 이름[규격]
+//	String nameSize();
+
 
 	
 }

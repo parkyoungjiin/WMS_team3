@@ -25,20 +25,7 @@ public class Out_ScheduleService {
 	// 출고 예정 리스트
 	public List<OutScheduleVO> getOutScheduleList() {
 		List<OutScheduleVO> outSch = mapper.selectOutScheduleList();
-		
-//        String outSchCd = outSch.get(1).getOut_schedule_cd();
-//        
-//        int extraPdCount = mapper.selectExtraPdCount(outSchCd);
-//        if(extraPdCount > 1) {
-//           OutSchedulePerProductVO pdInfo = mapper.selectOutPdName(outSchCd);
-//           outSch.get(1).setPRODUCT_NAME (pdInfo.getProduct_name() + "[" + pdInfo.getProduct_size() + "]" + " 외 " + (extraPdCount-1) + "건");
-//        } else {
-//        	OutSchedulePerProductVO pdInfo = mapper.selectOutPdName(outSchCd);
-//        	outSch.get(1).setPRODUCT_NAME(pdInfo.getProduct_name() + "[" + pdInfo.getProduct_size() + "]");
-//        }
-        
 		return outSch;
-
 	}	
 
 	// 출고 예정 리스트 - 품목별
@@ -95,4 +82,11 @@ public class Out_ScheduleService {
 	public OutSchedulePerProductVO getOutschedulePerInfo(OutSchedulePerProductVO vo2) {
 		return mapper.selectOsProInfo(vo2);
 	}
+
+	//이름 [규격]
+//	public String concatName() {
+//		return mapper.nameSize();
+//	}
+
+
 }

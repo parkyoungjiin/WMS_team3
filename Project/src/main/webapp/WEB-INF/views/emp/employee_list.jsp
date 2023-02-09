@@ -40,22 +40,21 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <button class="btn btn-secondary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
-					<div class="col-md-2">	
-					</div>
-						<!-- Default Tabs -->
-			              <ul class="nav nav-tabs" id="myTab" role="tablist">
-			                <li class="nav-item" role="presentation">
-			                  <button class="nav-link active tab-css" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" style="font-size:15px;" aria-selected="true">재직</button>
-			                </li>
-			                <li class="nav-item" role="presentation">
-			                  <button class="nav-link tab-css" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" style="font-size:15px;" aria-selected="false">휴직</button>
-			                </li>
-			                <li class="nav-item" role="presentation">
-			                  <button class="nav-link tab-css" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" style="font-size:15px;"  aria-controls="contact" aria-selected="false">퇴사</button>
-			                </li>
-			              </ul>
                  </div>
                  <div class="card-body">
+                 <!-- Default Tabs -->
+	              <ul class="nav nav-tabs" id="myTab" role="tablist">
+	                <li class="nav-item" role="presentation">
+	                  <button class="nav-link active tab-css" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" style="font-size:15px;" aria-selected="true">재직</button>
+	                </li>
+	                <li class="nav-item" role="presentation">
+	                  <button class="nav-link tab-css" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" style="font-size:15px;" aria-selected="false">휴직</button>
+	                </li>
+	                <li class="nav-item" role="presentation">
+	                  <button class="nav-link tab-css" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" style="font-size:15px;"  aria-controls="contact" aria-selected="false">퇴사</button>
+	                </li>
+	              </ul>
+                 
                	   <div class="tab-content pt-2" id="myTabContent">
                 	<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                      <table id="datatablesSimple" style="font-size:15px;" >
@@ -97,8 +96,8 @@
                     </table>
                     </div> <%--1번탭 끝 --%>
                     
-                    <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab"> <%-- 2번탭 진행 --%>
-                	<table id="datatablesSimple" style="font-size:15;" >
+                    <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                     <table class="datatablesSimple" >
                          <thead>
                              <tr>
 								<th>인덱스</th>
@@ -135,10 +134,10 @@
 		                 </c:forEach>  
 						</tbody>
                     </table>
-                	</div> <%--2번 탭 끝 --%>
+                    </div><!-- 2번탭  -->
                 	
                    <div class="tab-pane fade show" id="contact" role="tabpanel" aria-labelledby="contact-tab"> <%--3번탭 시작 --%> 
-                		<table id="datatablesSimple">
+                		<table class="datatablesSimple">
                          <thead>
                              <tr>
 								<th>인덱스</th>

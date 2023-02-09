@@ -311,6 +311,8 @@ public class EmpController {
 		public String empModify(Model model, @ModelAttribute EmpVo employee,HttpSession session) {
 			//파일 업로드
 			
+			
+			
 			//1. 경로 설정 (가상 경로, 실제 업로드 경로)
 			String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
 			String saveDir = session.getServletContext().getRealPath(uploadDir); //실제 업로드 경로
@@ -417,7 +419,7 @@ public class EmpController {
 		model.addAttribute("emp_dtel_number1", emp_dtel_number1);
 		model.addAttribute("emp_dtel_number2", emp_dtel_number2);
 		
-		return "emp/employee_mypage";
+		return "emp/employee_detail";
 	}//mypage 끝
 	
 	

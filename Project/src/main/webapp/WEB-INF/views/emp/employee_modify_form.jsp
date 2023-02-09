@@ -208,6 +208,8 @@ $(function() {
 		<!-- Profile Edit Form -->
 		       <div class="card-body">
                   <form action="EmployeeModifyPro.em" method="post" enctype="multipart/form-data" id="emp">
+                  <input type="hidden" name="EMP_PASSWD" value="${employee.EMP_PASSWD }">
+                  <input type="hidden" name="IDX" value="${employee.IDX }">
                   <c:if test="${employee.WORK_CD eq 'C3' }"><h6>사원번호 ${employee.EMP_NUM }님은 수정이 불가합니다.</h6><hr></c:if>
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사원번호</label>
@@ -302,7 +304,7 @@ $(function() {
 		                	<div class="input-group mb-5">
 		                      <input type="text" class="form-control" id="email1" name="EMP_EMAIL" onkeyup="onlyEngNumber(this)" required="required" value=${email1 }>
 		                      <span class="input-group-text">@</span>
-		                      <input type="text" class="form-control" id="email2" name="EMP_EMAIL" required =${email2 }>
+		                      <input type="text" class="form-control" id="email2" name="EMP_EMAIL" required value=${email2 }>
 		                      	<select class="form-select" name="selectDomain" id="domain" >
 			                      	<option value="">직접 입력</option>
 									<option value="naver.com" <c:if test="${email2 eq 'naver.com'}">selected</c:if>>naver.com</option>
