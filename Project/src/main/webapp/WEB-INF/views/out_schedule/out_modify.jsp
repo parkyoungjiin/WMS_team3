@@ -75,7 +75,7 @@ function load_buyerList() {
 				+ "<tr style='cursor:pointer; text-align: center;'>"
 				+ "<td colspan ='2'>"
 				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  buyer_keyword + "'" +  " 에 대한 검색결과가 없습니다."
-				+ "</h4>"
+				+ "</h6>"
 				+ "</td>"
 				+ "</tr>";
 		 		+ '</table>';
@@ -84,6 +84,8 @@ function load_buyerList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-buyer").append(no_result);
+	         $("#buyer_keyword").focus();
+
 
 
 		}else{
@@ -155,6 +157,8 @@ function load_empList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-emp").append(no_result);
+	         $("#emp_keyword").focus();
+
 
 
 		}else{
@@ -223,6 +227,8 @@ function load_proList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-pro").append(no_result);
+	         $("#pro_keyword").focus();
+
 
 
 		}else{

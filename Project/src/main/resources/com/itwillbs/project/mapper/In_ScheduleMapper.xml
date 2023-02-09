@@ -118,13 +118,9 @@
 		<!--재고 번호가 존재 안할 떄  -->
 		<choose>
 			<when test="STOCK_CD != 0">
-			INSERT INTO stock
-			VALUES(
-			#{STOCK_CD}
-			,#{PRODUCT_CD}
-			,#{WH_LOC_IN_AREA_CD}
-			,#{IN_QTY}
-			)
+			UPDATE stock
+				SET STOCK_QTY = STOCK_QTY + #{IN_QTY}
+					WHERE STOCK_CD = #{STOCK_CD} AND PRODUCT_CD = #{PRODUCT_CD} AND #{WH_LOC_IN_AREA_CD}
 			</when>
 			<!--재고 번호가 존재 할 떄  -->
 			<otherwise>

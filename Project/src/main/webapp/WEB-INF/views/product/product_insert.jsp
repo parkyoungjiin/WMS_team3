@@ -35,6 +35,25 @@
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 
+<!-- 연락처 숫자만 입력되는 유효성 검사 -->
+<script type="text/javascript">
+	function uncomma(str) {
+	    str = String(str);
+	    return str.replace(/[^\d]+/g, '');
+	} 
+	 
+	function inputOnlyNumberFormat(obj) {
+	    obj.value = onlynumber(uncomma(obj.value));
+	}
+	 
+	function onlynumber(str) {
+	    str = String(str);
+	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
+	}
+	
+	
+</script>
+
 <!-- ========================= 품목 등록 모달 ================================ -->
 <script type="text/javascript">
 
@@ -66,8 +85,8 @@ function load_buyerList() {
                 + '</tr>'
 				+ "<tr style='cursor:pointer;'>"
 				+ "<td colspan ='2'>"
-				+ "<h4 style='font-weight: bold; text-align: center;'>검색결과가 없습니다."
-				+ "</h4>"
+				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  buyer_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+				+ "</h6>"
 				+ "</td>"
 				+ "</tr>";
 		 		+ '</table>';
@@ -76,6 +95,7 @@ function load_buyerList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-buyer").append(no_result);
+	         $("#buyer_keyword").focus();
 
 
 		}else{
@@ -110,6 +130,49 @@ function load_buyerList() {
 	.fail(function() {
 		$("#modal-body-buyer").append("<h3>요청 실패!</h3>");
 	});
+	
+	
+	// td 클릭 시 해당 value 가져오기
+	$(function() {
+		// 품목 그룹
+		$("#pGroup_table").on('click','tr',function(){
+			   let td_arr = $(this).find('td');
+			   
+			   console.log(td_arr);
+			   
+			   let p_Tcd = $(td_arr[0]).text();
+			   let p_Gcd = $(td_arr[1]).text();
+			   let p_Gnm = $(td_arr[2]).text();
+			   console.log(p_Gcd);
+			   console.log(p_Gnm);
+			   
+			   // td 클릭시 모달 창 닫기
+			   $('#modalDialogScrollable_pGroup').modal('hide');
+			   $("#product_group_bottom_name").val(p_Gnm);
+			   $("#product_group_bottom_cd").val(p_Gcd);
+			   $("#product_group_top_cd").val(p_Tcd);
+		});	   
+		
+		// 거래처
+		$("#modal-body-buyer").on('click','tr',function(){
+			  let td_arr = $(this).find('td');
+			  console.log(td_arr);
+				   
+//			  $('#no').val($(td_arr[0]).text());
+			  let no = $(td_arr[0]).text();
+//			  $('#name').val($(td_arr[1]).text());
+		      let cust_name = $(td_arr[1]).text();
+			  console.log(no);
+			  console.log(cust_name);
+				   
+			   // td 클릭시 모달 창 닫기
+			   $('#modalDialogScrollable_buyer').modal('hide');
+			   $("#cust_name").val(cust_name);
+			   $("#business_no").val(no);
+		});	 
+
+	});
+
 }
 
 </script>
@@ -191,7 +254,7 @@ function load_buyerList() {
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">입고 단가</label>
                       <div class="col-md-8 col-lg-4">
-                        <input type="text" class="form-control" name="in_unit_price" id="in_unit_price" required placeholder="입고 단가 (숫자만 입력해주세요)" >
+                        <input type="text" class="form-control" name="in_unit_price" id="in_unit_price" required placeholder="입고 단가 (숫자만 입력해주세요)" onkeyup="inputOnlyNumberFormat(this)" >
                       </div>
                     </div>
                     
@@ -199,7 +262,7 @@ function load_buyerList() {
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">출고 단가</label>
                       <div class="col-md-8 col-lg-4">
-                        <input type="text" class="form-control" name="out_unit_price" id="out_unit_price" required placeholder="출고 단가 (숫자만 입력해주세요)" >
+                        <input type="text" class="form-control" name="out_unit_price" id="out_unit_price" required placeholder="출고 단가 (숫자만 입력해주세요)" onkeyup="inputOnlyNumberFormat(this)" >
                       </div>
                     </div>
                     

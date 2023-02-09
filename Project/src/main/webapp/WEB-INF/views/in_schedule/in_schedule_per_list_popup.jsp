@@ -59,11 +59,11 @@
 			else $("#chkAll").prop("checked", true); 
 		});
 		
-		//서브밋 막기 작업(하다 말음)
-		$("in_submit").click(function() {
-			var in_qty_input =$("#in_qty_input").val();
-			if()
-		});
+// 		//서브밋 막기 작업(하다 말음)
+// 		$("in_submit").click(function() {
+// 			var in_qty_input =$("#in_qty_input").val();
+// 			if()
+// 		});
 	});
 	
 	//-------------입고처리 시 팝업창 ----------------
@@ -91,17 +91,18 @@
 			 if(stockList.length == 0){
 					$("#modal-body-sto > table ").remove();   //테이블 비우고
 
-					let no_result = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
+					let no_result = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right:; font-size: 13px '>"
 						+ "<tr style='cursor:pointer;'>"
-		                + '<th scope=col">재고번호</th>'
-		                + '<th scope=col">품목명</th>'
-		                + '<th scope=col">구역명</th>'
-		                + '<th scope=col">위치명</th>'
+		                + '<th scope="col" width="70px">재고번호</th>'
+		                + '<th scope="col" width="160px">품목명</th>'
+		                + '<th scope="col" width="100px">구역명</th>'
+		                + '<th scope="col" width="70px">위치명</th>'
+		                + '<th scope="col" width="70px">위치코드</th>'
 		                + '</tr>'
 						+ "<tr style='cursor:pointer;'>"
-						+ "<td colspan ='4'>"
-						+ "<h4 style='font-weight: bold; text-align: center;'>검색결과가 없습니다."
-						+ "</h4>"
+						+ "<td colspan ='5'>"
+						+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  search_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+						+ "</h6>"
 						+ "</td>"
 						+ "</tr>";
 				 		+ '</table>';
@@ -110,17 +111,20 @@
 //		 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 //		 			$("#buyer_search").css("color","#B9062F");
 			         $("#modal-body-sto").append(no_result);
+			         $("#search_keyword").focus();
+			         
 			 }else{
 				 
 			
 			$("#modal-body-sto > table").remove();   //테이블 비우고
 			
-				let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
+				let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: ; font-size: 13px'>"
 					+ "<tr style='cursor:pointer;'>"
-	                + '<th scope=col">재고번호</th>'
-	                + '<th scope=col">품목명</th>'
-	                + '<th scope=col">구역명</th>'
-	                + '<th scope=col">위치명</th>'
+	                + '<th scope=col" width="70px">재고번호</th>'
+	                + '<th scope=col" width="160px">품목명</th>'
+	                + '<th scope=col" width="100px">구역명</th>'
+	                + '<th scope=col" width="70px">위치명</th>'
+	                + '<th scope=col" width="70px">위치코드</th>'
 	                + '</tr>'
   			 		+ '</table>'
 				
@@ -133,6 +137,7 @@
 		                  + "<td>" + stock.product_name + "</td>"
 		                  + "<td>" + stock.wh_name + "("+ stock.wh_area + "구역)" + "</td>"
 		                  + "<td>" + stock.wh_loc_in_area + "</td>"
+		                  + "<td>" + stock.wh_loc_in_area_cd + "</td>"
 		                  + "</tr>";
 
 	 			$("#stock_search_table").append(result);
@@ -143,7 +148,7 @@
 	 			$("modal-body-sto").append("<h3>요청 실패!</h3>");
 // 			$("#stock_search_table > tr").append("<h3>요청 실패!</h3>");
 		});
-	}
+	}//stock_num_search_fn 끝
 	
 	//--------------재고,창고 조회 된 tr값 클릭 시 해당 idx에 값을 넣음. ------------
 	function input_search_idx(cb) {
@@ -162,23 +167,21 @@
 		   let stock_cd = $(td_arr[0]).text();
 //		   $('#name').val($(td_arr[1]).text());
 		   let wh_name = $(td_arr[2]).text();
+		   let wh_loc_in_area = $(td_arr[3]).text();
+		   let wh_loc_in_area_cd = $(td_arr[4]).text();
 		   console.log(stock_cd);
+		   console.log("wh_loc_in_area_cd : " + wh_loc_in_area_cd);
 		   
 		   // td 클릭시 모달 창 닫기
 		   $('#stock_search').modal('hide');
 		   $("#stock_cd_input" + idx).val(stock_cd);
-		   $("#wh_area_loc_input" + idx).val(wh_name);
+		   $("#wh_area_loc_input" + idx).val(wh_name + "_" + wh_loc_in_area);
+		   $("#wh_area_loc_hidden" + idx).val(wh_loc_in_area_cd);
 			idx = "";
 	});	   
 		
-	}
-	// 거래처
-$(function() {
-	
-	
-		
-		
-});
+	}//input_search_idx 끝
+
 	
 	
 	
@@ -254,6 +257,7 @@ $(function() {
 				 				<input type="hidden" value="${list.IN_SCHEDULE_PER_CD }" name="IN_SCHEDULE_PER_CDArr">
 				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
 				 				<input type="hidden" value="${list.IN_COMPLETE}" name="IN_COMPLETE">			
+								<input type="hidden"" id ="wh_area_loc_hidden${status.index}" name="WH_LOC_IN_AREA_CDArr">					 			
 				 			<tr>
 					 			<td>${list.IN_SCHEDULE_CD }</td>
 					 			<td>${list.PRODUCT_NAME }</td>
@@ -265,13 +269,13 @@ $(function() {
 					 			<td>
 					 				<!-- 재고번호 자동 입력될 칸 -->
 									<input type="text" class="form-control-sm" id ="stock_cd_input${status.index}" name="STOCK_CDArr" size="5">				 			
+									<!-- 재고번호 검색 버튼 -->					 			
+                      				<button type="button" class="btn btn-secondary btn-sm" id ="stock_search_btn${status.index}" data-bs-toggle="modal" data-bs-target="#stock_search" onclick="input_search_idx(this)">재고번호 검색</button>
 					 			</td>
 					 			<td>
-									<!-- 재고번호 검색 버튼 -->					 			
-                      				<button type="button" class="btn btn-secondary" id ="stock_search_btn${status.index}" data-bs-toggle="modal" data-bs-target="#stock_search" onclick="input_search_idx(this)">모달열려라</button>
-					 			<td>
 					 				<!-- 구역명_선반위치 -->
-									<input type="text" class="form-control-sm" id ="wh_area_loc_input${status.index}" name="WH_LOC_IN_AREA_CDArr" required>					 			
+									<input type="text" class="form-control-sm" id ="wh_area_loc_input${status.index}" required>					 			
+
 					 			</td>
 				 			</tr>
 				 			</c:forEach>
@@ -302,12 +306,13 @@ $(function() {
 	             		<input name="search_keyword" type="text" class="form-control" id="search_keyword" placeholder="검색 후 이용 바랍니다.">
    						<button id="search_buyer" class="btn btn-primary" type="button" onclick="stock_num_search_fn()">검색</button>
    						</div>
-                    	<table class='table table-hover' id="stock_search_table" style="margin-left: auto; margin-right: ">
+                    	<table class='table table-hover' id="stock_search_table" style="margin-left: auto; margin-right: ;font-size: 13px">
 				                <tr>
-				                  <th scope="col" >재고번호</th>
-				                  <th scope="col">품목명</th>
-				                  <th scope="col">구역명</th>
-				                  <th scope="col">위치명</th>
+				                  <th scope="col" width="70px">재고번호</th>
+				                  <th scope="col" width="160px">품목명</th>
+				                  <th scope="col" width="100px">구역명</th>
+				                  <th scope="col" width="70px">위치명</th>
+				                  <th scope="col" width="70px">위치코드</th>
 				                </tr>
 			        	 </table>
                     </div>

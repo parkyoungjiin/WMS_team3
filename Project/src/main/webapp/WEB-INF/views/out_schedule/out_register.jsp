@@ -85,6 +85,8 @@ function load_buyerList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-buyer").append(no_result);
+	         $("#buyer_keyword").focus();
+
 
 
 		}else{
@@ -156,6 +158,8 @@ function load_empList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-emp").append(no_result);
+	         $("#emp_keyword").focus();
+
 
 
 		}else{
@@ -224,6 +228,8 @@ function load_proList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-pro").append(no_result);
+	         $("#pro_keyword").focus();
+
 
 
 		}else{
