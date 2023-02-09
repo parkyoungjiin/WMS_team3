@@ -187,7 +187,7 @@ a{text-decoration:none; color:#333;}
 										
 	<td>${idx.count }</td>
 							<td><input type="checkbox" name="chk"></td> 
-							<td><a href="">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
+						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
 		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
 		                    <td>${isList.CUST_NAME}</td> <!-- 보낸곳명 -->
 		                    <td>${isList.EMP_NAME}</td>	<!-- 담당자명 -->
