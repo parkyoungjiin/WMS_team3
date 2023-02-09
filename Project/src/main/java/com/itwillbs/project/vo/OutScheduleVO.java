@@ -15,8 +15,6 @@ public class OutScheduleVO {
 	private String out_category;
 
 	
-	
-	
 	public Date getOut_schedule_date() {
 		return out_schedule_date;
 	}
