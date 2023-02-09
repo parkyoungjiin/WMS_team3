@@ -63,48 +63,48 @@
 	}
 	
 	// ------------재고, 창고조회---------------
-	function stock() {
+	function stock_num_search_fn() {
 		
-		let buyer_keyword = $("#buyer_keyword").val();
+		let search_keyword = $("#search_keyword").val();
 		
 //	 	alert(buyer_keyword);
 		
 		$.ajax({
 			type: "GET",
-			url: "BuyerListJson?keyword=" + buyer_keyword,
+			url: "StockNumListJson?keyword=" + search_keyword,
 			dataType: "json"
 		})
-		.done(function(buyerList) { // 요청 성공 시
-			 
+		.done(function(stockList) { // 요청 성공 시
+			 console.log(stockList)
 //	 		$(".modal-body").append(buyerList);
-			$("#modal-body > table").empty();   
-		
-			for(let buyer of buyerList) {
+			$("#modal-body-sto > table ").remove();   //테이블 비우고
+			
+				let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
+					+ "<tr style='cursor:pointer;'>"
+	                + '<th scope=col">재고번호</th>'
+	                + '<th scope=col">품목명</th>'
+	                + '<th scope=col">구역명</th>'
+	                + '<th scope=col">위치명</th>'
+	                + '</tr>'
+  			 		+ '</table>'
 				
+		         $("#modal-body-sto").append(set_table);
 				
-		         let result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right:'>"
-		                  + "<tr>"
-		                  + "<th scope='col'>거래처코드</th>"
-		                  + "<th scope='col'>상호명</th>"
-		                  + "</tr>"
-		                  + "<tr style='cursor:pointer;'>"
-		                  + "<td>" + buyer.business_no + "</td>"
-		                  + "<td id='cust_name'>" + buyer.cust_name + "</td>"
+			for(let stock of stockList) {
+		         let result = 
+		        	 	"<tr style='cursor:pointer;'>"
+		                  + "<td>" + stock.stock_cd + "</td>"
+		                  + "<td>" + stock.product_name + "</td>"
+		                  + "<td>" + stock.wh_name + "("+ stock.wh_area + "구역)" + "</td>"
+		                  + "<td>" + stock.wh_loc_in_area + "</td>"
 		                  + "</tr>";
-		                  + "</table>"
-		                  
-		         $("#modal-body > table").append(result);
-				
-//	 			let result = "<tr style='cursor:pointer;'>"
-//	 		                + "<td>" + buyer.business_no + "</td>"
-//	 		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-//	                			+ "</tr>";
-	             
-//	 			$("#modal-body > table").append(result);
+
+	 			$("#stock_search_table").append(result);
 			}
 		})
 		.fail(function() {
-			$("#modal-body > table").append("<h3>요청 실패!</h3>");
+	 			$("modal-body-sto").append("<h3>요청 실패!</h3>");
+// 			$("#stock_search_table > tr").append("<h3>요청 실패!</h3>");
 		});
 	}
 
@@ -216,19 +216,20 @@
                     <div class="modal-body" id="modal-body-sto">
            	            <div class="input-group mb-6"  style="margin-bottom: 10px">
                     	
-	             		<input name="buyer_keyword" type="text" class="form-control" id="buyer_keyword" placeholder="검색 후 이용 바랍니다.">
-   						<button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_buyerList()">검색</button>
+	             		<input name="search_keyword" type="text" class="form-control" id="search_keyword" placeholder="검색 후 이용 바랍니다.">
+   						<button id="search_buyer" class="btn btn-primary" type="button" onclick="stock_num_search_fn()">검색</button>
    						</div>
-                    	<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
+                    	<table class='table table-hover' id="stock_search_table" style="margin-left: auto; margin-right: ">
 				                <tr>
 				                  <th scope="col">재고번호</th>
-				                  <th scope="col">수량</th>
+				                  <th scope="col">품목명</th>
+				                  <th scope="col">구역명</th>
+				                  <th scope="col">위치명</th>
 				                </tr>
 			        	 </table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                   </div>
                 </div>

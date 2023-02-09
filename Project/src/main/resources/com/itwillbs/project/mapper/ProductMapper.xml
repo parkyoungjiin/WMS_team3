@@ -16,20 +16,45 @@
 				#{out_unit_price},
 				#{product_type_cd},
 				#{cust_name},
+<!-- 				#{business_no},  -->
 				#{product_image},
 				#{remarks}
 			)
 	
 	</insert>
 	
-	<!-- 품목 등록 리스트 -->
+	<!-- 품목 리스트 -->
 	<select id="selectPdList" resultType="com.itwillbs.project.vo.ProductVO">
-		SELECT * FROM product
-			WHERE product_name LIKE '%${keyword}%'
+	
+	SELECT
+		p.product_cd,
+		p.product_name,
+		p.product_group_bottom_cd,
+		pgb.product_group_bottom_name,
+		p.size_des,
+		p.unit,
+		p.barcode,
+		p.in_unit_price,
+		p.out_unit_price,
+		p.product_type_cd,
+		pt.product_type_name, 
+		p.business_no,
+		b.cust_name,
+		p.product_image,
+		p.remarks
+	FROM
+		product p,
+		buyer b,
+		prod_group_bottom pgb,
+		prod_type pt 
+	WHERE
+		p.product_group_bottom_cd = pgb.product_group_bottom_cd 
+	AND p.product_type_cd = pt.product_type_cd 
+	AND p.business_no = b.cust_name
+	
+	AND product_name LIKE '%${keyword}%'
+	
 	</select>
-	
-	
-	
 	
 	<!-- 품목코드 중복 확인 -->
 	<select id="existCd" resultType="int">
@@ -76,26 +101,43 @@
 	
 	<!-- 품목 상세 페이지 -->
 	<select id="selectProdInfo" resultType="com.itwillbs.project.vo.ProductVO">
-		SELECT * 
-			FROM product
-			WHERE product_cd = #{product_cd}
+<!-- 		SELECT * FROM product WHERE product_cd = #{product_cd} -->
+		SELECT
+			p.product_cd,
+			p.product_name,
+			p.product_group_bottom_cd,
+			pgb.product_group_bottom_name,
+			p.size_des,
+			p.unit,
+			p.barcode,
+			p.in_unit_price,
+			p.out_unit_price,
+			p.product_type_cd,
+			p.business_no,
+			p.product_image,
+			p.remarks
+		FROM product p 
+		JOIN prod_group_bottom pgb 
+		ON(p.product_group_bottom_cd = pgb.product_group_bottom_cd)
+		WHERE product_cd = #{product_cd};
 
+	
 	</select>
 	
-	<!-- 품목 수정 (상세 페이지 내) -->
+	<!-- 품목 (수정) (상세 페이지 내) -->
 	<update id="modifyProd">
 		UPDATE product
 			SET 
 <!-- 				product_cd = #{product_cd} -->
-				product_cd
-				, product_name = #{product_name}
+<!-- 				product_cd -->
+				product_name = #{product_name}
 				, product_group_bottom_cd = #{product_group_bottom_cd}
 				, size_des = #{size_des}
 				, unit = #{unit}
 				, in_unit_price = #{in_unit_price}
 				, out_unit_price = #{out_unit_price}
 				, product_type_cd = #{product_type_cd}
-				, cust_name = #{cust_name}
+				, business_no = #{cust_name}
 				, product_image = #{product_image}
 				, remarks = #{remarks}
 			WHERE 
@@ -108,5 +150,7 @@
 			FROM buyer
 			WHERE cust_name LIKE '%${keyword}%'
 	</select>
+	
+
 	
 </mapper>

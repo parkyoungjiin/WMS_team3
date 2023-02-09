@@ -35,6 +35,8 @@
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 
+
+
 <!-- ========================= 품목 등록 모달 ================================ -->
 <script type="text/javascript">
 
@@ -66,7 +68,7 @@ function load_buyerList() {
 // 			$("#buyer_search").remove();
 // 		}
 		for(let buyer of buyerList) {
-			
+			console.log("buyer.business_no : " + buyer.business_no);
 			let result = "<tr style='cursor:pointer;'>"
 		                + "<td>" + buyer.business_no + "</td>"
 		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
@@ -89,8 +91,9 @@ $(function() {
 		   
 		   console.log(td_arr);
 		   
-		   let p_Gcd = $(td_arr[0]).text();
-		   let p_Gnm = $(td_arr[1]).text();
+		   let p_Tcd = $(td_arr[0]).text();
+		   let p_Gcd = $(td_arr[1]).text();
+		   let p_Gnm = $(td_arr[2]).text();
 		   console.log(p_Gcd);
 		   console.log(p_Gnm);
 		   
@@ -98,6 +101,7 @@ $(function() {
 		   $('#modalDialogScrollable_pGroup').modal('hide');
 		   $("#product_group_bottom_name").val(p_Gnm);
 		   $("#product_group_bottom_cd").val(p_Gcd);
+		   $("#product_group_top_cd").val(p_Tcd);
 	});	   
 	
 	// 거래처
@@ -165,8 +169,9 @@ $(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" >품목 그룹</label>
                       <div class="col-md-8 col-lg-4">
 		      			<div class="input-group mb-6">
-		      				<input name="product_group_bottom_cd" type="hidden" class="form-control" id="product_group_bottom_cd" >
-							<input name="product_group_bottom_name" id="product_group_bottom_name" type="text" class="form-control" value="${product.product_group_bottom_name }"><!-- prod_group_bottom. -->
+		      				<input type="hidden" name="product_group_top_cd" id="product_group_top_cd"  class="form-control" >
+		      				<input name="product_group_bottom_cd" type="hidden" class="form-control" id="product_group_bottom_cd" value="${product.product_group_bottom_cd }">
+							<input name="product_group_bottom_name" id="product_group_bottom_name" type="text" class="form-control" readonly="readonly" value="${product.product_group_bottom_name }"><!-- prod_group_bottom. -->
 				         <button id="search_pGroup" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pGroup">검색</button>
 			        	 </div>
 			          </div>
@@ -185,12 +190,12 @@ $(function() {
 					<div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">단위</label>
                       <div class="col-md-8 col-lg-4">
-		                    <input class="form-check-input" type="radio" name="unit"  value="SET" <c:if test="${product.unit eq'01'}" >checked </c:if>>
-		                    &nbsp;01 SET&nbsp; 
-	                        <input class="form-check-input" type="radio" name="unit"  value="BOX" <c:if test="${product.unit eq'02'}">checked</c:if>>
-	                        &nbsp;02 BOX&nbsp;
-	                        <input class="form-check-input" type="radio" name="unit"  value="EA" <c:if test="${product.unit eq'03'}">checked</c:if>>
-	                        &nbsp;03 EA&nbsp;
+		                    <input class="form-check-input" type="radio" name="unit"  value="SET" <c:if test="${product.unit eq'SET'}" >checked </c:if>>
+		                    &nbsp;SET&nbsp; 
+	                        <input class="form-check-input" type="radio" name="unit"  value="BOX" <c:if test="${product.unit eq'BOX'}">checked</c:if>>
+	                        &nbsp;BOX&nbsp;
+	                        <input class="form-check-input" type="radio" name="unit"  value="EA" <c:if test="${product.unit eq'EA'}">checked</c:if>>
+	                        &nbsp;EA&nbsp;
                       </div>
                     </div>
                     
@@ -215,15 +220,15 @@ $(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">품목 구분</label>
                       <div class="col-md-8 col-lg-7">
 	                      <input class="form-check-input" type="radio" name="product_type_cd" value="01" <c:if test="${product.product_type_cd eq'1'}">checked</c:if>>
-	                        &nbsp;01 원재료&nbsp;
+	                        &nbsp;원재료&nbsp;
 	                      <input class="form-check-input" type="radio" name="product_type_cd" value="02" <c:if test="${product.product_type_cd eq'2'}">checked</c:if>>
-	                        &nbsp;02 부재료&nbsp;
+	                        &nbsp;부재료&nbsp;
 	                      <input class="form-check-input" type="radio" name="product_type_cd" value="03" <c:if test="${product.product_type_cd eq'3'}">checked</c:if>>
-	                        &nbsp;03 제품&nbsp;
+	                        &nbsp;제품&nbsp;
 	                      <input class="form-check-input" type="radio" name="product_type_cd" value="04" <c:if test="${product.product_type_cd eq'4'}">checked</c:if>>
-	                        &nbsp;04 반제품&nbsp;
+	                        &nbsp;반제품&nbsp;
 	                      <input class="form-check-input" type="radio" name="product_type_cd" value="05" <c:if test="${product.product_type_cd eq'5'}">checked</c:if>>
-	                        &nbsp;05 상품&nbsp;
+	                        &nbsp;상품&nbsp;
                       </div>
                     </div>
                     
@@ -233,8 +238,8 @@ $(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" >구매 거래처</label>
                       <div class="col-md-8 col-lg-4">
 		      			<div class="input-group mb-6">
-		             		<input name="cust_name" id="cust_name" type="text" class="form-control" value="${product.business_no }">
-				         	<input name="business_no" type="hidden" class="form-control" id="business_no" >
+		             		<input name="cust_name" id="cust_name" type="text" class="form-control" readonly="readonly" value="${product.business_no }">
+				         	<input name="business_no" id="business_no" type="hidden" class="form-control"  >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer">검색</button>
 			        	 </div>
 			          </div>
@@ -282,11 +287,13 @@ $(function() {
 			        	 </div>
                    		 <table class='table table-hover' id="pGroup_table" style="margin-left: auto; margin-right: ">
 				                <tr style="text-align: center">
+				                  <th scope="col">품목 그룹 코드(대)</th>
 				                  <th scope="col">품목 그룹 코드(소)</th>
 				                  <th scope="col">품목 그룹명(소)</th>
 				                </tr>
 	                                 <c:forEach var="ProdGList" items="${ProdGList }" varStatus="status">
 		        	 			<tr>
+		        	 				<td>${ProdGList.product_group_top_cd}</td>
 		        	 				<td>${ProdGList.product_group_bottom_cd}</td>
 		        	 				<td>${ProdGList.product_group_bottom_name}</td>
 		        	 			</tr>

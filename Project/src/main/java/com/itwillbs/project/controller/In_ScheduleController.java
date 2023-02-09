@@ -28,6 +28,7 @@ import com.itwillbs.project.vo.EmpVo;
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
 import com.itwillbs.project.vo.ProductVO;
+import com.itwillbs.project.vo.StockVo;
 
 @Controller
 public class In_ScheduleController {
@@ -307,5 +308,45 @@ public class In_ScheduleController {
 		return "in_schedule/in_schedule_per_list_popup";
 	}//입고예정 목록 표시 페이지 이동 끝
 	
+	//------------입고처리 팝업창에서 검색---------
+	@GetMapping(value ="/StockNumListJson", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void stock_num_search(
+			@RequestParam(defaultValue = "") String keyword,
+			Model model,
+			HttpServletResponse response
+			) {
+		//키워드에 맞는 재고번호 리스트 받아오기
+		List<StockVo> stockList = service.getSerachStockNum(keyword);
+		// ---------------------------------------------------------------------------
+				// 자바 데이터를 JSON 형식으로 변환하기
+				// => org.json 패키지의 JSONObject 클래스를 활용하여 JSON 객체 1개를 생성하고
+				//    JSONArray 클래스를 활용하여 JSONObject 객체 복수개에 대한 배열 생성
+				// 0. JSONObject 객체 복수개를 저장할 JSONArray 클래스 인스턴스 생성
+				JSONArray jsonArray = new JSONArray();
+				
+				// 1. List 객체 크기만큼 반복
+				for(StockVo stock : stockList) {
+					// 2. JSONObject 클래스 인스턴스 생성
+					// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
+					JSONObject jsonObject = new JSONObject(stock);
+//					System.out.println(jsonObject);
+					
+					// 3. JSONArray 객체의 put() 메서드를 호출하여 JSONObject 객체 추가
+					jsonArray.put(jsonObject);
+				}
+				
+				try {
+					// 생성된 JSON 객체를 활용하여 응답 데이터를 직접 생성 후 웹페이지에 출력
+					// response 객체의 setCharacterEncoding() 메서드로 출력 데이터 인코딩 지정 후
+					// response 객체의 getWriter() 메서드로 PrintWriter 객체를 리턴받아
+					// PrintWriter 객체의 print() 메서드를 호출하여 응답데이터 출력
+					response.setCharacterEncoding("UTF-8");
+					response.getWriter().print(jsonArray); // toString() 생략됨
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+	}//stock_num_search 끝
 	
 }

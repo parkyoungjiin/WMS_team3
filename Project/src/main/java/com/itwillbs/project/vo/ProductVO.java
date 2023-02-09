@@ -144,37 +144,6 @@ public class ProductVO {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
-	
-	
-	public ProductVO(int product_cd, String product_name, int product_group_bottom_cd, String product_group_bottom_name,
-			String size_des, String unit, String barcode, int in_unit_price, int out_unit_price, int product_type_cd,
-			String business_no, String product_image, String remarks, int product_group_top_cd,
-			String product_group_top_name, String product_type_name, Date insertCdDate, String cust_name,
-			MultipartFile file) {
-		super();
-		this.product_cd = product_cd;
-		this.product_name = product_name;
-		this.product_group_bottom_cd = product_group_bottom_cd;
-		this.product_group_bottom_name = product_group_bottom_name;
-		this.size_des = size_des;
-		this.unit = unit;
-		this.barcode = barcode;
-		this.in_unit_price = in_unit_price;
-		this.out_unit_price = out_unit_price;
-		this.product_type_cd = product_type_cd;
-		this.business_no = business_no;
-		this.product_image = product_image;
-		this.remarks = remarks;
-		this.product_group_top_cd = product_group_top_cd;
-		this.product_group_top_name = product_group_top_name;
-		this.product_type_name = product_type_name;
-		this.insertCdDate = insertCdDate;
-		this.cust_name = cust_name;
-		this.file = file;
-	}
-	public ProductVO() {
-		super();
-	}
 	// ---------------toString()---------------------
 	
 	
