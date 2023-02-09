@@ -15,8 +15,8 @@
 				#{in_unit_price},
 				#{out_unit_price},
 				#{product_type_cd},
-				#{cust_name},
-<!-- 				#{business_no},  -->
+<!-- 				#{cust_name}, -->
+				#{business_no}, 
 				#{product_image},
 				#{remarks}
 			)
@@ -50,7 +50,7 @@
 	WHERE
 		p.product_group_bottom_cd = pgb.product_group_bottom_cd 
 	AND p.product_type_cd = pt.product_type_cd 
-	AND p.business_no = b.cust_name
+	AND p.business_no = b.business_no
 	
 	AND product_name LIKE '%${keyword}%'
 	
@@ -151,6 +151,7 @@
 			WHERE cust_name LIKE '%${keyword}%'
 	</select>
 	
+	<!-- 품목 그룹 리스트 json -->
 
 	
 </mapper>

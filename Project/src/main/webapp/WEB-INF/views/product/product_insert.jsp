@@ -111,11 +111,13 @@ $(function() {
 		  let no = $(td_arr[0]).text();
 //		  $('#name').val($(td_arr[1]).text());
 	      let cust_name = $(td_arr[1]).text();
+		  console.log(no);
 		  console.log(cust_name);
 			   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_buyer').modal('hide');
 		   $("#cust_name").val(cust_name);
+		   $("#business_no").val(no);
 	});	 
 
 });
