@@ -47,8 +47,8 @@
 	<!-- 사원목록 -->
 	<select id="selectEmployeeList" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT *
-			FROM emp
-			WHERE EMP_NAME LIKE '%${keyword}%'
+			FROM emp e, dep p 
+			WHERE e.DEPT_CD = p.DEPT_CD AND e.EMP_NAME LIKE '%${keyword}%'
 	</select>
 	
 	<!-- 현재 로그인한 사원의 권한 조회 -->

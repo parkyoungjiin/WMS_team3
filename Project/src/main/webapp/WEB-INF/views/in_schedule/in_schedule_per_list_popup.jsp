@@ -81,7 +81,33 @@
 		.done(function(stockList) { // 요청 성공 시
 			 console.log(stockList)
 //	 		$(".modal-body").append(buyerList);
-			$("#modal-body-sto > table ").remove();   //테이블 비우고
+		
+			 if(stockList.length == 0){
+					$("#modal-body-sto > table ").remove();   //테이블 비우고
+
+					let no_result = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
+						+ "<tr style='cursor:pointer;'>"
+		                + '<th scope=col">재고번호</th>'
+		                + '<th scope=col">품목명</th>'
+		                + '<th scope=col">구역명</th>'
+		                + '<th scope=col">위치명</th>'
+		                + '</tr>'
+						+ "<tr style='cursor:pointer;'>"
+						+ "<td colspan ='4'>"
+						+ "<h4 style='font-weight: bold; text-align: center;'>검색결과가 없습니다."
+						+ "</h4>"
+						+ "</td>"
+						+ "</tr>";
+				 		+ '</table>';
+
+		// // 			$("#buyer_search").append("<div></div>");
+//		 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
+//		 			$("#buyer_search").css("color","#B9062F");
+			         $("#modal-body-sto").append(no_result);
+			 }else{
+				 
+			
+			$("#modal-body-sto > table").remove();   //테이블 비우고
 			
 				let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
 					+ "<tr style='cursor:pointer;'>"
@@ -104,7 +130,8 @@
 		                  + "</tr>";
 
 	 			$("#stock_search_table").append(result);
-			}
+			}//for 긑
+		 }//else 끝
 		})
 		.fail(function() {
 	 			$("modal-body-sto").append("<h3>요청 실패!</h3>");
@@ -112,7 +139,7 @@
 		});
 	}
 	
-	
+	//--------------재고,창고 조회 된 tr값 클릭 시 해당 idx에 값을 넣음. ------------
 	function input_search_idx(cb) {
 
 		var idx = cb.id.replace("stock_search_btn", "");
@@ -120,8 +147,8 @@
 		
 		$("#modal-body-sto").on('click','tr',function(){
 // 			alert("클릭 후 :" +idx);
-
-			console.log("클릭된다.")
+			
+// 			console.log("클릭된다.")
 		   let td_arr = $(this).find('td');
 		   console.log(td_arr);
 		   
@@ -264,7 +291,7 @@ $(function() {
    						</div>
                     	<table class='table table-hover' id="stock_search_table" style="margin-left: auto; margin-right: ">
 				                <tr>
-				                  <th scope="col">재고번호</th>
+				                  <th scope="col" >재고번호</th>
 				                  <th scope="col">품목명</th>
 				                  <th scope="col">구역명</th>
 				                  <th scope="col">위치명</th>
