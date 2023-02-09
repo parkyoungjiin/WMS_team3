@@ -62,6 +62,7 @@ public class ProductController {
 		return "product/product_insert";
 	}// ProductInsertForm 끝
 	
+	
 	//------------------ 품목 등록 -------------------
 	@PostMapping(value="ProdInsertPro")
 	public String ProdInsertPro(
@@ -115,7 +116,7 @@ public class ProductController {
 		
 	}
 	
-	//------------ 품목 코드 중복체크---------------
+	//------------ 품목 코드 중복체크 ---------------
 		
 //		@GetMapping(value = "ProdCodeCheck")
 //		public void ProdCodeCheck(@RequestParam(defaultValue = "1") int product_cd
