@@ -3,7 +3,7 @@
 <mapper namespace="com.itwillbs.project.mapper.In_ScheduleMapper">
 	<select id="selectInscheduleList" resultType="com.itwillbs.project.vo.InScheduleVO">
 	SELECT *
-	FROM in_schedule
+	FROM in_schedule_view
 	</select>
 	<!-- 입고물품 등록 -->
 	<insert id="insertInschedule">
