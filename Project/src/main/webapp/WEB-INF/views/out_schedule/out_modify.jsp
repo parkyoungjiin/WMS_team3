@@ -64,30 +64,15 @@ function load_buyerList() {
 	.done(function(buyerList) { // 요청 성공 시
 		 
 // 		$(".modal-body").append(buyerList);
-		$("#modal-body > table").empty();   
+// 		$("#modal-body > table").empty();   
 	
 		for(let buyer of buyerList) {
-			
-			
-	         let result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right:'>"
-	                  + "<tr>"
-	                  + "<th scope='col'>거래처코드</th>"
-	                  + "<th scope='col'>상호명</th>"
-	                  + "</tr>"
-	                  + "<tr style='cursor:pointer;'>"
-	                  + "<td>" + buyer.business_no + "</td>"
-	                  + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-	                  + "</tr>";
-	                  + "</table>"
-	                  
-	         $("#modal-body > table").append(result);
-			
-// 			let result = "<tr style='cursor:pointer;'>"
-// 		                + "<td>" + buyer.business_no + "</td>"
-// 		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-//                			+ "</tr>";
+			let result = "<tr style='cursor:pointer;'>"
+		                + "<td>" + buyer.business_no + "</td>"
+		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
+               			+ "</tr>";
              
-// 			$("#modal-body > table").append(result);
+			$("#modal-body > table").append(result);
 		}
 	})
 	.fail(function() {
@@ -659,7 +644,7 @@ $(document).ready(function() {
 							<td>
 							<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-2">
          					<input type="text" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }">
-	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>
+	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="">검색</button></div>
           					</div></td>
 							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="${ospList.product_name }" name="product_nameArr"></td>
 							<td><input type="text" class="form-control form-control-sm pro_size" required="required" value="${ospList.product_size }" name="product_sizeArr" size="1"></td>
