@@ -37,8 +37,8 @@ public class EmpService {
 
 	// ==============================================인사 2 채원========================================================
 	//---------------- 사원 목록 ----------------------------
-		public List<EmpVo> getEmployeeList(String WORK_CD) {
-			return mapper.selectEmployeeList(WORK_CD);
+		public List<EmpVo> getEmployeeList(String keyword) {
+			return mapper.selectEmployeeList(keyword);
 		} // 사원 목록 끝 String keyword
 		
 		//-----------------현재 로그인한 사원의 권한정보 조회------------------------
@@ -68,5 +68,9 @@ public class EmpService {
 		//세션아이디에 저장된 emp_num에 일치하는 회원정보를 변경
 		public int getupdateMypageInfo(EmpVo emp, String emp_num) {
 			return mapper.updateMypageInfo(emp, emp_num);
+		}
+		// 일반 사원 리스트 출력
+		public List<EmpVo> getEmpList() {
+			return mapper.selectEmpList();
 		}
 }

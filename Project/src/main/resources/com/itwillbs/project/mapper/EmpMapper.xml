@@ -44,11 +44,17 @@
 				WHERE EMP_EMAIL = #{check_email}
 	</select>
 	
-	<!-- 사원목록 EMP_NAME LIKE '%${keyword}%' -->
+	<!-- 검색용 사원목록 조회 -->
 	<select id="selectEmployeeList" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT *
-			FROM emp
-			WHERE WORK_CD=#{WORK_CD}
+			FROM emp 
+			WHERE EMP_NAME LIKE '%${keyword}%
+	</select>
+	
+	<!-- 일반사원목록 조회 -->
+	<select id="selectEmpList" resultType="com.itwillbs.project.vo.EmpVo">
+		SELECT *
+			FROM emp 
 	</select>
 	
 	<!-- 현재 로그인한 사원의 권한 조회 -->

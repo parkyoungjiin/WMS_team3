@@ -409,7 +409,7 @@ $(function() {
 					
 					<div></div>
                     <div class="text-left">
-                      <button type="submit" class="btn btn-primary">사원 등록</button>
+                      <button type="submit" class="btn btn-primary">수정하기</button>
                       <button type="reset" class="btn btn-secondary">다시 쓰기</button>
                       <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                     </div>
