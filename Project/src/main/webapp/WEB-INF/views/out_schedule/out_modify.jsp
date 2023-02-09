@@ -646,7 +646,7 @@ $(document).ready(function() {
          					<input type="text" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }">
 	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="">검색</button></div>
           					</div></td>
-							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="${ospList.product_name }" name="product_nameArr"></td>
+							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="'${ospList.product_name }" name="product_nameArr"></td>
 							<td><input type="text" class="form-control form-control-sm pro_size" required="required" value="${ospList.product_size }" name="product_sizeArr" size="1"></td>
 							<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" value="${ospList.out_schedule_qty }" onchange="calculateSum();"></td>
 							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${ospList.out_date }" name="out_dateArr" required="required"></td>
