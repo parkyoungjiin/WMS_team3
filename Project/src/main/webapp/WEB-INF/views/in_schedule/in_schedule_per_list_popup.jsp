@@ -41,6 +41,8 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 // 체크박스 선택 jQuery
+	
+
 	$(document).ready(function() {
 		$("#chkAll").click(function() {
 			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
@@ -54,6 +56,8 @@
 			if(total != checked) $("#chkAll").prop("checked", false);
 			else $("#chkAll").prop("checked", true); 
 		});
+		
+		
 	});
 	
 	//-------------입고처리 시 팝업창 ----------------
@@ -107,6 +111,45 @@
 // 			$("#stock_search_table > tr").append("<h3>요청 실패!</h3>");
 		});
 	}
+	
+	
+	function input_search_idx(cb) {
+
+		var idx = cb.id.replace("stock_search_btn", "");
+// 		alert(idx);
+		
+		$("#modal-body-sto").on('click','tr',function(){
+// 			alert("클릭 후 :" +idx);
+
+			console.log("클릭된다.")
+		   let td_arr = $(this).find('td');
+		   console.log(td_arr);
+		   
+//		   $('#no').val($(td_arr[0]).text());
+		   let stock_cd = $(td_arr[0]).text();
+//		   $('#name').val($(td_arr[1]).text());
+		   let wh_name = $(td_arr[2]).text();
+		   console.log(stock_cd);
+		   
+		   // td 클릭시 모달 창 닫기
+		   $('#stock_search').modal('hide');
+		   $("#stock_cd_input" + idx).val(stock_cd);
+		   $("#wh_area_loc_input" + idx).val(wh_name);
+			idx = "";
+	});	   
+		
+	}
+	// 거래처
+$(function() {
+	
+	
+		
+		
+});
+	
+	
+	
+	
 
 
 </script>
@@ -172,23 +215,23 @@
 					 			<th scope="col">재고번호</th>
 					 			<th scope="col">구역명_선반위치</th>
 				 			</tr>
-				 			<c:forEach var="list" items="${list }">
+				 			<c:forEach var="list" items="${list }" varStatus="status">
 				 			<tr>
 					 			<td>${list.IN_SCHEDULE_CD }</td>
 					 			<td>${list.PRODUCT_NAME }</td>
 					 			<td>${list.IN_SCHEDULE_QTY }</td>
 					 			<td>
 					 				<!-- 입고처리할 수량 입력칸 -->
-					 				<input type="text" class="form-control-sm" id="in_qty_input" name="in_qty" size="1">
+					 				<input type="text" class="form-control-sm" id="in_qty_input${status.index}" name="in_qty" size="1">
 					 			</td>
 					 			<td>
 					 				<!-- 재고번호 자동 입력될 칸 -->
-									<input type="text" class="form-control-sm" id ="stock_cd_input" name="stock_cd" size="5">
+									<input type="text" class="form-control-sm" id ="stock_cd_input${status.index}" name="stock_cd" size="5">
 									<!-- 재고번호 검색 버튼 -->					 			
-                      				<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#stock_search">모달열려라</button>
+                      				<button type="button" class="btn btn-secondary" id ="stock_search_btn${status.index}" data-bs-toggle="modal" data-bs-target="#stock_search" onclick="input_search_idx(this)">모달열려라</button>
 					 			<td>
 					 				<!-- 구역명_선반위치 -->
-									<input type="text" class="form-control-sm" id ="wh_area_loc_input" name="wh_area_wh_loc">					 			
+									<input type="text" class="form-control-sm" id ="wh_area_loc_input${status.index}" name="wh_area_wh_loc">					 			
 					 			</td>
 				 			</tr>
 				 			</c:forEach>
