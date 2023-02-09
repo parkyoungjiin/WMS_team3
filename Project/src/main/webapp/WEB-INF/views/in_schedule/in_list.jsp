@@ -52,28 +52,30 @@ a{text-decoration:none; color:#333;}
 		});
 	});
 
-	// 종결 상태 변경
-	$(function() {
-		$("#btnComp").click(function() {
-			var btnVal = $("#btnComp").val();
-			
+	// 종결 상태 변경 (DB에도 값 변경해야함)
+	function compCng(cc){
+		var cIdx = cc.id.replace("btnComp", "");
+		var btnVal = $("#btnComp" + cIdx).val();
+		var in_cd = $("#IN_SCHEDULE_CD" + cIdx).val();
+// 		console.log("확인 작업 : " + btnVal + cIdx);
+		
 			if(btnVal=="취소") { // 취소버튼이 활성화일때는 해당상태가 1 > 클릭시 0(미완료 상태)으로 변경
-				
+// 				alert(btnVal);
 				$.ajax({
 					type: "get",
-					url: "InList",
+					url: "InComplete?in_schedule_cd=" + in_cd,
 					data: {
-						in_complete: "0" // 미완료 상태로 변경
+						IN_COMPLETE: "0" // 미완료 상태로 변경
 					},
 					dataType: "html",
 					success: function(data) {
-						var check = confirm('완료된 입고상태를 변경 하시겠습니까?');
+						var check = confirm('종결된 출고를 취소하시겠습니까?');
 						 if (check) {
-						 	alert('입고가 완료되지 않았습니다.');
-							$("#btnComp").attr("value","종결");
+						 	alert('출고가 완료되지 않았습니다.');
+							$("#btnComp" + cIdx).attr("value","종결");
 						 }
 						 else {
-						     alert('입고상태 변경이 취소되었습니다.');
+						     alert('출고상태 변경이 취소되었습니다.');
 						 }
 					},
 					error: function(xhr, textStatus, errorThrown) {
@@ -81,31 +83,31 @@ a{text-decoration:none; color:#333;}
 		 				}
 				});
 			} else if(btnVal=="종결") { // 종결버튼이 활성화 되어있다는 것은 미완료 상태라는 뜻
+// 				alert(btnVal);
 				$.ajax({
 					type: "get",
-					url: "InList",
+					url: "InComplete?in_schedule_cd=" + in_cd,
 					data: {
-						in_complete: "1"
+						IN_COMPLETE: "1"
 					},
 					dataType: "html",
 					success: function(data) {
-						 var check = confirm('출고상황을 완료로 변경 하시겠습니까?');
+						 var check = confirm('해당 출고를 종결하시겠습니까?');
 						 if (check) {
 						 	alert('출고가 완료되었습니다.');
-							$("#btnComp").attr("value","취소");
+							$("#btnComp" + cIdx).attr("value","취소");
 						 }
 						 else {
 						     alert('출고상태 변경이 취소되었습니다.');
 						 }
-
 					},
 					error: function(xhr, textStatus, errorThrown) {
-	 					alert("진생상황 변경 실패"); 
+	 					alert("진행상황 변경 실패"); 
 		 				}
 				});
 			}
-		});
-	});
+
+	}
 </script>
 <!-- 폰트어썸 -->
 <script src="https://kit.fontawesome.com/ca93809e69.js" crossorigin="anonymous"></script>
@@ -123,15 +125,6 @@ a{text-decoration:none; color:#333;}
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
-<style>
-  .tab_menu{position:relative;}
-  .tab_menu .list{overflow:hidden;}
-  .tab_menu .list li{float:left;}
-  .tab_menu .list .btn{font-size:13px; margin-right:14px;}
-  .tab_menu .list .cont{display:none; position:absolute; background:#555; color:#fff; text-align:center; width:1000px; height:100px; line-height:100px;}
-  .tab_menu .list li.is_on .btn{font-weight:bold; color:green;}
-  .tab_menu .list li.is_on .cont{display:block; color:green;} 
-</style>
 
 
 
@@ -154,11 +147,6 @@ a{text-decoration:none; color:#333;}
                      입고 예정 목록
                      <button class="btn btn-primary" onclick="location.href='InRegisterForm'" style="float: right;">신규등록</button>
                  </div>
-<div class="tab_menu">
-  <ul class="list">
-    <li class="is_on">
-      <a href="#tab1" class="btn">	</a>
-        <div id="tab1" class="cont" >
               
   
                  <div class="card-body">
@@ -210,21 +198,7 @@ a{text-decoration:none; color:#333;}
                         </tbody>
 		              </table>
            </div>
-            </div>
-    </li>
-    <li>
-      <a href="#tab2" class="btn">진행중</a>
-      <div id="tab2" class="cont">ghhg</div>
-           
-            
-    </li>
-    <li>
-      <a href="#tab3" class="btn">완료</a>
-      <div id="tab3" class="cont">히히</div>
-    </li>
-  </ul>
-</div>
-   </div>
+   
 
 <script>
   const tabList = document.querySelectorAll('.tab_menu .list li');

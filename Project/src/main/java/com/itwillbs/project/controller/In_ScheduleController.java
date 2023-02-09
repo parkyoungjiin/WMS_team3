@@ -106,6 +106,22 @@ public class In_ScheduleController {
 		
 	
 	//-----------입고 등록 PRO 끝------------
+	
+	//---종결버튼-----
+	@GetMapping("/InComplete")
+	public String incomplete(@RequestParam(value="IN_COMPLETE") String IN_COMPLETE
+			,@RequestParam(value="IN_SCHEDULE_CD", required= false) String IN_SCHEDULE_CD) {
+		int updateCount = service.updateclosing(IN_COMPLETE,IN_SCHEDULE_CD);
+		
+		if(updateCount >0) {
+			return "in_schedule/in_list";
+		}else {
+			return "";
+		}
+		
+	}
+	
+	//----종결 끝
 	@GetMapping("/InDetail")
 	public String InDetail(@ModelAttribute InScheduleVO ins,
 			@ModelAttribute InSchedulePerProductVO insp,

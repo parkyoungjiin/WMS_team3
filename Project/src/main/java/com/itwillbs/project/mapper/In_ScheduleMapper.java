@@ -35,5 +35,7 @@ public interface In_ScheduleMapper {
 		List<InSchedulePerProductVO> selectInProductList(String in_SCHEDULE_CD);
 		//입고 예정 상품별 수정 
 		int updateInschedulepro(InSchedulePerProductVO insp2);
+		//종결버튼
+		int updatecomplete(String iN_COMPLETE, String iN_SCHEDULE_CD);
 
 }

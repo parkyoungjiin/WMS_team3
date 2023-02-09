@@ -66,4 +66,8 @@ public class In_scheduleService {
 	public List<StockVo> getSerachStockNum(String keyword) {
 		return mapper.searchStockNum(keyword);
 	}
+
+	public int updateclosing(String iN_COMPLETE, String iN_SCHEDULE_CD) {
+		return mapper.updatecomplete(iN_COMPLETE,iN_SCHEDULE_CD);
+	}
 }
