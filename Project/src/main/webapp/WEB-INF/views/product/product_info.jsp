@@ -43,7 +43,7 @@
 var idx = 0;
 var selectIdx;
 
-// 거래처 목록 조회(모달)
+//거래처 목록 조회(모달)
 function load_buyerList() {
 	
 	let buyer_keyword = $("#buyer_keyword").val();
@@ -57,13 +57,43 @@ function load_buyerList() {
 	})
 	.done(function(buyerList) { // 요청 성공 시
 // 			$(".modal-body").append(buyerList);
-// 		$("#modal-body > table").empty();	
-	
+// 		$("#modal-body > table").empty();
 		if(buyerList.length == 0){
-// 			$("#buyer_search").append("<div></div>");
-			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
-			$("#buyer_search").css("color","#B9062F");
-		} 
+			$("#modal-body-buyer > table ").remove();   //테이블 비우고
+
+			let no_result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer;'>"
+                + '<th scope="col" style ="width:180px">거래처 코드</th>'
+                + '<th scope="col" style ="width:285px">상호명</th>'
+                + '</tr>'
+				+ "<tr style='cursor:pointer;'>"
+				+ "<td colspan ='2'>"
+				+ "<h4 style='font-weight: bold; text-align: center;'>검색결과가 없습니다."
+				+ "</h4>"
+				+ "</td>"
+				+ "</tr>";
+		 		+ '</table>';
+
+// // 			$("#buyer_search").append("<div></div>");
+// 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
+// 			$("#buyer_search").css("color","#B9062F");
+	         $("#modal-body-buyer").append(no_result);
+
+
+		}else{
+			
+		$("#modal-body-buyer > table ").remove();   //테이블 비우고
+			
+				let set_table = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right: '>"
+					+ "<tr style='cursor:pointer;'>"
+	                + '<th scope="col" style ="width:180px">거래처 코드</th>'
+	                + '<th scope="col" style ="width:285px">상호명</th>'
+	                + '</tr>'
+  			 		+ '</table>';
+  			 		
+		         $("#modal-body-buyer").append(set_table);
+				
+		
 // 		else {
 // 			$("#buyer_search").remove();
 // 		}
@@ -74,11 +104,13 @@ function load_buyerList() {
 		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
                			+ "</tr>";
              
-			$("#modal-body > table").append(result);
+			$("#buyer_table").append(result);
 		}
+		}
+
 	})
 	.fail(function() {
-		$("#modal-body > table").append("<h3>요청 실패!</h3>");
+		$("#modal-body-buyer").append("<h3>요청 실패!</h3>");
 	});
 }
 
@@ -105,7 +137,7 @@ $(function() {
 	});	   
 	
 	// 거래처
-	$("#buyer_table").on('click','tr',function(){
+	$("#modal-body-buyer").on('click','tr',function(){
 		  let td_arr = $(this).find('td');
 		  console.log(td_arr);
 			   
@@ -113,11 +145,13 @@ $(function() {
 		  let no = $(td_arr[0]).text();
 //		  $('#name').val($(td_arr[1]).text());
 	      let cust_name = $(td_arr[1]).text();
+		  console.log(no);
 		  console.log(cust_name);
 			   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_buyer').modal('hide');
 		   $("#cust_name").val(cust_name);
+		   $("#business_no").val(no);
 	});	 
 
 });
@@ -319,7 +353,7 @@ $(function() {
                       <h5 class="modal-title">거래처 검색</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="modal-body" style="text-align: center;">
+                    <div class="modal-body" id="modal-body-buyer" style="text-align: center;">
                      	<div class="input-group mb-6">
 		             		<input name="buyer_keyword" type="text" class="form-control" id="buyer_keyword" placeholder="검색 후 이용 바랍니다.">
 				         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_buyerList()">검색</button>
@@ -327,8 +361,8 @@ $(function() {
 <!-- 			        	 <div id="modal-body-result" style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
 			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
 				                <tr>
-				                  <th scope="col">거래처 코드</th>
-				                  <th scope="col">상호명</th>
+				                  <th scope="col" style="width: 180px">거래처 코드</th>
+				                  <th scope="col" style="width: 285px">상호명</th>
 				                </tr>
 			        	 </table>
                     </div>
