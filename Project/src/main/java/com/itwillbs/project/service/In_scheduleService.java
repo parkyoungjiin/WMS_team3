@@ -51,7 +51,7 @@ public class In_scheduleService {
 
 	public InSchedulePerProductVO getInschedulePerInfo(InSchedulePerProductVO vo2) {
 		return mapper.getInschedulePerInfo(vo2);
-]
+	}
 //-----------재고 번호 받아오기 (팝업창)-----------
 	public List<StockVo> getSerachStockNum(String keyword) {
 		return mapper.searchStockNum(keyword);
