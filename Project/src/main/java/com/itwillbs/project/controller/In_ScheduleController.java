@@ -80,10 +80,10 @@ public class In_ScheduleController {
 				InSchedulePerProductVO insp2 = new InSchedulePerProductVO();
 				insp2.setPRODUCT_CD(insp.getPRODUCT_CDArr()[i]);
 				insp2.setPRODUCT_NAME(insp.getPRODUCT_NAMEArr()[i]);
-//				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
+				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
 				insp2.setIN_SCHEDULE_QTY(insp.getIN_SCHEDULE_QTYArr()[i]);
-//				insp2.setREMARKS(insp.getREMARKSArr()[i]);
-//				insp2.setIN_DATE(insp.getIN_DATEArr()[i]);
+				insp2.setREMARKS(insp.getREMARKSArr()[i]);
+				insp2.setIN_DATE(insp.getIN_DATEArr()[i]);
 				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
 				
 				insp2.setIN_SCHEDULE_CD(in_schedule_code);
@@ -106,6 +106,36 @@ public class In_ScheduleController {
 		
 	
 	//-----------입고 등록 PRO 끝------------
+	
+	//---종결버튼-----
+	@GetMapping("/InComplete")
+	public String incomplete(@RequestParam(value="IN_COMPLETE") String IN_COMPLETE
+			,@RequestParam(value="IN_SCHEDULE_CD", required= false) String IN_SCHEDULE_CD) {
+		int updateCount = service.updateclosing(IN_COMPLETE,IN_SCHEDULE_CD);
+		
+		if(updateCount >0) {
+			return "in_schedule/in_list";
+		}else {
+			return "";
+		}
+		
+	}
+	
+	//----종결 끝
+	@GetMapping("/InDetail")
+	public String InDetail(@ModelAttribute InScheduleVO ins,
+			@ModelAttribute InSchedulePerProductVO insp,
+			Model model) {
+		ins = service.getINInfo(ins.getIN_SCHEDULE_CD());
+		List<InSchedulePerProductVO> inspList = service.getInProductList(ins.getIN_SCHEDULE_CD());
+		
+		model.addAttribute("ins", ins);
+		model.addAttribute("inspList", inspList);
+		
+		return "in_schedule/in_modify";
+	}
+	
+	
 	
 	//---------입고 수정 -----------
 	@GetMapping("/InModifyForm")

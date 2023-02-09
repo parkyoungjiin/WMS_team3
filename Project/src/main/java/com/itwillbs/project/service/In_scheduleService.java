@@ -47,7 +47,17 @@ public class In_scheduleService {
 //	public List<InScheduleVO> getProcessingList() {
 //		return mapper.selectProcessingList();
 //	}
+	public InScheduleVO getINInfo(String in_SCHEDULE_CD) {
+		return mapper.selectINInfo(in_SCHEDULE_CD);
+	}
 
+	public List<InSchedulePerProductVO> getInProductList(String in_SCHEDULE_CD) {
+		return mapper.selectInProductList(in_SCHEDULE_CD);
+	}
+// 품목별 수정 
+	public int modifyPro2(InSchedulePerProductVO insp2) {
+		return mapper.updateInschedulepro(insp2);
+	}
 
 	public InSchedulePerProductVO getInschedulePerInfo(InSchedulePerProductVO vo2) {
 		return mapper.getInschedulePerInfo(vo2);
@@ -73,5 +83,8 @@ public class In_scheduleService {
 
 	public void updateIN_COMPLETE(InSchedulePerProductVO insp) {
 		mapper.updateIN_COMPLETE(insp);
+	}
+	public int updateclosing(String iN_COMPLETE, String iN_SCHEDULE_CD) {
+		return mapper.updatecomplete(iN_COMPLETE,iN_SCHEDULE_CD);
 	}
 }

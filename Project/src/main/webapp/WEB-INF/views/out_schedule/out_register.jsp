@@ -48,7 +48,9 @@
 var idx = 0;
 var selectIdx;
 
-// 거래처 목록 조회(모달)
+
+
+//-------------------거래처 목록 조회(모달)-----------------
 function load_buyerList() {
 	
 	let buyer_keyword = $("#buyer_keyword").val();
@@ -61,41 +63,66 @@ function load_buyerList() {
 		dataType: "json"
 	})
 	.done(function(buyerList) { // 요청 성공 시
-		 
-// 		$(".modal-body").append(buyerList);
-		$("#modal-body > table").empty();   
-	
+// 			$(".modal-body").append(buyerList);
+// 		$("#modal-body > table").empty();
+		if(buyerList.length == 0){
+			$("#modal-body-buyer > table ").remove();   //테이블 비우고
+
+			let no_result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer; text-align: center;'>"
+                + '<th scope="col" style ="width:180px">거래처 코드</th>'
+                + '<th scope="col" style ="width:285px">상호명</th>'
+                + '</tr>'
+				+ "<tr style='cursor:pointer; text-align: center;'>"
+				+ "<td colspan ='2'>"
+				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  buyer_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+				+ "</h4>"
+				+ "</td>"
+				+ "</tr>";
+		 		+ '</table>';
+
+// // 			$("#buyer_search").append("<div></div>");
+// 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
+// 			$("#buyer_search").css("color","#B9062F");
+	         $("#modal-body-buyer").append(no_result);
+
+
+		}else{
+			
+		$("#modal-body-buyer > table ").remove();   //테이블 비우고
+			
+				let set_table = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right: '>"
+					+ "<tr style='cursor:pointer; text-align: center;'>"
+	                + '<th scope="col" style ="width:180px">거래처 코드</th>'
+	                + '<th scope="col" style ="width:285px">상호명</th>'
+	                + '</tr>'
+  			 		+ '</table>';
+  			 		
+		         $("#modal-body-buyer").append(set_table);
+				
+		
+// 		else {
+// 			$("#buyer_search").remove();
+// 		}
 		for(let buyer of buyerList) {
-			
-			
-	         let result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right:'>"
-	                  + "<tr>"
-	                  + "<th scope='col'>거래처코드</th>"
-	                  + "<th scope='col'>상호명</th>"
-	                  + "</tr>"
-	                  + "<tr style='cursor:pointer;'>"
-	                  + "<td>" + buyer.business_no + "</td>"
-	                  + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-	                  + "</tr>";
-	                  + "</table>"
-	                  
-	         $("#modal-body > table").append(result);
-			
-// 			let result = "<tr style='cursor:pointer;'>"
-// 		                + "<td>" + buyer.business_no + "</td>"
-// 		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
-//                			+ "</tr>";
+			console.log("buyer.business_no : " + buyer.business_no);
+			let result = "<tr style='cursor:pointer; text-align: center;'>"
+		                + "<td>" + buyer.business_no + "</td>"
+		                + "<td id='cust_name'>" + buyer.cust_name + "</td>"
+               			+ "</tr>";
              
-// 			$("#modal-body > table").append(result);
+			$("#buyer_table").append(result);
 		}
+		}
+
 	})
 	.fail(function() {
-		$("#modal-body > table").append("<h3>요청 실패!</h3>");
+		$("#modal-body-buyer").append("<h3>요청 실패!</h3>");
 	});
-}
+}// //-------------------거래처 목록 조회(모달) 끝-----------------
 
 
-// 사원 목록 조회(모달)
+//------------------사원 목록 조회(모달)-------------------------
 function load_empList() {
 	
 	let emp_keyword = $("#emp_keyword").val();
@@ -106,35 +133,64 @@ function load_empList() {
 		dataType: "json"
 	})
 	.done(function(empList) { // 요청 성공 시
-// 		$(".modal-body").append(buyerList);
-// 		$("#modal-body-emp > table > td").empty();	
-	
-// 		if(buyerList.length == 0){
-// 			$("#buyer_search").append("<div></div>");
+		
+		if(empList.length == 0){
+			$("#modal-body-emp > table ").remove();   //테이블 비우고
+			
+			
+			let no_result = "<table class='table table-hover' id='emp_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer; text-align: center;'>"
+					+'<th scope="col" style="width: 151px">사원번호</th>'
+		            +'<th scope="col" style="width: 157px">부서</th>'
+		            +'<th scope="col" style="width: 157px">사원명</th>'
+	            + '</tr>'
+				+ "<tr style='cursor:pointer;'>"
+				+ "<td colspan ='3'>"
+				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  emp_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+				+ "</h6>"
+				+ "</td>"
+				+ "</tr>";
+		 		+ '</table>';
+
+// // 			$("#buyer_search").append("<div></div>");
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
-// 		} 
-// 		else {
-// 			$("#buyer_search").remove();
-// 		}
-		for(let emp of empList) {
+	         $("#modal-body-emp").append(no_result);
+
+
+		}else{
 			
-			let result = "<tr style='cursor:pointer;'>"
-		                + "<td>" + emp.EMP_NUM + "</td>"
-		                + "<td>" + emp.DEPT_CD + "</td>"
-		                + "<td>" + emp.EMP_NAME + "</td>"
-               			+ "</tr>";
-             
-			$("#modal-body-emp > table").append(result);
-		}
-	})
+			$("#modal-body-emp > table ").remove();   //테이블 비우고
+
+			let set_table = "<table class='table table-hover' id='emp_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer; text-align: center;'>"
+				+'<th scope="col" style="width: 151px">사원번호</th>'
+	            +'<th scope="col" style="width: 157px">부서</th>'
+	            +'<th scope="col" style="width: 157px">사원명</th>'
+	            + '</tr>'
+		         $("#modal-body-emp").append(set_table);
+
+			for(let emp of empList) {
+				
+				let result = "<tr style='cursor:pointer; text-align: center;'>"
+				  + "<td style='width: 151px'>" + emp.EMP_NUM + "</td>"
+	              + "<td style='width: 157px'>" + emp.DEPT_NAME + "</td>"
+	              + "<td style='width: 157px'>" + emp.EMP_NAME + "</td>"
+	              
+	  			$("#modal-body-emp > table").append(result);
+	
+			}//for 끝
+	
+		}//else 끝
+	})//done 끝
 	.fail(function() {
-		$("#modal-body-emp > table").append("<h3>요청 실패!</h3>");
+			$("#modal-body-emp > table").append("<h3>요청 실패!</h3>");
 	});
-}
+}//---------------사원 조회 끝----------------------
 
 
-// 품목 목록 조회(모달)
+// -----------------품목 목록 조회(모달)-------------------
+
 function load_proList() {
 	
 	let pro_keyword = $("#pro_keyword").val();
@@ -144,22 +200,63 @@ function load_proList() {
 		url: "ProListJson?keyword=" + pro_keyword,
 		dataType: "json"
 	})
-	.done(function(proList) { // 요청 성공 시
-		
-		for(let pro of proList) {
+		.done(function(proList) { // 요청 성공 시
+		console.log(proList);
+		if(proList.length == 0){
+			$("#modal-body-pro > table").remove();   //테이블 비우고
 			
-			let result = "<tr style='cursor:pointer;'>"
-		                + "<td>" + pro.product_cd + "</td>"
-		                + "<td>" + pro.product_name + "</td>"
-		                + "<td>" + pro.size_des + "</td>"
-               			+ "</tr>";
-             
-			$("#modal-body-pro > table").append(result);
-		}
-	})
+			
+			let no_result = "<table class='table table-hover' id='pro_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer;text-align: center;'>"
+				+'<th scope="col" style="width: 151px">품목번호</th>'
+	            +'<th scope="col" style="width: 157px">품목명</th>'
+	            +'<th scope="col" style="width: 157px">규격</th>'
+	            + '</tr>'
+				+ "<tr style='cursor:pointer; text-align: center;'>"
+				+ "<td colspan ='3'>"
+				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  pro_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+				+ "</h6>"
+				+ "</td>"
+				+ "</tr>";
+		 		+ '</table>';
+
+// // 			$("#buyer_search").append("<div></div>");
+// 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
+// 			$("#buyer_search").css("color","#B9062F");
+	         $("#modal-body-pro").append(no_result);
+
+
+		}else{
+			
+			$("#modal-body-pro > table").remove();   //테이블 비우고
+
+			let set_table = "<table class='table table-hover' id='pro_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer; text-align: center;'>"
+				+'<th scope="col" style="width: 151px">품목번호</th>'
+	            +'<th scope="col" style="width: 157px">품목명</th>'
+	            +'<th scope="col" style="width: 157px">규격</th>'
+	            + '</tr>'
+		         $("#modal-body-pro").append(set_table);
+
+			for(let pro of proList) {
+				
+				let result = "<tr style='cursor:pointer; text-align: center;'>"
+				  + "<td style='width: 151px'>" + pro.product_cd + "</td>"
+	              + "<td style='width: 157px'>" + pro.product_name + "</td>"
+	              + "<td style='width: 157px'>" + pro.size_des + "</td>"
+	              
+	  			$("#pro_table").append(result);
+	
+			}//for 끝
+	
+		}//else 끝
+	})//done 끝
 	.fail(function() {
-		$("#modal-body-pro > table").append("<h3>요청 실패!</h3>");
+			$("#modal-body-pro > table").append("<h3>요청 실패!</h3>");
 	});
+	
+	
+
 }
 
 
@@ -197,25 +294,26 @@ function load_proList() {
 $(function() {
 	
 	// 거래처
-	$("#buyer_table").on('click','tr',function(){
-		   let td_arr = $(this).find('td');
-		   console.log(td_arr);
-		   
-//		   $('#no').val($(td_arr[0]).text());
-		   let business_no = $(td_arr[0]).text();
-//		   $('#name').val($(td_arr[1]).text());
-		   let cust_name = $(td_arr[1]).text();
-		   console.log(cust_name);
-		   
+	$("#modal-body-buyer").on('click','tr',function(){
+		  let td_arr = $(this).find('td');
+		  console.log(td_arr);
+			   
+//		  $('#no').val($(td_arr[0]).text());
+		  let no = $(td_arr[0]).text();
+//		  $('#name').val($(td_arr[1]).text());
+	      let cust_name = $(td_arr[1]).text();
+		  console.log(no);
+		  console.log(cust_name);
+			   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_buyer').modal('hide');
 		   $("#cust_name").val(cust_name);
-		   $("#business_no").val(business_no);
-	});	   
+		   $("#business_no").val(no);
+	});	 
 	
 	
 	// 담당자
-	$("#emp_table").on('click','tr',function(){
+	$("#modal-body-emp").on('click','tr',function(){
 		   let td_arr = $(this).find('td');
 		   console.log(td_arr);
 		   
@@ -233,7 +331,7 @@ $(function() {
 	
 	
 	// 품목
-	$("#pro_table").on('click','tr',function(){
+	$("#modal-body-pro").on('click','tr',function(){
 		   let td_arr = $(this).find('td');
 		   
 // 		   console.log(td_arr);
@@ -278,6 +376,7 @@ $(function() {
 		
 		if($("#testDate").val().length == 0){
 			alert("납기일자를 입력해주세요.");
+			$("#testDate").focus();
 			return;
 		}
 // 		if($("#testDate").val().length == 0 || $("#remarks").val().length == 0){
@@ -295,20 +394,20 @@ $(function() {
 		
 // 		alert(date);
 			var addInput =  
-							'<tr>'
+							'<tr  style="text-align: center">'
 // 							+ '<td><input type="checkbox" name="chk"></td>'
 							+ '<td>'
-							+ '<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-2">'
-         					+ '<input type="text" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required">'
-	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>'
+							+ '<div class="input-group input-group-sm mb-10">'
+         					+ '<input type="text" style="text-align:center;" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required">'
+	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button>'
           					+ '</div></td>'
-							+ '<td><input type="text" class="form-control form-control-sm pro_name" required="required">' + '</td>'
+							+ '<td style="text-align: center;"><input type="text" class="form-control form-control-sm pro_name" required="required">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
-							+ '<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" onchange="calculateSum();"></td>'
-							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="out_dateArr" required="required"></td>'
-							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="remarks_proArr"></td>'
+							+ '<td style="text-align:center;"><input type="number" style="text-align:center;" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" onchange="calculateSum();"></td>'
+							+ '<td style="text-align:center;"><input type="date" style="text-align:center;" class="form-control form-control-sm" style="border:none" value="' + date + '" name="out_dateArr" required="required"></td>'
+							+ '<td style="text-align:center;"><input type="text" style="text-align:center;" class="form-control form-control-sm" value="' + remarks + '" name="remarks_proArr"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
-							+ '<td><span class="stoContent"></span></td>'
+							+ '<td style="text-align:center;"><span class="stoContent"></span></td>'
 							+ '<input type="hidden" name="stock_cdArr" class="stock_cd">'
 							+ '<input type="hidden" name="stock_qty" class="stock_qty">'
 							+ '<input type="hidden" name="product_nameArr" class="product_nameArr">'
@@ -433,7 +532,7 @@ $(document).ready(function() {
                       <div class="col-md-8 col-lg-2">
                         <input name="out_schedule_date" type="date" class="form-control" id="out_schedule_date" required="required">
                       </div>
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">출고유형</label>
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">출고 유형</label>
                       <div class="col-md-8 col-lg-2">
                         <select name="out_category" required="required" class="form-select">
 								<option value="발주서">발주서</option>
@@ -476,7 +575,7 @@ $(document).ready(function() {
                
                <div class="row mb-3" style="float: right;">
                     	<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">
-	           				<input type="button" class="btn btn-secondary btn-sm" value="추가하기" id="plus_out">
+	           				<input type="button" class="btn btn-secondary" value="출고품목 추가" id="plus_out">
 	           			</label>
                     </div> 
 			</div> <!-- card-body -->
@@ -490,22 +589,21 @@ $(document).ready(function() {
                       <h5 class="modal-title">거래처 검색</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="modal-body" style="text-align: center;">
+                    <div class="modal-body" id="modal-body-buyer" style="text-align: center;">
                      	<div class="input-group mb-6">
 		             		<input name="buyer_keyword" type="text" class="form-control" id="buyer_keyword" placeholder="검색 후 이용 바랍니다.">
-				         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_buyerList()">검색</button>
+				         <button id="search_buyer" class="btn btn-primary" type="button" onclick="load_buyerList()">검색</button>
 			        	 </div>
 <!-- 			        	 <div id="modal-body-result" style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
 			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
-				                <tr>
-				                  <th scope="col">거래처코드</th>
-				                  <th scope="col">상호명</th>
+				                <tr style="text-align: center;">
+				                   <th scope="col" style="width: 180px;">거래처 코드</th>
+				                  <th scope="col" style="width: 285px">상호명</th>
 				                </tr>
 			        	 </table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                   </div>
                 </div>
@@ -523,20 +621,19 @@ $(document).ready(function() {
                     <div class="modal-body" id="modal-body-emp">
                      	<div class="input-group mb-6">
 		             		<input name="emp_keyword" type="text" class="form-control" id="emp_keyword" placeholder="검색 후 이용 바랍니다.">
-				         <button id="search_emp" class="btn btn-secondary" type="button" onclick="load_empList()">검색</button>
+				         <button id="search_emp" class="btn btn-primary" type="button" onclick="load_empList()">검색</button>
 			        	 </div>
 <!-- 				         <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
  						<table class='table table-hover' id="emp_table" style="margin-left: auto; margin-right: ">
-				                <tr>
-				                  <th scope="col">사원번호</th>
-				                  <th scope="col">부서</th>
-				                  <th scope="col">사원명</th>
+				                <tr style="text-align: center;">
+				                  <th scope="col" style="width: 151px">사원번호</th>
+				                  <th scope="col" style="width: 157px">부서</th>
+				                  <th scope="col" style="width: 157px">사원명</th>
 				                </tr>
 			        	 </table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                   </div>
                 </div>
@@ -554,20 +651,19 @@ $(document).ready(function() {
                     <div class="modal-body" id="modal-body-pro">
                      	<div class="input-group mb-6">
 		             		<input name="pro_keyword" type="text" class="form-control" id="pro_keyword" placeholder="검색 후 이용 바랍니다.">
-				         <button id="search_pro" class="btn btn-secondary" type="button" onclick="load_proList()">검색</button>
+				         <button id="search_pro" class="btn btn-primary" type="button" onclick="load_proList()">검색</button>
 			        	 </div>
 <!-- 			        	 <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
 						<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
-				                <tr>
-				                  <th scope="col">품목번호</th>
-				                  <th scope="col">품목명</th>
-				                  <th scope="col">규격</th>
+				                <tr style="text-align: center;">
+				                  <th scope="col" style="width: 151px">품목번호</th>
+				                  <th scope="col" style="width: 157px">품목명</th>
+				                  <th scope="col" style="width: 157px">규격</th>
 				                </tr>
 			        	 </table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">재고 선택</button>
                     </div>
                   </div>
                 </div>
@@ -594,26 +690,28 @@ $(document).ready(function() {
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                   </div>
                 </div>
               </div><!-- End Vertically centered Modal-->	
 		<%-- ********************************** 복수개 품목명 입력창(하단부)************************************************* --%>		
 		<div class="card mb-4">
-     	  <div class="card-body" style="font-size: small">
+			<div class="card-header">
+          		출고 품목
+        	</div>
+     	  <div class="card-body">
 <!--      	    <input type="button" class="btn btn-secondary btn-sm" value="삭제" id="delete_out"> -->
        			<table class="table table-hover" id="out_list">
 		                <thead>
-		                  <tr>
+		                  <tr style="text-align: center">
 <!-- 		                    <th scope="col"><input type="checkbox" id="chkAll"></th> -->
-		                    <th scope="col">품목코드</th>
-		                    <th scope="col">품목명 [규격]</th>
+		                    <th scope="col" style="width: 197px">품목코드</th>
+		                    <th scope="col" style="width: 273px">품목명 [규격]</th>
 <!-- 		                    <th scope="col">규격</th> -->
 		                    <th scope="col" style="width: 80px">수량</th>
-		                    <th scope="col">납기일자</th>
-		                    <th scope="col">비고</th>
-		                    <th scope="col">출고대상재고</th>
+		                    <th scope="col" style="width: 197px">납기일자</th>
+		                    <th scope="col" style="width: 120px">비고</th>
+		                    <th scope="col" style="width: 274px">출고대상재고</th>
 		                  </tr>
 		                </thead>
 		                <tbody>
