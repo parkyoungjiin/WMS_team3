@@ -54,6 +54,8 @@
 			if(total != checked) $("#chkAll").prop("checked", false);
 			else $("#chkAll").prop("checked", true); 
 		});
+	
+	
 	});
 	
 	//-------------입고처리 시 팝업창 ----------------
@@ -156,7 +158,7 @@
                   </div>
                 </div>
               </div><!-- End Modal Dialog Scrollable-->
-    	
+    	 <form action="./In_Per_Schedule_Process" method="post"> 
             <div class="card mb-4">
                 <div class="card-header">
                      출고 예정 목록
@@ -173,34 +175,38 @@
 					 			<th scope="col">구역명_선반위치</th>
 				 			</tr>
 				 			<c:forEach var="list" items="${list }">
+				 				<input type="hidden" value="${list.IN_SCHEDULE_QTY }" name="IN_SCHEDULE_QTYArr">
+				 				<input type="hidden" value="${list.IN_SCHEDULE_PER_CD }" name="IN_SCHEDULE_PER_CDArr">
+				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
+				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
 				 			<tr>
 					 			<td>${list.IN_SCHEDULE_CD }</td>
 					 			<td>${list.PRODUCT_NAME }</td>
 					 			<td>${list.IN_SCHEDULE_QTY }</td>
 					 			<td>
 					 				<!-- 입고처리할 수량 입력칸 -->
-					 				<input type="text" class="form-control-sm" id="in_qty_input" name="in_qty" size="1">
+					 				<input type="text" class="form-control-sm" id="in_qty_input" name="IN_QTYArr" size="1">
 					 			</td>
 					 			<td>
 					 				<!-- 재고번호 자동 입력될 칸 -->
-									<input type="text" class="form-control-sm" id ="stock_cd_input" name="stock_cd" size="5">
+									<input type="text" class="form-control-sm" id ="stock_cd_input" name="STOCK_CDArr" size="5">
 									<!-- 재고번호 검색 버튼 -->					 			
                       				<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#stock_search">모달열려라</button>
 					 			<td>
 					 				<!-- 구역명_선반위치 -->
-									<input type="text" class="form-control-sm" id ="wh_area_loc_input" name="wh_area_wh_loc">					 			
+									<input type="text" class="form-control-sm" id ="wh_area_loc_input" name="WH_LOC_IN_AREA_CDArr">					 			
 					 			</td>
 				 			</tr>
 				 			</c:forEach>
 		 				</table>
 		        	 </div>
-           	 </div>
+           	 	 </div>
            	 	<div>
-		              <button class="btn btn-primary" onclick="in_schedule_process()">입고처리</button>
+		              <button class="btn btn-primary" type="submit">입고처리</button>
            	 	</div>
-		              
+           	 
 		 </div>
-            
+         </form>  
               <!-- Extra Large Modal -->
          
               

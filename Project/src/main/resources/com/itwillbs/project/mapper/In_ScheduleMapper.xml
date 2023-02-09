@@ -87,4 +87,44 @@
 			FROM stock_view
 				WHERE STOCK_CD LIKE '%${keyword}%' || PRODUCT_NAME LIKE '%${keyword}%' || WH_NAME LIKE '%${keyword}%' 
 	</select>
+	
+	<update id="updateStockQTY">
+		UPDATE stock
+			SET STOCK_QTY = STOCK_QTY + #{IN_QTY}
+			WHERE STOCK_CD =#{STOCK_CD}
+	</update>
+	<update id="updateInQTY">
+		UPDATE in_schedule_per_product
+			SET IN_QTY = IN_QTY + #{IN_QTY}
+			WHERE IN_SCHEDULE_PER_CD =#{IN_SCHEDULE_PER_CD};
+	</update>
+	
+	<update id="updateIN_COMPLETE">
+		UPDATE in_schedule_per_product
+			SET IN_COMPLETE = 1
+			WHERE  IN_SCHEDULE_QTY - IN_QTY = 0;
+	</update>
+	
+	<insert id="insertStock">
+		<choose>
+			<when test="STOCK_CD != 0">
+			INSERT INTO stock
+			VALUES(
+			#{STOCK_CD}
+			,#{PRODUCT_CD}
+			,#{WH_LOC_IN_AREA_CD}
+			,#{IN_QTY}
+			)
+			</when>
+			<otherwise>
+			INSERT INTO stock
+				VALUES(
+				0
+				,#{PRODUCT_CD}
+				,#{WH_LOC_IN_AREA_CD}
+				,#{IN_QTY}
+			)
+			</otherwise>
+		</choose>
+	</insert>
 </mapper>

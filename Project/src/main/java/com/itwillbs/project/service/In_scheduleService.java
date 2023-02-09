@@ -56,4 +56,22 @@ public class In_scheduleService {
 	public List<StockVo> getSerachStockNum(String keyword) {
 		return mapper.searchStockNum(keyword);
 	}
+
+	public void updateStockQTY(InSchedulePerProductVO vo) {
+		mapper.updateStockQTY(vo);
+		
+	}
+
+	public int insertStock(InSchedulePerProductVO insp) {
+		return mapper.insertStock(insp);
+	}
+
+	public void updateInQTY(InSchedulePerProductVO insp) {
+		mapper.updateInQTY(insp);
+		
+	}
+
+	public void updateIN_COMPLETE(InSchedulePerProductVO insp) {
+		mapper.updateIN_COMPLETE(insp);
+	}
 }

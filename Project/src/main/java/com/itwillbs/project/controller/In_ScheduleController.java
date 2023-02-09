@@ -346,7 +346,41 @@ public class In_ScheduleController {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
 	}//stock_num_search 끝
 	
+	@PostMapping(value = "/In_Per_Schedule_Process")
+	public String In_Per_Schedule_Process(@ModelAttribute InSchedulePerProductVO vo) {
+		System.out.println("입고 처리 : "+vo);
+		System.out.println("처리동작");
+		System.out.println("vo.getIN_SCHEDULE_PER_CDArr().length : " + vo.getIN_SCHEDULE_PER_CDArr().length);
+		
+		for(int i =0; i <vo.getIN_SCHEDULE_PER_CDArr().length;i++) {
+			
+			
+			InSchedulePerProductVO insp = new InSchedulePerProductVO();
+			insp.setIN_SCHEDULE_PER_CD(vo.getIN_SCHEDULE_PER_CDArr()[i]);
+			insp.setIN_QTY(vo.getIN_QTYArr()[i]);
+			if(vo.getSTOCK_CDArr().length == 0 ) {
+				insp.setSTOCK_CD(0);
+			}else {
+				insp.setSTOCK_CD(vo.getSTOCK_CDArr()[i]);
+			}
+			insp.setWH_LOC_IN_AREA_CD(vo.getWH_LOC_IN_AREA_CDArr()[i]);
+			insp.setPRODUCT_CD(vo.getPRODUCT_CDArr()[i]);
+			try {
+				service.updateStockQTY(insp);
+				int insertCount = service.insertStock(insp);
+				System.out.println(insertCount);
+				if(insertCount == 0) {
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			service.updateInQTY(insp);
+			service.updateIN_COMPLETE(insp);
+		}
+		return "redirect:/In_Per_List";
+	}
+
+
 }

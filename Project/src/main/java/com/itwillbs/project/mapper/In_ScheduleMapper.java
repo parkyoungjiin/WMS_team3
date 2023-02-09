@@ -28,5 +28,8 @@ public interface In_ScheduleMapper {
 	InSchedulePerProductVO getInschedulePerInfo(InSchedulePerProductVO vo2);
 	//-----------재고 번호 받아오기 (팝업창)-----------
 	List<StockVo> searchStockNum(String keyword);
-
+	void updateStockQTY(InSchedulePerProductVO vo);
+	int insertStock(InSchedulePerProductVO insp);
+	void updateInQTY(InSchedulePerProductVO insp);
+	void updateIN_COMPLETE(InSchedulePerProductVO insp);
 }
