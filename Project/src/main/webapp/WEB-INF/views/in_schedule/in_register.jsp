@@ -470,7 +470,7 @@ function calculateSum() {
    </div><!-- End Page Title -->
     
 	<div class="card mb-4">
-		<div class="card-header">
+		<div class="card-header" style="font-size: 20px;">
             입고 입력
         </div>
         
@@ -655,7 +655,7 @@ function calculateSum() {
               
 		<%-- ********************************** 복수개 품목명 입력창(하단부)************************************************* --%>		
 		<div class="card mb-4">
-			<div class="card-header">
+			<div class="card-header" style="font-size: 20px;">
             입고 품목
    			</div>
      	  <div class="card-body">
