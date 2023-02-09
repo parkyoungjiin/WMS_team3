@@ -294,11 +294,12 @@ public class Out_ScheduleController {
 					osp2.setProduct_size(osp.getProduct_sizeArr()[i]); // 품목 규격
 					osp2.setOut_schedule_qty(osp.getOut_schedule_qtyArr()[i]); // 출고 예정 수량
 					
-					if(osp.getRemarks_proArr() == null) {
+					if(osp.getRemarks_proArr()[i] == null) {
 						osp2.setRemarks_pro("");
+					} else {
+						osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
 					}
 					
-					osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
 					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
 					
@@ -350,11 +351,7 @@ public class Out_ScheduleController {
 		public String OutUpdate(@ModelAttribute OutScheduleVO os, @ModelAttribute OutSchedulePerProductVO osp,
 				Model model) {
 			
-			System.out.println("=========================================================");
-			System.out.println("=========================================================");
-			System.out.println("=========================================================");
-			System.out.println("=========================================================");
-			System.out.println("거래처번호 " + os.getBusiness_no());
+//			System.out.println("거래처번호 " + os.getBusiness_no());
 			int updateCount = service.updateOutSchedule(os);
 			
 			
@@ -369,7 +366,12 @@ public class Out_ScheduleController {
 					osp2.setProduct_name(osp.getProduct_nameArr()[i]); // 품목명
 					osp2.setProduct_size(osp.getProduct_sizeArr()[i]); // 품목 규격
 					osp2.setOut_schedule_qty(osp.getOut_schedule_qtyArr()[i]); // 출고 예정 수량
-					osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
+					
+					if(osp.getRemarks_proArr()[i] == null) {
+						osp2.setRemarks_pro("");
+					} else {
+						osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
+					}
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
 					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
 					
