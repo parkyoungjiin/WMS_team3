@@ -59,7 +59,13 @@
 	//-------------입고처리 시 팝업창 ----------------
 	
 	function in_schedule_process() {
-		window.open("In_Per_List_popup", "입고처리", "width=1200, height=750, top=50, left=50")
+		var genreArray = new Array();
+
+	    $('input:checkbox[name=chk]:checked').each(function() {
+	        genreArray.push(this.value);
+	    });
+		alert(genreArray)
+	    window.open("In_Per_List_popup?IN_SCHEDULE_PER_CDArr="+genreArray, "입고처리", "width=1200, height=750, top=50, left=50");
 	}
 	
 
@@ -137,7 +143,7 @@
 		                <c:forEach items="${list }" var="list"> 
 		                  <tr>
 		                    <th scope="row"></th>
-		                    <td><input type="checkbox" name="chk" value="${status.index}"></td>
+		                    <td><input type="checkbox" name="chk" value="${list.IN_SCHEDULE_PER_CD}"></td>
 		                    <td>${list.IN_SCHEDULE_CD }</td>
 		                    <td>${list.PRODUCT_CD }</td>
 		                    <td>${list.PRODUCT_NAME }</td>

@@ -2,6 +2,7 @@ package com.itwillbs.project.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.lang.model.element.ModuleElement;
@@ -284,8 +285,26 @@ public class In_ScheduleController {
 	
 	//-------------입고처리 팝업창-----------
 	@GetMapping(value = "/In_Per_List_popup")
-	public String in_per_list_popup() {
+	public String in_per_list_popup(@ModelAttribute InSchedulePerProductVO vo,Model model) {
 //		List<InSchedulePerProductVO> list = service.getInschedulePerList();
+		System.out.println(vo.getIN_SCHEDULE_PER_CDArr().length);
+		System.out.println(vo);
+
+		try {
+			List<InSchedulePerProductVO> list = new ArrayList<InSchedulePerProductVO>();
+				for(int i=0;i<=vo.getIN_SCHEDULE_PER_CDArr().length-1;i++) {
+					InSchedulePerProductVO vo2 = new InSchedulePerProductVO();
+					vo2.setIN_SCHEDULE_PER_CD(vo.getIN_SCHEDULE_PER_CDArr()[i]);
+					vo2 = service.getInschedulePerInfo(vo2); 
+					list.add(vo2);
+					
+				}
+				System.out.println(list);
+				model.addAttribute("list",list);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "in_schedule/in_schedule_per_list_popup";
 	}//입고예정 목록 표시 페이지 이동 끝
 	

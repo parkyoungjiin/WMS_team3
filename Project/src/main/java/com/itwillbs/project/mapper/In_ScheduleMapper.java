@@ -1,5 +1,6 @@
 package com.itwillbs.project.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.itwillbs.project.vo.InSchedulePerProductVO;
@@ -23,6 +24,9 @@ public interface In_ScheduleMapper {
 	//
 	int selectCode(InScheduleVO ins);
 	int insertOutProduct(InSchedulePerProductVO insp2);
+
+	InSchedulePerProductVO getInschedulePerInfo(InSchedulePerProductVO vo2);
 	//-----------재고 번호 받아오기 (팝업창)-----------
 	List<StockVo> searchStockNum(String keyword);
+
 }
