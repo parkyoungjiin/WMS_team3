@@ -69,7 +69,7 @@
 		FROM in_schedule
 		WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
 	</select>
-
+	<!--  -->
 	<select id="selectInProductList"
 		resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 		SELECT *
@@ -77,41 +77,45 @@
 		WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
 
 	</select>
-	
-	
-	
-	
+
+	<!-- 선택 된 항목 불러오기 -->	
 	<select id="getInschedulePerInfo" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 		SELECT *
 			FROM in_schedule_per_product
 			WHERE IN_SCHEDULE_PER_CD = #{IN_SCHEDULE_PER_CD}
 	</select>
-
+	
+	<!-- 모달창 재고 번호 리스트 -->
 	<select id="searchStockNum" resultType="com.itwillbs.project.vo.StockVo">
 		SELECT *
 			FROM stock_view
 				WHERE STOCK_CD LIKE '%${keyword}%' || PRODUCT_NAME LIKE '%${keyword}%' || WH_NAME LIKE '%${keyword}%' 
 	</select>
 	
-
+	<!-- 재고 물량 증가 -->
 	<update id="updateStockQTY">
 		UPDATE stock
 			SET STOCK_QTY = STOCK_QTY + #{IN_QTY}
 			WHERE STOCK_CD =#{STOCK_CD}
 	</update>
+	
+	<!-- 입고 수량 증가 -->
 	<update id="updateInQTY">
 		UPDATE in_schedule_per_product
 			SET IN_QTY = IN_QTY + #{IN_QTY}
 			WHERE IN_SCHEDULE_PER_CD =#{IN_SCHEDULE_PER_CD};
 	</update>
 	
+	<!-- 입고 진행 여부 -->
 	<update id="updateIN_COMPLETE">
 		UPDATE in_schedule_per_product
 			SET IN_COMPLETE = 1
 			WHERE  IN_SCHEDULE_QTY - IN_QTY = 0;
 	</update>
 	
+	<!-- 입고 처리 -->
 	<insert id="insertStock">
+		<!--재고 번호가 존재 안할 떄  -->
 		<choose>
 			<when test="STOCK_CD != 0">
 			INSERT INTO stock
@@ -122,6 +126,7 @@
 			,#{IN_QTY}
 			)
 			</when>
+			<!--재고 번호가 존재 할 떄  -->
 			<otherwise>
 			INSERT INTO stock
 				VALUES(
@@ -133,6 +138,8 @@
 			</otherwise>
 		</choose>
 	</insert>
+	
+	
 	<!-- 종결버튼 -->
 	<update id="updatecomplete">
 	UPDATE IN_SCHEDULE
@@ -140,4 +147,11 @@
 				IN_COMPLETE = #{IN_COMPLETE}
 			WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
 	</update>
+	
+	<!-- 재고 번호 가져오기 -->
+	<select id="getStock_cd" resultType="int">
+		SELECT stock_cd
+			FROM in_schedule_per_product
+			WHERE IN_SCHEDULE_PER_CD = #{in_SCHEDULE_CD} 	
+	</select>
 </mapper>

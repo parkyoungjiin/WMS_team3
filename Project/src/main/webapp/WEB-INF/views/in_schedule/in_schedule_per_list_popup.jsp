@@ -34,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Kaushan+Script&family=Neucha&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
-<title>출고 관리</title>
+<title>입고 관리</title>
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
@@ -42,13 +42,15 @@
 <script type="text/javascript">
 // 체크박스 선택 jQuery
 	
-
+	
 	$(document).ready(function() {
+		//체크 박스 전체 선택
 		$("#chkAll").click(function() {
 			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
 			else $("input[name=chk]").prop("checked", false);
 		});
-	
+		
+		//??
 		$("input[name=chk]").click(function() {
 			var total = $("input[name=chk]").length;
 			var checked = $("input[name=chk]:checked").length;
@@ -56,7 +58,12 @@
 			if(total != checked) $("#chkAll").prop("checked", false);
 			else $("#chkAll").prop("checked", true); 
 		});
-
+		
+		//서브밋 막기 작업(하다 말음)
+		$("in_submit").click(function() {
+			var in_qty_input =$("#in_qty_input").val();
+			if()
+		});
 	});
 	
 	//-------------입고처리 시 팝업창 ----------------
@@ -122,7 +129,7 @@
 			for(let stock of stockList) {
 		         let result = 
 		        	 	"<tr style='cursor:pointer;'>"
-		                  + "<td>" + stock.stock_cd + "</td>"
+		        	 	  + "<td>" + stock.stock_cd + "</td>"
 		                  + "<td>" + stock.product_name + "</td>"
 		                  + "<td>" + stock.wh_name + "("+ stock.wh_area + "구역)" + "</td>"
 		                  + "<td>" + stock.wh_loc_in_area + "</td>"
@@ -189,7 +196,7 @@ $(function() {
 <main id="main" class="main"  style="margin-left: 10px;">
 
 	<div class="pagetitle" >
-      <h1>출고 관리</h1>
+      <h1>입고 관리</h1>
     </div><!-- End Page Title -->
     	
     	<div class="modal fade" id="modalDialogScrollable_complete" tabindex="-1">
@@ -246,14 +253,14 @@ $(function() {
 				 				<input type="hidden" value="${list.IN_SCHEDULE_QTY }" name="IN_SCHEDULE_QTYArr">
 				 				<input type="hidden" value="${list.IN_SCHEDULE_PER_CD }" name="IN_SCHEDULE_PER_CDArr">
 				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
-				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">			
+				 				<input type="hidden" value="${list.IN_COMPLETE}" name="IN_COMPLETE">			
 				 			<tr>
 					 			<td>${list.IN_SCHEDULE_CD }</td>
 					 			<td>${list.PRODUCT_NAME }</td>
 					 			<td>${list.IN_SCHEDULE_QTY }</td>
 					 			<td>
 					 				<!-- 입고처리할 수량 입력칸 -->
-					 				<input type="text" class="form-control-sm" id="in_qty_input" name="IN_QTYArr" size="1">
+					 				<input type="text" class="form-control-sm" id="in_qty_input" name="IN_QTYArr" size="1" required>
 					 			</td>
 					 			<td>
 					 				<!-- 재고번호 자동 입력될 칸 -->
@@ -264,8 +271,7 @@ $(function() {
                       				<button type="button" class="btn btn-secondary" id ="stock_search_btn${status.index}" data-bs-toggle="modal" data-bs-target="#stock_search" onclick="input_search_idx(this)">모달열려라</button>
 					 			<td>
 					 				<!-- 구역명_선반위치 -->
-
-									<input type="text" class="form-control-sm" id ="wh_area_loc_input${status.index}" name="WH_LOC_IN_AREA_CDArr">					 			
+									<input type="text" class="form-control-sm" id ="wh_area_loc_input${status.index}" name="WH_LOC_IN_AREA_CDArr" required>					 			
 					 			</td>
 				 			</tr>
 				 			</c:forEach>
@@ -273,7 +279,7 @@ $(function() {
 		        	 </div>
            	 	 </div>
            	 	<div>
-		              <button class="btn btn-primary" type="submit">입고처리</button>
+		              <button class="btn btn-primary" id="in_submit" type="submit">입고처리</button>
            	 	</div>
            	 
 		 </div>
