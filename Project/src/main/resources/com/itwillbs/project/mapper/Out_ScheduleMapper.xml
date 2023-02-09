@@ -62,7 +62,8 @@
 	<insert id="insertOutProduct">
 		INSERT 
 			INTO out_schedule_per_product VALUES(
-				#{out_schedule_cd}
+				null
+				,#{out_schedule_cd}
 				,#{product_cd}
 				,#{product_name}
 				,#{product_size}
@@ -106,4 +107,18 @@
 		     ,stock_cd = #{stock_cd}
 		   WHERE out_schedule_cd = #{out_schedule_cd}
 	</update>
+	
+	<!-- 출고 처리 목록 -->
+	<select id="selectOsProList" resultType="com.itwillbs.project.vo.OutSchedulePerProductVO">
+		SELECT *
+			FROM out_schedule_per_product
+	</select>
+	
+	<select id="selectOsProInfo" resultType="com.itwillbs.project.vo.OutSchedulePerProductVO">
+		SELECT *
+			FROM out_schedule_per_product
+			WHERE out_schedule_per_cd = #{out_schedule_per_cd}
+	</select>
+	
+	
 </mapper>
