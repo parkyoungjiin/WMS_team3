@@ -220,6 +220,7 @@ function move_stock(move_cb) {
 			alert("이동재고번호가 현재 재고번호입니다. 다시 수정해주세요")
 		}else if(move_stock_num > current_stock_num){
 			alert("이동 개수가 현재 재고 개수보다 많습니다.")
+			$("#move_stock_num" + idx).focus();
 		}
 		else{
 			console.log(" move_stock_num : 개수 " + move_stock_num);
