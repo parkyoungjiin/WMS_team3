@@ -260,9 +260,50 @@ public class EmpController {
 		public String empDetail(@RequestParam String EMP_NUM, HttpSession session, @ModelAttribute EmpVo employee, Model model) {
 			String sId = (String)session.getAttribute("sId");
 //			String PRIV_CD = service.getPrivCode(sId);
-
 			employee = service.getEmployee(EMP_NUM);
+			
+			String dTelArr[] = employee.getEMP_DTEL().split("-");
+//			System.out.println(dTelArr[0] + ", " + dTelArr[2]);
+			String dTel1 = dTelArr[1];
+			String dTel2 = dTelArr[2];
+			model.addAttribute("dTel1",dTel1);
+			model.addAttribute("dTel2",dTel2);
+			
+			// 전화번호 분리하기
+			String telArr[] = employee.getEMP_TEL().split("-");
+			String tel1 = telArr[1];
+			String tel2 = telArr[2];
+			model.addAttribute("tel1",tel1);
+			model.addAttribute("tel2",tel2);
+			
+			// email 분리하기
+			String emailArr[] = employee.getEMP_EMAIL().split("@");
+			String email1 = emailArr[0];
+			String email2 = emailArr[1];
+			model.addAttribute("email1", email1);
+			model.addAttribute("email2",email2);
+			
+			String addrArr[] = employee.getEMP_ADDR().split(",");
+			String addr1 = addrArr[0];
+			String addr2 = addrArr[1];
+			model.addAttribute("addr1",addr1);
+			model.addAttribute("addr2",addr2);
+			
+			String emp_priv_arr[] = employee.getPRIV_CD().split(""); 
+			System.out.println("권한배열 갯수:"+emp_priv_arr.length);
+//			String priv_cd1 = emp_priv_arr[0];
+//			String priv_cd2 = emp_priv_arr[1];
+//			String priv_cd3 = emp_priv_arr[2];
+//			String priv_cd4 = emp_priv_arr[3];
+//			String priv_cd5 = emp_priv_arr[4];		
+//			model.addAttribute("priv_cd1",priv_cd1);
+//			model.addAttribute("priv_cd2",priv_cd2);
+//			model.addAttribute("priv_cd3",priv_cd3);
+//			model.addAttribute("priv_cd4",priv_cd4);
+//			model.addAttribute("priv_cd5",priv_cd5);
+			
 			model.addAttribute("employee", employee);
+
 			return "emp/employee_detail";
 		
 		} // 사원 상세정보 조회 끝
@@ -272,16 +313,15 @@ public class EmpController {
 		public String empModifyForm(@RequestParam String EMP_NUM, Model model) {
 			EmpVo employee = service.getEmployee(EMP_NUM);
 			// 사무실 전화번호 분리하기
-			String dTelArr[] = employee.getEMP_DTEL().split("-");
-			System.out.println(dTelArr[0] + ", " + dTelArr[2]);
-			String dTel1 = dTelArr[1];
-			String dTel2 = dTelArr[2];
+			String dTel1 = employee.getEMP_DTEL().substring(4, 7);
+			String dTel2 = employee.getEMP_DTEL().substring(8, 12);
+			System.out.println("전화번호 분리" + dTel1 + "," + dTel2);
 			model.addAttribute("dTel1",dTel1);
 			model.addAttribute("dTel2",dTel2);
 			
 			// 전화번호 분리하기
 			String telArr[] = employee.getEMP_TEL().split("-");
-	//						System.out.println(telArr[1] + ", 두번째는" + telArr[2]);
+			System.out.println(telArr[1] + ", 두번째는" + telArr[2]);
 			String tel1 = telArr[1];
 			String tel2 = telArr[2];
 			model.addAttribute("tel1",tel1);
@@ -310,8 +350,6 @@ public class EmpController {
 		@PostMapping(value="/EmployeeModifyPro.em")
 		public String empModify(Model model, @ModelAttribute EmpVo employee,HttpSession session) {
 			//파일 업로드
-			
-			
 			
 			//1. 경로 설정 (가상 경로, 실제 업로드 경로)
 			String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
@@ -353,9 +391,12 @@ public class EmpController {
 				employee.setEMP_TEL(EMP_TEL);
 				
 			}
+			System.out.println(employee);
 			//사무실 연락처 결합
 			String [] emp_dtelArr = employee.getEMP_DTEL().split(",");
 			for(int i=0; i<emp_dtelArr.length; i++) {
+				System.out.println("미친"+emp_dtelArr[i]);
+				System.out.println("getEMP_DTEL : " + employee.getEMP_DTEL());
 				String EMP_DTEL = emp_dtelArr[i].join("-", emp_dtelArr);
 				employee.setEMP_DTEL(EMP_DTEL);
 				
@@ -376,24 +417,24 @@ public class EmpController {
 				employee.setEMP_ADDR(EMP_ADDR);
 				
 			}
-			//**사원 코드(EMP_NAME) 결합** 
-			// -> 사원코드(EMP_NUM) = 부서코드(2)+입사년도(2)+인덱스(3)(= 총 7자리), 자동부여
-			// 부서코드, 입사년도만 결합을 해서 set 저장한 뒤에 xml 파일에서 인덱스 결합
-			SimpleDateFormat year_format = new SimpleDateFormat("yy");
-			String year = year_format.format(employee.getHIRE_DATE());
-			// idx 앞에 0을 붙이기 위해 select 후에 format 함수 사용
-			int idx = service.getSelectIdx(employee) + 1;
-
-			//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
-			String EMP_IDX = String.format("%03d", idx); //00x 형태 변환
-			String EMP_NUM = employee.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
-			employee.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
+//			//**사원 코드(EMP_NAME) 결합** 
+//			// -> 사원코드(EMP_NUM) = 부서코드(2)+입사년도(2)+인덱스(3)(= 총 7자리), 자동부여
+//			// 부서코드, 입사년도만 결합을 해서 set 저장한 뒤에 xml 파일에서 인덱스 결합
+//			SimpleDateFormat year_format = new SimpleDateFormat("yy");
+//			String year = year_format.format(employee.getHIRE_DATE());
+//			// idx 앞에 0을 붙이기 위해 select 후에 format 함수 사용
+//			int idx = service.getSelectIdx(employee) + 1;
+//
+//			//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
+//			String EMP_IDX = String.format("%03d", idx); //00x 형태 변환
+//			String EMP_NUM = employee.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
+//			employee.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
 			
 			
 			int updateCount = service.modifyEmployee(employee);
 			System.out.println("수정 비즈니스 로직 : " + updateCount);
 			if(updateCount > 0) { // 수정 성공			
-				return "redirect:/";
+				return "redirect:/EmpList.em";
 			} else { // 수정 실패 
 				model.addAttribute("msg","수정에 실패하였습니다");
 				return "fail_back";
@@ -419,7 +460,7 @@ public class EmpController {
 		model.addAttribute("emp_dtel_number1", emp_dtel_number1);
 		model.addAttribute("emp_dtel_number2", emp_dtel_number2);
 		
-		return "emp/employee_detail";
+		return "emp/employee_mypage";
 	}//mypage 끝
 	
 	

@@ -214,10 +214,10 @@
                   <button class="nav-link active tab-css" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" style="font-size:15px;" aria-selected="true">전체</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link tab-css" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" style="font-size:15px;" aria-selected="false">완료</button>
+                  <button class="nav-link tab-css" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" style="font-size:15px;" aria-selected="false">진행중</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link tab-css" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" style="font-size:15px;"  aria-controls="contact" aria-selected="false">진행중</button>
+                  <button class="nav-link tab-css" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" style="font-size:15px;"  aria-controls="contact" aria-selected="false">완료</button>
                 </li>
               </ul>
               <div class="tab-content pt-2" id="myTabContent">
@@ -225,8 +225,6 @@
 					  <table class="table table-hover" style="padding: 10px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col">#</th>
-		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">받는곳명</th>
@@ -241,13 +239,10 @@
 		                <tbody>
 		                <c:forEach items="${outList }" var="outList" varStatus="status"> 
 		                  <tr>
-		                    <th scope="row"></th>
-		                    <td>
-		                    <input type="checkbox" name="chk">
-		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
-		                    <input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }">
+		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a>
+		                    	<input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
+		                    	<input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }">
 		                    </td>
-		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a></td>
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.cust_name }</td>
 		                    <td>${outList.emp_name }</td>
@@ -276,8 +271,6 @@
                 	<table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col">#</th>
-		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">받는곳명</th>
@@ -293,13 +286,10 @@
 		                <c:forEach items="${outList }" var="outList" varStatus="status"> 
 		                <c:if test="${outList.out_complete eq '0' }">
 		                  <tr>
-		                    <th scope="row"></th>
-		                    <td>
-		                    <input type="checkbox" name="chk">
-		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
-		                    <input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }">
+		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a>
+		                    	<input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
+		                    	<input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }">	
 		                    </td>
-		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a></td>
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_name }</td>
@@ -330,8 +320,6 @@
                       	<table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col">#</th>
-		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">받는곳명</th>
@@ -347,13 +335,14 @@
 		                <c:forEach items="${outList }" var="outList" varStatus="status"> 
 		                <c:if test="${outList.out_complete eq '1' }">
 		                  <tr>
-		                    <th scope="row"></th>
 		                    <td>
 		                    <input type="checkbox" name="chk">
-		                    <input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
-		                    <input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }">
+		                    
 		                    </td>
-		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a></td>
+		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a>
+		                    	<input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
+		                    	<input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }">
+		                    </td>
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_name }</td>
@@ -380,7 +369,7 @@
 		              </table>
                 </div><%--3번탭 끝 --%>
               </div><!-- End Default Tabs -->
-              <button class="btn btn-primary" onclick="location.href='#'">삭제하기</button>
+<!--               <button class="btn btn-primary" onclick="location.href='#'">삭제하기</button> -->
              </div>
             </div>
 </main>		

@@ -124,11 +124,24 @@
                      <button class="btn btn-primary" onclick="location.href='OutRegisterForm'" style="float: right;">신규등록</button>
                  </div>
                  <div class="card-body">
+                 
+                 <!-- Default Tabs -->
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active tab-css" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" style="font-size:15px;" aria-selected="true">전체</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link tab-css" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" style="font-size:15px;" aria-selected="false">진행중</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link tab-css" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" style="font-size:15px;"  aria-controls="contact" aria-selected="false">완료</button>
+                </li>
+              </ul>
+              <div class="tab-content pt-2" id="myTabContent"> <!-- 전체 탭 -->
+              	<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                  <table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col">#</th>
-		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">품목코드</th>
 		                    <th scope="col">품목명</th>
@@ -142,8 +155,6 @@
 		                <tbody>
 		                <c:forEach items="${list }" var="list"> 
 		                  <tr>
-		                    <th scope="row"></th>
-		                    <td><input type="checkbox" name="chk" value="${list.out_schedule_per_cd}"></td>
 		                    <td>${list.out_schedule_cd }</td>
 		                    <td>${list.product_cd }</td>
 		                    <td>${list.product_name }</td>
@@ -156,8 +167,43 @@
 		                </c:forEach>
 		                </tbody>
 		              </table>
+		              </div> <!-- 전체탭 끝 -->
+		              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> <%-- 진행 --%>
+		              	<table class="table table-hover" style="padding: 20px;">
+		              		<thead>
+			                  <tr>
+			                    <th scope="col">출고예정번호</th>
+			                    <th scope="col">품목코드</th>
+			                    <th scope="col">품목명</th>
+			                    <th scope="col">납기일자</th>
+			                    <th scope="col">출고예정수량</th>
+			                    <th scope="col">출고수량</th>
+			                    <th scope="col">미출고수량</th>
+			                    <th scope="col">적요</th>
+			                  </tr>
+		                	</thead>
+		              	</table>
+		              </div> <!-- 진행탭 끝 -->
+		              
+                	<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"> <%--완료탭 시작 --%> 
+                		<table class="table table-hover" style="padding: 20px;">
+		              		<thead>
+			                  <tr>
+			                    <th scope="col">출고예정번호</th>
+			                    <th scope="col">품목코드</th>
+			                    <th scope="col">품목명</th>
+			                    <th scope="col">납기일자</th>
+			                    <th scope="col">출고예정수량</th>
+			                    <th scope="col">출고수량</th>
+			                    <th scope="col">미출고수량</th>
+			                    <th scope="col">적요</th>
+			                  </tr>
+		                	</thead>                		
+                		</table>
+                	</div> <!-- 완료탭 끝 -->		              
 		              <button class="btn btn-primary" onclick="out_schedule_process()">출고처리</button>
-		             </div>
+		           </div> <!-- default tab 끝 -->
+            	</div>
             </div>
             
 </main>		

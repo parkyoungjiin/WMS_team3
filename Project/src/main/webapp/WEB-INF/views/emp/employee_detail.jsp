@@ -21,7 +21,6 @@
 <!-- js -->
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <meta charset="UTF-8">
-
 <!-- 카카오 주소 API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -38,135 +37,8 @@ window.onload = function(){
     });
 }
 </script>
-<!-- 이미지 섬네일 -->
-<script>
-	function changeImage(event) {
-		var reader = new FileReader();
-
-        reader.onload = function(event) {
-          var img = document.createElement("img");
-          img.setAttribute("src", event.target.result);
-          document.querySelector("div#image_container").innerHTML = '';
-          document.querySelector("div#image_container").appendChild(img);
-        };
-
-        reader.readAsDataURL(event.target.files[0]);
-}// changeImage 끝
-</script>
-
-<!-- 권한 체크 : 1 / 권한 미체크 : 0 -->
 <script type="text/javascript">
-$(document).ready(function(){
-	 $('input:checkbox[name="PRIV_CD"]').change(function(){
-		if(document.getElementById("priv_cd1").checked) {
-			$('#priv_cd1_hidden').prop('disabled', true);
-		}
-		if(document.getElementById("priv_cd2").checked){
-			$('#priv_cd2_hidden').prop('disabled', true);
-		}
-		if(document.getElementById("priv_cd3").checked){
-			$('#priv_cd3_hidden').prop('disabled', true);
-		}
-		if(document.getElementById("priv_cd4").checked){
-			$('#priv_cd4_hidden').prop('disabled', true);
-		}
-		if(document.getElementById("priv_cd5").checked){
-			$('#priv_cd5_hidden').prop('disabled', true);
-		}
-	 })
-});
 
-</script>
-
-<!-- 연락처 숫자만 입력되는 유효성 검사 -->
-<script type="text/javascript">
-	function uncomma(str) {
-	    str = String(str);
-	    return str.replace(/[^\d]+/g, '');
-	} 
-	 
-	function inputOnlyNumberFormat(obj) {
-	    obj.value = onlynumber(uncomma(obj.value));
-	}
-	 
-	function onlynumber(str) {
-	    str = String(str);
-	    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
-	}
-		
-</script>
-
-<script type="text/javascript">
-	//이메일 중복 체크 여부 변수
-	var emailStatus =false; 
-	
-	//===========이메일 입력 시 영어, 숫자만 입력 가능===============
-	function onlyEngNumber(str) {
-		var regType1 = /^[A-Za-z0-9+]*$/; // regex : 영어, 숫자만 입력
-		if (regType1.test(str.value)) { //영어, 숫자만 입력했을 때
-		}else{//영어, 숫자를 제외한 값 입력 시
-			str.value = ""; // ""으로 초기화
-		}
-	}//onlyEngNumber 끝
-	
-	
-	//==========이메일 도메인 선택 시 자동입력============
-	
-$(function() {
-	$("#domain").on("change", function() {
-		$("#email2").val($(this).val());
-		
-		if($(this).val() == "") {
-			$("#email2").prop("readonly", false);
-			$("#email2").css("background-color", "white");
-			$("#email2").focus();
-		} else {
-			$("#email2").prop("readonly", true);
-			$("#email2").css("background-color", "lightgray");
-		}
-	})//change
-});//function
-	//==========이메일 중복체크 ajax==========
-	function checkEmail() {
-	
-			//이메일 결합
-			var email1 = $("#email1").val();
-			var email2 = $("#email2").val();
-			var check_email = email1 + "@" + email2;
-			
-// 			alert(check_email);
-			$.ajax({
-				url: "EmpEmailCheck.em",
-				type: "post",
-				data: {
-					check_email : check_email
-					},
-				success: function(data) {
-					if(data > 0){
-						$("#checkResultArea").html("이메일 사용 불가능").css("color", "red");
-						emailStatus = false;
-						$("#email1").focus();
-					}else{
-						$("#checkResultArea").html("이메일 사용 가능").css("color", "blue");
-						emailStatus = true;
-						$("#emp_address_zonecode").focus();
-						
-					}
-				}//success
-				
-				
-			});//ajax 끝
-		};//checkEmail 끝
-	//==========이메일 사용 불가능일 경우 폼 전송 X	=============
-	function fn_insertMember() {
-		var insertForm = document.emp;
-		
-		if(emailStatus == false){
-			alert("중복확인 필수")
-			event.preventDefault(); // submit 기능 막기
-		}
-		
-	}//fn_insertMember 끝
 	
 	// 권한여부 판별하는 자바스크립
 	var str = '${priv_cd}' // 세션에 저장된 권한코드
@@ -178,7 +50,7 @@ $(function() {
 	if(priv_cd_emp == '1' || priv_cd_emp2 == '1'){//권한이 있을 경우
 		
 	}else{//없을 경우
-		alert("사원등록 권한이 없습니다");
+		alert("사원상세정보 권한이 없습니다");
 		history.back();
 	} //권한여부 판별
 </script>
@@ -207,7 +79,6 @@ $(function() {
 			<div><img src=></div>
 		<!-- Profile Edit Form -->
 		       <div class="card-body">
-                  <form action="EmployeeModifyPro.em" method="post" enctype="multipart/form-data" id="emp">
                   <input type="hidden" name="EMP_PASSWD" value="${employee.EMP_PASSWD }">
                   <input type="hidden" name="IDX" value="${employee.IDX }">
                     <div class="row mb-3">
@@ -223,26 +94,46 @@ $(function() {
                         <input name="EMP_NAME" type="text" class="form-control" id="fullName" value="${employee.EMP_NAME }"readonly>
                       </div>
                     </div>
+				<c:if test="${sessionScope.emp_num eq employee.EMP_NUM }">
+					<form action="ChangePasswd.em" method="post">
 
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">현재 패스워드</label>
+                      <div class="col-md-8 col-lg-2">
+                        <input name="inputpasswd" type="password" class="form-control" id="currentPassword" placeholder="확인을 위해 패스워드를 입력 해주세요">
+                      </div>
+                    </div>
 
-<!--       비              <div class="row mb-3"> -->
-<!--       밀              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">비밀번호</label> -->
-<!--       번              <div class="col-md-8 col-lg-2"> -->
-<!--       호                <input name="EMP_PASSWD" type="password" class="form-control" id="fullName" > -->
-<!--       확              </div> -->
-<!--       인              </div> -->
+                    <div class="row mb-3">
+                      <label for="newPassword " class="col-md-4 col-lg-3 col-form-label">새 패스워드</label>
+                      <div class="col-md-8 col-lg-2">
+                        <input name="newpasswd" type="password" class="form-control" id="newPassword" placeholder="새 비밀번호">
+                      </div>
+                    </div>
 
+                    <div class="row mb-3">
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">새 패스워드 재입력</label>
+                      <div class="col-md-8 col-lg-2">
+                        <input name="renewpasswd" type="password" class="form-control" id="renewPassword" style="padd" placeholder="새 비밀번호 재입력">
+	                  </div>  
+	                  <div class="col-md-8 col-lg-2">
+	                      <button type="submit" class="btn btn-primary">Change Password</button>
+	                  </div>    
+                    </div>
+
+                  </form>
+					</c:if>
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">부서명</label>
                       <div class="col-md-8 col-lg-2">
-                      <input type="text" value="${employee.DEPT_CD}" readonly>	
+                      <input type="text" class="form-control" value="${employee.DEPT_CD}" readonly>	
 						</div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">직급명</label>
                       <div class="col-md-8 col-lg-2">
-   						<input type="text" value="${employee.GRADE_CD}" readonly>
+   						<input type="text" class="form-control" value="${employee.GRADE_CD}" readonly>
 						</div>
                     </div>
 
@@ -318,14 +209,10 @@ $(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">재직여부</label>
                        <div class="col-md-8 col-lg-2">
                        <c:choose>
-							<c:when test="${employee.WORK_CD eq 'C3' }"><input type="text" value="${employee.WORK_CD}" readonly></c:when>
+							<c:when test="${employee.WORK_CD eq 'C1' }"><input type="text" class="form-control" value="재직" readonly></c:when>
+							<c:when test="${employee.WORK_CD eq 'C2' }"><input type="text" class="form-control" value="휴직" readonly></c:when>
 							<c:otherwise>
-		                      	<select class="form-select" name="WORK_CD" required>
-									<option value="">===재직여부 선택===</option>
-									<option value="C1" <c:if test="${employee.WORK_CD eq 'C1' }">selected</c:if>>재직</option>
-									<option value="C2" <c:if test="${employee.WORK_CD eq 'C2' }">selected</c:if>>휴직</option>
-									<option value="C3" <c:if test="${employee.WORK_CD eq 'C3' }">selected</c:if>>퇴사</option>
-								</select>
+								<input type="text" class="form-control" value="퇴사" readonly>
 							</c:otherwise>
 						</c:choose>	
 	                    </div>
@@ -340,7 +227,6 @@ $(function() {
 		                        	기본등록
 		                        </label>
 								<input type="hidden" id="priv_cd1_hidden"  name="PRIV_CD" value="0">
-								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd2" name="PRIV_CD" value="1" style="margin-right: 10px">
 									사원조회
@@ -370,18 +256,14 @@ $(function() {
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 업로드</label>
-                       <div class="col-md-8 col-lg-3">
-                        <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);">
-                      </div>
                     </div>
 					
-					<div></div>
-                    <div class="text-left">
-                      <button type="submit" class="btn btn-primary">수정하기</button>
-                      <button type="reset" class="btn btn-secondary">다시 쓰기</button>
-                      <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
-                    </div>
-                  </form><!-- End Profile Edit Form -->
+<!--                     <div class="text-left"> -->
+<!--                       <button type="submit" class="btn btn-primary">수정하기</button> -->
+<!--                       <button type="reset" class="btn btn-secondary">다시 쓰기</button> -->
+<!--                       <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button> -->
+<!--                     </div> -->
+                	<!-- End Profile Edit Form -->
                 </div>
 		</div>
 </main>
