@@ -89,15 +89,18 @@ public class In_scheduleService {
 	}
 	
 	//----------입고 수량 변경 ----------
-	public void updateInQTY(InSchedulePerProductVO insp) {
-		mapper.updateInQTY(insp);
+	public int updateInQTY(InSchedulePerProductVO insp) {
+		return mapper.updateInQTY(insp);
 	}
 	
 	//----------입고 예정 수량 - 입고 수량 = 0 일 떄 1로 변경 ----------	
 	public void updateIN_COMPLETE(InSchedulePerProductVO insp) {
 		mapper.updateIN_COMPLETE(insp);
 	}
-	
+	//----------입고 처리 시 재고이력 등록----------
+	public int getInsertHistory(int insert_qty, int stock_cd, int product_cd, String sId) {
+		return mapper.insertHistory(insert_qty, stock_cd, product_cd, sId);
+	}
 	//-----------------종결 버튼----------------
 	public int updateclosing(String iN_COMPLETE, String iN_SCHEDULE_CD) {
 		return mapper.updatecomplete(iN_COMPLETE,iN_SCHEDULE_CD);
