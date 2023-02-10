@@ -169,6 +169,8 @@ var outStatus = false;
 		var out_qty = $("#out_qty_input" + idx); // 출고수량
 		var stock_cd = $("#stock_cd_input" + idx); // 재고번호
 		var os_qty = $("#os_qty" + idx); // 출고예정수량
+		var out_not_input =  $("#out_not_input" + idx); // 미출고수량 (출고예정수량-출고수량)
+		console.log("미출고수량 : " + out_not_input.val());
 		
 		// 재고 검색 후 수량 체크하도록!
 		if(wh_area_loc === "" || stock_qty === ""){
@@ -177,8 +179,13 @@ var outStatus = false;
 		}
 		
 		// 지시수량은 출고예정수량과 재고수량을 넘을 수 없음
-		if(parseInt(os_qty.val()) < parseInt(out_qty.val())){
-			alert("출고예정수량을 확인해주세요.");
+// 		if(parseInt(os_qty.val()) < parseInt(out_qty.val())){
+// 			alert("출고예정수량을 확인해주세요.");
+// 			out_qty.val("");
+
+		// 지시수량은 미출고수량을 넘을 수 없음
+		if(parseInt(out_not_input.val()) < parseInt(out_qty.val())){
+			alert("미출고 수량을 확인해주세요.");
 			out_qty.val("");
 		} else if(parseInt(stock_qty.val()) < parseInt(out_qty.val())){
 			alert("재고수량을 확인해주세요.");
@@ -186,13 +193,26 @@ var outStatus = false;
 		}
 		
 		
-// 		stock_qty.val(stock_qty.val() - out_qty.val());
-		
-		
-		
 	} // ------------ 출고수량 작업 끝 --------------
 		
+	
+	//-------------수량 합계 계산--------------
+	 function calculateSum() {
+	     var sum = 0;
+	     var inputElements = document.getElementsByClassName("sum_qty");
+	     for (var i = 0; i < inputElements.length; i++) {
+	       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
+	         sum += parseFloat(inputElements[i].value);
+	       }
+	     }
+	     document.getElementById("sum").innerHTML = sum;
+	   }
 
+	   var inputFields = document.querySelectorAll(".sum_qty");
+	   inputFields.forEach(function(inputField) {
+	     inputField.addEventListener("input", calculateSum);
+	   }); 
+	//-------------수량 합계 계산 끝--------------
 
 </script>
 </head>
@@ -254,10 +274,10 @@ var outStatus = false;
 							<tr>
 					 			<th scope="col">출고예정번호</th>
 					 			<th scope="col">품목명</th>
-					 			<th scope="col">출고예정수량</th>
 					 			<th scope="col">재고번호</th>
 					 			<th scope="col">구역명_선반위치</th>
 					 			<th scope="col">재고수량</th>
+					 			<th scope="col">출고예정수량</th>
 					 			<th scope="col">미출고수량</th>
 					 			<th scope="col">지시수량</th>
 				 			</tr>
@@ -270,10 +290,7 @@ var outStatus = false;
 					 			<td>${list.out_schedule_cd }</td>
 					 			<td>${list.product_name }</td>
 <%-- 					 			<td>${list.out_schedule_qty }</td> --%>
-					 			<td>
-					 				<!-- 출고예정수량 -->
-									<input type="text" class="form-control form-control-sm" id ="os_qty${status.index}"  value="${list.out_schedule_qty }" size="1" readonly="readonly" required="required" name="out_schedule_qtyArr">					 			
-					 			</td>
+					 			
 					 			<td>
 					 			    <div class="input-group input-group-sm mb-1">
 					 				<!-- 재고번호 자동 입력될 칸 -->
@@ -290,18 +307,23 @@ var outStatus = false;
 									<input type="text" class="form-control form-control-sm" id ="stock_qty${status.index}" name="stock_qty" size="1" readonly="readonly" required="required">					 			
 					 			</td>
 					 			<td>
+					 				<!-- 출고예정수량 -->
+									<input type="text" class="form-control form-control-sm" id ="os_qty${status.index}"  value="${list.out_schedule_qty }" size="1" readonly="readonly" required="required" name="out_schedule_qtyArr">					 			
+					 			</td>
+					 			<td>
 					 				<!-- 미출고수량 -->
 					 				<input type="text" class="form-control form-control-sm" size="1" id="out_not_input${status.index}" size="1" name="out_not" required="required" value="${list.out_schedule_qty - list.out_qty}" readonly="readonly">
 					 			</td>
 					 			<td>
 					 				<!-- 출고처리할 수량 입력칸 -->
-					 				<input type="text" class="form-control form-control-sm" size="1" id="out_qty_input${status.index}" name="out_qtyArr" required="required" oninput="input_out_idx(this)">
+					 				<input type="text" class="form-control form-control-sm sum_qty" size="1" id="out_qty_input${status.index}" name="out_qtyArr" required="required" oninput="input_out_idx(this)" onchange="calculateSum();">
 					 			</td>
 				 			</tr>
 				 			</c:forEach>
 		 				</table>
 		        	 </div>
 	           	 	<div>
+	           	 		  <span style="font-size: 15px; float: left;">지시수량 합계 : &nbsp;</span> <span id="sum" style="padding-right: 50px; font-size: 15px;"></span>
 			              <button class="btn btn-primary" type="submit" style="float: right;">출고</button>
 	           	 	</div>
            	 </div>
