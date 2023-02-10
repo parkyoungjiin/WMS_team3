@@ -264,21 +264,45 @@
 
 	
 		
-	 function calculateSum() {
-	     var sum = 0;
-	     var inputElements = document.getElementsByClassName("out_schedule_qty");
-	     for (var i = 0; i < inputElements.length; i++) {
-	       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
-	         sum += parseFloat(inputElements[i].value);
-	       }
-	     }
-	     document.getElementById("sum").innerHTML = sum;
-	   }
+	 function calculateSum(cb) {
+		    var idx = cb.id.replace("in_qty_input","");
+// 			   alert(idx);
+			var check_qty = parseInt($("#in_qty_input" + idx).val());
+// 			alert("check_qty: " + check_qty);
+			var in_schedule_qty = parseInt($("#in_qty_hidden" + idx).val());
+// 			alert("in_schedule_qty : " + in_schedule_qty);
+				if(check_qty> in_schedule_qty){
+					alert("입고예정수량보다 많은 수량입니다.");
+					$("#in_qty_input" + idx).val("");
+					//초기화
+					idx="";
+					check_qty="";
+					in_schedule_qty="";
+				}else{
+				     var sum = 0;
+				     var inputElements = document.getElementsByClassName("out_schedule_qty");
+				     for (var i = 0; i < inputElements.length; i++) {
+				       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
+				         sum += parseFloat(inputElements[i].value);
+				       }
+				     }
+				     document.getElementById("sum").innerHTML = sum;
+					
+				   //초기화
+					idx="";
+					check_qty="";
+					in_schedule_qty="";
+				}
+				
+	   }//function 끝
 
 	   var inputFields = document.querySelectorAll(".out_schedule_qty");
 	   inputFields.forEach(function(inputField) {
 	     inputField.addEventListener("input", calculateSum);
+	     
 	   });
+	   
+	   
 </script>
 <style type="text/css">
 /* th, td { */
@@ -334,7 +358,7 @@
     	 <form action="./In_Per_Schedule_Process" method="post" id="editFLForm"> 
             <div class="card mb-4">
                 <div class="card-header">
-                     입고 예정 목록
+                     입고 처리 목록
                  </div>
                <div class="card-body">
                   <div class="input-group mb-4" id ="stock_history_div">
@@ -344,12 +368,11 @@
 					 			<th scope="col">품목명</th>
 					 			<th scope="col">입고예정수량</th>
 					 			<th scope="col">입고수량</th>
-					 			<th scope="col">재고번호</th>
-					 			<th scope="col">구역명_선반위치</th>
+					 			<th scope="col">재고번호(※미입력 시 자동생성)</th>
+					 			<th scope="col">구역명_선반위치(※입력 필수)</th>
 				 			</tr>
-
 				 			<c:forEach var="list" items="${list }" varStatus="status">
-				 				<input type="hidden" value="${list.IN_SCHEDULE_QTY }" name="IN_SCHEDULE_QTYArr">
+				 				<input type="hidden" value="${list.IN_SCHEDULE_QTY }" name="IN_SCHEDULE_QTYArr" id="in_qty_hidden${status.index }">
 				 				<input type="hidden" value="${list.IN_SCHEDULE_PER_CD }" name="IN_SCHEDULE_PER_CDArr">
 				 				<input type="hidden" value="${list.IN_SCHEDULE_CD }" name="IN_SCHEDULE_CD">
 				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
@@ -361,7 +384,7 @@
 					 			<td>${list.IN_SCHEDULE_QTY }</td>
 					 			<td>
 					 				<!-- 입고처리할 수량 입력칸 -->
-					 				<input type="text" class="form-control-sm out_schedule_qty" id="in_qty_input" name="IN_QTYArr" size="1" onchange="calculateSum();" required>
+					 				<input type="text" class="form-control-sm out_schedule_qty" id="in_qty_input${status.index }" name="IN_QTYArr" size="1" onchange="calculateSum(this);" " required>
 					 			</td>
 					 			<td>
 					 				<!-- 재고번호 자동 입력될 칸 -->
