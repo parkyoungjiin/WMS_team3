@@ -24,7 +24,8 @@ public class Out_ScheduleService {
 
 	// 출고 예정 리스트
 	public List<OutScheduleVO> getOutScheduleList() {
-		return mapper.selectOutScheduleList();
+		List<OutScheduleVO> outSch = mapper.selectOutScheduleList();
+		return outSch;
 	}	
 
 	// 출고 예정 리스트 - 품목별
@@ -81,7 +82,6 @@ public class Out_ScheduleService {
 	public OutSchedulePerProductVO getOutschedulePerInfo(OutSchedulePerProductVO vo2) {
 		return mapper.selectOsProInfo(vo2);
 	}
-
 	
 	//-----------재고 번호 받아오기 (팝업창)-----------
 	public List<StockVo> getSerachStockNum(String keyword) {
@@ -102,4 +102,5 @@ public class Out_ScheduleService {
 	public void updateOspStock(OutSchedulePerProductVO osp2) {
 		mapper.updateOspStock(osp2);
 	}
+
 }

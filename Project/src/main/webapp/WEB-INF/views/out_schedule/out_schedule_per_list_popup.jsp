@@ -291,7 +291,7 @@ var outStatus = false;
 					 			</td>
 					 			<td>
 					 				<!-- 미출고수량 -->
-					 				<input type="text" class="form-control form-control-sm" size="1" id="out_not_input${status.index}" name="out_not" required="required" value="">
+					 				<input type="text" class="form-control form-control-sm" size="1" id="out_not_input${status.index}" size="1" name="out_not" required="required" value="${list.out_schedule_qty - list.out_qty}" readonly="readonly">
 					 			</td>
 					 			<td>
 					 				<!-- 출고처리할 수량 입력칸 -->
