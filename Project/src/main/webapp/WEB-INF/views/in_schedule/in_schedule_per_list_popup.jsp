@@ -58,20 +58,7 @@
 			if(total != checked) $("#chkAll").prop("checked", false);
 			else $("#chkAll").prop("checked", true); 
 		});
-		
-// 		//서브밋 막기 작업(하다 말음)
-// 		$("in_submit").click(function() {
-// 			var in_qty_input =$("#in_qty_input").val();
-// 			if()
-// 		});
 	});
-	
-	//-------------입고처리 시 팝업창 ----------------
-	
-	function in_schedule_process() {
-		window.open("In_Per_List_popup", "입고처리", "width=1200, height=750, top=50, left=50")
-	}
-	
 	// ------------재고, 창고조회---------------
 	function stock_num_search_fn() {
 		
@@ -235,10 +222,10 @@
                   </div>
                 </div>
               </div><!-- End Modal Dialog Scrollable-->
-    	 <form action="./In_Per_Schedule_Process" method="post"> 
+    	 <form action="./In_Per_Schedule_Process" method="post" id="editFLForm"> 
             <div class="card mb-4">
                 <div class="card-header">
-                     출고 예정 목록
+                     입고 예정 목록
                  </div>
                <div class="card-body">
                   <div class="input-group mb-6" id ="stock_history_div">
@@ -257,7 +244,7 @@
 				 				<input type="hidden" value="${list.IN_SCHEDULE_PER_CD }" name="IN_SCHEDULE_PER_CDArr">
 				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
 				 				<input type="hidden" value="${list.IN_COMPLETE}" name="IN_COMPLETE">			
-								<input type="hidden"" id ="wh_area_loc_hidden${status.index}" name="WH_LOC_IN_AREA_CDArr">					 			
+								<input type="hidden" id ="wh_area_loc_hidden${status.index}" name="WH_LOC_IN_AREA_CDArr">					 			
 				 			<tr>
 					 			<td>${list.IN_SCHEDULE_CD }</td>
 					 			<td>${list.PRODUCT_NAME }</td>
