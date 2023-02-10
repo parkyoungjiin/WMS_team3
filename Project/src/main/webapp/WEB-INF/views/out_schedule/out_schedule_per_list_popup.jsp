@@ -263,7 +263,7 @@ var outStatus = false;
               </div><!-- End Modal Dialog Scrollable-->
     	
     	
-    	<form action="Out_Per_Schedule_Process" method="post"> 
+    	<form action="Out_Per_Schedule_Process" method="post" id="editFLForm"> 
             <div class="card mb-4">
                 <div class="card-header">
                      출고 처리
@@ -324,7 +324,7 @@ var outStatus = false;
 		        	 </div>
 	           	 	<div>
 	           	 		  <span style="font-size: 15px; float: left;">지시수량 합계 : &nbsp;</span> <span id="sum" style="padding-right: 50px; font-size: 15px;"></span>
-			              <button class="btn btn-primary" type="submit" style="float: right;">출고</button>
+			              <button class="btn btn-primary" type="submit" style="float: right;" id="in_submit">출고</button>
 	           	 	</div>
            	 </div>
 		              
