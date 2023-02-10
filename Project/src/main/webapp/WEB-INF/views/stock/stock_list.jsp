@@ -93,30 +93,9 @@
 </script>
 <script type="text/javascript">
 	//--------모달창에서 재고번호, 창고위치 클릭 시 해당 값을 이동재고번호/이동위치 input 박스 안에 값 넣는 함수-----------
-function saveIdx(cb) {
-		var idx = cb.id.replace("search_move_cd", ""); //클릭한 버튼의 idx값 출력 -> 이동재고번호, 이동위치에 넣을 위치 !
-// 		alert("tr클릭 전 idx : " + idx)
-		$("#stock_table").on('click','tr',function(){
 
-		   let td_arr = $(this).find('td');
-		   console.log(td_arr);
-		   
-		   let stock_no = $(td_arr[0]).text(); //재고번호
-		   let move_wh_loc_in_area = $(td_arr[1]).text(); //창고위치
-		   console.log(move_wh_loc_in_area);
-		   
-			
-		   // td 클릭시 모달 창 닫기
-// 		   alert("tr클릭 후 idx : " + idx)
-		   $('#modalDialogScrollable_stock_cd').modal('hide');
-		   $("#move_stock_cd" + idx).val(stock_no);
-		   $("#move_wh_loc_in_area" + idx).val(move_wh_loc_in_area);
-		   idx="";
-		});
-	
-}//saveIdx 끝
 
-//재고번호 목록 조회(모달)
+//---------------재고번호 목록 조회(모달)--------------
 function load_stockList() {
 	
 	let stock_keyword = $("#stock_keyword").val();
@@ -185,6 +164,30 @@ function load_stockList() {
 		$("#modal-body-stock > table").append("<h3>요청 실패!</h3>");
 	});//fail 끝
 }//stockList 끝
+
+
+function saveIdx(cb) {
+	var idx = cb.id.replace("search_move_cd", ""); //클릭한 버튼의 idx값 출력 -> 이동재고번호, 이동위치에 넣을 위치 !
+// 	alert("tr클릭 전 idx : " + idx)
+	$("#modal-body-stock").on('click','tr',function(){
+
+	   let td_arr = $(this).find('td');
+	   console.log(td_arr);
+	   
+	   let stock_no = $(td_arr[0]).text(); //재고번호
+	   let move_wh_loc_in_area = $(td_arr[1]).text(); //창고위치
+	   console.log(move_wh_loc_in_area);
+	   
+		
+	   // td 클릭시 모달 창 닫기
+// 	   alert("tr클릭 후 idx : " + idx)
+	   $('#modalDialogScrollable_stock_cd').modal('hide');
+	   $("#move_stock_cd" + idx).val(stock_no);
+	   $("#move_wh_loc_in_area" + idx).val(move_wh_loc_in_area);
+	   idx="";
+	});
+
+}//saveIdx 끝
 //========================재고 이동 작업=====================================
 function move_stock(move_cb) {
 		var idx = move_cb.id.replace("moveButton",""); //index 값 저장
@@ -265,8 +268,9 @@ function save_stock_cd(cb) {
 		.done(function(stockHistoryList) {
 			if(stockHistoryList != null){
 				
+				$("#stock_history_div > h3").remove();   
 				$("#stock_history_div > table").remove();   
-				$("#stock_history_div > table > tr").remove();   
+// 				$("#stock_history_div > table > h3").remove();   
 
 				
 				

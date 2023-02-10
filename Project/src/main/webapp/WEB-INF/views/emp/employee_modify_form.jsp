@@ -178,7 +178,7 @@ $(function() {
 	if(priv_cd_emp == '1' || priv_cd_emp2 == '1'){//권한이 있을 경우
 		
 	}else{//없을 경우
-		alert("사원등록 권한이 없습니다");
+		alert("사원수정 권한이 없습니다");
 		history.back();
 	} //권한여부 판별
 </script>
@@ -214,24 +214,16 @@ $(function() {
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사원번호</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="EMP_NUM" type="text" class="form-control" id="fullName" <c:if test="${employee.WORK_CD eq 'C3' }">readonly</c:if> value="${employee.EMP_NUM }">
+                        <input name="EMP_NUM" type="text" class="form-control" id="fullNum" value="${employee.EMP_NUM }">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사원명</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="EMP_NAME" type="text" class="form-control" id="fullName" value="${employee.EMP_NAME }" <c:if test="${employee.WORK_CD eq 'C3' }">readonly</c:if>>
+                        <input name="EMP_NAME" type="text" class="form-control" id="fullName" value="${employee.EMP_NAME }">
                       </div>
                     </div>
-
-
-<!--       비              <div class="row mb-3"> -->
-<!--       밀              <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">비밀번호</label> -->
-<!--       번              <div class="col-md-8 col-lg-2"> -->
-<!--       호                <input name="EMP_PASSWD" type="password" class="form-control" id="fullName" > -->
-<!--       확              </div> -->
-<!--       인              </div> -->
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">부서명</label>
@@ -290,9 +282,9 @@ $(function() {
        	                  <div class="input-group mb-6">
   	                    	<input type="text" class="form-control" name="EMP_DTEL" value="051" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value="${dTel1 }">
+                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value=${dTel1 }>
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value="${dTel2 }">
+                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value=${dTel2 }>
      					   </div>                 
      					</div>
                     </div>

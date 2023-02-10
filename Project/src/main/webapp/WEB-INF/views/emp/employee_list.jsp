@@ -60,7 +60,6 @@
                      <table id="datatablesSimple" style="font-size:15px;" >
                          <thead>
                              <tr>
-								<th>인덱스</th>
                                 <th width="120">사진</th>
 								<th width="90px">사원번호</th>
 								<th width="120px">사원명</th>
@@ -76,8 +75,7 @@
 	                    <c:forEach items="${empList }" var="emp">
 	                    <c:if test="${emp.WORK_CD eq 'C1' }">
 		                    <tr>
-		                    	<td></td>
-		                    	<td>사진</td>
+		                    	<td><img src="${path}/resources/${emp.PHOTO}" alt="등록된 사진이 없습니다."></td>
 		                    	<td>${emp.EMP_NUM }</td>
 		                    	<td>${emp.EMP_NAME }</td>
 		                    	<td>${emp.DEPT_CD }</td>
@@ -87,7 +85,7 @@
 		                    	<td>${emp.EMP_EMAIL }</td>
 		                    	<td>
 		                    		<input type='button' class='btn btn-secondary btn-sm' value='수정' onclick="location.href='EmployeeModifyForm.em?EMP_NUM=${emp.EMP_NUM }'">
-            						<input type='button' class='btn btn-secondary btn-sm' value='상세정보조회' onclick="location.href='MyPage.em?EMP_NUM=${emp.EMP_NUM }'">
+            						<input type='button' class='btn btn-secondary btn-sm' value='상세정보조회' onclick="location.href='EmployeeDetail.em?EMP_NUM=${emp.EMP_NUM }'">
 		                    	</td>
 		                    </tr>
 		                 </c:if>   
@@ -100,8 +98,7 @@
                      <table class="datatablesSimple" >
                          <thead>
                              <tr>
-								<th>인덱스</th>
-                                <th width="120">사진</th>
+                             	<th width="120">사진</th>
 								<th width="90px">사원번호</th>
 								<th width="120px">사원명</th>
 								<th width="60">부서코드</th>
@@ -116,8 +113,7 @@
 	                    <c:forEach items="${empList }" var="emp">
 	                    <c:if test="${emp.WORK_CD eq 'C2' }">
 		                    <tr>
-		                    	<td></td>
-		                    	<td>사진</td>
+		                    	<td><img src="${path}/resources/${emp.PHOTO}" alt="등록된 사진이 없습니다."></td>
 		                    	<td>${emp.EMP_NUM }</td>
 		                    	<td>${emp.EMP_NAME }</td>
 		                    	<td>${emp.DEPT_CD }</td>
@@ -136,43 +132,41 @@
                     </table>
                     </div><!-- 2번탭  -->
                 	
-                   <div class="tab-pane fade show" id="contact" role="tabpanel" aria-labelledby="contact-tab"> <%--3번탭 시작 --%> 
+                   <div class="tab-pane fade active" id="contact" role="tabpanel" aria-labelledby="contact-tab"> <!-- 3번탭 시작  -->
                 		<table class="datatablesSimple">
                          <thead>
-                             <tr>
-								<th>인덱스</th>
-                                <th width="120">사진</th>
-								<th width="90px">사원번호</th>
-								<th width="120px">사원명</th>
-								<th width="60">부서코드</th>
-								<th width="60">직급코드</th>
-								<th width="140px">연락처(휴대폰)</th>
-								<th width="140px">연락처(내선번호)</th>
-								<th width="200px">이메일</th>
-								<th width="150">관리하기</th>
-                          	</tr>
+<!--                              <tr> -->
+<!--                                 <th width="120">사진</th> -->
+<!-- 								<th width="90px">사원번호</th> -->
+<!-- 								<th width="120px">사원명</th> -->
+<!-- 								<th width="60">부서코드</th> -->
+<!-- 								<th width="60">직급코드</th> -->
+<!-- 								<th width="140px">연락처(휴대폰)</th> -->
+<!-- 								<th width="140px">연락처(내선번호)</th> -->
+<!-- 								<th width="200px">이메일</th> -->
+<!-- 								<th width="150">관리하기</th> -->
+<!--                           	</tr> -->
 	                    </thead>
-	                    <tbody>
-	                    <c:forEach items="${empList }" var="emp">
-	                    <c:if test="${emp.WORK_CD eq 'C3' }">
-		                    <td></td>
-		                    	<td>사진</td>
-		                    	<td>${emp.EMP_NUM }</td>
-		                    	<td>${emp.EMP_NAME }</td>
-		                    	<td>${emp.DEPT_CD }</td>
-		                    	<td>${emp.GRADE_CD }</td>
-		                    	<td>${emp.EMP_TEL }</td>
-		                    	<td>${emp.EMP_DTEL }</td>
-		                    	<td>${emp.EMP_EMAIL }</td>
-		                    	<td>
-		                    		<input type='button' class='btn btn-secondary btn-sm' value='수정' onclick="location.href='EmployeeModifyForm.em?EMP_NUM=${emp.EMP_NUM }'">
-            						<input type='button' class='btn btn-secondary btn-sm' value='상세정보조회' onclick="location.href='MyPage.em?EMP_NUM=${emp.EMP_NUM }'">
-		                    	</td>
-		                 </c:if>   
-		                 </c:forEach>  
-						</tbody>
+<!-- 	                    <tbody> -->
+<%-- 	                    <c:forEach items="${empList }" var="emp"> --%>
+<%-- 	                    <c:if test="${emp.WORK_CD eq 'C3' }"> --%>
+<%-- 	                    	<td><img src="${path}/resources/${emp.PHOTO}" alt="등록된 사진이 없습니다."></td> --%>
+<%-- 	                    	<td>${emp.EMP_NUM }</td> --%>
+<%-- 	                    	<td>${emp.EMP_NAME }</td> --%>
+<%-- 	                    	<td>${emp.DEPT_CD }</td> --%>
+<%-- 	                    	<td>${emp.GRADE_CD }</td> --%>
+<%-- 	                    	<td>${emp.EMP_TEL }</td> --%>
+<%-- 	                    	<td>${emp.EMP_DTEL }</td> --%>
+<%-- 	                    	<td>${emp.EMP_EMAIL }</td> --%>
+<!-- 	                    	<td> -->
+<%-- 	                    		<input type='button' class='btn btn-secondary btn-sm' value='수정' onclick="location.href='EmployeeModifyForm.em?EMP_NUM=${emp.EMP_NUM }'"> --%>
+<%--            						<input type='button' class='btn btn-secondary btn-sm' value='상세정보조회' onclick="location.href='EmployeeDetail?EMP_NUM=${emp.EMP_NUM }'"> --%>
+<!-- 	                    	</td> -->
+<%-- 		                 </c:if>    --%>
+<%-- 		                 </c:forEach>   --%>
+<!-- 						</tbody> -->
                     </table>
-                   </div><!-- 3번 탭 끝 -->
+                   </div> <%--3번 탭 끝 --%>
                  </div><!-- End Default Tabs -->
                 </div>
             </div> 

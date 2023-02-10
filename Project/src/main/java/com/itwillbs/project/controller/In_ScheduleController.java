@@ -3,6 +3,9 @@ package com.itwillbs.project.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -419,46 +423,56 @@ public class In_ScheduleController {
 	}//stock_num_search 끝
 	
 	//------------- 입고 처리 ------------------------------
-	//------------- 아직 선반 위치 코드 못받음--------------
 	@PostMapping(value = "/In_Per_Schedule_Process")
-	public String In_Per_Schedule_Process(@ModelAttribute InSchedulePerProductVO vo,HttpServletResponse response) {
-		System.out.println("입고 처리 : "+vo);
-		System.out.println("처리동작");
-		System.out.println("vo.getIN_SCHEDULE_PER_CDArr().length : " + vo.getIN_SCHEDULE_PER_CDArr().length);
-		
-		//배열 항목들 풀어서 일반 배열에 푸는 작업
-		for(int i =0; i <vo.getIN_SCHEDULE_PER_CDArr().length;i++) {
-			
-			//미입고 수량이 0인것만 작업 함
-			if(!vo.getIN_COMPLETE().equals("1")) {
-				InSchedulePerProductVO insp = new InSchedulePerProductVO();
-				insp.setIN_SCHEDULE_PER_CD(vo.getIN_SCHEDULE_PER_CDArr()[i]);
-				int Stock_cd = service.getStock_cd(insp.getIN_SCHEDULE_PER_CD());
-				insp.setIN_QTY(vo.getIN_QTYArr()[i]);
+
+	public String In_Per_Schedule_Process(@ModelAttribute InSchedulePerProductVO vo,HttpServletResponse response,Model model) {
+					System.out.println("입고 처리 : "+vo);
 					
-				//재고번호를 입력 안할 시 0으로 고정 값 주기
-					if(vo.getSTOCK_CDArr().length == 0) {
-						insp.setSTOCK_CD(0);
-					}else {
-						insp.setSTOCK_CD(vo.getSTOCK_CDArr()[i]);
-					}
-				insp.setWH_LOC_IN_AREA_CD(vo.getWH_LOC_IN_AREA_CDArr()[i]);
-				insp.setPRODUCT_CD(vo.getPRODUCT_CDArr()[i]);
+					//배열 항목들 풀어서 일반 배열에 푸는 작업
+					for(int i =0; i <vo.getIN_SCHEDULE_PER_CDArr().length;i++) {
+						
+						//미입고 수량이 0인것만 작업 함
+						if(!vo.getIN_COMPLETE().equals("1")) {
+							InSchedulePerProductVO insp = new InSchedulePerProductVO();
+							insp.setIN_SCHEDULE_PER_CD(vo.getIN_SCHEDULE_PER_CDArr()[i]);
+//							int Stock_cd = service.getStock_cd(insp.getIN_SCHEDULE_PER_CD());
+							insp.setIN_QTY(vo.getIN_QTYArr()[i]);
+								
+							//재고번호를 입력 안할 시 0으로 고정 값 주기
+								if(vo.getSTOCK_CDArr().length == 0) {
+									insp.setSTOCK_CD(0);
+								}else {
+									insp.setSTOCK_CD(vo.getSTOCK_CDArr()[i]);
+									insp.setWH_LOC_IN_AREA_CD(vo.getWH_LOC_IN_AREA_CDArr()[i]);
+									insp.setPRODUCT_CD(vo.getPRODUCT_CDArr()[i]);
+								}
+							//테이블에 이미 존재 하는 재고 번호가 있으면 존재 하면 
+							//stock 테이블에 수량 증가
+						
+							int insertCount = service.insertStock(insp);
+							if(insertCount > 0) {
+								System.out.println("insertCount: "+insertCount);
+								//insert 성공 시 입고 처리 한 품복 수량 증가	
+								service.updateInQTY(insp);
+								
+								if(updateInQtyCount > 0) {
+									//재고테이블 추가 + 입고수량 증가 후에 재고이력을 기록하는 작업
+									service.getInsertHistory(insp.getIN_QTY(), Stock_cd, insp.getPRODUCT_CD(), sId);
+								}
+								//입고 예정 수량 - 입고 수량 = 0 일 떄 1로 증가
+								service.updateIN_COMPLETE(insp);
+
+								model.addAttribute("msg", "입고 처리 되었습니다!");
+							} else {
+								model.addAttribute("msg", "입고 실패");
+							}
+						
+					}//미입고 수량이 0인것만 작업 끝
 				
-				//테이블에 이미 존재 하는 재고 번호가 있으면 존재 하면 
-				//stock 테이블에 수량 증가
-//				service.updateStockQTY(insp);
-				// 재고 번호가 존재 하지 않으면 insert	
-					if(Stock_cd != insp.getSTOCK_CD()) {
-						service.insertStock(insp);
-					}
-				//insert 성공 시 입고 처리 한 품복 수량 증가	
-				service.updateInQTY(insp);
-				
-				//입고 예정 수량 - 입고 수량 = 0 일 떄 1로 증가
-				service.updateIN_COMPLETE(insp);
-			}
-		}
-		return "redirect:/In_Per_List";
-	}// 입고 처리 끝
-}
+				}//배열 항목들 풀어서 일반 배열에 푸는 작업 끝
+					
+					
+					return "reload";
+	 		}// 입고 처리 끝
+	}
+
