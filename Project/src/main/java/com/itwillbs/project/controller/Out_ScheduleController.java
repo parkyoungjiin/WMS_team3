@@ -296,7 +296,7 @@ public class Out_ScheduleController {
 					
 					for(int r = 0; r < osp.getRemarks_proArr().length; r++) {
 						
-					    System.out.println(osp.getRemarks_proArr()[r] + "/");
+					    System.out.println(osp.getRemarks_proArr());
 						
 					    if(osp.getRemarks_proArr()[r] == null || osp.getRemarks_proArr()[r].length() == 0) {
 					    	osp2.setRemarks_pro("");
@@ -366,12 +366,19 @@ public class Out_ScheduleController {
 					osp2.setProduct_name(osp.getProduct_nameArr()[i]); // 품목명
 					osp2.setProduct_size(osp.getProduct_sizeArr()[i]); // 품목 규격
 					osp2.setOut_schedule_qty(osp.getOut_schedule_qtyArr()[i]); // 출고 예정 수량
+					osp2.setOut_schedule_per_cd(osp.getOut_schedule_per_cdArr()[i]); // 품목 고유 idx
 					
-					if(osp.getRemarks_proArr()[i] == null) {
-						osp2.setRemarks_pro("");
-					} else {
-						osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
-					}
+//						for(int r = 0; r < osp.getRemarks_proArr().length; r++) {
+						
+//					    System.out.println("비고!!!" + osp.getRemarks_proArr()[r]);
+						
+//					    if(osp.getRemarks_proArr()[r].equals("")) {
+//					    	osp2.setRemarks_pro("");
+//					    } else {
+					    	osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
+//					    }
+//					}
+						
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
 					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
 					

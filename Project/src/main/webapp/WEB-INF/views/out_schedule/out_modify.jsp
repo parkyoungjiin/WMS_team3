@@ -592,7 +592,7 @@ function input_search_idx(cb) {
     
 	<div class="card mb-4">
 		<div class="card-header" style="font-size: 20px;">
-            출고예정번호 : ${os.out_schedule_cd } / 작성일 : ${os.out_date}
+            출고예정번호 : ${os.out_schedule_cd }
 			<input type="hidden" name="out_schedule_cd" value="${os.out_schedule_cd}">
         </div>
         
@@ -795,6 +795,7 @@ function input_search_idx(cb) {
 		                <input type="hidden" class="form-control form-control-sm pro_name" required="required" value="${ospList.product_name }" name="product_nameArr" id="product_nameArr${status.index}">
 		                <input type="hidden" class="form-control form-control-sm pro_size" required="required" value="${ospList.product_size }" name="product_sizeArr" id="product_sizeArr${status.index}" >
         				<input type="hidden" name="stock_cdArr" class="stock_cd" value="${ospList.stock_cd }" id="product_stock_cd${status.index}">
+        				<input type="hidden" name="out_schedule_per_cdArr" value="${ospList.out_schedule_per_cd }" id="product_stock_cd${status.index}">
 		                
 		                  	<tr>
 							<td>
