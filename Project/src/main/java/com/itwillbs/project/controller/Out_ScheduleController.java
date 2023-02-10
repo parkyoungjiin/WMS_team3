@@ -52,7 +52,7 @@ public class Out_ScheduleController {
 		return "out_schedule/out_list";
 	} // outList 끝
 
-	// ---------- 출고 예정 목록 - 품목별(진행상태) --------------
+	// ---------- 출고 예정 목록 - 품목별(상태) --------------
 	@ResponseBody
 	@GetMapping(value="OutListProd.os")
 	public void outListProd(Model model, @RequestParam(value="out_schedule_cd", required=false) String out_schedule_cd, HttpServletResponse response) {

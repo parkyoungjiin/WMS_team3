@@ -67,7 +67,11 @@ public class In_scheduleService {
 		return mapper.searchStockNum(keyword);
 	}
 
-	public int updateclosing(String iN_COMPLETE, String iN_SCHEDULE_CD) {
-		return mapper.updatecomplete(iN_COMPLETE,iN_SCHEDULE_CD);
+	public int updateclosing(String IN_COMPLETE, String IN_SCHEDULE_CD) {
+		return mapper.updatecomplete(IN_COMPLETE,IN_SCHEDULE_CD);
+	}
+//진행상태 조회
+	public List<InSchedulePerProductVO> getInProdList(String IN_SCHEDULE_CD) {
+		return mapper.selectInProdList(IN_SCHEDULE_CD);
 	}
 }

@@ -3,6 +3,8 @@ package com.itwillbs.project.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
 import com.itwillbs.project.vo.StockVo;
@@ -36,6 +38,8 @@ public interface In_ScheduleMapper {
 		//입고 예정 상품별 수정 
 		int updateInschedulepro(InSchedulePerProductVO insp2);
 		//종결버튼
-		int updatecomplete(String iN_COMPLETE, String iN_SCHEDULE_CD);
+		int updatecomplete(@Param("IN_COMPLETE") String IN_COMPLETE, @Param("IN_SCHEDULE_CD") String IN_SCHEDULE_CD);
+		//진행상태
+		List<InSchedulePerProductVO> selectInProdList(String iN_SCHEDULE_CD);
 
 }
