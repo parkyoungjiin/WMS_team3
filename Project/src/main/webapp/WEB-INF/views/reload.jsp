@@ -7,6 +7,9 @@ if(msg == "입고 처리 되었습니다!" )	{
 	alert(msg);
 	window.opener.location.reload();    //부모창 reload
 	window.close();   
+}else if(msg == "예상 수량 보다 범위가 큽니다!"){
+	alert("예상 수량 보다 범위가 큽니다!");
+	history.back();
 }else{
 	alert("입고 실패 되었습니다!");
 	history.back();

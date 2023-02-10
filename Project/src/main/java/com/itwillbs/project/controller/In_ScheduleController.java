@@ -448,7 +448,10 @@ public class In_ScheduleController {
 								}
 							//테이블에 이미 존재 하는 재고 번호가 있으면 존재 하면 
 							//stock 테이블에 수량 증가
-						
+							if(insp.getIN_SCHEDULE_PER_CD() < insp.getIN_QTY() ) {
+								model.addAttribute("msg", "예상 수량 보다 범위가 큽니다!");
+								return "reload";
+							}
 							int insertCount = service.insertStock(insp);
 							if(insertCount > 0) {
 								System.out.println("insertCount: "+insertCount);
