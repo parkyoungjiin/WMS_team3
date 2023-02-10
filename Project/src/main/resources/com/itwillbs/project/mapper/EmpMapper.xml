@@ -105,10 +105,20 @@
 		UPDATE emp
 			SET 
 				EMP_TEL = #{emp.EMP_TEL},
-				EMP_DTEL = #{emp.EMP_DTEL}
+				EMP_DTEL = #{emp.EMP_DTEL},
+				PHOTO = #{emp.PHOTO}
 	  		WHERE 
 	  			EMP_NUM = #{emp_num}
 	
+	</update>
+	
+	<!-- 기존 파일명에서 삭제할 파일명을 제거(일부 제거) - UPDATE -->
+	<!-- MySQL 의 replace() 함수를 사용하여 실제 파일명을 널스트링("") 으로 대체 -->
+	<!-- UPDATE 구문에서 SET 컬럼명 = REPLACE(대상컬럼명, 대상파일명, 대체할문자열) -->
+	<update id="deleteImgFile">
+		UPDATE emp
+			SET PHOTO = REPLACE(PHOTO, #{PHOTO}, "")
+			WHERE EMP_NUM = #{EMP_NUM}
 	</update>
 
 </mapper>

@@ -126,7 +126,9 @@
 				            		<c:if test="${employee.WORK_CD eq 'C1' }">
 				            			<tr style='text-align:center'>
 				            				<td>${employee.IDX }</td>
-				            				<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'></td>
+				            				<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'>
+<%-- 				            				<input type="image" src="<%=request.getScheme()+"://"+request.getServerName() + ":" + request.getServerPort() +"/"+request.getContextPath()%>/resources/upload/${emp.PHOTO }" height="70" width="70"> --%>
+				            				</td>
 				            				<td>${employee.EMP_NUM }</td>
 				            				<td><a href="EmployeeDetail.em?EMP_NUM=${employee.EMP_NUM }"></a></td>
 				            				<td>${employee.GRADE_CD }</td>
@@ -150,7 +152,8 @@
 	            		<c:if test="${employee.WORK_CD eq 'C1' }">
 	            			<tr style='text-align:center'>
 	            				<td>${employee.IDX }</td>
-	            				<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'></td>
+<%-- 	            				<td><img src='${pageContext.request.contextPath}/resources/images/re.gif'></td> --%>
+								
 	            				<td>${employee.EMP_NUM }</td>
 	            				<td><a href="EmployeeDetail.em?EMP_NUM=${employee.EMP_NUM }"></a></td>
 	            				<td>${employee.GRADE_CD }</td>

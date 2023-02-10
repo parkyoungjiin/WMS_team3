@@ -10,6 +10,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- 품목(기본 등록) 권한 판별 -->
+<script type="text/javascript">
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
+	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
+	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
+	
+	//기본등록에 대한 권한이 있는 지 판별
+	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
+</script>
+
 <!-- 구글 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -143,14 +160,16 @@ function load_buyerList() {
 			   let p_Tcd = $(td_arr[0]).text();
 			   let p_Gcd = $(td_arr[1]).text();
 			   let p_Gnm = $(td_arr[2]).text();
+			   
+			   console.log(p_Tcd);
 			   console.log(p_Gcd);
 			   console.log(p_Gnm);
 			   
 			   // td 클릭시 모달 창 닫기
 			   $('#modalDialogScrollable_pGroup').modal('hide');
+			   $("#product_group_top_cd").val(p_Tcd);
 			   $("#product_group_bottom_name").val(p_Gnm);
 			   $("#product_group_bottom_cd").val(p_Gcd);
-			   $("#product_group_top_cd").val(p_Tcd);
 		});	   
 		
 		// 거래처
@@ -173,7 +192,7 @@ function load_buyerList() {
 
 	});
 
-}
+
 
 </script>
 

@@ -38,7 +38,7 @@
 	<section>
 		<div id="leftDiv">
 		${employee.PHOTO }
-<%-- 			<img id="empImg" src="../resources/upload${employee.PHOTO }" width="100px" > --%>
+<%-- 			<img id="empImg" src="../resources/upload${emp.PHOTO }"  width="100px" > --%>
 		</div>
 		<div id="rightDiv">
 			<table border="1" width="800px">

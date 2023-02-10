@@ -27,6 +27,7 @@ public class ProductVO {
 	//  private MultipartFile file;
 	// 만약, 복수개의 파일 업로드 시 MultipartFile 타입 배열로 선언
 	private MultipartFile file;
+	private String uploadImg;
 	
 	// -----------getter/setter--------------------
 	
@@ -144,9 +145,15 @@ public class ProductVO {
 	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
+	public String getUploadImg() {
+		return uploadImg;
+	}
+	public void setUploadImg(String uploadImg) {
+		this.uploadImg = uploadImg;
+	}
+	
+	
 	// ---------------toString()---------------------
-	
-	
 	@Override
 	public String toString() {
 		return "ProductVO [product_cd=" + product_cd + ", product_name=" + product_name + ", product_group_bottom_cd="
@@ -156,7 +163,7 @@ public class ProductVO {
 				+ business_no + ", product_image=" + product_image + ", remarks=" + remarks + ", product_group_top_cd="
 				+ product_group_top_cd + ", product_group_top_name=" + product_group_top_name + ", product_type_name="
 				+ product_type_name + ", insertCdDate=" + insertCdDate + ", cust_name=" + cust_name + ", file=" + file
-				+ "]";
+				+ ", uploadImg=" + uploadImg + "]";
 	}
 
 
