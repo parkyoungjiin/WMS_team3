@@ -94,7 +94,7 @@
             </a>
             <ul id="out-nav" >
             	<li>
-	            	<a href="#" data-bs-parent="#sidebar-nav">
+	            	<a href="InList" data-bs-parent="#sidebar-nav">
 					   <i class="fa fa-square fa-2xs"></i>&nbsp;<span>입고예정</span>
 	            	</a>
 				</li>

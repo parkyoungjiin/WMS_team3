@@ -76,7 +76,10 @@ public class In_scheduleService {
 	public List<StockVo> getSerachStockNum(String keyword) {
 		return mapper.searchStockNum(keyword);
 	}
-	
+//진행상태 조회
+//	public List<InSchedulePerProductVO> getInProdList(String IN_SCHEDULE_CD) {
+//		return mapper.selectInProdList(IN_SCHEDULE_CD);
+//	}	
 	//----------재고 테이블 수량 증가----------
 	public void updateStockQTY(InSchedulePerProductVO vo) {
 		mapper.updateStockQTY(vo);
@@ -105,7 +108,7 @@ public class In_scheduleService {
 	
 	//----------재고 번호 불러오기 ----------
 	public int getStock_cd(int in_SCHEDULE_PER_CD) {
-		// TODO Auto-generated method stub
+		
 		return mapper.getStock_cd(in_SCHEDULE_PER_CD);
 	}
 }

@@ -3,6 +3,8 @@ package com.itwillbs.project.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
 import com.itwillbs.project.vo.StockVo;

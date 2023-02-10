@@ -109,6 +109,33 @@ public class In_ScheduleController {
 	
 	//-----------입고 등록 PRO 끝------------
 	
+	//진행 상태 - 입고 예정
+	@ResponseBody
+	@GetMapping(value="InListProd")
+	public void inListProd(Model model,@RequestParam(value="IN_SCHEDULE_CD", required=false) String IN_SCHEDULE_CD, HttpServletResponse response ) {
+		
+		List<InSchedulePerProductVO> inProdList = service.getInProdList(IN_SCHEDULE_CD);
+		
+		JSONArray jsonArray = new JSONArray();
+		
+		for(InSchedulePerProductVO inProd : inProdList) {
+			JSONObject jsonObject = new JSONObject(inProd);
+			jsonArray.put(jsonObject);
+		}
+		
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	
+	
+	
+	
 	//---종결버튼-----
 	@GetMapping("/InComplete")
 	public String incomplete(@RequestParam(value="IN_COMPLETE") String IN_COMPLETE
@@ -124,6 +151,8 @@ public class In_ScheduleController {
 	}
 	
 	//----종결 끝
+	
+	//--입고 예정 상세정보--
 	@GetMapping("/InDetail")
 	public String InDetail(@ModelAttribute InScheduleVO ins,
 			@ModelAttribute InSchedulePerProductVO insp,
@@ -135,29 +164,37 @@ public class In_ScheduleController {
 		model.addAttribute("inspList", inspList);
 		
 		return "in_schedule/in_modify";
-	}
+	}// 상세정보 끝
 	
 	
 	
 	//---------입고 수정 -----------
-	@GetMapping("/InModifyForm")
-	public String modify(@ModelAttribute InScheduleVO ins,
-			Model model,
-			HttpSession session,
-			@RequestParam(defaultValue="1") int IN_SCHEDULE_CD) {
-//		ins = service.getInscheduleList(IN_SCHEDULE_CD);
-		model.addAttribute("ins", ins);
-		return "in_schedule/in_modifyform";
-	}
 	
 	@PostMapping("/InModifyPro")
 	public String modifyPro(@ModelAttribute InScheduleVO ins, 
-			@RequestParam(defaultValue="1") int IN_SCHEDULE,
-			Model model) {
+			@ModelAttribute InSchedulePerProductVO insp, Model model
+			) {
 		int updateCount = service.modifyPro(ins);
+		
 		if(updateCount >0) {
-			return "redirect:/InList?IN_SCHEDULE_CD=" +ins.getIN_SCHEDULE_CD();
-			
+			for(int i=0; i < insp.getPRODUCT_CDArr().length; i++) {
+				InSchedulePerProductVO insp2 = new InSchedulePerProductVO();
+				insp2.setPRODUCT_CD(insp.getPRODUCT_CDArr()[i]);
+				insp2.setPRODUCT_NAME(insp.getPRODUCT_NAMEArr()[i]);
+				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
+				insp2.setIN_SCHEDULE_QTY(insp.getIN_SCHEDULE_QTYArr()[i]);
+				if(insp.getREMARKSArr()[i] == null) {
+					insp2.setREMARKS("");
+				}else {
+					insp2.setREMARKS(insp.getREMARKSArr()[i]);
+				}
+				insp2.setIN_DATE(insp2.getIN_DATEArr()[i]);
+				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
+				insp2.setIN_SCHEDULE_CD(insp.getIN_SCHEDULE_CD());
+				
+				int updateCount2= service.modifyPro2(insp2);
+			}
+			return "redirect:/InList";
 		}else {
 			model.addAttribute("msg","수정 실패");
 			return "fail_back";
