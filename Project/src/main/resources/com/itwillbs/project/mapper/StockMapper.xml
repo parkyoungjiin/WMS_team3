@@ -5,6 +5,7 @@
 	<select id="getStockList" resultType="com.itwillbs.project.vo.StockVo">
 		SELECT * 
 			FROM stock_view
+				ORDER BY STOCK_CD ASC;
 	</select>
 	
 <!-- 재고 조정 -->	

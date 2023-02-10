@@ -74,7 +74,7 @@ function load_buyerList() {
 				+ "<tr style='cursor:pointer; text-align: center;'>"
 				+ "<td colspan ='2'>"
 				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  buyer_keyword + "'" +  " 에 대한 검색결과가 없습니다."
-				+ "</h4>"
+				+ "</h6>"
 				+ "</td>"
 				+ "</tr>";
 		 		+ '</table>';
@@ -99,9 +99,6 @@ function load_buyerList() {
 		         $("#modal-body-buyer").append(set_table);
 				
 		
-// 		else {
-// 			$("#buyer_search").remove();
-// 		}
 		for(let buyer of buyerList) {
 			console.log("buyer.business_no : " + buyer.business_no);
 			let result = "<tr style='cursor:pointer; text-align: center;'>"

@@ -95,7 +95,7 @@
 	//--------모달창에서 재고번호, 창고위치 클릭 시 해당 값을 이동재고번호/이동위치 input 박스 안에 값 넣는 함수-----------
 function saveIdx(cb) {
 		var idx = cb.id.replace("search_move_cd", ""); //클릭한 버튼의 idx값 출력 -> 이동재고번호, 이동위치에 넣을 위치 !
-		alert("tr클릭 전 idx : " + idx)
+// 		alert("tr클릭 전 idx : " + idx)
 		$("#stock_table").on('click','tr',function(){
 
 		   let td_arr = $(this).find('td');
@@ -107,10 +107,11 @@ function saveIdx(cb) {
 		   
 			
 		   // td 클릭시 모달 창 닫기
-		   alert("tr클릭 후 idx : " + idx)
+// 		   alert("tr클릭 후 idx : " + idx)
 		   $('#modalDialogScrollable_stock_cd').modal('hide');
 		   $("#move_stock_cd" + idx).val(stock_no);
 		   $("#move_wh_loc_in_area" + idx).val(move_wh_loc_in_area);
+		   idx="";
 		});
 	
 }//saveIdx 끝
@@ -128,44 +129,57 @@ function load_stockList() {
 		dataType: "json"
 	})
 	.done(function(stockList) { // 요청 성공 시
-// 			$(".modal-body").append(buyerList);
 		console.log(stockList)
 		if(stockList.length == 0){
-			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
-			$("#buyer_search").css("color","#B9062F");
-		} 
-// 		else {
-// 			$("#buyer_search").remove();
-// 		}
-//             $("#modal-body > td").empty();	
-// 		 $("#modal-body-stock > table").empty();   //테이블 비우기
-	
-// 	  let result1 = "<table class='table table-hover' id='stock_table' style='margin-left: auto; margin-right:'>"
-//              	 + "<tr>"
-//                  + "<th scope='col'>재고번호</th>"
-//                  + "<th scope='col'>창고명(구역명)</th>"
-//                  + "<th scope='col'>창고위치</th>"
-//                   + "</tr>";
+			
+			 $("#modal-body-stock > table").remove();   //테이블 비우기
+		
+		 let no_result = "<table class='table table-hover' id='stock_table' style='margin-left: auto; margin-right:'>"
+				+ "<tr style='cursor:pointer; text-align: left;'>"
+	            + '<th scope="col" style ="width:151px">재고번호</th>'
+	            + '<th scope="col" style ="width:157px">창고명(구역명)</th>'
+	            + '<th scope="col" style ="width:157px">창고위치</th>'
+	            + '</tr>'
+				+ "<tr style='cursor:pointer; text-align: left;'>"
+				+ "<td colspan ='3'>"
+				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  stock_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+				+ "</h6>"
+				+ "</td>"
+				+ "</tr>";
+		 		+ '</table>';
 
-                  
-//  	         $("#modal-body-stock > table").append(result1);
+	         $("#modal-body-stock").append(no_result);
+	         $("#stock_keyword").focus();
 
-// 	         $("#modal-body-stock > table > td").html("");
-		 
-		for(let stock of stockList) {
-			console.log(stock.stock_cd)
-			console.log(stock.wh_name)
-			console.log(stock.wh_area)
-			console.log(stock.wh_loc_in_area)
-	         let result = "<tr style='cursor:pointer;'>"
-		                      + "<td id='stock_cd'>" + stock.stock_cd + "</td>"
-		                      + "<td id='wh_name'>" + stock.wh_name + "(" + stock.wh_area + "구역)" + "</td>"
-		                      + "<td id='wh_loc_in_area'>" + stock.wh_loc_in_area + "</td>"
-                        + "</tr>"
-                        + "</table>";
-                        
-	         $("#modal-body-stock > table").append(result);
-		}
+		}else{
+			$("#modal-body-stock > table ").remove();   //테이블 비우고
+					
+			let set_table = 
+				"<table class='table table-hover' id='stock_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer; text-align: left;'>"
+				+ '<th scope="col" style ="width:151px">재고번호</th>'
+	            + '<th scope="col" style ="width:157px">창고명(구역명)</th>'
+	            + '<th scope="col" style ="width:157px">창고위치</th>'
+                + '</tr>'
+		 		+ '</table>';
+			 		
+	         $("#modal-body-stock").append(set_table);
+					
+			for(let stock of stockList) {
+				console.log(stock.stock_cd)
+				console.log(stock.wh_name)
+				console.log(stock.wh_area)
+				console.log(stock.wh_loc_in_area)
+		         let result = "<tr style='cursor:pointer;'>"
+			                      + "<td id='stock_cd'>" + stock.stock_cd + "</td>"
+			                      + "<td id='wh_name'>" + stock.wh_name + "(" + stock.wh_area + "구역)" + "</td>"
+			                      + "<td id='wh_loc_in_area'>" + stock.wh_loc_in_area + "</td>"
+	                        + "</tr>"
+	                        + "</table>";
+	                        
+		         $("#modal-body-stock > table").append(result);
+			}//for 끝
+		}//else 끝
 	})//done 끝
 	.fail(function() {
 		$("#modal-body-stock > table").append("<h3>요청 실패!</h3>");
@@ -235,7 +249,7 @@ function move_stock(move_cb) {
 
 </script>
 <script type="text/javascript">
-// ---------재고번호 클릭 시 해당 재고이력을 모달 창으로 출력---------------
+// ---------재고번호 클릭 시 해당 재고이력(History)을 모달 창으로 출력---------------
 function save_stock_cd(cb) {
 	var idx = cb.id.replace("save_stock_cd", "");
 	var stock_cd = $("#stock_cd" + idx).val(); //현재 재고번호  cbf
@@ -397,11 +411,11 @@ function save_stock_cd(cb) {
 		             		<input name="" type="text" class="form-control" id="stock_keyword" placeholder="검색 후 이용 바랍니다.">
 				         <button id="search_stock" class="btn btn-primary" type="button" onclick="load_stockList()">검색</button>
 			        	 </div>
-			        	 	<table class='table table-hover' id="stock_table" style="margin-left: auto; margin-right: ">
+			        	 	<table class='table table-hover' id="stock_table" style="margin-left: auto; margin-right:; text-align: left: ;">
 				        	 		<tr>
-				        	 			<th scope="col">재고번호</th>
-				        	 			<th scope="col">창고명(구역명)</th>
-				        	 			<th scope="col">창고위치</th>
+				        	 			<th scope="col" width="151px">재고번호</th>
+				        	 			<th scope="col" width="157px">창고명(구역명)</th>
+				        	 			<th scope="col" width="157px">창고위치</th>
 				        	 		</tr>
 			        	 	</table>
                     </div>
