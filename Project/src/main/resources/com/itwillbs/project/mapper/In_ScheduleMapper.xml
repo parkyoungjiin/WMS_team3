@@ -156,6 +156,23 @@
 		</choose>
 	</insert>
 	
+	<!-- 입고 처리 후 재고이력 테이블에 등록 -->
+	<insert id="insertHistory">
+		INSERT INTO stock_history
+			VALUES (
+			#{stock_cd}
+			,0
+			,#{product_cd}
+			,""
+			,""
+			,#{insert_qty}
+			,#{sId}
+			,now()
+			,"입고 처리"
+			)
+			
+	</insert>
+	
 	
 	<!-- 종결버튼 -->
 	<update id="updatecomplete">
