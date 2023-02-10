@@ -81,7 +81,7 @@
 				,DEPT_CD = #{DEPT_CD}
 				,GRADE_CD = #{GRADE_CD}
 				,EMP_TEL = #{EMP_TEL}
-				,EMP_DTEL = ${EMP_DTEL}
+				,EMP_DTEL = #{EMP_DTEL}
 				,EMP_EMAIL = #{EMP_EMAIL}
 <!-- 				<if test='newPasswd neq null and newPasswd neq ""'> -->
 <!-- 		  			,EMP_PASSWD = #{newPasswd} -->
