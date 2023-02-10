@@ -258,6 +258,7 @@ var outStatus = false;
 					 			<th scope="col">재고번호</th>
 					 			<th scope="col">구역명_선반위치</th>
 					 			<th scope="col">재고수량</th>
+					 			<th scope="col">미출고수량</th>
 					 			<th scope="col">지시수량</th>
 				 			</tr>
 				 			<c:forEach var="list" items="${list }" varStatus="status">
@@ -287,6 +288,10 @@ var outStatus = false;
 					 			<td>
 					 				<!-- 재고수량 -->
 									<input type="text" class="form-control form-control-sm" id ="stock_qty${status.index}" name="stock_qty" size="1" readonly="readonly" required="required">					 			
+					 			</td>
+					 			<td>
+					 				<!-- 미출고수량 -->
+					 				<input type="text" class="form-control form-control-sm" size="1" id="out_not_input${status.index}" name="out_not" required="required" value="">
 					 			</td>
 					 			<td>
 					 				<!-- 출고처리할 수량 입력칸 -->
