@@ -97,8 +97,8 @@ public class In_scheduleService {
 	}
 	
 	//----------입고 예정 수량 - 입고 수량 = 0 일 떄 1로 변경 ----------	
-	public void updateIN_COMPLETE(InSchedulePerProductVO insp) {
-		mapper.updateIN_COMPLETE(insp);
+	public int updateIN_COMPLETE(InSchedulePerProductVO insp) {
+		return mapper.updateIN_COMPLETE(insp);
 	}
 	
 	//-----------------종결 버튼----------------
@@ -110,5 +110,9 @@ public class In_scheduleService {
 	public int getStock_cd(int in_SCHEDULE_PER_CD) {
 		
 		return mapper.getStock_cd(in_SCHEDULE_PER_CD);
+	}
+
+	public void update_IN_COMPLETE(InSchedulePerProductVO insp) {
+		mapper.update_IN_COMPLETE(insp);
 	}
 }

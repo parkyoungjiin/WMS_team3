@@ -58,6 +58,10 @@
 			if(total != checked) $("#chkAll").prop("checked", false);
 			else $("#chkAll").prop("checked", true); 
 		});
+		
+		$("input[name=STOCK_CDArr]").change(function () {
+			alert("감지");
+		});
 	});
 	// ------------재고, 창고조회---------------
 	function stock_num_search_fn() {
@@ -170,8 +174,22 @@
 	}//input_search_idx 끝
 
 	
-	
-	
+		
+	 function calculateSum() {
+	     var sum = 0;
+	     var inputElements = document.getElementsByClassName("out_schedule_qty");
+	     for (var i = 0; i < inputElements.length; i++) {
+	       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
+	         sum += parseFloat(inputElements[i].value);
+	       }
+	     }
+	     document.getElementById("sum").innerHTML = sum;
+	   }
+
+	   var inputFields = document.querySelectorAll(".out_schedule_qty");
+	   inputFields.forEach(function(inputField) {
+	     inputField.addEventListener("input", calculateSum);
+	   });
 	
 
 
@@ -242,6 +260,7 @@
 				 			<c:forEach var="list" items="${list }" varStatus="status">
 				 				<input type="hidden" value="${list.IN_SCHEDULE_QTY }" name="IN_SCHEDULE_QTYArr">
 				 				<input type="hidden" value="${list.IN_SCHEDULE_PER_CD }" name="IN_SCHEDULE_PER_CDArr">
+				 				<input type="hidden" value="${list.IN_SCHEDULE_CD }" name="IN_SCHEDULE_CD">
 				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
 				 				<input type="hidden" value="${list.IN_COMPLETE}" name="IN_COMPLETE">			
 								<input type="hidden" id ="wh_area_loc_hidden${status.index}" name="WH_LOC_IN_AREA_CDArr">					 			
@@ -251,7 +270,7 @@
 					 			<td>${list.IN_SCHEDULE_QTY }</td>
 					 			<td>
 					 				<!-- 입고처리할 수량 입력칸 -->
-					 				<input type="text" class="form-control-sm" id="in_qty_input" name="IN_QTYArr" size="1" required>
+					 				<input type="text" class="form-control-sm out_schedule_qty" id="in_qty_input" name="IN_QTYArr" size="1" onchange="calculateSum();" required>
 					 			</td>
 					 			<td>
 					 				<!-- 재고번호 자동 입력될 칸 -->
@@ -269,10 +288,11 @@
 		 				</table>
 		        	 </div>
            	 	 </div>
-           	 	<div>
+           	 	<span style="font-size: 15px;">수량 합계 : </span><span id="sum" style="padding-right: 50px; font-size: 15px;"></span>
+           	 	<div class="text-right">
 		              <button class="btn btn-primary" id="in_submit" type="submit">입고처리</button>
-           	 	</div>
-           	 
+           	 		  <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
+                </div>	
 		 </div>
          </form>  
               <!-- Extra Large Modal -->

@@ -127,6 +127,13 @@
 			WHERE  IN_SCHEDULE_QTY - IN_QTY = 0;
 	</update>
 	
+	<!-- 입고 진행 여부 -->
+	<update id="update_IN_COMPLETE">
+		UPDATE in_schedule
+			SET IN_COMPLETE = 1
+			WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
+	</update>
+	
 	<!-- 입고 처리 -->
 	<insert id="insertStock">
 		<!--재고 번호가 존재 안할 떄  -->

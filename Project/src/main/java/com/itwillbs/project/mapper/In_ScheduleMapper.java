@@ -45,7 +45,7 @@ public interface In_ScheduleMapper {
 	void updateInQTY(InSchedulePerProductVO insp);
 	
 	//-------------입고 진행 여부 -----------------
-	void updateIN_COMPLETE(InSchedulePerProductVO insp);
+	int updateIN_COMPLETE(InSchedulePerProductVO insp);
 	
 	//입고예정 상세정보
 	InScheduleVO selectINInfo(String in_SCHEDULE_CD);
@@ -61,4 +61,5 @@ public interface In_ScheduleMapper {
 	
 	//-------------재고 번호 가져오기 -----------------
 	int getStock_cd(int in_SCHEDULE_PER_CD);
+	void update_IN_COMPLETE(InSchedulePerProductVO insp);
 }
