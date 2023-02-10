@@ -76,6 +76,7 @@
 						 if (check) {
 						 	alert('출고가 완료되지 않았습니다.');
 							$("#btnComp" + cIdx).attr("value","종결");
+							location.reload();
 						 }
 						 else {
 						     alert('출고상태 변경이 취소되었습니다.');
@@ -99,6 +100,7 @@
 						 if (check) {
 						 	alert('출고가 완료되었습니다.');
 							$("#btnComp" + cIdx).attr("value","취소");
+							location.reload();
 						 }
 						 else {
 						     alert('출고상태 변경이 취소되었습니다.');
