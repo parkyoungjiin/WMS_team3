@@ -327,7 +327,6 @@ var outStatus = false;
 			              <button class="btn btn-primary" type="submit" style="float: right;">출고</button>
 	           	 	</div>
            	 </div>
-		              
 		 </div>
        </form>     
               <!-- Extra Large Modal -->
