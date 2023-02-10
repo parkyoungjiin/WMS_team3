@@ -120,5 +120,41 @@
 			WHERE out_schedule_per_cd = #{out_schedule_per_cd}
 	</select>
 	
+	<select id="searchStockNum" resultType="com.itwillbs.project.vo.StockVo">
+		SELECT *
+			FROM stock_view
+				WHERE STOCK_CD = ${keyword}
+	</select>
+	
+	<!-- 출고 처리 수량 조정 -->
+	<update id="updateOspQty" >
+		UPDATE out_schedule_per_product
+			SET 
+			 out_schedule_qty = #{out_schedule_qty} - #{out_qty}
+			 ,out_qty = #{out_qty}
+			WHERE out_schedule_per_cd = #{out_schedule_per_cd}
+	</update>
+	
+	<!-- 출고 처리 완료 조정 -->
+	<update id="updateOut_complete">
+		UPDATE out_schedule_per_product
+			SET 
+			 out_complete = 1
+			WHERE out_schedule_qty = 0
+	</update>
+	
+	<!-- 출고 처리 재고 조정 -->
+	<update id="updateOspStock">
+		<selectKey keyProperty="stock_qty" resultType="int" order="BEFORE">
+			SELECT stock_qty 
+				FROM stock
+				WHERE stock_cd = #{stock_cd} 
+		</selectKey>
+		
+		UPDATE stock
+			SET stock_qty = #{stock_qty} - #{out_qty}
+			WHERE stock_cd = #{stock_cd} 
+	</update>
+	
 	
 </mapper>

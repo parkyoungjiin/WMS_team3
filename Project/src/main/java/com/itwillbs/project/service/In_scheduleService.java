@@ -38,40 +38,77 @@ public class In_scheduleService {
 	public int modifyPro(InScheduleVO ins) {
 		return mapper.updateInschedule(ins);
 	}
+	
+	////---------- ----------
 	public int getSelectCode(InScheduleVO ins) {
 		return mapper.selectCode(ins);
 	}
+	
+	//---------- ----------
 	public int insertInProduct(InSchedulePerProductVO insp2) {
 		return mapper.insertOutProduct(insp2);
 	}
 //	public List<InScheduleVO> getProcessingList() {
 //		return mapper.selectProcessingList();
 //	}
+	//---------- ----------
+	
 	public InScheduleVO getINInfo(String in_SCHEDULE_CD) {
 		return mapper.selectINInfo(in_SCHEDULE_CD);
 	}
-
+	
+	////---------- ----------
 	public List<InSchedulePerProductVO> getInProductList(String in_SCHEDULE_CD) {
 		return mapper.selectInProductList(in_SCHEDULE_CD);
 	}
-// 품목별 수정 
+	
+	//----------입고 품목 수정----------
 	public int modifyPro2(InSchedulePerProductVO insp2) {
 		return mapper.updateInschedulepro(insp2);
 	}
-
+	
+	//----------선택 된 항목 불러오기----------
 	public InSchedulePerProductVO getInschedulePerInfo(InSchedulePerProductVO vo2) {
 		return mapper.getInschedulePerInfo(vo2);
 	}
-//-----------재고 번호 받아오기 (팝업창)-----------
+	
+	//-----------재고 번호 받아오기 (팝업창)-----------
 	public List<StockVo> getSerachStockNum(String keyword) {
 		return mapper.searchStockNum(keyword);
 	}
-
-	public int updateclosing(String IN_COMPLETE, String IN_SCHEDULE_CD) {
-		return mapper.updatecomplete(IN_COMPLETE,IN_SCHEDULE_CD);
-	}
 //진행상태 조회
-	public List<InSchedulePerProductVO> getInProdList(String IN_SCHEDULE_CD) {
-		return mapper.selectInProdList(IN_SCHEDULE_CD);
+//	public List<InSchedulePerProductVO> getInProdList(String IN_SCHEDULE_CD) {
+//		return mapper.selectInProdList(IN_SCHEDULE_CD);
+//	}	
+	//----------재고 테이블 수량 증가----------
+	public void updateStockQTY(InSchedulePerProductVO vo) {
+		mapper.updateStockQTY(vo);
+		
+	}
+	
+	//----------재고 테이블에 넣는 작업(입고 처리)----------
+	public int insertStock(InSchedulePerProductVO insp) {
+		return mapper.insertStock(insp);
+	}
+	
+	//----------입고 수량 변경 ----------
+	public void updateInQTY(InSchedulePerProductVO insp) {
+		mapper.updateInQTY(insp);
+	}
+	
+	//----------입고 예정 수량 - 입고 수량 = 0 일 떄 1로 변경 ----------	
+	public void updateIN_COMPLETE(InSchedulePerProductVO insp) {
+		mapper.updateIN_COMPLETE(insp);
+	}
+	
+	//-----------------종결 버튼----------------
+	public int updateclosing(String iN_COMPLETE, String iN_SCHEDULE_CD) {
+		return mapper.updatecomplete(iN_COMPLETE,iN_SCHEDULE_CD);
+	}
+	
+	//----------재고 번호 불러오기 ----------
+	public int getStock_cd(int in_SCHEDULE_PER_CD) {
+		
+		return mapper.getStock_cd(in_SCHEDULE_PER_CD);
 	}
 }

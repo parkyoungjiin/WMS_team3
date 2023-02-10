@@ -26,6 +26,7 @@ public class OutSchedulePerProductVO {
 	private String[] stock_cdArr;
 	private String out_complete;
 	private String[] out_completeArr;
+	private int stock_qty;
 	
 	
 	public String getOut_schedule_cd() {
@@ -156,6 +157,14 @@ public class OutSchedulePerProductVO {
 	}
 	public void setOut_completeArr(String[] out_completeArr) {
 		this.out_completeArr = out_completeArr;
+	}
+	
+	
+	public int getStock_qty() {
+		return stock_qty;
+	}
+	public void setStock_qty(int stock_qty) {
+		this.stock_qty = stock_qty;
 	}
 	@Override
 	public String toString() {
