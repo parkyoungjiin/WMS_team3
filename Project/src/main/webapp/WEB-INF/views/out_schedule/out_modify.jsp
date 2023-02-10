@@ -447,7 +447,7 @@ $(function() {
 							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="out_dateArr" required="required"></td>'
 							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="remarks_proArr"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
-							+ '<td><span class="stoContent"></span></td>'
+							+ '<td><span class="stoContent" id="stoContent"></span></td>'
 							+ '<input type="hidden" name="stock_cdArr" class="stock_cd">'
 							+ '<input type="hidden" name="stock_qty" class="stock_qty">'
 							+ '<input type="hidden" name="product_nameArr" class="product_nameArr">'
@@ -552,19 +552,38 @@ function input_search_idx(cb) {
 	   let td_arr = $(this).find('td');
 	   console.log(td_arr);
 	   
+	   
 //	   $('#no').val($(td_arr[0]).text());
-	   let stock_cd = $(td_arr[0]).text();
+	   let pro_cd = $(td_arr[0]).text();
 //	   $('#name').val($(td_arr[1]).text());
 	   let pro_name = $(td_arr[1]).text();
 	   let size_des = $(td_arr[2]).text();
-	   console.log(stock_cd);
+	   console.log(pro_cd);
+	   
+	   $.ajax({
+			type: "GET",
+			url: "StoListJson?keyword=" + pro_cd,
+			dataType: "json"
+		})
+		.done(function(stoList) { // 요청 성공 시
+			
+				if(stoList.length === 0){
+					alert("재고가 없는 품목입니다.");
+					return;
+				}   
 	   // td 클릭시 모달 창 닫기
 	   $('#modalDialogScrollable_pro').modal('hide');
-	   $("#product_cdArr" + idx).val(stock_cd);
+	   $("#product_cdArr" + idx).val(pro_cd);
 	   $("#product_namesizeArr" + idx).val(pro_name + " ["+size_des+"]");
+	   $("#stoContent" + idx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
 // 	   $("#wh_area_loc_input" + idx).val(wh_name);
 		idx = "";
-	});	   
+    })	  
+   .fail(function() {
+		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+	});
+	   
+});	   
 	
 }
 
@@ -592,7 +611,7 @@ function input_search_idx(cb) {
     
 	<div class="card mb-4">
 		<div class="card-header" style="font-size: 20px;">
-            출고예정번호 : ${os.out_schedule_cd } / 작성일 : ${os.out_date}
+            출고예정번호 : ${os.out_schedule_cd }
 			<input type="hidden" name="out_schedule_cd" value="${os.out_schedule_cd}">
         </div>
         
@@ -795,6 +814,7 @@ function input_search_idx(cb) {
 		                <input type="hidden" class="form-control form-control-sm pro_name" required="required" value="${ospList.product_name }" name="product_nameArr" id="product_nameArr${status.index}">
 		                <input type="hidden" class="form-control form-control-sm pro_size" required="required" value="${ospList.product_size }" name="product_sizeArr" id="product_sizeArr${status.index}" >
         				<input type="hidden" name="stock_cdArr" class="stock_cd" value="${ospList.stock_cd }" id="product_stock_cd${status.index}">
+        				<input type="hidden" name="out_schedule_per_cdArr" value="${ospList.out_schedule_per_cd }" id="product_stock_cd${status.index}">
 		                
 		                  	<tr>
 							<td>
@@ -808,7 +828,8 @@ function input_search_idx(cb) {
 							<td><input type="number" style="text-align: center;" class="form-control form-control-sm out_schedule_qty" id="out_schedule_qtyArr${status.index }" name="out_schedule_qtyArr" required="required"  value="${ospList.out_schedule_qty }" onchange="calculateSum();"></td>
 							<td><input type="date" style="text-align: center; border:none" class="form-control form-control-sm" id="out_dateArr${status.index }" value="${ospList.out_date }" name="out_dateArr" required="required"></td>
 							<td><input type="text" style="text-align: center;" class="form-control form-control-sm" value="${ospList.remarks_pro }" id="remarks_proArr${status.index }" name="remarks_proArr" ></td>
-							<td><span class="stoContent" style="justify-content: center; align-items: center; display: flex;" >재고번호 : ${ospList.stock_cd }</span></td>
+<%-- 							<td><span class="stoContent" style="justify-content: center; align-items: center; display: flex;" >재고번호 : ${ospList.stock_cd }</span></td> --%>
+							<td><span class="stoContent" id="stoContent${status.index }" style="justify-content: center; align-items: center; display: flex;" ></span></td>
 
 
 <!-- 							<input type="hidden" name="stock_qty" class="stock_qty"> -->

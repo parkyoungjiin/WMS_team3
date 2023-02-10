@@ -36,10 +36,11 @@ public class EmpService {
 	}
 
 	// ==============================================인사 2 채원========================================================
-	//---------------- 사원 목록 ----------------------------
+	//---------------- 모달 사원 목록 ----------------------------
 		public List<EmpVo> getEmployeeList(String keyword) {
 			return mapper.selectEmployeeList(keyword);
-		} // 사원 목록 끝
+		} // 사원 목록 끝 String keyword
+
 		
 		//-----------------현재 로그인한 사원의 권한정보 조회------------------------
 		public String getPrivCode(String sId) {
@@ -54,6 +55,7 @@ public class EmpService {
 
 		//-----------------사원 수정--------------------
 		public int modifyEmployee(EmpVo employee) {
+			System.out.println("서비스 확인 : " +employee);
 			return mapper.updateEmployee(employee);
 		} // 사원 수정 끝
 		
@@ -69,9 +71,13 @@ public class EmpService {
 		public int getupdateMypageInfo(EmpVo emp, String emp_num) {
 			return mapper.updateMypageInfo(emp, emp_num);
 		}
-
 		//  게시물 수정 작업 중 개별 파일 삭제
 		public int removeImgFile(String EMP_NUM, String PHOTO) {
 			return mapper.deleteImgFile(EMP_NUM, PHOTO);
+		}
+			
+		// 사원 리스트 일반  출력
+		public List<EmpVo> getEmpList() {
+			return mapper.selectEmpList();
 		}
 }

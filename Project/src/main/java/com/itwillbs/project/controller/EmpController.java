@@ -15,6 +15,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -230,13 +232,35 @@ public class EmpController {
 		@GetMapping("/EmployeeList.em")
 		public String emplList(Model model, HttpSession session,@RequestParam(defaultValue = "") String keyword) {
 	
-			List<EmpVo> employeeList = service.getEmployeeList(keyword);
-			
-			model.addAttribute("employeeList",employeeList);
-			return "emp/employee_list";
-		
-			
+			List<EmpVo> employeeList = service.getEmployeeList(keyword); // 검색 모달용
+			List<EmpVo> empList = service.getEmpList(); // 인사용
+			model.addAttribute("empList",empList);
+			return "emp/employee_list";			
 		} // 사원 목록 끝 
+		
+		// --------- 사원목록 json -------------
+//		@ResponseBody
+//		@GetMapping(value="EmployeeListJson.em")
+//		public void listJson(Model model, HttpServletResponse response,@RequestParam(defaultValue = "") String WORK_CD, @RequestParam(defaultValue = "") String keyword) {
+//			List<EmpVo> employeeList = service.getEmployeeList(WORK_CD);
+//			System.out.println("리스트 워크코드" + WORK_CD);
+//			
+//			JSONArray jsonArray = new JSONArray();
+//			
+//			for(EmpVo employee : employeeList) { 
+//				JSONObject jsonObject = new JSONObject(employee);
+//				jsonArray.put(jsonObject);
+//			}
+//			
+//			try {
+//				response.setCharacterEncoding("UTF-8");
+//				response.getWriter().print(jsonArray); // toString() 생략
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			
+//		}// 사원 목록 json 끝
 		
 		// ------------ 사원 상세정보 조회 ------------------
 		@GetMapping(value="/EmployeeDetail.em")
@@ -245,22 +269,89 @@ public class EmpController {
 				, @ModelAttribute EmpVo employee
 				, Model model) {
 			String sId = (String)session.getAttribute("sId");
-			String PRIV_CD = service.getPrivCode(sId);
-			System.out.println("PRIV_CD 값 확인 : " + PRIV_CD);
-			if(PRIV_CD.equals("11100")) {		
-				employee = service.getEmployee(EMP_NUM);
-				model.addAttribute("employee", employee);
-				return "emp/employee_detail";
-			} else {
-				model.addAttribute("msg","접근 권한이 없습니다.");
-				return "fail_back";
-			}	
+//			String PRIV_CD = service.getPrivCode(sId);
+			employee = service.getEmployee(EMP_NUM);
+			
+			String dTelArr[] = employee.getEMP_DTEL().split("-");
+//			System.out.println(dTelArr[0] + ", " + dTelArr[2]);
+			String dTel1 = dTelArr[1];
+			String dTel2 = dTelArr[2];
+			model.addAttribute("dTel1",dTel1);
+			model.addAttribute("dTel2",dTel2);
+			
+			// 전화번호 분리하기
+			String telArr[] = employee.getEMP_TEL().split("-");
+			String tel1 = telArr[1];
+			String tel2 = telArr[2];
+			model.addAttribute("tel1",tel1);
+			model.addAttribute("tel2",tel2);
+			
+			// email 분리하기
+			String emailArr[] = employee.getEMP_EMAIL().split("@");
+			String email1 = emailArr[0];
+			String email2 = emailArr[1];
+			model.addAttribute("email1", email1);
+			model.addAttribute("email2",email2);
+			
+			String addrArr[] = employee.getEMP_ADDR().split(",");
+			String addr1 = addrArr[0];
+			String addr2 = addrArr[1];
+			model.addAttribute("addr1",addr1);
+			model.addAttribute("addr2",addr2);
+			
+			String emp_priv_arr[] = employee.getPRIV_CD().split(""); 
+			System.out.println("권한배열 갯수:"+emp_priv_arr.length);
+//			String priv_cd1 = emp_priv_arr[0];
+//			String priv_cd2 = emp_priv_arr[1];
+//			String priv_cd3 = emp_priv_arr[2];
+//			String priv_cd4 = emp_priv_arr[3];
+//			String priv_cd5 = emp_priv_arr[4];		
+//			model.addAttribute("priv_cd1",priv_cd1);
+//			model.addAttribute("priv_cd2",priv_cd2);
+//			model.addAttribute("priv_cd3",priv_cd3);
+//			model.addAttribute("priv_cd4",priv_cd4);
+//			model.addAttribute("priv_cd5",priv_cd5);
+			
+			model.addAttribute("employee", employee);
+
+			return "emp/employee_detail";
+		
 		} // 사원 상세정보 조회 끝
 			
 		// ------------ 사원 정보 수정 폼 --------------------
 		@GetMapping(value="/EmployeeModifyForm.em")
 		public String empModifyForm(@RequestParam String EMP_NUM, Model model) {
 			EmpVo employee = service.getEmployee(EMP_NUM);
+			// 사무실 전화번호 분리하기
+			String dTel1 = employee.getEMP_DTEL().substring(4, 7);
+			String dTel2 = employee.getEMP_DTEL().substring(8, 12);
+			System.out.println("전화번호 분리" + dTel1 + "," + dTel2);
+			model.addAttribute("dTel1",dTel1);
+			model.addAttribute("dTel2",dTel2);
+			
+			// 전화번호 분리하기
+			String telArr[] = employee.getEMP_TEL().split("-");
+			System.out.println(telArr[1] + ", 두번째는" + telArr[2]);
+			String tel1 = telArr[1];
+			String tel2 = telArr[2];
+			model.addAttribute("tel1",tel1);
+			model.addAttribute("tel2",tel2);
+			
+			// email 분리하기
+			String emailArr[] = employee.getEMP_EMAIL().split("@");
+			String email1 = emailArr[0];
+			String email2 = emailArr[1];
+			model.addAttribute("email1", email1);
+			model.addAttribute("email2",email2);
+			
+			// 
+			String addrArr[] = employee.getEMP_ADDR().split(",");
+			String addr1 = addrArr[0];
+			String addr2 = addrArr[1];
+			model.addAttribute("addr1",addr1);
+			model.addAttribute("addr2",addr2);
+			System.out.println( "주소 "+employee.getEMP_ADDR());
+			
 			model.addAttribute("employee", employee);
 			return "emp/employee_modify_form";
 		} // 사원 정보 폼 끝
@@ -271,6 +362,7 @@ public class EmpController {
 							, @ModelAttribute EmpVo employee) {
 			
 			//---------------이미지--------------------------
+			//파일 업로드
 			//1. 경로 설정 (가상 경로, 실제 업로드 경로)
 			String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
 			String saveDir = session.getServletContext().getRealPath(uploadDir); //실제 업로드 경로
@@ -284,7 +376,6 @@ public class EmpController {
 			//3. MultipartFile 객체 생성(Vo의 file은 MutlipartFile 타입 / PHOTO는 String 타입)
 			// => *** MutlipartFile 타입으로 원본 파일명을 꺼낸 후에 파일명을 String 타입으로 저장 ***
 			MultipartFile mFile = employee.getFile();
-			
 			//4. MultipartFile 객체의 getOriginalFilename() 메서드를 통해 파일명 꺼내기
 			String originalFileName = mFile.getOriginalFilename(); //원본 파일명
 			System.out.println("원본 파일명: " +originalFileName);
@@ -293,27 +384,79 @@ public class EmpController {
 			//5. 원본 파일명을 empVo에 저장
 			employee.setPHOTO(originalFileName);
 			
-			int updateCount = service.modifyEmployee(employee);
+			//,를 기준으로 분리한 값을 telArr(배열)에 넣음.
+			//개인 연락처 결합
+			String [] emp_telArr = employee.getEMP_TEL().split(",");
+			for(int i=0; i<emp_telArr.length; i++) {
+				String EMP_TEL = emp_telArr[i].join("-", emp_telArr);
+//				System.out.println(EMP_TEL);
+				employee.setEMP_TEL(EMP_TEL);
+				
+			}
+			System.out.println(employee);
+			//사무실 연락처 결합
+			String [] emp_dtelArr = employee.getEMP_DTEL().split(",");
+			for(int i=0; i<emp_dtelArr.length; i++) {
+				System.out.println("미친"+emp_dtelArr[i]);
+				System.out.println("getEMP_DTEL : " + employee.getEMP_DTEL());
+				String EMP_DTEL = emp_dtelArr[i].join("-", emp_dtelArr);
+				employee.setEMP_DTEL(EMP_DTEL);
+				
+			}
+			//이메일1,이메일2 결합
+			String [] emp_emailArr = employee.getEMP_EMAIL().split(",");
+			for(int i=0; i<emp_emailArr.length; i++) {
+				String EMP_EMAIL = emp_emailArr[i].join("@", emp_emailArr);
+//				System.out.println(EMP_EMAIL);
+				employee.setEMP_EMAIL(EMP_EMAIL);
+				
+			}
+			//주소, 상세주소 결합
+			String [] emp_addrArr = employee.getEMP_ADDR().split(",");
+			for(int i=0; i<emp_addrArr.length; i++) {
+				String EMP_ADDR = emp_addrArr[i].join(",", emp_addrArr);
+//				System.out.println(EMP_ADDR);
+				employee.setEMP_ADDR(EMP_ADDR);
+				
+			}
+//			//**사원 코드(EMP_NAME) 결합** 
+//			// -> 사원코드(EMP_NUM) = 부서코드(2)+입사년도(2)+인덱스(3)(= 총 7자리), 자동부여
+//			// 부서코드, 입사년도만 결합을 해서 set 저장한 뒤에 xml 파일에서 인덱스 결합
+//			SimpleDateFormat year_format = new SimpleDateFormat("yy");
+//			String year = year_format.format(employee.getHIRE_DATE());
+//			// idx 앞에 0을 붙이기 위해 select 후에 format 함수 사용
+//			int idx = service.getSelectIdx(employee) + 1;
+//
+//			//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
+//			String EMP_IDX = String.format("%03d", idx); //00x 형태 변환
+//			String EMP_NUM = employee.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
+//			employee.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
 			
-			if(updateCount > 0) {// 수정 성공	
+			
+			int updateCount = service.modifyEmployee(employee);
+			System.out.println("수정 비즈니스 로직 : " + updateCount);
+			if(updateCount > 0) { // 수정 성공
 				
 				//6. transferTo를 통해 파일 업로드
-					try {
-						mFile.transferTo(
-								new File(saveDir, mFile.getOriginalFilename())
-							);
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				return "redirect:/";
+				try {
+					mFile.transferTo(
+							new File(saveDir, mFile.getOriginalFilename())
+						);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				return "redirect:/EmpList.em";
 			} else { // 수정 실패 
 				model.addAttribute("msg","수정에 실패하였습니다");
 				return "fail_back";
-			}
+			} 
+		
 		} // 사원 정보 수정 끝 
 		
+			
 		//======== 사원 수정 시 개별 파일 삭제 처리 ===============================
 		// => 파라미터 : 글번호, 파일명, 세션 객체, 응답 객체 필요
 		@ResponseBody
@@ -432,7 +575,6 @@ public class EmpController {
 //		System.out.println(emp);
 //		return "/";
 		
-//		888888888888888
 		//-----------------이미지-------------------------
 		//1. 경로 설정 (가상 경로, 실제 업로드 경로)
 		String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
