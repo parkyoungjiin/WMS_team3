@@ -3,6 +3,9 @@ package com.itwillbs.project.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +113,33 @@ public class In_ScheduleController {
 	
 	//-----------입고 등록 PRO 끝------------
 	
+	//진행 상태 - 입고 예정
+	@ResponseBody
+	@GetMapping(value="InListProd")
+	public void inListProd(Model model,@RequestParam(value="IN_SCHEDULE_CD", required=false) String IN_SCHEDULE_CD, HttpServletResponse response ) {
+		
+		List<InSchedulePerProductVO> inProdList = service.getInProdList(IN_SCHEDULE_CD);
+		
+		JSONArray jsonArray = new JSONArray();
+		
+		for(InSchedulePerProductVO inProd : inProdList) {
+			JSONObject jsonObject = new JSONObject(inProd);
+			jsonArray.put(jsonObject);
+		}
+		
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	
+	
+	
+	
 	//---종결버튼-----
 	@GetMapping("/InComplete")
 	public String incomplete(@RequestParam(value="IN_COMPLETE") String IN_COMPLETE
@@ -125,6 +155,8 @@ public class In_ScheduleController {
 	}
 	
 	//----종결 끝
+	
+	//--입고 예정 상세정보--
 	@GetMapping("/InDetail")
 	public String InDetail(@ModelAttribute InScheduleVO ins,
 			@ModelAttribute InSchedulePerProductVO insp,
@@ -136,29 +168,37 @@ public class In_ScheduleController {
 		model.addAttribute("inspList", inspList);
 		
 		return "in_schedule/in_modify";
-	}
+	}// 상세정보 끝
 	
 	
 	
 	//---------입고 수정 -----------
-	@GetMapping("/InModifyForm")
-	public String modify(@ModelAttribute InScheduleVO ins,
-			Model model,
-			HttpSession session,
-			@RequestParam(defaultValue="1") int IN_SCHEDULE_CD) {
-//		ins = service.getInscheduleList(IN_SCHEDULE_CD);
-		model.addAttribute("ins", ins);
-		return "in_schedule/in_modifyform";
-	}
 	
 	@PostMapping("/InModifyPro")
 	public String modifyPro(@ModelAttribute InScheduleVO ins, 
-			@RequestParam(defaultValue="1") int IN_SCHEDULE,
-			Model model) {
+			@ModelAttribute InSchedulePerProductVO insp, Model model
+			) {
 		int updateCount = service.modifyPro(ins);
+		
 		if(updateCount >0) {
-			return "redirect:/InList?IN_SCHEDULE_CD=" +ins.getIN_SCHEDULE_CD();
-			
+			for(int i=0; i < insp.getPRODUCT_CDArr().length; i++) {
+				InSchedulePerProductVO insp2 = new InSchedulePerProductVO();
+				insp2.setPRODUCT_CD(insp.getPRODUCT_CDArr()[i]);
+				insp2.setPRODUCT_NAME(insp.getPRODUCT_NAMEArr()[i]);
+				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
+				insp2.setIN_SCHEDULE_QTY(insp.getIN_SCHEDULE_QTYArr()[i]);
+				if(insp.getREMARKSArr()[i] == null) {
+					insp2.setREMARKS("");
+				}else {
+					insp2.setREMARKS(insp.getREMARKSArr()[i]);
+				}
+				insp2.setIN_DATE(insp2.getIN_DATEArr()[i]);
+				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
+				insp2.setIN_SCHEDULE_CD(insp.getIN_SCHEDULE_CD());
+				
+				int updateCount2= service.modifyPro2(insp2);
+			}
+			return "redirect:/InList";
 		}else {
 			model.addAttribute("msg","수정 실패");
 			return "fail_back";
@@ -382,55 +422,56 @@ public class In_ScheduleController {
 	}//stock_num_search 끝
 	
 	//------------- 입고 처리 ------------------------------
-	//------------- 아직 선반 위치 코드 못받음--------------
 	@PostMapping(value = "/In_Per_Schedule_Process")
-	public String In_Per_Schedule_Process(@ModelAttribute InSchedulePerProductVO vo,
-			HttpServletResponse response,
-			HttpSession session
-			) {
-		System.out.println("입고 처리 : "+vo);
-		System.out.println("처리동작");
-		System.out.println("vo.getIN_SCHEDULE_PER_CDArr().length : " + vo.getIN_SCHEDULE_PER_CDArr().length);
-		//업데이트 하는 사원번호 (재고 이력에 등록)
-		String sId = (String)session.getAttribute("emp_num");  
-		//배열 항목들 풀어서 일반 배열에 푸는 작업
-		for(int i =0; i <vo.getIN_SCHEDULE_PER_CDArr().length;i++) {
-			
-			//진행상태(in_complete)가 0인것만 작업 함
-			if(!vo.getIN_COMPLETE().equals("1")) {
-				
-				InSchedulePerProductVO insp = new InSchedulePerProductVO();
-				insp.setIN_SCHEDULE_PER_CD(vo.getIN_SCHEDULE_PER_CDArr()[i]);
-				int Stock_cd = service.getStock_cd(insp.getIN_SCHEDULE_PER_CD());
-				insp.setIN_QTY(vo.getIN_QTYArr()[i]);
+
+	public String In_Per_Schedule_Process(@ModelAttribute InSchedulePerProductVO vo,HttpServletResponse response,Model model) {
+					System.out.println("입고 처리 : "+vo);
 					
-				//재고번호를 입력 안할 시 0으로 고정 값 주기(신규재고번호)
-					if(vo.getSTOCK_CDArr().length == 0) {
-						insp.setSTOCK_CD(0);
-					}else {
-						insp.setSTOCK_CD(vo.getSTOCK_CDArr()[i]);
-					}
-				insp.setWH_LOC_IN_AREA_CD(vo.getWH_LOC_IN_AREA_CDArr()[i]);
-				insp.setPRODUCT_CD(vo.getPRODUCT_CDArr()[i]);
-				//재고번호가 있을 때는 업데이트 / 없을 때는 insert로 신규 재고 생성
-				int inserCount = service.insertStock(insp);
-				//insert 성공 시 입고 처리 한 품목 입고수량(in_qty) 증가	
-				if(inserCount > 0) {
-					//재고작업 후 입고 수량을 증가시킴.
-					int updateInQtyCount = service.updateInQTY(insp);
-					if(updateInQtyCount > 0) {
-						//재고테이블 추가 + 입고수량 증가 후에 재고이력을 기록하는 작업
-						service.getInsertHistory(insp.getIN_QTY(), Stock_cd, insp.getPRODUCT_CD(), sId);
-					}
-				}
+					//배열 항목들 풀어서 일반 배열에 푸는 작업
+					for(int i =0; i <vo.getIN_SCHEDULE_PER_CDArr().length;i++) {
+						
+						//미입고 수량이 0인것만 작업 함
+						if(!vo.getIN_COMPLETE().equals("1")) {
+							InSchedulePerProductVO insp = new InSchedulePerProductVO();
+							insp.setIN_SCHEDULE_PER_CD(vo.getIN_SCHEDULE_PER_CDArr()[i]);
+//							int Stock_cd = service.getStock_cd(insp.getIN_SCHEDULE_PER_CD());
+							insp.setIN_QTY(vo.getIN_QTYArr()[i]);
+								
+							//재고번호를 입력 안할 시 0으로 고정 값 주기
+								if(vo.getSTOCK_CDArr().length == 0) {
+									insp.setSTOCK_CD(0);
+								}else {
+									insp.setSTOCK_CD(vo.getSTOCK_CDArr()[i]);
+									insp.setWH_LOC_IN_AREA_CD(vo.getWH_LOC_IN_AREA_CDArr()[i]);
+									insp.setPRODUCT_CD(vo.getPRODUCT_CDArr()[i]);
+								}
+							//테이블에 이미 존재 하는 재고 번호가 있으면 존재 하면 
+							//stock 테이블에 수량 증가
+						
+							int insertCount = service.insertStock(insp);
+							if(insertCount > 0) {
+								System.out.println("insertCount: "+insertCount);
+								//insert 성공 시 입고 처리 한 품복 수량 증가	
+								service.updateInQTY(insp);
+								
+								if(updateInQtyCount > 0) {
+									//재고테이블 추가 + 입고수량 증가 후에 재고이력을 기록하는 작업
+									service.getInsertHistory(insp.getIN_QTY(), Stock_cd, insp.getPRODUCT_CD(), sId);
+								}
+								//입고 예정 수량 - 입고 수량 = 0 일 떄 1로 증가
+								service.updateIN_COMPLETE(insp);
+
+								model.addAttribute("msg", "입고 처리 되었습니다!");
+							} else {
+								model.addAttribute("msg", "입고 실패");
+							}
+						
+					}//미입고 수량이 0인것만 작업 끝
 				
-				
-				//재고 이력 남기기
-				
-				//입고 예정 수량 - 입고 수량 = 0 일 떄 1로 증가
-				service.updateIN_COMPLETE(insp);
-			}
-		}//for 끝
-		return "redirect:/In_Per_List";
-	}// 입고 처리 끝
-}
+				}//배열 항목들 풀어서 일반 배열에 푸는 작업 끝
+					
+					
+					return "reload";
+	 		}// 입고 처리 끝
+	}
+

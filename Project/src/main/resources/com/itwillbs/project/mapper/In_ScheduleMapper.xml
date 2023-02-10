@@ -25,14 +25,28 @@
 	<update id="updateInschedule">
 	UPDATE in_schedule 
 	SET 
-	IN_SCHEDULE_CD = #{IN_SCHEDULE_CD},
-	IN_TYPE_CD=#{IN_TYPE_CD},
-	<!-- 보낸곳명 -->
-	EMP_NUM=#{EMP_NUM},
-	PRODUCT_NAME=#{PRODUCT_NAME},
-	IN_DATE=#{IN_DATE},
-	WHERE
-	IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
+		BUSINESS_NO = #{BUSINESS_NO},
+		CUST_NAME = #{CUST_NAME},
+		EMP_NUM = #{EMP_NUM},
+		EMP_NAME = #{EMP_NAME},
+		IN_DATE = #{IN_DATE},
+		REMARKS = #{REMARKS}
+		WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
+	</update>
+	
+	<update id="updateInschedulepro">
+	UPDATE IN_SCHEDULE_PER_PRODUCT
+	SET
+		PRODUCT_CD = #{PRODUCT_CD}
+		,PRODUCT_NAME = #{PRODUCT_NAME}
+		,PRODUCT_SIZE = #{PRODUCT_SIZE}
+		,IN_SCHEDULE_QTY = #{IN_SCHEDULE_QTY}
+		,IN_QTY = #{IN_QTY}
+		,IN_DATE = #{IN_DATE}
+		,REMARKS = #{REMARKS}
+		,STOCK_CD = #{STOCK_CD}
+		WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
+	
 	</update>
 	
 	<!-- 입고예정 리스트  -->
@@ -160,6 +174,11 @@
 				IN_COMPLETE = #{IN_COMPLETE}
 			WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
 	</update>
+	
+	<select id="selectInProdList" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
+	SELECT * FROM InSchedule_Per_Product
+	WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
+	</select>
 	
 	<!-- 재고 번호 가져오기 -->
 	<select id="getStock_cd" resultType="int">
