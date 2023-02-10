@@ -112,29 +112,29 @@ public class In_ScheduleController {
 		
 	
 	//-----------입고 등록 PRO 끝------------
-	
-	//진행 상태 - 입고 예정
-	@ResponseBody
-	@GetMapping(value="InListProd")
-	public void inListProd(Model model,@RequestParam(value="IN_SCHEDULE_CD", required=false) String IN_SCHEDULE_CD, HttpServletResponse response ) {
-		
-		List<InSchedulePerProductVO> inProdList = service.getInProdList(IN_SCHEDULE_CD);
-		
-		JSONArray jsonArray = new JSONArray();
-		
-		for(InSchedulePerProductVO inProd : inProdList) {
-			JSONObject jsonObject = new JSONObject(inProd);
-			jsonArray.put(jsonObject);
-		}
-		
-		try {
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().print(jsonArray);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
+//	
+//	//진행 상태 - 입고 예정
+//	@ResponseBody
+//	@GetMapping(value="InListProd")
+//	public void inListProd(Model model,@RequestParam(value="IN_SCHEDULE_CD", required=false) String IN_SCHEDULE_CD, HttpServletResponse response ) {
+//		
+//		List<InSchedulePerProductVO> inProdList = service.getInProdList(IN_SCHEDULE_CD);
+//		
+//		JSONArray jsonArray = new JSONArray();
+//		
+//		for(InSchedulePerProductVO inProd : inProdList) {
+//			JSONObject jsonObject = new JSONObject(inProd);
+//			jsonArray.put(jsonObject);
+//		}
+//		
+//		try {
+//			response.setCharacterEncoding("UTF-8");
+//			response.getWriter().print(jsonArray);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//	}
 
 	
 	
@@ -207,7 +207,7 @@ public class In_ScheduleController {
 		
 	}
 	
-	// ---------- 출고 관리 - 출고 예정 등록 폼 - 거래처 조회 ----------
+	// ---------- 입고 관리 - 입고 예정 등록 폼 - 거래처 조회 ----------
 		@GetMapping(value ="/BuyerJson", produces = "application/json; charset=utf-8")
 		@ResponseBody
 		public void listJson_buyer(
@@ -249,7 +249,7 @@ public class In_ScheduleController {
 		
 		
 		// ===============================================================================
-		// ---------- 출고 관리 - 출고 예정 등록 폼 - 사원 조회 ----------
+		// ---------- 입고 관리 - 입고 예정 등록 폼 - 사원 조회 ----------
 		@GetMapping(value ="/EmpJson", produces = "application/json; charset=utf-8")
 		@ResponseBody
 		public void listJson_emp(
@@ -424,8 +424,9 @@ public class In_ScheduleController {
 	//------------- 입고 처리 ------------------------------
 	@PostMapping(value = "/In_Per_Schedule_Process")
 
-	public String In_Per_Schedule_Process(@ModelAttribute InSchedulePerProductVO vo,HttpServletResponse response,Model model) {
+	public String In_Per_Schedule_Process(@ModelAttribute InSchedulePerProductVO vo,HttpServletResponse response,Model model,HttpSession session) {
 					System.out.println("입고 처리 : "+vo);
+					String sId = (String)session.getAttribute("emp_num");  
 					
 					//배열 항목들 풀어서 일반 배열에 푸는 작업
 					for(int i =0; i <vo.getIN_SCHEDULE_PER_CDArr().length;i++) {
@@ -451,12 +452,12 @@ public class In_ScheduleController {
 							int insertCount = service.insertStock(insp);
 							if(insertCount > 0) {
 								System.out.println("insertCount: "+insertCount);
-								//insert 성공 시 입고 처리 한 품복 수량 증가	
-								service.updateInQTY(insp);
+								//insert 성공 시 입고 처리 한 품목 수량 증가	
+								int updateInQtyCount = service.updateInQTY(insp);
 								
 								if(updateInQtyCount > 0) {
 									//재고테이블 추가 + 입고수량 증가 후에 재고이력을 기록하는 작업
-									service.getInsertHistory(insp.getIN_QTY(), Stock_cd, insp.getPRODUCT_CD(), sId);
+									service.getInsertHistory(insp.getIN_QTY(), insp.getSTOCK_CD(), insp.getPRODUCT_CD(), sId);
 								}
 								//입고 예정 수량 - 입고 수량 = 0 일 떄 1로 증가
 								service.updateIN_COMPLETE(insp);
