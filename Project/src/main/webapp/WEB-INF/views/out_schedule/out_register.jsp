@@ -76,7 +76,7 @@ function load_buyerList() {
 				+ "<tr style='cursor:pointer; text-align: center;'>"
 				+ "<td colspan ='2'>"
 				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  buyer_keyword + "'" +  " 에 대한 검색결과가 없습니다."
-				+ "</h4>"
+				+ "</h6>"
 				+ "</td>"
 				+ "</tr>";
 		 		+ '</table>';
