@@ -55,7 +55,7 @@
 			}
 		})
 		.fail(function() {
-			$("#card-body > tbody).before("<h5>조회된 정보가 없습니다</h5>");
+			$("#datatablesSimple> tbody").before("<h5>조회된 정보가 없습니다</h5>");
 		});
 	}	
 
@@ -119,8 +119,9 @@
 								<th width="150">관리하기</th>
                           	</tr>
 	                    </thead>
-	                    <tbody></tbody>
+	                    <tbody>
 						<!-- ajax로 표시할 위치 -->
+						</tbody>
                     </table>
                 </div>
             </div>
