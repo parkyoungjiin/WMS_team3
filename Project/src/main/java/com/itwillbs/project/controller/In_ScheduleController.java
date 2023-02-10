@@ -409,7 +409,7 @@ public class In_ScheduleController {
 				
 				//테이블에 이미 존재 하는 재고 번호가 있으면 존재 하면 
 				//stock 테이블에 수량 증가
-				service.updateStockQTY(insp);
+//				service.updateStockQTY(insp);
 				// 재고 번호가 존재 하지 않으면 insert	
 					if(Stock_cd != insp.getSTOCK_CD()) {
 						service.insertStock(insp);

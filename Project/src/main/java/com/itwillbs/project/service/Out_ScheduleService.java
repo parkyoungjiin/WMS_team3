@@ -82,11 +82,25 @@ public class Out_ScheduleService {
 	public OutSchedulePerProductVO getOutschedulePerInfo(OutSchedulePerProductVO vo2) {
 		return mapper.selectOsProInfo(vo2);
 	}
+	
+	//-----------재고 번호 받아오기 (팝업창)-----------
+	public List<StockVo> getSerachStockNum(String keyword) {
+		return mapper.searchStockNum(keyword);
+	}
 
-	//이름 [규격]
-//	public String concatName() {
-//		return mapper.nameSize();
-//	}
+	// 출고 처리 - 수량 조정
+	public void updateOspQty(OutSchedulePerProductVO osp2) {
+		mapper.updateOspQty(osp2);
+	}
 
+	// 출고 처리 - 완료 조정
+	public void updateOut_complete(OutSchedulePerProductVO osp2) {
+		mapper.updateOut_complete(osp2);
+	}
+
+	// 출고 처리 - 재고 조정
+	public void updateOspStock(OutSchedulePerProductVO osp2) {
+		mapper.updateOspStock(osp2);
+	}
 
 }
