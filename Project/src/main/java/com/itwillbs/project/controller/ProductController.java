@@ -1,6 +1,10 @@
 package com.itwillbs.project.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.project.service.ProductService;
 import com.itwillbs.project.vo.BuyerVo;
@@ -67,7 +72,8 @@ public class ProductController {
 	@PostMapping(value="ProdInsertPro")
 	public String ProdInsertPro(
 			@ModelAttribute ProductVO prod
-			, Model model) {
+			, Model model
+			, HttpSession session) {
 		System.out.println(prod);
 		
 		try {
@@ -80,29 +86,57 @@ public class ProductController {
 			System.out.println("year : " + year);
 			System.out.println("date : " + date);
 			
-			//		SimpleDateFormat date_format = new SimpleDateFormat("yyMM");
-//		System.out.println("date_format" + date_format);
 			
-//		String year = date_format.format(prod.getInsertCdDate());
-
-			
-				// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 8자리), 자동부여
+			// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 8자리), 자동부여
 //				String Pcode = Integer.toString(prod.getProduct_group_top_cd())+Integer.toString(prod.getProduct_group_bottom_cd());
-				String Pcode = String.valueOf(prod.getProduct_group_top_cd())+String.valueOf(prod.getProduct_group_bottom_cd());
-				System.out.println("Pcode : " + Pcode);
-				
-				String barcode = year + Pcode;
-						
-				prod.setBarcode(barcode); // 저장
-				
-				System.out.println("barcode : " + barcode);
+			String Pcode = String.valueOf(prod.getProduct_group_top_cd())+String.valueOf(prod.getProduct_group_bottom_cd());
+			System.out.println("Pcode : " + Pcode);
+			
+			String barcode = year + Pcode;
+					
+			prod.setBarcode(barcode); // 저장
+			
+			System.out.println("barcode : " + barcode);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-
 		//-----------------------------------------------------
+		//파일 업로드
 		
+		//1. 경로 설정 (가상 경로, 실제 업로드 경로)
+		String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
+		String saveDir = session.getServletContext().getRealPath(uploadDir); //실제 업로드 경로
+		System.out.println("실제 업로드 경로:" + saveDir);
+		
+		//2. 만약, 해당 경로 상에 실제 디렉토리(폴더)가 존재하지 않을 경우 새로 생성
+		
+		File f = new File(saveDir);	
+		if(!f.exists()) {
+			f.mkdirs(); // 지정된 경로 상에 존재하지 않는 모든 경로를 차례대로 생성
+		}
+		//3. MultipartFile 객체 생성(Vo의 file은 MutlipartFile 타입 / PHOTO는 String 타입)
+		// => *** MutlipartFile 타입으로 원본 파일명을 꺼낸 후에 파일명을 String 타입으로 저장 ***
+		
+		MultipartFile mFile = prod.getFile();
+		//4. MultipartFile 객체의 getOriginalFilename() 메서드를 통해 파일명 꺼내기
+		String originalFileName = mFile.getOriginalFilename(); //원본 파일명
+		System.out.println("원본 파일명: " +originalFileName);
+		System.out.println("파일명: " +mFile.getName());
+		//5. 원본 파일명을 empVo에 저장
+		prod.setProduct_image(originalFileName);
+		//6. transferTo를 통해 파일 업로드
+		try {
+			mFile.transferTo(
+					new File(saveDir, mFile.getOriginalFilename())
+				);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// 품목 등록
 		int insertCount = service.insertProd(prod);
 		
 		// 등록 성공 / 실패에 따른 포워딩
@@ -222,25 +256,59 @@ public String prodInfo(
 	
 }
 
-//--------------------품목 수정-------------------------------
+//-------------------- 품목 수정 Pro -------------------------------
+
 @PostMapping(value="/UpdateProd")
 public String productUpdate(
 		@ModelAttribute ProductVO product
 		, Model model
 		, HttpSession session) {
 	
+	//------------- 이미지 수정 -------------------------------
+	
+	String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
+	String saveDir = session.getServletContext().getRealPath(uploadDir); //실제 업로드 경로
+	System.out.println("실제 업로드 경로:" + saveDir);
+	
+	//2. 만약, 해당 경로 상에 실제 디렉토리(폴더)가 존재하지 않을 경우 새로 생성
+	File f = new File(saveDir);	
+	if(!f.exists()) {
+		f.mkdirs(); // 지정된 경로 상에 존재하지 않는 모든 경로를 차례대로 생성
+	}
+	//3. MultipartFile 객체 생성(Vo의 file은 MutlipartFile 타입 / PHOTO는 String 타입)
+	MultipartFile mFile = product.getFile();
+	//4. MultipartFile 객체의 getOriginalFilename() 메서드를 통해 파일명 꺼내기
+	String originalFileName = mFile.getOriginalFilename(); //원본 파일명
+	System.out.println("원본 파일명: " +originalFileName);
+	System.out.println("파일명: " +mFile.getName());
+	//5. 원본 파일명을 empVo에 저장
+	product.setProduct_image(originalFileName);
+
+	// --------------- 수정 --------------------------------
 	int updateCount = service.updateProd(product);
 	
-	
-	if(updateCount > 0) { // 수정 성공
+	if(updateCount > 0) { // 수정 성공 시
+		
+			//6. transferTo를 통해 파일 이동
+			try {
+				mFile.transferTo(new File(saveDir, mFile.getOriginalFilename()));
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
 		model.addAttribute("msg", "품목 수정 성공!");
 		return "redirect:/ProdModify?product_cd=" + product.getProduct_cd();
-	} else {
+	} else { // 수정 실패 시
 		model.addAttribute("msg", "품목 수정 실패!");
 		return "fail_back";
 	}
 
 }
+
+
 	
 
 //-------------이미지 파일 출력------------------------
@@ -248,10 +316,53 @@ public String productUpdate(
 //public String img(Locale locale, Model model) {
 //	
 //	model.addAttribute("img", img);
-//}
+//}================================================
 	
-	
-	
+//글 수정 시 개별 파일 삭제 처리를 별도로 수행(AJAX 요청)
+	// => 파라미터 : 글번호, 파일명, 세션 객체, 응답 객체 필요
+//	@ResponseBody
+//	@PostMapping("/BoardDeleteFile.bo")
+//	public void deleteFile(
+//			@RequestParam int board_num,
+//			@RequestParam String board_pass,
+//			@RequestParam String fileName,
+//			HttpSession session, HttpServletResponse response) {
+////		System.out.println(board_num + ", " + fileName);
+//		
+//		response.setCharacterEncoding("UTF-8");
+//		
+//		try {
+//			// Service 객체의 isBoardWriter() 메서드를 호출하여 
+//			// 전달받은 패스워드가 게시물의 패스워드와 일치하는지 비교
+//			// => 파라미터 : 글번호, 패스워드    리턴타입 : BoardVO
+//			if(service.isBoardWriter(board_num, board_pass) != null) {
+//				// 게시물 패스워드가 일치할 경우 
+//				// Service 객체의 removeBoardFile() 메서드 호출하여 개별 파일 삭제 요청
+//				// => 파라미터 : 글번호, 파일명
+//				int deleteCount = service.removeBoardFile(board_num, fileName);
+//				
+//				// DB 파일 삭제 성공 시 실제 파일 삭제
+//				if(deleteCount > 0) { // 삭제 성공
+//					String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
+//					String saveDir = session.getServletContext().getRealPath(uploadDir);
+//					
+//					Path path = Paths.get(saveDir + "/" + fileName);
+//					Files.deleteIfExists(path);
+//					
+//					response.getWriter().print("true");
+//				} else { // 삭제 실패
+//					response.getWriter().print("false");
+//				}
+//				
+//			} else {
+//				response.getWriter().print("incorrectPasswd");
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//	}
+//	
 	
 	
 }// ProductController 끝

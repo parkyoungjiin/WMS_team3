@@ -33,7 +33,7 @@ window.onload = function(){
                 document.getElementById("emp_address_zonecode").value = data.zonecode; // 우편번호 넣기
                 document.querySelector("input[id=emp_address_kakao2]").focus(); //상세입력 포커싱
             }
-        }).open();
+        }).open();        
     });
 }
 </script>
@@ -68,6 +68,12 @@ window.onload = function(){
 	</header>
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
+	
+	<%-- 회원 개별 상세 정보 --%>
+	<section>
+		<div id="leftDiv">
+		${employee.PHOTO }
+<%-- 			<img id="empImg" src="../resources/upload${emp.PHOTO }"  width="100px" > --%>
 <main id ="main" class="main">
    <div class="pagetitle">
      <h1>사원 관리</h1>
