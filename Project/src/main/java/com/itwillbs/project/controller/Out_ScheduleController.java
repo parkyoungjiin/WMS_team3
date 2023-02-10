@@ -45,10 +45,13 @@ public class Out_ScheduleController {
 	
 	// ---------- 출고 관리 - 출고 예정 목록 ----------
 	@GetMapping(value = "OutList.os")
-	public String outList(Model model) { //,@ModelAttribute OutScheduleVO outList) {
+	public String outList(Model model) { 
 		List<OutScheduleVO> outList = service.getOutScheduleList();
 		model.addAttribute("outList", outList);
-//		System.out.println("종결상태 확인용" + outList);
+//		String perName = service.concatName();
+//		System.out.println(perName);
+//		model.addAttribute("perName",perName);
+		
 		return "out_schedule/out_list";
 	} // outList 끝
 
@@ -61,22 +64,13 @@ public class Out_ScheduleController {
 		
 		JSONArray jsonArray = new JSONArray();
 		
-		// 1. List 객체 크기만큼 반복
 		for(OutSchedulePerProductVO outProd : outProdList) {
-			// 2. JSONObject 클래스 인스턴스 생성
-			// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
 			JSONObject jsonObject = new JSONObject(outProd);
-	//		System.out.println(jsonObject);
 			
-			// 3. JSONArray 객체의 put() 메서드를 호출하여 JSONObject 객체 추가
 			jsonArray.put(jsonObject);
 		}
 		
 		try {
-			// 생성된 JSON 객체를 활용하여 응답 데이터를 직접 생성 후 웹페이지에 출력
-			// response 객체의 setCharacterEncoding() 메서드로 출력 데이터 인코딩 지정 후
-			// response 객체의 getWriter() 메서드로 PrintWriter 객체를 리턴받아
-			// PrintWriter 객체의 print() 메서드를 호출하여 응답데이터 출력
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().print(jsonArray); // toString() 생략됨
 			System.out.println(jsonArray);
@@ -89,6 +83,7 @@ public class Out_ScheduleController {
 	@GetMapping(value="/OutComplete.os")
 	public String changeComplete(@RequestParam(value="out_complete") String out_complete, @RequestParam(value="out_schedule_cd", required=false) String out_schedule_cd) {
 		System.out.println("종결값:" + out_complete);
+		System.out.println("");
 		int updateCount = service.updateComplete(out_complete,out_schedule_cd);
 		
 		if(updateCount > 0) {
@@ -308,13 +303,18 @@ public class Out_ScheduleController {
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
 					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
 					
-//					System.out.println("왜 하나만 " + osp.getProduct_cdArr().length);
-//					System.out.println("왜 하나만 " + osp.getProduct_cdArr()[1]);
+					System.out.println(osp2);
 					// 단일값으로 저장해야 할 항목들
 					osp2.setOut_schedule_cd(out_schedule_code); // 공통 출고 예정 번호
 					
 					int insertCount2 = service.insertOutProduct(osp2);
 					
+					if(insertCount2 > 0) {
+						return "redirect:/OutList.os";
+					} else {
+						model.addAttribute("msg", "출고 예정 등록 실패!");
+						return "fail_back";
+					}
 					
 				}
 				return "redirect:/OutList.os";
@@ -432,7 +432,6 @@ public class Out_ScheduleController {
 			return "out_schedule/out_schedule_per_list_popup";
 		}//출고처리 팝업창 끝
 		
-		
 		//------------출고처리 팝업창에서 검색---------
 		@GetMapping(value ="/StockNumListJson_out", produces = "application/json; charset=utf-8")
 		@ResponseBody
@@ -505,4 +504,5 @@ public class Out_ScheduleController {
 			
 			return "redirect:/Out_Per_List";		
 		}// 출고 처리 끝
+
 }
