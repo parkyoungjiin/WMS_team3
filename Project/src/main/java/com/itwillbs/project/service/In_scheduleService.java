@@ -102,13 +102,18 @@ public class In_scheduleService {
 	}
 	
 	//-----------------종결 버튼----------------
-	public int updateclosing(String iN_COMPLETE, String iN_SCHEDULE_CD) {
-		return mapper.updatecomplete(iN_COMPLETE,iN_SCHEDULE_CD);
+	public int updateclosing(String IN_COMPLETE, String IN_SCHEDULE_CD) {
+		return mapper.updatecomplete(IN_COMPLETE,IN_SCHEDULE_CD);
 	}
 	
 	//----------재고 번호 불러오기 ----------
 	public int getStock_cd(int in_SCHEDULE_PER_CD) {
 		
 		return mapper.getStock_cd(in_SCHEDULE_PER_CD);
+	}
+
+	//--------진행상태---------- 
+	public List<InSchedulePerProductVO> getInProdList(String iN_SCHEDULE_CD) {
+		return mapper.selectInProductList(iN_SCHEDULE_CD);
 	}
 }

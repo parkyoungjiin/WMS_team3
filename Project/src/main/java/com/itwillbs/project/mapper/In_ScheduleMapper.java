@@ -57,7 +57,7 @@ public interface In_ScheduleMapper {
 	int updateInschedulepro(InSchedulePerProductVO insp2);
 	
 	//종결버튼
-	int updatecomplete(String iN_COMPLETE, String iN_SCHEDULE_CD);
+	int updatecomplete(@Param("IN_COMPLETE") String IN_COMPLETE,@Param("IN_SCHEDULE_CD")  String IN_SCHEDULE_CD);
 	
 	//-------------재고 번호 가져오기 -----------------
 	int getStock_cd(int in_SCHEDULE_PER_CD);
