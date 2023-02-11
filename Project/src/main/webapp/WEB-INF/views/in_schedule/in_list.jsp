@@ -237,11 +237,9 @@ a{text-decoration:none; color:#333;}
               </ul>
               <div class="tab-content pt-2" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                 	<table class="table table-hover">
+                 	<table class="table table-hover" style="padding:10px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col"></th>
-		                    <th scope="col"></th>
 		                    <th scope="col">입고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">보낸곳명</th>
@@ -258,12 +256,11 @@ a{text-decoration:none; color:#333;}
 							<tr>
 										
 <%-- 	<td>${idx.count }</td> --%>
-							<th scope="row"></th>
-							<td> 
-							<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
-		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }">
-		                    </td>
-						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
+<!-- 							<th scope="row"></th> -->
+							
+						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a>
+						<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
+		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }"></td> <!-- 입고예정번호 -->
 		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
 		                    <td>${isList.CUST_NAME}</td> <!-- 보낸곳명 -->
 		                    <td>${isList.EMP_NAME}</td>	<!-- 담당자명 -->

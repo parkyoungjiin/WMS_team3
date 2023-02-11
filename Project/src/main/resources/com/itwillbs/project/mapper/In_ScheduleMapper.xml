@@ -5,6 +5,39 @@
 	SELECT *
 	FROM in_schedule_view
 	</select>
+	
+	<!-- 출고리스트 상품 갯수 조회 -->
+	<select id="selectExtraPdcount" resultType="int">
+	SELECT COUNT(IN_SCHEDULE_CD)
+	FROM IN_SCHEDULE_PER_PRODUCT
+	WHERE IN_SCHEDULE_CD = #{inSchCd}
+	</select>
+	
+	<!-- 입고예정 품목명 -->
+	<select id="selectInPdName" resultType="int">
+	SELECT MAX(IN_SCHEDULE_PER_CD)
+	FROM IN_SCHEDULE_PER_PRODUCT
+	WHERE IN_SCHEDULE_CD = #{inSchCd}
+	
+	</select>
+	
+	<!-- 외1건 -->
+	<select id="selectInSingle" resultType="String">
+	SELECT PRODUCT_NAME 
+	FROM IN_SCHEDULE_PER_PRODUCT
+	WHERE IN_SCHEDULE_PER_CD = #{checkCd}
+	
+	</select>
+	
+	<!-- 입고예정 목록 품목명 -->
+	<select id="selectInProduct" resultType="String">
+	SELECT PRODUCT_NAME
+	FROM IN_SCHEDULE_PER_PRODUCT
+	WHERE IN_SCHEDULE_PER_CD = #{checkCd}
+	</select>
+	
+	
+	
 	<!-- 입고물품 등록 -->
 	<insert id="insertInschedule">
 	INSERT INTO in_schedule
