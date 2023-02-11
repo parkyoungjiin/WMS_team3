@@ -602,7 +602,7 @@ function input_search_idx(cb) {
                 <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">납기일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="IN_DATE" type="date" class="form-control" id="testDate" required="required" value="${ins.IN_DATE }">
+                        <input name="IN_DATE" type="date" class="form-control" id="IN_DATE" required="required" value="${ins.IN_DATE }">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">비고</label>
                       <div class="col-md-8 col-lg-2">
@@ -752,18 +752,22 @@ function input_search_idx(cb) {
 		                </thead>
 		                <tbody>
 		                <c:forEach items="${inspList }" var="inspList" varStatus="status"> 
+		                <input type="hidden" class="form-control form-control-sm pro_name" required="required" value="${inspList.PRODUCT_NAME }" name="PRODUCT_NAMEArr" id="product_nameArr${status.index}">
+		                <input type="hidden" class="form-control form-control-sm pro_size" required="required" value="${inspList.PRODUCT_SIZE }" name="PRODUCT_SIZEArr" id="product_sizeArr${status.index}" >
+<%--         				<input type="hidden" name="stock_cdArr" class="stock_cd" value="${ospList.stock_cd }" id="product_stock_cd${status.index}"> --%>
+        				<input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD }" id="in_schedule${status.index}">
 		                  	<tr>
 							<td>
-							<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-2">
+							<div class="input-group input-group-sm mb-2">
          					<input type="text" class="form-control form-control-sm pro_cd" id="product_cd${status.index }" name="PRODUCT_CDArr" required="required" value="${inspList.PRODUCT_CD }">
 	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" id="product_search_btn${status.index }" data-bs-target="#modalDialogScrollable_pro" onclick="input_search_idx(this)">검색</button></div>
-          					</div></td>
-							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="${inspList.PRODUCT_NAME }"></td>
-							<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTY" value="${inspList.IN_SCHEDULE_QTY }" onchange="calculateSum();"></td>
-							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${inspList.IN_DATE }" name="IN_DATEArr" required="required"></td>
-							<td><input type="text" class="form-control form-control-sm" value="${inspList.REMARKS }" name="REMARKS"></td>
+          					</td>
+							<td><input type="text" class="form-control form-control-sm pro_name" required="required" id="product_namesizeArr${status.index }" name="PRODUCT_NAMEArr" value="${inspList.PRODUCT_NAME }[${inspList.PRODUCT_SIZE }]"></td>
+							<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTYArr${status.index }" value="${inspList.IN_SCHEDULE_QTY }" onchange="calculateSum();"></td>
+							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${inspList.IN_DATE }" name="IN_DATEArr" id="IN_DATEArr${status.index }" required="required"></td>
+							<td><input type="text" class="form-control form-control-sm" value="${inspList.REMARKS }"  id="REMARKSArr${status.index }" name="REMARKSArr"></td>
+							<td><input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD}" id="product_stock_cd${status.index}"></td>
 							<td><span class="stoContent"></span></td>
-							<input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD}" id="product_stock_cd${status.index}">
 <!-- 							<input type="hidden" name="stock_cdArr" class="stock_cd"> -->
 <!-- 							<input type="hidden" name="stock_qty" class="stock_qty"> -->
 <!-- 							<input type="hidden" name="product_nameArr" class="product_nameArr"> -->

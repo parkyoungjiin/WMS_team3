@@ -193,7 +193,8 @@ public class In_ScheduleController {
 			@ModelAttribute InSchedulePerProductVO insp, Model model
 			) {
 		int updateCount = service.modifyPro(ins);
-		
+		System.out.println("수정:"+ ins);
+		System.out.println("수정:"+ insp);
 		if(updateCount >0) {
 			for(int i=0; i < insp.getPRODUCT_CDArr().length; i++) {
 				InSchedulePerProductVO insp2 = new InSchedulePerProductVO();
@@ -201,24 +202,26 @@ public class In_ScheduleController {
 				insp2.setPRODUCT_NAME(insp.getPRODUCT_NAMEArr()[i]);
 				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
 				insp2.setIN_SCHEDULE_QTY(insp.getIN_SCHEDULE_QTYArr()[i]);
-				if(insp.getREMARKSArr()[i] == null) {
-					insp2.setREMARKS("");
-				}else {
+				insp2.setIN_SCHEDULE_PER_CD(insp.getIN_SCHEDULE_PER_CDArr()[i]);
+//				if(insp.getREMARKSArr()[i] == null) {
+//					insp2.setREMARKS("");
+//				}else {
 					insp2.setREMARKS(insp.getREMARKSArr()[i]);
-				}
+//				}
 				insp2.setIN_DATE(insp2.getIN_DATEArr()[i]);
 				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
 				insp2.setIN_SCHEDULE_CD(insp.getIN_SCHEDULE_CD());
 				
 				int updateCount2= service.modifyPro2(insp2);
 			}
-			return "redirect:/InList";
-		}else {
-			model.addAttribute("msg","수정 실패");
-			return "fail_back";
 			
+//		}else {
+//			model.addAttribute("msg","수정 실패");
+//			return "fail_back";
+//			
+//		}
 		}
-		
+		return "redirect:/InList";
 	}
 	
 	// ---------- 입고 관리 - 입고 예정 등록 폼 - 거래처 조회 ----------
