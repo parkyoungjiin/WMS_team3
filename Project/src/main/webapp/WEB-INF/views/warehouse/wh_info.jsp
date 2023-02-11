@@ -57,6 +57,7 @@ $(function() {
 	});// 내부,외부처리 
 	//------------수정-------------------------
 	$("#updatebutton").click(function() {
+		
 		var params = $("#fr").serialize();
 		$.ajax({
 			type: "post",
@@ -256,7 +257,7 @@ function onlynumber(str) {
                       </div>
                     </div>
                    
-                    \<div class="row mb-3">
+                    <div class="row mb-3">
               		<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">적요</label>
               		<div class="col-md-6 col-lg-6">
                     <textarea class="form-control" style="height: 100px;" name="remarks"></textarea>
@@ -278,7 +279,7 @@ function onlynumber(str) {
 					
 					<div></div>
                     <div class="text-left">
-                      <button type="button" id="updatebutton" class="btn btn-primary">창고 수정</button>
+                      <button type="submit" id="updatebutton" class="btn btn-primary">창고 수정</button>
                     </div>
                 </div>
 		</div>

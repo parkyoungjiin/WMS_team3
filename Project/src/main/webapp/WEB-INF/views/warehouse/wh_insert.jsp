@@ -246,7 +246,7 @@ window.onload = function(){
                       		<span class="input-group-text">-</span>
                       		<input type="text" class="form-control" name="wh_tel2" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" required>
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" name="wh_tel13" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required>
+                      		<input type="text" class="form-control" name="wh_tel3" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required>
      					   </div>                 
      					</div>
                     </div>
