@@ -56,6 +56,9 @@ public class In_ScheduleController {
 		List<InScheduleVO> islist = service.getInscheduleList();
 		model.addAttribute("islist", islist);
 		
+		List<InScheduleVO> in = service.getInSchedule();
+		model.addAttribute("in", in);
+		
 		return "in_schedule/in_list";
 	} //입고예정 목록 표시 페이지 이동 끝 
 	

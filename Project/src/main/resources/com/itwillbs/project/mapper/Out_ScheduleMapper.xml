@@ -31,13 +31,13 @@
 	<select id="selectOutProduct" resultType="String">
 		SELECT product_name 
 			from out_schedule_per_product 
-			where out_schedule_per_cd = #{checkcd}
+			where out_schedule_per_cd = #{checkCd}
 	</select>
 
 	<select id="selectOutSingle" resultType="String">
 		SELECT product_name 
 			from out_schedule_per_product 
-			where out_schedule_per_cd = #{checkcd}
+			where out_schedule_per_cd = #{checkCd}
 	</select>
 	
 	

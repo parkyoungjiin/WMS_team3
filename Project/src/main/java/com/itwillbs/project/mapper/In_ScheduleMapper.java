@@ -73,5 +73,16 @@ public interface In_ScheduleMapper {
 			@Param("stock_cd") int stock_cd, 
 			@Param("product_cd") int product_cd, 
 			@Param("sId") String sId);
+	
+	//-----입고리스트 상품 갯수 ---
+	int selectExtraPdcount(String inSchCd);
+	//-----입고리스트 상품 갯수 가져오기 -----
+	int selectInPdName(String inSchCd);
+	// ----입고 리스트 외 1건 처리 ----
+	String selectInProduct(int checkCd);
+	//---- 외 1건처리 
+	String selectInSingle(int checkCd);
+	
+	
 
 }

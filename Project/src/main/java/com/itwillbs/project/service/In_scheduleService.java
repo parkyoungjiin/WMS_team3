@@ -124,4 +124,24 @@ public class In_scheduleService {
 	public List<InSchedulePerProductVO> getInProdList(String iN_SCHEDULE_CD) {
 		return mapper.selectInProductList(iN_SCHEDULE_CD);
 	}
+
+	public List<InScheduleVO> getInSchedule() {
+		List<InScheduleVO> inSch = mapper.selectInscheduleList();
+		
+		for(int i=0; i<inSch.size(); i++) {
+			String inSchCd = inSch.get(i).getIN_SCHEDULE_CD();
+			int extraPdCount = mapper.selectExtraPdcount(inSchCd);
+			int checkCd = mapper.selectInPdName(inSchCd);
+			if(extraPdCount > 1) {
+				String pdInfo = mapper.selectInProduct(checkCd);
+				inSch.get(i).setPRODUCT_NAME(pdInfo + "외" + (extraPdCount-1)+"건");
+				
+			}else {
+				String pdInfo = mapper.selectInSingle(checkCd);
+				inSch.get(i).setPRODUCT_NAME(pdInfo);
+			}
+		}
+		
+		return inSch;
+	}
 }

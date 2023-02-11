@@ -124,6 +124,8 @@ function load_buyerList() {
 }// //-------------------거래처 목록 조회(모달) 끝-----------------
 
 
+
+
 //------------------사원 목록 조회(모달)-------------------------
 function load_empList() {
 	
@@ -376,7 +378,20 @@ $(function() {
 		   $('#modalDialogScrollable_emp').modal('hide');
 		   $("#emp_name").val(emp_name);
 		   $("#emp_num").val(emp_num);
-	});	   
+	});	 
+	
+	
+	//입고 처리 날짜 계산
+	   let today = new Date();
+
+let year = today.getFullYear();
+let month = ('0' + (today.getMonth() + 1)).slice(-2);
+let day = ('0' + today.getDate()).slice(-2);
+
+let dateString = year + '-' + month  + '-' + day;
+
+// alert(dateString); 
+$("#out_schedule_date").val(dateString);
 	
 	
 	// 품목

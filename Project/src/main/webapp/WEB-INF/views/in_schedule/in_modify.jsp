@@ -45,8 +45,8 @@
 // $("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
 
 // alert(${ospList.size()});
-var ospSize = "${ospList.size()}";
-alert(ospSize);
+var ospSize = ${ospList.size()};
+// alert(ospSize);
 var idx = ospSize;
 var selectIdx;
 //-------------------거래처 목록 조회(모달)-----------------
@@ -84,6 +84,7 @@ function load_buyerList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-buyer").append(no_result);
+	         $("#buyer_keyword").focus();
 
 
 		}else{
@@ -155,6 +156,7 @@ function load_empList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-emp").append(no_result);
+	         $("#emp_keyword").focus();
 
 
 		}else{
@@ -222,6 +224,7 @@ function load_proList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-pro").append(no_result);
+	         $("#pro_keyword").focus();
 
 
 		}else{
@@ -254,32 +257,32 @@ function load_proList() {
 	});
 }
 // 재고 목록 조회(모달)
-// function load_stoList() {
+function load_stoList(cb) {
 	
-// 	let sto_keyword = $(".pro_cd").eq(selectIdx).val();
-// // 	alert(sto_keyword);
+	let sto_keyword = $(".pro_cd").eq(selectIdx).val();
+// 	alert(sto_keyword);
 	
-// 	$.ajax({
-// 		type: "GET",
-// 		url: "StoListJson?keyword=" + sto_keyword,
-// 		dataType: "json"
-// 	})
-// 	.done(function(stoList) { // 요청 성공 시
+	$.ajax({
+		type: "GET",
+		url: "StoListJson?keyword=" + sto_keyword,
+		dataType: "json"
+	})
+	.done(function(stoList) { // 요청 성공 시
 		
-// 		for(let sto of stoList) {
+		for(let sto of stoList) {
 			
-// 			let result = "<tr style='cursor:pointer;'>"
-// 		                + "<td>" + sto.stock_cd + "</td>"
-// 		                + "<td>" + sto.stock_qty + "</td>"
-//                			+ "</tr>";
+			let result = "<tr style='cursor:pointer;'>"
+		                + "<td>" + sto.stock_cd + "</td>"
+		                + "<td>" + sto.stock_qty + "</td>"
+               			+ "</tr>";
              
-// 			$("#modal-body-sto > table").append(result);
-// 		}
-// 	})
-// 	.fail(function() {
-// 		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
-// 	});
-// }
+			$("#modal-body-sto > table").append(result);
+		}
+	})
+	.fail(function() {
+		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+	});
+}
 	
 
 
@@ -300,8 +303,8 @@ $(function() {
 			   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_buyer').modal('hide');
-		   $("#cust_name").val(cust_name);
-		   $("#business_no").val(no);
+		   $("#CUST_NAME").val(CUST_NAME);
+		   $("#BUSINESS_NO").val(no);
 	});	 
 	
 	
@@ -321,23 +324,23 @@ $(function() {
 		   $("#EMP_NAME").val(emp_name);
 		   $("#EMP_NUM").val(emp_num);
 	});	   
-	// 담당자
-	$("#modal-body-pro"+idx).on('click','tr',function(){
-		   let td_arr = $(this).find('td');
-		   console.log(td_arr);
+	// 품목
+// 	$("#modal-body-pro"+idx).on('click','tr',function(){
+// 		   let td_arr = $(this).find('td');
+// 		   console.log(td_arr);
 		   
-// 		   $('#no').val($(td_arr[0]).text());
-		   let product_cd = $(td_arr[0]).text();
-		   let product_name = $(td_arr[1]).text();
-		   let QTY = $(td_arr[2]).text();
+// // 		   $('#no').val($(td_arr[0]).text());
+// 		   let product_cd = $(td_arr[0]).text();
+// 		   let product_name = $(td_arr[1]).text();
+// 		   let QTY = $(td_arr[2]).text();
 		   
-		   // td 클릭시 모달 창 닫기
-		   $('#modalDialogScrollable_pro').modal('hide');
-		   $("#product_cd").val(product_cd);
-		   $("#PRODUCT_NAMEArr").val(product_name);
-		   $("#IN_SCHEDULE_QTY").val(QTY);
+// 		   // td 클릭시 모달 창 닫기
+// 		   $('#modalDialogScrollable_pro').modal('hide');
+// 		   $("#product_cd").val(product_cd);
+// 		   $("#PRODUCT_NAMEArr").val(product_name);
+// 		   $("#IN_SCHEDULE_QTY").val(QTY);
 	
-	});	   
+// 	});	   
 	
 	
 	// 테이블 추가하기
@@ -382,10 +385,10 @@ $(function() {
 							+ '<input type="hidden" name="PRODUCT_SIZEArr" class="product_sizeArr">'
             				+ '</tr>';
             				
-            				$("#out_list > tbody").append(addInput);
+            				$("#in_list > tbody").append(addInput);
             				
            idx++;	
-           alert(idx);
+//            alert(idx);
            console.log(idx);
 	});
 });
@@ -514,7 +517,7 @@ $(document).ready(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">거래처</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="cust_name" type="text" class="form-control" id="cust_name" required="required" value="${ins.CUST_NAME }">
+		             		<input name="CUST_NAME" type="text" class="form-control" id="cust_name" required="required" value="${ins.CUST_NAME }">
 		             		<input name="BUSINESS_NO" type="hidden" class="form-control" id="BUSINESS_NO" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" >검색</button>
 
@@ -523,7 +526,7 @@ $(document).ready(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">담당자</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="EMP_NAME" type="text" class="form-control" id="EMP_NAME" required="required" value="${os.emp_name }">
+		             		<input name="EMP_NAME" type="text" class="form-control" id="EMP_NAME" required="required" value="${ins.EMP_NAME }">
 		             		<input name="EMP_NUM" type="hidden" class="form-control" id="EMP_NUM" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_emp">검색</button>
 			        	 </div>
@@ -667,7 +670,7 @@ $(document).ready(function() {
 		<div class="card mb-4">
      	  <div class="card-body" style="font-size: small">
 <!--      	    <input type="button" class="btn btn-secondary btn-sm" value="삭제" id="delete_out"> -->
-       			<table class="table table-hover" id="out_list">
+       			<table class="table table-hover" id="in_list">
 		                <thead>
 		                  <tr>
 <!-- 		                    <th scope="col"><input type="checkbox" id="chkAll"></th> -->
