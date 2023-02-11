@@ -81,7 +81,10 @@ public class In_ScheduleController {
 		String in_code = String.format("%04d", in_cd);
 		String in_schedule_code = inDate+ "-" + in_code;
 		ins.setIN_SCHEDULE_CD(in_schedule_code);
+		
 		int insertCount = service.registerInschedule(ins);
+		
+		
 		if(insertCount > 0) {
 			for(int i =0; i <insp.getPRODUCT_CDArr().length; i++) {
 				InSchedulePerProductVO insp2 = new InSchedulePerProductVO();
@@ -89,7 +92,14 @@ public class In_ScheduleController {
 				insp2.setPRODUCT_NAME(insp.getPRODUCT_NAMEArr()[i]);
 				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
 				insp2.setIN_SCHEDULE_QTY(insp.getIN_SCHEDULE_QTYArr()[i]);
-				insp2.setREMARKS(insp.getREMARKSArr()[i]);
+				for(int a =0; a<insp.getREMARKSArr().length; i++) {
+					if(insp.getREMARKSArr()[a] == null || insp.getREMARKSArr()[a].length() ==0) {
+						insp2.setREMARKS("");
+					}else {
+						insp2.setREMARKS(insp.getREMARKSArr()[a]);
+					}
+				}
+//				insp2.setREMARKS(insp.getREMARKSArr()[i]);
 				insp2.setIN_DATE(insp.getIN_DATEArr()[i]);
 				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
 				
@@ -97,12 +107,12 @@ public class In_ScheduleController {
 				System.out.println(insp);
 				int insertCount2 = service.insertInProduct(insp2);
 				
-//				if(insertCount2 > 0) {
-//					return "redirect:/InList";
-//				}else {
-//					model.addAttribute("msg","입고 등록 실패");
-//					return "fail_back";
-//				}
+				if(insertCount2 > 0) {
+					return "redirect:/InList";
+				}else {
+					model.addAttribute("msg","입고 등록 실패");
+					return "fail_back";
+				}
 			}
 			return "redirect:/InList";
 		}else {
@@ -113,29 +123,29 @@ public class In_ScheduleController {
 		
 	
 	//-----------입고 등록 PRO 끝------------
-//	
-//	//진행 상태 - 입고 예정
-//	@ResponseBody
-//	@GetMapping(value="InListProd")
-//	public void inListProd(Model model,@RequestParam(value="IN_SCHEDULE_CD", required=false) String IN_SCHEDULE_CD, HttpServletResponse response ) {
-//		
-//		List<InSchedulePerProductVO> inProdList = service.getInProdList(IN_SCHEDULE_CD);
-//		
-//		JSONArray jsonArray = new JSONArray();
-//		
-//		for(InSchedulePerProductVO inProd : inProdList) {
-//			JSONObject jsonObject = new JSONObject(inProd);
-//			jsonArray.put(jsonObject);
-//		}
-//		
-//		try {
-//			response.setCharacterEncoding("UTF-8");
-//			response.getWriter().print(jsonArray);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
+
+	//진행 상태 - 입고 예정
+	@ResponseBody
+	@GetMapping(value="InListProd")
+	public void inListProd(Model model,@RequestParam(value="IN_SCHEDULE_CD", required=false) String IN_SCHEDULE_CD, HttpServletResponse response ) {
+		
+		List<InSchedulePerProductVO> inProdList = service.getInProdList(IN_SCHEDULE_CD);
+		
+		JSONArray jsonArray = new JSONArray();
+		
+		for(InSchedulePerProductVO inProd : inProdList) {
+			JSONObject jsonObject = new JSONObject(inProd);
+			jsonArray.put(jsonObject);
+		}
+		
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	
 	
@@ -337,15 +347,6 @@ public class In_ScheduleController {
 	
 	
 	
-//	//----------진행중 리스트----------
-//	@GetMapping("/InProgressList")
-//	public String progress(Model model, HttpSession session) {
-//		List<InScheduleVO> progress = service.getInprogressList();
-//		
-//		model.addAttribute("progress", progress);
-//		
-//		return "in_schedule/in_progresslist";
-//	}
 	
 	//--------입고예정 목록 표시 페이지 이동 -----------
 

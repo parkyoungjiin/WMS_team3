@@ -138,7 +138,7 @@ a{text-decoration:none; color:#333;}
 							  + '<td>' + prod.IN_SCHEDULE_QTY + '</td>'
 							  + '</tr>'
 				console.log(inList);				
-				$("#out > tbody").append(inList);
+				$("#in > tbody").append(inList);
 			}
 		})
 		.fail(function() {
@@ -147,6 +147,9 @@ a{text-decoration:none; color:#333;}
 		});
 		
 	}
+	
+	
+	
 </script>
 <!-- 폰트어썸 -->
 <script src="https://kit.fontawesome.com/ca93809e69.js" crossorigin="anonymous"></script>
@@ -181,19 +184,34 @@ a{text-decoration:none; color:#333;}
       <h1>입고 관리</h1>
     </div><!-- End Page Title -->
     
-    
+    <div class="card mb-4">
   <div class="card-header">
                      입고 예정 목록
                      <button class="btn btn-primary" onclick="location.href='InRegisterForm'" style="float: right;">신규등록</button>
                  </div>
               
   
-                 <div class="card-body">
+                 <div class="card-body" style="padding-top:30">
+                 
+                  <!-- Default Tabs -->
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active tab-css" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" style="font-size:15px;" aria-selected="true">전체</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link tab-css" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" style="font-size:15px;" aria-selected="false">진행중</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link tab-css" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" style="font-size:15px;"  aria-controls="contact" aria-selected="false">완료</button>
+                </li>
+              </ul>
+              <div class="tab-content pt-2" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                  	<table class="table table-hover">
 		                <thead>
 		                  <tr>
-		                    <th scope="col"><i class="fa-solid fa-arrow-down"></i></th>
-		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
+		                    <th scope="col"></th>
+		                    <th scope="col"></th>
 		                    <th scope="col">입고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">보낸곳명</th>
@@ -205,18 +223,16 @@ a{text-decoration:none; color:#333;}
 		                    <th scope="col">진행상태</th>
 		                  </tr>
 		                </thead>
-		                <tbody>
-		                
-		                </tbody>
 		                 <tbody>
-                          <c:forEach var="isList" items="${islist }" varStatus="idx">
+                          <c:forEach var="isList" items="${islist }" varStatus="status">
 							<tr>
 										
-	<td>${idx.count }</td>
-							<td>
-<!-- 							<input type="checkbox" name="chk">  -->
+<%-- 	<td>${idx.count }</td> --%>
+							<th scope="row"></th>
+							<td> 
 							<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
-		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }"></td>
+		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }">
+		                    </td>
 						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
 		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
 		                    <td>${isList.CUST_NAME}</td> <!-- 보낸곳명 -->
@@ -240,8 +256,123 @@ a{text-decoration:none; color:#333;}
 							</c:forEach>  
                         </tbody>
 		              </table>
-           </div>
-   
+           </div> <!-- 1번탭 끝 -->
+           
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> <%-- 진행 --%>
+            <table class="table table-hover">
+		                <thead>
+		                  <tr>
+		                    <th scope="col"></th>
+		                    <th scope="col"></th>
+		                    <th scope="col">입고예정번호</th>
+		                    <th scope="col">유형</th>
+		                    <th scope="col">보낸곳명</th>
+		                    <th scope="col">담당자명</th>
+		                    <th scope="col">품목명[규격]</th>
+		                    <th scope="col">납기일자</th>
+		                    <th scope="col">입고예정수량합계</th>
+		                    <th scope="col">종결여부</th>
+		                    <th scope="col">진행상태</th>
+		                  </tr>
+		                </thead>
+		                 <tbody>
+                          <c:forEach var="isList" items="${islist }" varStatus="idx">
+                          <c:if test="${isList.IN_COMPLETE eq '1' }">
+
+							<tr>
+							<th scope="row"></th>
+										
+<%-- 	<td>${idx.count }</td> --%>
+							<td> 
+							<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
+		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }"></td>
+						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
+		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
+		                    <td>${isList.CUST_NAME}</td> <!-- 보낸곳명 -->
+		                    <td>${isList.EMP_NAME}</td>	<!-- 담당자명 -->
+		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 pro--> 
+		                    <td>${isList.IN_DATE}</td> <!-- 납기일자 -->
+		                    <td></td> <!-- 입고예정량합계 -->
+		                       <td>
+		                    	<c:choose>
+		                    		<c:when test="${isList.IN_COMPLETE eq '1'}">
+										<input type="button"  id="btnComp${status.index}" class="btn btn-sm btn-secondary" value="취소" onclick="compCng(this)">
+		                    		</c:when>
+		                    		<c:when test="${isList.IN_COMPLETE eq '0'}">
+		                    			<input type="button" id="btnComp${status.index}" class="btn btn-secondary btn-sm" value="종결" onclick="compCng(this)">
+		                    		</c:when>
+		                    	</c:choose>
+		                    </td> 
+		                    <td><button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button></td>
+								
+							</tr>
+							</c:if> 
+							</c:forEach>  
+                        </tbody>
+		              </table>
+           </div> <!-- 2번탭 끝 -->
+            
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"> <%--3번탭 시작 --%> 
+             <table class="table table-hover">
+		                <thead>
+		                  <tr>
+		                    <th scope="col"></th>
+		                    <th scope="col"></th>
+		                    <th scope="col">입고예정번호</th>
+		                    <th scope="col">유형</th>
+		                    <th scope="col">보낸곳명</th>
+		                    <th scope="col">담당자명</th>
+		                    <th scope="col">품목명[규격]</th>
+		                    <th scope="col">납기일자</th>
+		                    <th scope="col">입고예정수량합계</th>
+		                    <th scope="col">종결여부</th>
+		                    <th scope="col">진행상태</th>
+		                  </tr>
+		                </thead>
+		                <tbody>
+		                
+		                </tbody>
+		                 <tbody>
+                          <c:forEach var="isList" items="${islist }" varStatus="status">
+                          <c:if test="${isList.IN_COMPLETE eq '0' }">
+
+							<tr>
+										
+	<td>${idx.count }</td>
+							<td> 
+							<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
+		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }"></td>
+						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
+		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
+		                    <td>${isList.CUST_NAME}</td> <!-- 보낸곳명 -->
+		                    <td>${isList.EMP_NAME}</td>	<!-- 담당자명 -->
+		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 pro--> 
+		                    <td>${isList.IN_DATE}</td> <!-- 납기일자 -->
+		                    <td></td> <!-- 입고예정량합계 -->
+		                       <td>
+		                    	<c:choose>
+		                    		<c:when test="${isList.IN_COMPLETE eq '1'}">
+										<input type="button"  id="btnComp${status.index}" class="btn btn-sm btn-secondary" value="취소" onclick="compCng(this)">
+		                    		</c:when>
+		                    		<c:when test="${isList.IN_COMPLETE eq '0'}">
+		                    			<input type="button" id="btnComp${status.index}" class="btn btn-secondary btn-sm" value="종결" onclick="compCng(this)">
+		                    		</c:when>
+		                    	</c:choose>
+		                    </td> 
+		                    <td><button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button></td>
+								
+							</tr>
+							</c:if> 
+							</c:forEach>  
+                        </tbody>
+		              </table>
+            
+            
+   			</div> <!-- 3번탭 끝 -->
+   			  </div> 
+   			  </div>
+   			   </div>
+   			
 
 <script>
   const tabList = document.querySelectorAll('.tab_menu .list li');

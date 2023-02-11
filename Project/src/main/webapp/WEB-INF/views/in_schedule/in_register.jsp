@@ -321,9 +321,24 @@ $(function() {
 		   $('#modalDialogScrollable_emp').modal('hide');
 		   $("#emp_name").val(emp_name);
 		   $("#emp_num").val(emp_num);
+		   
+				
+				
+		
 	});	   
 	
-	
+	//입고 처리 날짜 계산
+	   let today = new Date();
+
+   let year = today.getFullYear();
+   let month = ('0' + (today.getMonth() + 1)).slice(-2);
+   let day = ('0' + today.getDate()).slice(-2);
+
+   let dateString = year + '-' + month  + '-' + day;
+   
+//    alert(dateString); 
+   $("#in_schedule_date").val(dateString);
+
 	// 품목
 	$("#modal-body-pro").on('click','tr',function(){
 		let td_arr = $(this).find('td');
@@ -475,9 +490,9 @@ function calculateSum() {
               
               
               	<div class="row mb-3">
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
+                      <label for="th" id="currentDate" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="IN_SCHEDULE_DATE" type="date" class="form-control" id="in_schedule_date" required="required">
+                        <input name="IN_SCHEDULE_DATE" type="date" class="form-control" id="in_schedule_date" required="required" readonly="readonly">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">입고 유형</label>
                       <div class="col-md-8 col-lg-2">
