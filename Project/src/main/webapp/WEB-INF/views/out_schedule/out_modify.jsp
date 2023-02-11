@@ -881,7 +881,7 @@ function input_search_idx(cb) {
 							<td>
 
 							<div class="input-group input-group-sm mb-2">
-         					<input type="text" style="text-align: center;" id="product_cdArr${status.index}" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }" readonly="readonly">
+         					<input type="text" style="text-align: center;" id="	Arr${status.index}" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }" readonly="readonly">
 	         				<button class="btn btn-secondary" id="product_search_btn${status.index }" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="input_search_idx(this)">검색</button></div>
           					</td>
           					<!-- 품목명[규격]은 넘어가는 값이 없어서 name값 주지 않음. -->

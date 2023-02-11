@@ -365,7 +365,7 @@ a{text-decoration:none; color:#333;}
 
 							<tr>
 										
-	<td>${idx.count }</td>
+<%-- 	<td>${idx.count }</td> --%>
 							<td> 
 							<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
 		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }"></td>

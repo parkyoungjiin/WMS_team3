@@ -620,7 +620,8 @@ function input_search_idx(cb) {
 			 <!-- Modal Dialog Scrollable -->
 			 <!-- 거래처 검색 -->
               <div class="modal fade" id="modalDialogScrollable_buyer" tabindex="-1">
-                <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-dialog mod
+                al-dialog-scrollable">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title">거래처 검색</h5>
@@ -755,7 +756,7 @@ function input_search_idx(cb) {
 							<td>
 							<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-2">
          					<input type="text" class="form-control form-control-sm pro_cd" id="product_cd${status.index }" name="PRODUCT_CDArr" required="required" value="${inspList.PRODUCT_CD }">
-	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>
+	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" id="product_search_btn${status.index }" data-bs-target="#modalDialogScrollable_pro" onclick="input_search_idx(this)">검색</button></div>
           					</div></td>
 							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="${inspList.PRODUCT_NAME }"></td>
 							<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTY" value="${inspList.IN_SCHEDULE_QTY }" onchange="calculateSum();"></td>
