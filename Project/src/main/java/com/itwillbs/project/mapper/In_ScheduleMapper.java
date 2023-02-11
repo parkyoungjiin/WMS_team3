@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
+import com.itwillbs.project.vo.ProductVO;
 import com.itwillbs.project.vo.StockVo;
 import com.itwillbs.project.vo.WareHouseVO;
 
@@ -82,6 +83,8 @@ public interface In_ScheduleMapper {
 	String selectInProduct(int checkCd);
 	//---- 외 1건처리 
 	String selectInSingle(int checkCd);
+	
+	List<ProductVO> selectProList1(String keyword);
 	
 	
 
