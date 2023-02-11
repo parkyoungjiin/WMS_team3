@@ -47,7 +47,11 @@ public class Out_ScheduleController {
 	@GetMapping(value = "OutList.os")
 	public String outList(Model model) { 
 		List<OutScheduleVO> outList = service.getOutScheduleList();
-		model.addAttribute("outList", outList);
+		model.addAttribute("outList", outList); 
+		
+		List<OutScheduleVO> out = service.getOutSchedule();
+		model.addAttribute("out", out);
+//		System.out.println("컨트롤러 확인" + outList);
 //		String perName = service.concatName();
 //		System.out.println(perName);
 //		model.addAttribute("perName",perName);
