@@ -118,12 +118,17 @@ public class Out_ScheduleService {
 	}
 
 	// 출고 처리 - 재고 조정
-	public void updateOspStock(OutSchedulePerProductVO osp2) {
-		mapper.updateOspStock(osp2);
+	public int updateOspStock(OutSchedulePerProductVO osp2) {
+		return mapper.updateOspStock(osp2);
 	}
 
 	public List<OutScheduleVO> getOutSchedule() {
 		return mapper.selectOutSchedule();
+	}
+
+	// 출고 처리 - 재고이력 기록
+	public int insertOutHistory(int out_qty, String stock_cd, int product_cd, String sId) {
+		return mapper.insertOutHistory(out_qty,stock_cd,product_cd,sId);
 	}
 
 }

@@ -84,6 +84,9 @@
 		});
 		
 		
+		
+		
+		
 		$("#plus_jongmok").on("click", function() {
 			
 			var addInput = '<div class="col-md-3">'

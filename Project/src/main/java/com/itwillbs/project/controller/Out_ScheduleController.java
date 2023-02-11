@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -357,7 +358,7 @@ public class Out_ScheduleController {
 			
 //			System.out.println("거래처번호 " + os.getBusiness_no());
 			int updateCount = service.updateOutSchedule(os);
-			
+	
 			
 				if(updateCount > 0) {
 				
@@ -389,6 +390,7 @@ public class Out_ScheduleController {
 					osp2.setOut_schedule_cd(os.getOut_schedule_cd());
 					
 					System.out.println("osp2 : " + osp2);
+					System.out.println("osp2 상품 번호 : " + osp.getProduct_cdArr()[i]);
 					
 					int updateCount2 = service.updateOutSchedulePro(osp2);
 					
@@ -481,36 +483,47 @@ public class Out_ScheduleController {
 		
 		// ---------- 출고 관리 - 출고 처리  ----------
 		@PostMapping(value = "/Out_Per_Schedule_Process")
-		public String Out_Per_Schedule_Process(@ModelAttribute OutSchedulePerProductVO osp, Model model) {
+		public String Out_Per_Schedule_Process(@ModelAttribute OutSchedulePerProductVO osp, Model model,HttpSession session) {
 			
 //			System.out.println("osp : " + osp);
+			String sId = (String)session.getAttribute("emp_num");  
 			
 			for(int i =0; i <osp.getOut_schedule_per_cdArr().length;i++) {
 				
+				
+				//미출고 수량이 0인것만 작업 함
+//				if(!osp.getOut_complete().equals("1")) {
+								
 				OutSchedulePerProductVO osp2 = new OutSchedulePerProductVO();
 				
 				osp2.setOut_schedule_per_cd(osp.getOut_schedule_per_cdArr()[i]);
 				osp2.setOut_schedule_qty(osp.getOut_schedule_qtyArr()[i]);
 				osp2.setOut_qty(osp.getOut_qtyArr()[i]);
 				osp2.setStock_cd(osp.getStock_cdArr()[i]);
+				osp2.setProduct_cd(osp.getProduct_cdArr()[i]);
 				
 				// 출고예정수량에서 출고수량 빼기
 				int updateCount = service.updateOspQty(osp2);
 				
 				if(updateCount > 0) {
-					// 출고예정수량이 0 일 때 출고완료 처리
-					service.updateOut_complete(osp2);
 					
 					// 재고수량에서 출고수량 빼기
-					service.updateOspStock(osp2);
+					int updateOutStoCount = service.updateOspStock(osp2);
+					
+					// 출고 후 재고이력을 기록
+					if(updateOutStoCount > 0) {
+						service.insertOutHistory(osp2.getOut_qty(), osp2.getStock_cd(), osp2.getProduct_cd(),sId);
+					}
+					
+					// 출고예정수량이 0 일 때 출고완료 처리
+					service.updateOut_complete(osp2);
 					
 					model.addAttribute("msg", "출고 완료");
 				} else {
 					model.addAttribute("msg", "출고 실패");
 				}
-			}
-			
-//			service.
+				}
+//			}	
 			
 			return "reload_out";		
 		}// 출고 처리 끝
