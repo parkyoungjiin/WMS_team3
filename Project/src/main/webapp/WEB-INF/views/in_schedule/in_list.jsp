@@ -130,7 +130,7 @@ a{text-decoration:none; color:#333;}
 			console.log(inProdList);
 			for(let prod of inProdList) {
 // 				let product_cd = ${prod.out_product_cd}
-				$("#out > tbody").empty();
+				$("#in > tbody").empty();
 				var inList = '<tr>' 
 							  + '<td>' + prod.PRODUCT_CD + '</td>'
 							  + '<td>' + prod.PRODUCT_NAME + '</td>'
@@ -183,6 +183,36 @@ a{text-decoration:none; color:#333;}
 	<div class="pagetitle">
       <h1>입고 관리</h1>
     </div><!-- End Page Title -->
+    
+    <div class="modal fade" id="modalDialogScrollable_complete" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body" style="text-align: center;">
+<!--                      	<div class="input-group mb-6"> -->
+<!-- 			        	 </div> -->
+			        	 <table class='table table-hover' id="in" style="margin-left: auto; margin-right: ">
+			                <thead>
+				                <tr>
+				                	<th scope="col">품목코드</th>
+				                	<th scope="col">품목명[규격]</th>
+				                	<th scope="col">출고예정수량</th>
+				                	<th scope="col">미출고수량</th>
+				                </tr>
+				            </thead>
+			                <tbody>
+			                </tbody>
+			        	 </table>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
     
     <div class="card mb-4">
   <div class="card-header">
