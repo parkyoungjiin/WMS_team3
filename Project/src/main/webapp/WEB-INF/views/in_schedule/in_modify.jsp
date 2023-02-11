@@ -45,9 +45,9 @@
 // $("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
 
 // alert(${ospList.size()});
-var ospSize = ${ospList.size()};
+var inspSize = "${inspList.size()}";
 // alert(ospSize);
-var idx = ospSize;
+var idx = inspSize;
 var selectIdx;
 //-------------------거래처 목록 조회(모달)-----------------
 function load_buyerList() {
@@ -282,6 +282,24 @@ function load_stoList(cb) {
 	.fail(function() {
 		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
 	});
+	$("#modal-body-pro").on('click','tr',function(){
+        let td_arr = $(this).find('td');
+//         alert("뭐임 : " + $("#product_stock_cd" + idx).val());
+        
+//        $('#no').val($(td_arr[0]).text());
+        let pro_cd = $(td_arr[0]).text();
+        let pro_name = $(td_arr[1]).text();
+//         let sto_cd = $(td_arr[1]).text();
+//         let sto_qty = $(td_arr[2]).text();
+let size_des =$(td_arr[2]).text();
+        console.log(pro_cd);
+        
+        // td 클릭시 모달 창 닫기
+        $('#modalDialogScrollable_sto').modal('hide');
+        $("#product_cd" + idx).val(pro_cd);
+//         $("#product_cdArr" + idx).val(pro_cd);
+//        $("#emp_num").val(emp_num);
+  });    
 }
 	
 
@@ -451,6 +469,54 @@ $(document).ready(function() {
 	
 //  }
   
+  //--------------품목 클릭된 tr값 클릭 시 해당 idx에 값을 넣음. ------------
+function input_search_idx(cb) {
+
+   var idx = cb.id.replace("product_search_btn", "");
+//    alert(idx);
+   
+   $("#modal-body-pro").on('click','tr',function(){
+//       alert("클릭 후 :" +idx);
+      
+//         console.log("클릭된다.")
+      let td_arr = $(this).find('td');
+      console.log(td_arr);
+      
+      
+//      $('#no').val($(td_arr[0]).text());
+      let pro_cd = $(td_arr[0]).text();
+//      $('#name').val($(td_arr[1]).text());
+      let pro_name = $(td_arr[1]).text();
+      let size_des = $(td_arr[2]).text();
+      console.log(pro_cd);
+      
+      $.ajax({
+         type: "GET",
+         url: "StoListJson?keyword=" + pro_cd,
+         dataType: "json"
+      })
+      .done(function(stoList) { // 요청 성공 시
+         
+            if(stoList.length === 0){
+               alert("재고가 없는 품목입니다.");
+               return;
+            }   
+      // td 클릭시 모달 창 닫기
+      $('#modalDialogScrollable_pro').modal('hide');
+      $("#product_cd" + idx).val(pro_cd);
+      $("#product_namesizeArr" + idx).val(pro_name + " ["+size_des+"]");
+//       $("#stoContent" + idx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
+//       $("#wh_area_loc_input" + idx).val(wh_name);
+      idx = "";
+    })     
+   .fail(function() {
+      $("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+   });
+      
+});      
+   
+}
+  
 //수량 합계 계산
  function calculateSum() {
      var sum = 0;
@@ -518,7 +584,7 @@ $(document).ready(function() {
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
 		             		<input name="CUST_NAME" type="text" class="form-control" id="cust_name" required="required" value="${ins.CUST_NAME }">
-		             		<input name="BUSINESS_NO" type="hidden" class="form-control" id="BUSINESS_NO" >
+		             		<input name="BUSINESS_NO" type="hidden" class="form-control" id="BUSINESS_NO" value="${ins.BUSINESS_NO}" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" >검색</button>
 
 			        	 </div>
@@ -546,7 +612,7 @@ $(document).ready(function() {
                
                <div class="row mb-3" style="float: right;">
                     	<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">
-	           				<input type="button" class="btn btn-secondary btn-sm" value="추가하기" id="plus_out">
+<!-- 	           				<input type="button" class="btn btn-secondary btn-sm" value="추가하기" id="plus_out"> -->
 	           			</label>
                     </div> 
 			</div> <!-- card-body -->
@@ -619,7 +685,7 @@ $(document).ready(function() {
                       <h5 class="modal-title">품목 검색</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="modal-body-pro${status.index}">
+                    <div class="modal-body" id="modal-body-pro">
                      	<div class="input-group mb-6">
 		             		<input name="pro_keyword" type="text" class="form-control" id="pro_keyword" placeholder="검색 후 이용 바랍니다.">
 				         <button id="search_pro" class="btn btn-primary" type="button" onclick="load_proList()">검색</button>
@@ -688,7 +754,7 @@ $(document).ready(function() {
 		                  	<tr>
 							<td>
 							<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-2">
-         					<input type="text" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }">
+         					<input type="text" class="form-control form-control-sm pro_cd" id="product_cd${status.index }" name="PRODUCT_CDArr" required="required" value="${inspList.PRODUCT_CD }">
 	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>
           					</div></td>
 							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="${inspList.PRODUCT_NAME }"></td>
@@ -696,6 +762,7 @@ $(document).ready(function() {
 							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${inspList.IN_DATE }" name="IN_DATEArr" required="required"></td>
 							<td><input type="text" class="form-control form-control-sm" value="${inspList.REMARKS }" name="REMARKS"></td>
 							<td><span class="stoContent"></span></td>
+							<input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD}" id="product_stock_cd${status.index}">
 <!-- 							<input type="hidden" name="stock_cdArr" class="stock_cd"> -->
 <!-- 							<input type="hidden" name="stock_qty" class="stock_qty"> -->
 <!-- 							<input type="hidden" name="product_nameArr" class="product_nameArr"> -->
