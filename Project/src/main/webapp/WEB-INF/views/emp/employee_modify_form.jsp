@@ -365,31 +365,31 @@ $(function() {
 		                        	<input type="checkbox" class="form-check-input" id="priv_cd1" name="PRIV_CD" value="${prCd1 }" style="margin-right: 10px" <c:if test="${prCd3 eq '1' }">checked</c:if>>
 		                        	기본등록
 		                        </label>
-								<input type="hidden" id="priv_cd1_hidden"  name="PRIV_CD" value="0">
+<!-- 								<input type="hidden" id="priv_cd1_hidden"  name="PRIV_CD" value="0"> -->
 								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd2" name="PRIV_CD" value="${prCd2 }" style="margin-right: 10px" <c:if test="${prCd2 eq '1' }">checked</c:if>>
 									사원조회
 								</label>
-								<input type="hidden" id="priv_cd2_hidden"  name="PRIV_CD" value="0">
+<!-- 								<input type="hidden" id="priv_cd2_hidden"  name="PRIV_CD" value="0"> -->
 								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd3" name="PRIV_CD" value="${prCd3 }" style="margin-right: 10px" <c:if test="${prCd3 eq '1' }">checked</c:if>>
 									사원관리
 								</label>
-								<input type="hidden" id="priv_cd3_hidden" name="PRIV_CD" value="0">
+<!-- 								<input type="hidden" id="priv_cd3_hidden" name="PRIV_CD" value="0"> -->
 								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd4" name="PRIV_CD" value="${prCd4 }" style="margin-right: 10px"  <c:if test="${prCd4 eq '1' }">checked</c:if>>
 									재고조회
 								</label>
-								<input type="hidden" id="priv_cd4_hidden"  name="PRIV_CD" value="0">
+<!-- 								<input type="hidden" id="priv_cd4_hidden"  name="PRIV_CD" value="0"> -->
 								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd5" name="PRIV_CD" value="${prCd5 }" style="margin-right: 10px"  <c:if test="${prCd5 eq '1' }">checked</c:if>>
 									재고관리
 								</label>
-								<input type="hidden" id="priv_cd5_hidden"  name="PRIV_CD" value="0">
+<!-- 								<input type="hidden" id="priv_cd5_hidden"  name="PRIV_CD" value="0"> -->
 		                    </div>
 	                    </div>
                     </div>
