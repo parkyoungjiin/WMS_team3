@@ -383,6 +383,8 @@ public class EmpController {
 			
 			//5. 원본 파일명을 empVo에 저장
 			employee.setPHOTO(originalFileName);
+			//-----------------------------이미지 끝-----------------------
+			
 			
 			//,를 기준으로 분리한 값을 telArr(배열)에 넣음.
 			//개인 연락처 결합
@@ -435,6 +437,7 @@ public class EmpController {
 			
 			int updateCount = service.modifyEmployee(employee);
 			System.out.println("수정 비즈니스 로직 : " + updateCount);
+			
 			if(updateCount > 0) { // 수정 성공
 				
 				//6. transferTo를 통해 파일 업로드
@@ -448,7 +451,7 @@ public class EmpController {
 					e.printStackTrace();
 				}
 				
-				return "redirect:/EmpList.em";
+				return "redirect:/EmployeeList.em"; //EmpList.em
 			} else { // 수정 실패 
 				model.addAttribute("msg","수정에 실패하였습니다");
 				return "fail_back";
@@ -493,7 +496,7 @@ public class EmpController {
 		
 		
 		//-------------마이페이지 이동------------
-		@GetMapping(value = "MyPage.em")
+		@GetMapping(value = "MyPage.em") 
 		public String mypage(HttpSession session, @ModelAttribute EmpVo emp, Model model) {
 	//		session id에 맞는 사원 정보 가져오기
 			String EMP_NUM = (String)session.getAttribute("emp_num");
@@ -551,7 +554,7 @@ public class EmpController {
 	}//changePass 끝
 	
 	//-------------마이페이지  변경------------
-	@PostMapping(value = "updateMypageInfo.me")
+	@PostMapping(value = "updateMypageInfo.me") 
 	public String updateMypageInfo(@ModelAttribute EmpVo emp, HttpSession session, Model model) {
 		
 		String emp_num = (String)session.getAttribute("emp_num"); //판별할 사원번호
