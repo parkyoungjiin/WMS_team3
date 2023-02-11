@@ -37,68 +37,68 @@ a{text-decoration:none; color:#333;}
 // 	}
 	
 	// 체크박스 선택 jQuery
-	$(document).ready(function() {
-		$("#chkAll").click(function() {
-			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
-			else $("input[name=chk]").prop("checked", false);
-		});
+// 	$(document).ready(function() {
+// 		$("#chkAll").click(function() {
+// 			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+// 			else $("input[name=chk]").prop("checked", false);
+// 		});
 	
-		$("input[name=chk]").click(function() {
-			var total = $("input[name=chk]").length;
-			var checked = $("input[name=chk]:checked").length;
+// 		$("input[name=chk]").click(function() {
+// 			var total = $("input[name=chk]").length;
+// 			var checked = $("input[name=chk]:checked").length;
 		
-			if(total != checked) $("#chkAll").prop("checked", false);
-			else $("#chkAll").prop("checked", true); 
-		});
-	});
+// 			if(total != checked) $("#chkAll").prop("checked", false);
+// 			else $("#chkAll").prop("checked", true); 
+// 		});
+// 	});
 
 	// 종결 상태 변경 (DB에도 값 변경해야함)
 	function compCng(cc){
 		var cIdx = cc.id.replace("btnComp", "");
 		var btnVal = $("#btnComp" + cIdx).val();
 		var in_cd = $("#IN_SCHEDULE_CD" + cIdx).val();
-// 		console.log("확인 작업 : " + btnVal + cIdx);
+		console.log("확인 작업 : " + btnVal + cIdx);
 		
 			if(btnVal=="취소") { // 취소버튼이 활성화일때는 해당상태가 1 > 클릭시 0(미완료 상태)으로 변경
 // 				alert(btnVal);
 				$.ajax({
 					type: "get",
-					url: "InComplete?in_schedule_cd=" + in_cd,
+					url: "InComplete?IN_SCHEDULE_CD=" + in_cd,
 					data: {
 						IN_COMPLETE: "0" // 미완료 상태로 변경
 					},
 					dataType: "html",
 					success: function(data) {
-						var check = confirm('종결된 출고를 취소하시겠습니까?');
+						var check = confirm('종결된 입고를 취소하시겠습니까?');
 						 if (check) {
-						 	alert('출고가 완료되지 않았습니다.');
+						 	alert('입고가 완료되지 않았습니다.');
 							$("#btnComp" + cIdx).attr("value","종결");
 						 }
 						 else {
-						     alert('출고상태 변경이 취소되었습니다.');
+						     alert('입고상태 변경이 취소되었습니다.');
 						 }
 					},
 					error: function(xhr, textStatus, errorThrown) {
-	 					alert("진생상황 변경 실패"); 
+	 					alert("진행상황 변경 실패"); 
 		 				}
 				});
 			} else if(btnVal=="종결") { // 종결버튼이 활성화 되어있다는 것은 미완료 상태라는 뜻
 // 				alert(btnVal);
 				$.ajax({
 					type: "get",
-					url: "InComplete?in_schedule_cd=" + in_cd,
+					url: "InComplete?IN_SCHEDULE_CD=" + in_cd,
 					data: {
 						IN_COMPLETE: "1"
 					},
 					dataType: "html",
 					success: function(data) {
-						 var check = confirm('해당 출고를 종결하시겠습니까?');
+						 var check = confirm('해당 입고를 종결하시겠습니까?');
 						 if (check) {
-						 	alert('출고가 완료되었습니다.');
+						 	alert('입고가 완료되었습니다.');
 							$("#btnComp" + cIdx).attr("value","취소");
 						 }
 						 else {
-						     alert('출고상태 변경이 취소되었습니다.');
+						     alert('입고상태 변경이 취소되었습니다.');
 						 }
 					},
 					error: function(xhr, textStatus, errorThrown) {
@@ -107,6 +107,45 @@ a{text-decoration:none; color:#333;}
 				});
 			}
 
+	}
+</script>
+
+<!-- 진행상태 조회 -->
+<script type="text/javascript">
+	function checkIdx(cb) {
+		var ck_idx = cb.id.replace("scSearch", ""); // checkIdx 함수의 id 값 scSearch 를 공백으로 바꾸면 남는 값이 idx값이 됨
+		var in_cd = $("#IN_SCHEDULE_CD" + ck_idx).val(); // out_cd hidden 으로 숨겨져 있는 input의 out_schedule~+위의 구해진 idx값이 id인 곳으로 가서 value값 가져옴
+		alert(ck_idx);	
+		alert(in_cd);
+
+		$.ajax({
+			type:"GET"
+			,url: "InListProd?IN_SCHEDULE_CD=" + in_cd
+// 			,data: {
+// 				out_schedule_cd: out_cd
+// 			} // 컨트롤러에 @Responsebody 없으니까 fail 리턴됨
+			,dataType: "json"
+		})
+		.done(function(inProdList) {
+			console.log(inProdList);
+			for(let prod of inProdList) {
+// 				let product_cd = ${prod.out_product_cd}
+				$("#out > tbody").empty();
+				var inList = '<tr>' 
+							  + '<td>' + prod.PRODUCT_CD + '</td>'
+							  + '<td>' + prod.PRODUCT_NAME + '</td>'
+							  + '<td>' + prod.IN_SCHEDULE_QTY + '</td>'
+							  + '<td>' + prod.IN_SCHEDULE_QTY + '</td>'
+							  + '</tr>'
+				console.log(inList);				
+				$("#out > tbody").append(inList);
+			}
+		})
+		.fail(function() {
+// 			console.log(osut_cd);
+			$("#modal-body").html("<h5>요청 실패!</h5>");
+		});
+		
 	}
 </script>
 <!-- 폰트어썸 -->
@@ -174,7 +213,10 @@ a{text-decoration:none; color:#333;}
 							<tr>
 										
 	<td>${idx.count }</td>
-							<td><input type="checkbox" name="chk"></td> 
+							<td>
+<!-- 							<input type="checkbox" name="chk">  -->
+							<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
+		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }"></td>
 						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
 		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
 		                    <td>${isList.CUST_NAME}</td> <!-- 보낸곳명 -->
@@ -185,13 +227,14 @@ a{text-decoration:none; color:#333;}
 		                       <td>
 		                    	<c:choose>
 		                    		<c:when test="${isList.IN_COMPLETE eq '1'}">
-										<input type="button"  id="btnComp" class="btn btn-sm btn-secondary" value="취소">
+										<input type="button"  id="btnComp${status.index}" class="btn btn-sm btn-secondary" value="취소" onclick="compCng(this)">
 		                    		</c:when>
 		                    		<c:when test="${isList.IN_COMPLETE eq '0'}">
-		                    			<input type="button" id="btnComp" class="btn btn-secondary btn-sm" value="종결">
+		                    			<input type="button" id="btnComp${status.index}" class="btn btn-secondary btn-sm" value="종결" onclick="compCng(this)">
 		                    		</c:when>
 		                    	</c:choose>
 		                    </td> 
+		                    <td><button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button></td>
 								
 							</tr> 
 							</c:forEach>  

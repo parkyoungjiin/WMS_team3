@@ -46,6 +46,7 @@ window.onload = function(){
         reader.onload = function(event) {
           var img = document.createElement("img");
           img.setAttribute("src", event.target.result);
+          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
           document.querySelector("div#image_container").innerHTML = '';
           document.querySelector("div#image_container").appendChild(img);
         };
@@ -182,6 +183,38 @@ $(function() {
 		history.back();
 	} //권한여부 판별
 </script>
+<!------------------- 이미지 수정------------------ -->
+<script type="text/javascript">
+
+	function deleteFile(fileName, index) {
+		var confirmAlert = confirm("사진을 삭제하시겠습니까?")
+		if(confirmAlert == true){
+			$("#profile").empty();
+			// 파일 삭제를 AJAX 로 처리
+			$.ajax({
+				type: "POST",
+				url: "DeleteImgFile",
+				data: {
+					"EMP_NUM" : index,
+					"PHOTO" : fileName
+				},
+				success: function(data) {
+						console.log(data)
+					if(data == "true") {
+						// 삭제 성공 시 파일명 표시 위치의 기존 항목을 제거하고
+						// 파일 업로드를 위한 "파일 선택" 버튼 항목 표시
+						$("#imgChange").html('<input type="file" name="file">');
+					} else if(data == "false") {
+						alert("일시적인 오류로 파일 삭제에 실패했습니다!");
+					} 
+				}
+			});
+		}else{
+			alert("이미지 삭제가 취소되었습니다!")
+		}
+	}
+</script>
+
 <style type="text/css">
 	#title_label{
 		font-weight: bold;
@@ -394,10 +427,34 @@ $(function() {
 	                    </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="row mb-3" >
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 업로드</label>
                        <div class="col-md-8 col-lg-3">
-                        <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);">
+                       		<div id="profile" >
+                       		<img src=" ${pageContext.request.contextPath}/resources/upload/${employee.PHOTO }"  width="200" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
+                        	</div>
+                        	<!-- 이미지 수정 버튼 -->
+								<div id="imgChange" >
+			                  		<c:choose>
+										<c:when test="${employee.PHOTO ne '' }">
+											<%-- 컨텍스트 경로/resources/upload 디렉토리 내의 파일 지정 --%> 
+		<%-- 									<a href="${pageContext.request.contextPath }/resources/upload/${PHOTO }" download="${PHOTO }"> ${PHOTO }</a> --%>
+		<%-- 									<img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" > --%>
+											<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
+											<input type="button" value="삭제" onclick="deleteFile('${employee.PHOTO}','${employee.EMP_NUM}')">
+										</c:when>
+										<c:otherwise>
+											<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);">
+										</c:otherwise>									
+									</c:choose>
+								
+			                     	 
+					</div>
+								<!-- 썸네일 -->
+									<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기
+									</label>
+									<div id="image_container" style="width: 150px; height: 200px;"></div>
+<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
                       </div>
                     </div>
 					

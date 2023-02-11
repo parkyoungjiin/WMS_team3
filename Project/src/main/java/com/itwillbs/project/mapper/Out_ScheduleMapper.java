@@ -61,7 +61,7 @@ public interface Out_ScheduleMapper {
 	List<StockVo> searchStockNum(String keyword);
 
 	//출고 처리 수량 조정
-	void updateOspQty(OutSchedulePerProductVO osp2);
+	int updateOspQty(OutSchedulePerProductVO osp2);
 
 	//출고 처리 - 상품별 완료 처리
 	void updateOut_complete(OutSchedulePerProductVO osp2);

@@ -30,6 +30,7 @@ public class StockService {
 	public List<StockVo> getStockListSearch(String keyword) {
 		return mapper.getStockListSearch(keyword);
 	}
+	
 	//----------재고 조정 시 재고이력 등록----------
 	public int getInsertHistory(int update_qty, int stock_cd, String product_cd, String sId) {
 		return mapper.insertHistory(update_qty, stock_cd, product_cd, sId);
