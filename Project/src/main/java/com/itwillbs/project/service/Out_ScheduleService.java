@@ -126,4 +126,19 @@ public class Out_ScheduleService {
 		return mapper.selectOutSchedule();
 	}
 
+	// 출고 예정 수량 합계
+	public int getSumOut(String schCd) {
+//		List<OutScheduleVO> out = service.getOutSchedule();
+//		int sumOut = 0;
+//		// 출고예정 갯수 합계
+//		for(int i=0; i<out.size();i++) {
+//			String schCd = out.get(i).getOut_schedule_cd();
+//			System.out.println("스케줄 코드 : "+schCd);
+//			sumOut = service.getSumOut(schCd);
+//			System.out.println("예정갯수 :" + sumOut);
+//			model.addAttribute("sumOut", sumOut);
+		return mapper.selectOutSum(schCd);
+	}
+
+
 }

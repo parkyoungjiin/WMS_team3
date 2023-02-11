@@ -40,8 +40,8 @@
 			where out_schedule_per_cd = #{checkcd}
 	</select>
 	
-	
-	<select id="selectOutSchedule" resultType="com.itwillbs.project.vo.ProductVO">
+	<!-- 출고예 com.itwillbs.project.vo.ProductVO -->
+	<select id="selectOutSchedule" resultType="com.itwillbs.project.vo.OutScheduleVO">
 		SELECT *
 			FROM out_schedule
 	</select>
@@ -194,5 +194,13 @@
 			WHERE stock_cd = #{stock_cd} 
 	</update>
 	
+	<!-- 출고 예정 수량 합계 구하기 -->
+	<select id="selectOutSum" resultType="int">
+		SELECT SUM(out_schedule_qty)
+			FROM out_schedule_per_product
+			WHERE out_schedule_cd = #{schCd}
+	</select>
+	
+	<!-- 테스트 -->
 	
 </mapper>

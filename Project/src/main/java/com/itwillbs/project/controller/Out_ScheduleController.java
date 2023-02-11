@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,18 +46,29 @@ public class Out_ScheduleController {
 	
 	// ---------- 출고 관리 - 출고 예정 목록 ----------
 	@GetMapping(value = "OutList.os")
-	public String outList(Model model) { 
+	public String outList(Model model, @ModelAttribute OutSchedulePerProductVO osp) { 
 		List<OutScheduleVO> outList = service.getOutScheduleList();
 		model.addAttribute("outList", outList); 
 		
 		List<OutScheduleVO> out = service.getOutSchedule();
-		model.addAttribute("out", out);
+		int sumOut = 0;
+		// 출고예정 갯수 합계
+		for(int i=0; i<out.size();i++) {
+			String schCd = out.get(i).getOut_schedule_cd();
+			System.out.println("스케줄 코드 : "+schCd);
+			sumOut = service.getSumOut(schCd);
+			System.out.println("예정갯수 :" + sumOut);
+			model.addAttribute("sumOut", sumOut);
+//			return "out_schedule/out_list";
+		}
+		 
+		System.out.println(sumOut + ", " + outList + "출고예정갯수");
 //		System.out.println("컨트롤러 확인" + outList);
 //		String perName = service.concatName();
 //		System.out.println(perName);
 //		model.addAttribute("perName",perName);
-		
 		return "out_schedule/out_list";
+
 	} // outList 끝
 
 	// ---------- 출고 예정 목록 - 품목별(상태) --------------
@@ -65,7 +77,7 @@ public class Out_ScheduleController {
 	public void outListProd(Model model, @RequestParam(value="out_schedule_cd", required=false) String out_schedule_cd, HttpServletResponse response) {
 //		System.out.println("품목별조회"+out_schedule_cd);
 		List<OutSchedulePerProductVO> outProdList = service.getOutProdList(out_schedule_cd);
-		
+		System.out.println("확인" + outProdList);
 		JSONArray jsonArray = new JSONArray();
 		
 		for(OutSchedulePerProductVO outProd : outProdList) {

@@ -78,6 +78,8 @@ public interface Out_ScheduleMapper {
 	// 외 1건처리 3
 	String selectOutSingle(int checkCd);
 
+	// 출고예정수량 합계
+	int selectOutSum(String schCd);
 
 
 	
