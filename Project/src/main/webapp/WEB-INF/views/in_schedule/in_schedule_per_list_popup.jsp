@@ -147,14 +147,14 @@
 		
 		$.ajax({
 			type: "GET",
-			url: "StockNumListJson?keyword=" + search_keyword,
+			url: "wareHouseListJson?keyword=" + search_keyword,
 			dataType: "json"
 		})
-		.done(function(stockList) { // 요청 성공 시
-			 console.log(stockList)
+		.done(function(warehouseList) { // 요청 성공 시
+			 console.log(warehouseList)
 //	 		$(".modal-body").append(buyerList);
          	
-			 if(stockList.length == 0){
+			 if(warehouseList.length == 0){
 					$("#modal-body-wh > table ").remove();   //테이블 비우고
 
 					let no_result = "<table class='table table-hover' id='warehouse_search_table' style='margin-left: auto; margin-right: ;'>"
@@ -189,12 +189,12 @@
 				
 		         $("#modal-body-wh").append(set_table);
 				
-			for(let stock of stockList) {
+			for(let warehouse of warehouseList) {
 		         let result = 
 		        	 	"<tr style='cursor:pointer;'>"
-		                  + "<td>" + stock.wh_name + "("+ stock.wh_area + "구역)" + "</td>"
-		                  + "<td>" + stock.wh_loc_in_area + "</td>"
-		                  + "<td>" + stock.wh_loc_in_area_cd + "</td>"
+		                  + "<td>" + warehouse.wh_name + "("+ warehouse.wh_area + "구역)" + "</td>"
+		                  + "<td>" + warehouse.wh_loc_in_area + "</td>"
+		                  + "<td>" + warehouse.wh_loc_in_area_cd + "</td>"
 		                  + "</tr>";
 
 	 			$("#warehouse_search_table").append(result);

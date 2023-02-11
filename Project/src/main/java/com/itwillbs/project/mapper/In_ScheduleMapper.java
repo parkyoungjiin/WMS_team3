@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
 import com.itwillbs.project.vo.StockVo;
+import com.itwillbs.project.vo.WareHouseVO;
 
 public interface In_ScheduleMapper {
 	
@@ -32,8 +33,10 @@ public interface In_ScheduleMapper {
 
 	InSchedulePerProductVO getInschedulePerInfo(InSchedulePerProductVO vo2);
 	
-	//-----------재고 번호 받아오기 (팝업창)-----------
+	//-----------재고 번호 받아오기 (모달창)-----------
 	List<StockVo> searchStockNum(String keyword);
+	//-----------창고 번호 받아오기 (모달창)-----------
+	List<WareHouseVO> searchWarehouse(String keyword);
 	
 	//-------------재고 물량 증가-----------------
 	void updateStockQTY(InSchedulePerProductVO vo);

@@ -143,7 +143,7 @@
                  <table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col">#</th>
+<!-- 		                    <th scope="col">#</th> -->
 		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">입고예정번호</th>
 		                    <th scope="col">보낸곳명</th>
@@ -158,15 +158,16 @@
 		                <tbody>
 		                <c:forEach items="${list }" var="list"> 
 		                  <tr>
-		                    <th scope="row"></th>
-		                   	<c:choose>
-		                   		<c:when test="${list.IN_COMPLETE eq '1' }">
-		                   		<td></td>
-		                   		</c:when>
-		                   		<c:otherwise>
-		                   		<td><input type="checkbox" name="chk" value="${list.IN_SCHEDULE_PER_CD}"></td>
-		                   		</c:otherwise>
-		                   	</c:choose>
+<!-- 		                    <th scope="row"></th> -->
+		                    <td><input type="checkbox" name="chk" value="${list.IN_SCHEDULE_PER_CD}"></td>
+<%-- 		                   	<c:choose> --%>
+<%-- 		                   		<c:when test="${list.IN_COMPLETE eq '1' }"> --%>
+<!-- 		                   		<td style="display: none;"></td> -->
+<%-- 		                   		</c:when> --%>
+<%-- 		                   		<c:otherwise> --%>
+		                   		
+<%-- 		                   		</c:otherwise> --%>
+<%-- 		                   	</c:choose> --%>
 		                    <td>${list.IN_SCHEDULE_CD }</td>
 		                    <td>${list.PRODUCT_CD }</td>
 		                    <td>${list.PRODUCT_NAME }</td>

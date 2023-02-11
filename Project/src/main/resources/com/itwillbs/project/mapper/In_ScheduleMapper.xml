@@ -105,6 +105,12 @@
 			FROM stock_view
 				WHERE STOCK_CD LIKE '%${keyword}%' || PRODUCT_NAME LIKE '%${keyword}%' || WH_NAME LIKE '%${keyword}%' 
 	</select>
+	<!-- 모달창 창고 번호 리스트 -->
+	<select id="searchWarehouse" resultType="com.itwillbs.project.vo.WareHouseVO">
+		SELECT *
+			FROM warehouse_view
+				WHERE WH_NAME LIKE '%${keyword}%' || WH_AREA LIKE '%${keyword}%' || WH_LOC_IN_AREA LIKE '%${keyword}%' 
+	</select>
 	
 	<!-- 재고 물량 증가 -->
 	<update id="updateStockQTY">

@@ -11,6 +11,7 @@ import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
 import com.itwillbs.project.vo.StockVo;
+import com.itwillbs.project.vo.WareHouseVO;
 
 @Service
 public class In_scheduleService {
@@ -75,6 +76,10 @@ public class In_scheduleService {
 	//-----------재고 번호 받아오기 (팝업창)-----------
 	public List<StockVo> getSerachStockNum(String keyword) {
 		return mapper.searchStockNum(keyword);
+	}
+	//-----------재고 번호 받아오기 (팝업창)-----------
+	public List<WareHouseVO> getSerachWareHouse(String keyword) {
+		return mapper.searchWarehouse(keyword);
 	}
 //진행상태 조회
 //	public List<InSchedulePerProductVO> getInProdList(String IN_SCHEDULE_CD) {
