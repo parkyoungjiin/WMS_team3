@@ -48,7 +48,7 @@
 var inspSize = "${inspList.size()}";
 // alert(ospSize);
 var idx = inspSize;
-var selectIdx;
+
 //-------------------거래처 목록 조회(모달)-----------------
 function load_buyerList() {
 	
