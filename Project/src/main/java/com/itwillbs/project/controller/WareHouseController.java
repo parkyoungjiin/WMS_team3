@@ -250,7 +250,7 @@ public class WareHouseController {
 	//------------창고 지역 등록 작업---------------
 	@GetMapping(value = "WareHouseAreaInsertPro.wh")
 	public String manage(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")int wh_cd ) {
-		System.out.println(vo);
+		System.out.println("창고지역:"+vo);
 		service.WhAreaInsert(vo);
 		return "redirect:/WareHouseManage.wh";
 	}//등록 작업 끝
@@ -298,7 +298,7 @@ public class WareHouseController {
 	//------------창고 상세페이지 작업---------------
 		@ResponseBody
 		@GetMapping(value = "WareHouseStockListJsonPro.wh")
-		public void stocklistJson(@ModelAttribute WareHouseVO vo,Model model,HttpServletResponse response) {
+		public void stocklistJson(@ModelAttribute WareHouseVO vo  ,Model model,HttpServletResponse response) {
 			System.out.println(vo);
 			List<WareHouseVO> stocklist = null;
 				stocklist = service.getStockList(vo);
