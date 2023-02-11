@@ -470,19 +470,21 @@ public class In_ScheduleController {
 	public String In_Per_Schedule_Process(@ModelAttribute InSchedulePerProductVO vo,HttpServletResponse response,Model model,HttpSession session) {
 					System.out.println("입고 처리 : "+vo);
 					String sId = (String)session.getAttribute("emp_num");  
-					
+					System.out.println(vo.getIN_SCHEDULE_PER_CDArr().length);
+					System.out.println(vo.getSTOCK_CDArr().length);
+					System.out.println(vo.getSTOCK_CDArr().equals(""));
+					System.out.println(vo.getSTOCK_CDArr().length == 0);
 					//배열 항목들 풀어서 일반 배열에 푸는 작업
-					for(int i =0; i <vo.getIN_SCHEDULE_PER_CDArr().length;i++) {
-						
+					for(int i=0; i<vo.getIN_SCHEDULE_PER_CDArr().length;i++) {
 						//미입고 수량이 0인것만 작업 함
 						if(!vo.getIN_COMPLETE().equals("1")) {
 							InSchedulePerProductVO insp = new InSchedulePerProductVO();
 							insp.setIN_SCHEDULE_PER_CD(vo.getIN_SCHEDULE_PER_CDArr()[i]);
 //							int Stock_cd = service.getStock_cd(insp.getIN_SCHEDULE_PER_CD());
 							insp.setIN_QTY(vo.getIN_QTYArr()[i]);
-							System.out.println("sock:"+vo.getSTOCK_CDArr()[i]);	
+//							System.out.println("재고 번호 : "+vo.getSTOCK_CDArr()[i]);
 							//재고번호를 입력 안할 시 0으로 고정 값 주기
-								if(vo.getSTOCK_CDArr()[i].equals("")) {
+								if(vo.getSTOCK_CDArr().length == 0 || vo.getSTOCK_CDArr()[i].equals("")) {
 									insp.setSTOCK_CD("0");
 								}else {
 									insp.setSTOCK_CD(vo.getSTOCK_CDArr()[i]);
@@ -517,8 +519,6 @@ public class In_ScheduleController {
 					}//미입고 수량이 0인것만 작업 끝
 				
 				}//배열 항목들 풀어서 일반 배열에 푸는 작업 끝
-					
-					
 					return "reload";
 	 		}// 입고 처리 끝
 	}
