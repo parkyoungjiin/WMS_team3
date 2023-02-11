@@ -7,6 +7,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- 품목(기본 등록) 권한 판별 -->
+<script type="text/javascript">
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
+	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
+	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
+	
+	//기본등록에 대한 권한이 있는 지 판별
+	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
+</script>
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -75,7 +91,10 @@
 								<td>${ProdList.in_unit_price }</td>
 								<td>${ProdList.out_unit_price }</td>
 								<td>${ProdList.product_type_name }</td>
-								<td>${ProdList.product_image } <img alt="noImg" src="./upload/noImg.png" width="100" height="100"></td>
+<%-- 								<td> <input type="image" alt="${ProdList.product_image }" src="<%=request.getScheme()+"://"+request.getServerName() + ":" + request.getServerPort() +"/"+request.getContextPath()%>/resources/upload/${ProdList.product_image }" height="70" width="70"> --%>
+								<td> <input type="image" alt="${ProdList.product_image }" src="${pageContext.request.contextPath}/resources/upload/${ProdList.product_image }" height="70" width="70">
+<!-- 									<img src="/upload/noImg.png" width="100" height="100"> -->
+								</td>
 							</tr> 
 							</c:forEach>  
                         </tbody>
@@ -91,6 +110,5 @@
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
   <script src="${path}/resources/js/datatables-simple-demo.js"></script>
 <!--   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
-  
 </body>
 </html>

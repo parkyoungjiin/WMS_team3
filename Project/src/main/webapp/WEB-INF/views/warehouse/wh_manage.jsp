@@ -36,7 +36,7 @@
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
-	
+	let idx;
 		//--------창고 리스트 출력-----------	
 			$(function() {
 					$.ajax({
@@ -45,11 +45,12 @@
 						dataType: "json"
 					})
 					.done(function(whlist) { // 요청 성공 시
+						idx = 1;
 						for(let list of whlist) {
 							let result = "<tr id='tr"+list.wh_cd+"'>"
-										+"<td><button id='minus"+list.wh_cd+"' name='minus' value='"+list.wh_cd+"' onclick='minus_button("+list.wh_cd +")' class='btn' type='button'>-</button>"
+										+"<td><button id='minus"+list.wh_cd+"' name='minus' value='"+list.wh_cd+"' onclick='minus_button("+list.wh_cd+","+idx+")' class='btn' type='button'>-</button>"
 										+"<button id='plus"+list.wh_cd+"' name='plus' value='"+list.wh_cd+"'  onclick='plus_button("+list.wh_cd +")' class='btn' type='button'>+</button>"
-										+"<a href='javascript:void(0)' onclick='stocklist("+list.wh_cd+",0,0)'>"+list.wh_name+"</a></td>" 
+										+"<a href='javascript:void(0)' onclick='stocklist("+list.wh_cd+")'>"+list.wh_name+"</a></td>" 
 										+"<td>" + list.wh_man_name + "</td>"
 										+"<td><div></div></td>"
 										+"</tr>"
@@ -61,6 +62,7 @@
 										+"</tr>";
 							$("#table > tbody").append(result);
 							console.log(result);
+							idx++;
 						}
 					})
 					.fail(function() {
@@ -80,7 +82,7 @@
 							+"<td scope='col'>&nbsp;&nbsp;"
 							+"<button id='minus_loc"+list.wh_area_cd+"' name='minus' onclick='loc_minus_button("+list.wh_area_cd +")' class='btn' type='button'>-</button>"
 							+"<button id='plus_loc"+list.wh_area_cd+"' name='plus' onclick='loc_plus_button("+list.wh_area_cd +")' class='btn' type='button'>+</button>"
-							+"<span id='test"+list.wh_area_cd+"'><a href='javascript:void(0)' onclick='stocklist_area("+list.wh_cd+","+list.wh_area_cd+",0)'>창고 지역 :"+list.wh_area + "</a></span></td>"
+							+"<span id='test"+list.wh_area_cd+"'><a href='javascript:void(0)' onclick='stocklist_area("+list.wh_cd+","+list.wh_area_cd+")'>창고 지역 :"+list.wh_area + "</a></span></td>"
 							+"<td><button class='btn btn-secondary' id='check_button' onclick='tableDelte("+list.wh_area_cd+")'>삭제</button>"
 							+"<button class='btn btn-secondary' id='modify_button2"+list.wh_area_cd+"' onclick='modify("+list.wh_area+","+list.wh_area_cd+")'>변경</button>"
 							+"<button class='btn btn-secondary modify_button2' id='modify_button"+list.wh_area_cd+"' class='modify_button2' onclick='modify_info("+list.wh_area+","+list.wh_area_cd+")'>수정</button></td>"
@@ -115,19 +117,23 @@
 					})
 					.done(function(wharealoclist) { // 요청 성공 시
 						var wh_cd = Number($("#wh_hidden_value").val());
-						for(let list of wharealoclist) {
+						idx=1;	
+					for(let list of wharealoclist) {
 							let tet = null;
 							let test = '"'+list.wh_loc_in_area+'"';
 							let result ="<tr id='tr"+list.wh_loc_in_area_cd+"' class='loc_hide"+list.wh_area_cd+"'>"
 							+"<td scope='col'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id='text"+list.wh_loc_in_area_cd+"'><a href='javascript:void(0)' onclick='stocklist_area_loc("+wh_cd+","+list.wh_area_cd+","+list.wh_loc_in_area_cd+")'> 선반 위치 :"+list.wh_loc_in_area+ "</a></span></td>"
-							+"<td><button class='btn btn-secondary' id='check_button' onclick='loc_tableDelte("+list.wh_loc_in_area_cd+")'>삭제</button>"
+							+"<td><button class='btn btn-secondary' id='check_button"+idx+" onclick='loc_tableDelte("+list.wh_loc_in_area_cd+")'>삭제</button>"
 							+"<button class='btn btn-secondary' id='modify_button2"+list.wh_loc_in_area_cd+"' onclick='modifyloc("+list+","+list.wh_loc_in_area_cd+")'>변경</button>"
 							+"<button class='btn btn-secondary modify_button2' id='modify_button"+list.wh_loc_in_area_cd+"' onclick='modify_loc_info("+test+","+list.wh_loc_in_area_cd+")'>수정</button></td>"
 							+"<td></td>"
+							+"<input type='hidden' value='"+list.wh_area_cd+"' id='wh_area_cd'> "
 							+"<input type='hidden' value='"+list.wh_loc_in_area_cd+"' id='loc_hidden_value'> "
+							+"<input type='hidden' value='"+idx+"' id='idx'> "
 							+"</tr>";
 							$("#tr"+list.wh_area_cd).after(result);
 							console.log(result);
+							idx++;
 						}
 						$("[class^='loc_hide']").hide();
 						$(".modify_button2").hide();
@@ -137,6 +143,38 @@
 					});
 					
 		});//제이쿼리 끝		
+		//------창고 안 재고 리스트 출력
+		function stocklist(wh_cd){
+			$.ajax({
+				type: "GET",
+				url: "WareHouseStockListJsonPro.wh",
+				data : {
+					"wh_cd" : wh_cd,
+				},
+				dataType:"json"
+			})
+			.done(function(whlist) { // 요청 성공 시
+				if(whlist != ""){
+				$("#stocklist > tbody").html('');
+				for(let list of whlist) {
+					let result = "<tr>"
+								+"<td>"+list.stock_cd+"</td>"
+								+"<td>"+list.product_name+"</td>"
+								+"<td>"+list.stock_qty+"</td>"
+								+"<td>"+list.wh_name+"(구역명:"+list.wh_area+")</td>"
+								+"<td>(위치:)"+list.wh_loc_in_area+"</td>"
+								+"</tr>";
+					$("#stocklist > tbody").append(result);
+				}
+				console.log(wh_cd);
+				}else{
+					$("#stocklist > tbody").html('');
+				}
+			})
+			.fail(function() {
+				$("table > tbody > tr").append("<h3>요청 실패!</h3>");
+			});// 창고 리스트 출력
+		}
 		
 		//창고 지역 수정 작업
 		function modify(area,code){
@@ -237,13 +275,15 @@
 		}// 창고 지역 plus 버튼 끝
 		
 		//--------창고 지역 minus 버튼-----------
-		function minus_button(cd) {
-					$(".hide"+cd).hide();
+		function minus_button(cd,cc) {
+			alert(cc);
+			var bb =Number($("#loc_hidden_value").val());
+			$(".hide"+cd).hide();
+			$("#check_button"+bb).hide();
 			}//창고 지역 minus 끝
 		
 		//--------창고 지역 plus 버튼-----------
 		function plus_button(cd) {
-					alert(cd);
 					$(".hide"+cd).show();
 		}// 창고 지역 plus 버튼 끝
 			
@@ -308,13 +348,14 @@
 		let test = $("#wh_area").val();
 		let wh_area = $("#wh_area"+wh_cd).val();
 		alert(wh_area);
-		if(html != ""){
+		alert(wh_cd);
+		if(wh_area != ""){
 		$.ajax({
 			type: "GET",
 			url: "WareHouseAreaInsertPro.wh",
 			data:{
-				wh_area : wh_area,
-				wh_cd : wh_cd
+				"wh_area" : wh_area,
+				"wh_cd" : wh_cd
 			}
 		})
 		.done(function(vo) { // 요청 성공 시
@@ -351,7 +392,7 @@
 			let wh_area_loc = $("#wh_area_loc"+wh_cd).val();
 			alert(no);
 			
-			if(html != ""){
+			if(wh_area_loc != ""){
 			$.ajax({
 				type: "GET",
 				url: "WareHouseLocAreaInsertPro.wh",
@@ -376,6 +417,8 @@
 			html += '</tr>';
 			$("#tr"+wh_cd).after(html);
 			$("#wh_area_loc"+wh_cd).val("");
+			$("#modify_button").show();
+			$("#modify_button2").hide();
 			}else {
 				alert("선반 위치를 입력 하세요");
 				}// 창고 지역 입력 끝
@@ -383,9 +426,11 @@
 		
 		//--------창고 지역 삭제 버튼-----------
 		function tableDelte(code) {
+			alert(code)
 			$.ajax({
 				type: "GET",
 				url: "WareHouseAreadeletePro.wh?wh_area_cd="+code
+							
 			})
 			.done(function() { // 요청 성공 시
 				alert("정보 성공");
@@ -403,7 +448,7 @@
 				url: "WareHouseLocAreadeletePro.wh?wh_loc_in_area_cd="+code
 			})
 			.done(function() { // 요청 성공 시
-				alert("정보 실패");
+				alert("정보 성공");
 				$("#tr"+code).remove();
 			})
 			.fail(function() {
@@ -411,49 +456,21 @@
 			});
 		}// 창고 지역 삭제 끝
 		
-		//------창고 안 재고 리스트 출력
-		function stocklist(wh_cd){
-			$.ajax({
-				type: "GET",
-				url: "WareHouseStockListJsonPro.wh",
-				data : {
-					wh_cd : wh_cd,
-				},
-				dataType: "json"
-			})
-			.done(function(whlist) { // 요청 성공 시
-				if(whlist != ""){
-				for(let list of whlist) {
-					let result = "<tr>"
-								+"<td>"+list.stock_cd+"</td>"
-								+"<td>"+list.product_name+"</td>"
-								+"<td>"+list.stock_qty+"</td>"
-								+"<td>"+list.wh_name+"(구역명:"+list.wh_area+")</td>"
-								+"<td>(위치:)"+list.wh_loc_in_area+"</td>"
-								+"</tr>";
-					$("#stocklist > tbody").html(result);
-				}
-				}else{
-					$("#stocklist > tbody").html('');
-				}
-			})
-			.fail(function() {
-				$("table > tbody > tr").append("<h3>요청 실패!</h3>");
-			});// 창고 리스트 출력
-		}
+		
 		//------창고 안 재고 리스트 출력
 		function stocklist_area(wh_cd,wh_area_cd){
 			$.ajax({
 				type: "GET",
 				url: "WareHouseStockListJsonPro.wh",
 				data : {
-					wh_cd : wh_cd,
-					wh_area_cd : wh_area_cd,
+					"wh_cd" : wh_cd,
+					"wh_area_cd" : wh_area_cd,
 				},
 				dataType: "json"
 			})
 			.done(function(whlist) { // 요청 성공 시
 				if(whlist != ""){
+				$("#stocklist > tbody").html('');
 				for(let list of whlist) {
 					let result = "<tr>"
 								+"<td>"+list.stock_cd+"</td>"
@@ -462,7 +479,7 @@
 								+"<td>"+list.wh_name+"(구역명:"+list.wh_area+")</td>"
 								+"<td>(위치:)"+list.wh_loc_in_area+"</td>"
 								+"</tr>";
-					$("#stocklist > tbody").html(result);
+					$("#stocklist > tbody").append(result);
 				}
 				}else {
 					$("#stocklist > tbody").html('');
@@ -479,13 +496,15 @@
 				type: "GET",
 				url: "WareHouseStockListJsonPro.wh",
 				data : {
-					wh_cd : wh_cd,
-					wh_area_cd : wh_area_cd,
-					wh_loc_in_area_cd : wh_loc_in_area_cd
+					"wh_cd" : wh_cd,
+					"wh_area_cd" : wh_area_cd,
+					"wh_loc_in_area_cd" : wh_loc_in_area_cd
 				},
 				dataType: "json"
 			})
 			.done(function(whlist) { // 요청 성공 시
+				var maxAppend = 0; //버튼누른 횟수 저장
+				$("#stocklist > tbody").html('');
 				if(whlist != ""){
 				for(let list of whlist) {
 					let result = "<tr>"
@@ -495,7 +514,7 @@
 								+"<td>"+list.wh_name+"(구역명:"+list.wh_area+")</td>"
 								+"<td>(위치:)"+list.wh_loc_in_area+"</td>"
 								+"</tr>";
-					$("#stocklist > tbody").html(result);
+						$("#stocklist > tbody").append(result);
 				}
 				}else {
 					$("#stocklist > tbody").html('');

@@ -59,7 +59,7 @@ public class Out_ScheduleController {
 		return "out_schedule/out_list";
 	} // outList 끝
 
-	// ---------- 출고 예정 목록 - 품목별(진행상태) --------------
+	// ---------- 출고 예정 목록 - 품목별(상태) --------------
 	@ResponseBody
 	@GetMapping(value="OutListProd.os")
 	public void outListProd(Model model, @RequestParam(value="out_schedule_cd", required=false) String out_schedule_cd, HttpServletResponse response) {
@@ -293,16 +293,16 @@ public class Out_ScheduleController {
 					osp2.setProduct_size(osp.getProduct_sizeArr()[i]); // 품목 규격
 					osp2.setOut_schedule_qty(osp.getOut_schedule_qtyArr()[i]); // 출고 예정 수량
 					
-					for(int r = 0; r < osp.getRemarks_proArr().length; r++) {
+//					for(int r = 0; r < osp.getRemarks_proArr().length; r++) {
+//						
+//					    System.out.println(osp.getRemarks_proArr());
 						
-					    System.out.println(osp.getRemarks_proArr()[r] + "/");
-						
-					    if(osp.getRemarks_proArr()[r] == null || osp.getRemarks_proArr()[r].length() == 0) {
+					    if(osp.getRemarks_proArr().length == 0 || osp.getRemarks_proArr()[i].equals("") || osp.getRemarks_proArr()[i] == null) {
 					    	osp2.setRemarks_pro("");
 					    } else {
-					    	osp2.setRemarks_pro(osp.getRemarks_proArr()[r]); // 비고
+					    	osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
 					    }
-					}
+					
 					
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
 					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
@@ -313,12 +313,12 @@ public class Out_ScheduleController {
 					
 					int insertCount2 = service.insertOutProduct(osp2);
 					
-					if(insertCount2 > 0) {
-						return "redirect:/OutList.os";
-					} else {
-						model.addAttribute("msg", "출고 예정 등록 실패!");
-						return "fail_back";
-					}
+//					if(insertCount2 > 0) {
+//						return "redirect:/OutList.os";
+//					} else {
+//						model.addAttribute("msg", "출고 예정 등록 실패!");
+//						return "fail_back";
+//					}
 					
 				}
 				return "redirect:/OutList.os";
@@ -370,12 +370,19 @@ public class Out_ScheduleController {
 					osp2.setProduct_name(osp.getProduct_nameArr()[i]); // 품목명
 					osp2.setProduct_size(osp.getProduct_sizeArr()[i]); // 품목 규격
 					osp2.setOut_schedule_qty(osp.getOut_schedule_qtyArr()[i]); // 출고 예정 수량
+					osp2.setOut_schedule_per_cd(osp.getOut_schedule_per_cdArr()[i]); // 품목 고유 idx
 					
-					if(osp.getRemarks_proArr()[i] == null) {
-						osp2.setRemarks_pro("");
-					} else {
-						osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
-					}
+//						for(int r = 0; r < osp.getRemarks_proArr().length; r++) {
+						
+//					    System.out.println("비고!!!" + osp.getRemarks_proArr()[r]);
+						
+//					    if(osp.getRemarks_proArr()[r].equals("")) {
+//					    	osp2.setRemarks_pro("");
+//					    } else {
+					    	osp2.setRemarks_pro(osp.getRemarks_proArr()[i]); // 비고
+//					    }
+//					}
+						
 					osp2.setOut_date(osp.getOut_dateArr()[i]); // 납기일자
 					osp2.setStock_cd(osp.getStock_cdArr()[i]); // 재고번호
 					
@@ -474,7 +481,7 @@ public class Out_ScheduleController {
 		
 		// ---------- 출고 관리 - 출고 처리  ----------
 		@PostMapping(value = "/Out_Per_Schedule_Process")
-		public String Out_Per_Schedule_Process(@ModelAttribute OutSchedulePerProductVO osp) {
+		public String Out_Per_Schedule_Process(@ModelAttribute OutSchedulePerProductVO osp, Model model) {
 			
 //			System.out.println("osp : " + osp);
 			
@@ -488,18 +495,24 @@ public class Out_ScheduleController {
 				osp2.setStock_cd(osp.getStock_cdArr()[i]);
 				
 				// 출고예정수량에서 출고수량 빼기
-				service.updateOspQty(osp2);
+				int updateCount = service.updateOspQty(osp2);
 				
-				// 출고예정수량이 0 일 때 출고완료 처리
-				service.updateOut_complete(osp2);
-				
-				// 재고수량에서 출고수량 빼기
-				service.updateOspStock(osp2);
+				if(updateCount > 0) {
+					// 출고예정수량이 0 일 때 출고완료 처리
+					service.updateOut_complete(osp2);
+					
+					// 재고수량에서 출고수량 빼기
+					service.updateOspStock(osp2);
+					
+					model.addAttribute("msg", "출고 완료");
+				} else {
+					model.addAttribute("msg", "출고 실패");
+				}
 			}
 			
 //			service.
 			
-			return "redirect:/Out_Per_List";		
+			return "reload_out";		
 		}// 출고 처리 끝
 
 }

@@ -5,6 +5,7 @@
 	<select id="getStockList" resultType="com.itwillbs.project.vo.StockVo">
 		SELECT * 
 			FROM stock_view
+				ORDER BY STOCK_CD ASC;
 	</select>
 	
 <!-- 재고 조정 -->	
@@ -15,10 +16,11 @@
 	</update>
 <!-- 재고 이동 -->	
 	<update id="stockMove">
-		UPDATE stock SET STOCK_QTY = CASE 
-			WHEN stock_cd = #{current_stock_cd} THEN STOCK_QTY - #{move_stock_num}
+		UPDATE stock SET STOCK_QTY = CASE WHEN stock_cd = #{current_stock_cd} THEN STOCK_QTY - #{move_stock_num}
 			WHEN stock_cd = #{move_stock_cd} THEN STOCK_QTY + #{move_stock_num}
 			END
+			WHERE STOCK_CD = #{current_stock_cd} OR STOCK_CD =#{move_stock_cd};
+			
 	</update>
 	
 <!-- 키워드에 맞는 재고 목록 -->

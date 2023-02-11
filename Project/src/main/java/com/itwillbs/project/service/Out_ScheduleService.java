@@ -108,8 +108,8 @@ public class Out_ScheduleService {
 	}
 
 	// 출고 처리 - 수량 조정
-	public void updateOspQty(OutSchedulePerProductVO osp2) {
-		mapper.updateOspQty(osp2);
+	public int updateOspQty(OutSchedulePerProductVO osp2) {
+		return mapper.updateOspQty(osp2);
 	}
 
 	// 출고 처리 - 완료 조정

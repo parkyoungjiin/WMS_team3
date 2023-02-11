@@ -142,7 +142,7 @@
                  <table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                  	<th scope="col"><input type="checkbox" id="chkAll"></th>
+		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">품목코드</th>
 		                    <th scope="col">품목명</th>
@@ -156,7 +156,7 @@
 		                <tbody>
 		                <c:forEach items="${list }" var="list"> 
 		                  <tr>
-		                  	<td><input type="checkbox" name="chk"></td>
+		                    <td><input type="checkbox" name="chk" value="${list.out_schedule_per_cd}"></td>
 		                    <td>${list.out_schedule_cd }</td>
 		                    <td>${list.product_cd }</td>
 		                    <td>${list.product_name }</td>
@@ -174,7 +174,7 @@
 		              	<table class="table table-hover" style="padding: 20px;">
 		              		<thead>
 			                  <tr>
-			                  	<th scope="col"><input type="checkbox" id="chkAll"></th>
+			                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 			                    <th scope="col">출고예정번호</th>
 			                    <th scope="col">품목코드</th>
 			                    <th scope="col">품목명</th>
@@ -210,7 +210,7 @@
                 		<table class="table table-hover" style="padding: 20px;">
 		              		<thead>
 			                  <tr>
-			                  	<th scope="col"><input type="checkbox" id="chkAll"></th>
+			                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 			                    <th scope="col">출고예정번호</th>
 			                    <th scope="col">품목코드</th>
 			                    <th scope="col">품목명</th>
@@ -240,8 +240,8 @@
 		                </tbody>                		
                 		</table>
                 	</div> <!-- 완료탭 끝 -->		              
-		              <button class="btn btn-primary" onclick="out_schedule_process()">출고처리</button>
 		           </div> <!-- default tab 끝 -->
+		              <button class="btn btn-primary" onclick="out_schedule_process()">출고처리</button>
             	</div>
             </div>
             

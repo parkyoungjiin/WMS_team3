@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.Format;
 
 import java.text.SimpleDateFormat;
@@ -49,20 +52,20 @@ public class EmpController {
 	@PostMapping(value = "EmpInsertPro.em")
 	public String EmpInsertPro(@ModelAttribute EmpVo emp, HttpSession session, Model model) {
 		System.out.println(emp);
-		//파일 업로드
 		
-		//1. 경로 설정 (가상 경로, 실제 업로드 경로)
+		//---------------------------------- 파일 업로드 ------------------------------------
+		// 1. 경로 설정 (가상 경로, 실제 업로드 경로)
 		String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
 		String saveDir = session.getServletContext().getRealPath(uploadDir); //실제 업로드 경로
 		System.out.println("실제 업로드 경로:" + saveDir);
 		
-		//2. 만약, 해당 경로 상에 실제 디렉토리(폴더)가 존재하지 않을 경우 새로 생성
+		// 2. 만약, 해당 경로 상에 실제 디렉토리(폴더)가 존재하지 않을 경우 새로 생성
 		
 		File f = new File(saveDir);	
 		if(!f.exists()) {
 			f.mkdirs(); // 지정된 경로 상에 존재하지 않는 모든 경로를 차례대로 생성
 		}
-		//3. MultipartFile 객체 생성(Vo의 file은 MutlipartFile 타입 / PHOTO는 String 타입)
+		// 3. MultipartFile 객체 생성(Vo의 file은 MutlipartFile 타입 / PHOTO는 String 타입)
 		// => *** MutlipartFile 타입으로 원본 파일명을 꺼낸 후에 파일명을 String 타입으로 저장 ***
 		
 		MultipartFile mFile = emp.getFile();
@@ -81,7 +84,11 @@ public class EmpController {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+			
+			
+			
+		}//-------------------------------------------------------------------------
+		
 		//,를 기준으로 분리한 값을 telArr(배열)에 넣음.
 		//개인 연락처 결합
 		String [] emp_telArr = emp.getEMP_TEL().split(",");
@@ -257,7 +264,10 @@ public class EmpController {
 		
 		// ------------ 사원 상세정보 조회 ------------------
 		@GetMapping(value="/EmployeeDetail.em")
-		public String empDetail(@RequestParam String EMP_NUM, HttpSession session, @ModelAttribute EmpVo employee, Model model) {
+		public String empDetail(@RequestParam String EMP_NUM
+				, HttpSession session
+				, @ModelAttribute EmpVo employee
+				, Model model) {
 			String sId = (String)session.getAttribute("sId");
 //			String PRIV_CD = service.getPrivCode(sId);
 			employee = service.getEmployee(EMP_NUM);
@@ -361,40 +371,34 @@ public class EmpController {
 		
 		// ----------- 사원 정보 수정 비즈니스 로직 -------------------
 		@PostMapping(value="/EmployeeModifyPro.em")
-		public String empModify(Model model, @ModelAttribute EmpVo employee,HttpSession session) {
-			//파일 업로드
+		public String empModify(Model model, HttpSession session
+							, @ModelAttribute EmpVo employee) {
 			
+			//---------------이미지--------------------------
+			//파일 업로드
 			//1. 경로 설정 (가상 경로, 실제 업로드 경로)
 			String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
 			String saveDir = session.getServletContext().getRealPath(uploadDir); //실제 업로드 경로
 			System.out.println("실제 업로드 경로:" + saveDir);
 			
 			//2. 만약, 해당 경로 상에 실제 디렉토리(폴더)가 존재하지 않을 경우 새로 생성
-			
 			File f = new File(saveDir);	
 			if(!f.exists()) {
 				f.mkdirs(); // 지정된 경로 상에 존재하지 않는 모든 경로를 차례대로 생성
 			}
 			//3. MultipartFile 객체 생성(Vo의 file은 MutlipartFile 타입 / PHOTO는 String 타입)
 			// => *** MutlipartFile 타입으로 원본 파일명을 꺼낸 후에 파일명을 String 타입으로 저장 ***
-			
 			MultipartFile mFile = employee.getFile();
 			//4. MultipartFile 객체의 getOriginalFilename() 메서드를 통해 파일명 꺼내기
 			String originalFileName = mFile.getOriginalFilename(); //원본 파일명
 			System.out.println("원본 파일명: " +originalFileName);
 			System.out.println("파일명: " +mFile.getName());
+			
 			//5. 원본 파일명을 empVo에 저장
 			employee.setPHOTO(originalFileName);
-			//6. transferTo를 통해 파일 업로드
-			try {
-				mFile.transferTo(
-						new File(saveDir, mFile.getOriginalFilename())
-					);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			//-----------------------------이미지 끝-----------------------
+			
+			
 			//,를 기준으로 분리한 값을 telArr(배열)에 넣음.
 			//개인 연락처 결합
 			String [] emp_telArr = employee.getEMP_TEL().split(",");
@@ -446,20 +450,70 @@ public class EmpController {
 			
 			int updateCount = service.modifyEmployee(employee);
 			System.out.println("수정 비즈니스 로직 : " + updateCount);
-			if(updateCount > 0) { // 수정 성공			
-				return "redirect:/EmpList.em";
+			
+			if(updateCount > 0) { // 수정 성공
+				
+				//6. transferTo를 통해 파일 업로드
+				try {
+					mFile.transferTo(
+							new File(saveDir, mFile.getOriginalFilename())
+						);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				return "redirect:/EmployeeList.em"; //EmpList.em
 			} else { // 수정 실패 
 				model.addAttribute("msg","수정에 실패하였습니다");
 				return "fail_back";
-			}
+			} 
+		
 		} // 사원 정보 수정 끝 
-	
-	
-	//-------------마이페이지 이동------------
-	@GetMapping(value = "MyPage.em")
-	public String mypage( HttpSession session, @ModelAttribute EmpVo emp, Model model) {
-//		session id에 맞는 사원 정보 가져오기
-		String EMP_NUM = (String)session.getAttribute("emp_num");
+		
+			
+		//======== 사원 수정 시 개별 파일 삭제 처리 ===============================
+		// => 파라미터 : 글번호, 파일명, 세션 객체, 응답 객체 필요
+		@ResponseBody
+		@PostMapping("/DeleteImgFile")
+		public void deleteImgFile(
+				@RequestParam String EMP_NUM,
+				@RequestParam String PHOTO,
+				HttpSession session, HttpServletResponse response) {
+			
+			response.setCharacterEncoding("UTF-8");
+			
+			try {
+					// Service 객체의 removeBoardFile() 메서드 호출하여 개별 파일 삭제 요청
+					int deleteCount = service.removeImgFile(EMP_NUM, PHOTO);
+					
+					// DB 파일 삭제 성공 시 실제 파일 삭제
+					if(deleteCount > 0) { // 삭제 성공
+						String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
+						String saveDir = session.getServletContext().getRealPath(uploadDir);
+						
+						Path path = Paths.get(saveDir + "/" + PHOTO);
+						Files.deleteIfExists(path);
+						
+						response.getWriter().print("true");
+					} else { // 삭제 실패
+						response.getWriter().print("false");
+					}
+					
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		} //========================== 이미지 (수정) 삭제 끝============================
+		
+		
+		//-------------마이페이지 이동------------
+		@GetMapping(value = "MyPage.em") 
+		public String mypage(HttpSession session, @ModelAttribute EmpVo emp, Model model) {
+	//		session id에 맞는 사원 정보 가져오기
+			String EMP_NUM = (String)session.getAttribute("emp_num");
+		
 		emp = service.getEmployee(EMP_NUM);
 		// 개인 연락처 분리
 		String emp_phone_number1 = emp.getEMP_TEL().substring(4, 8);
@@ -472,6 +526,7 @@ public class EmpController {
 		model.addAttribute("emp_phone_number2", emp_phone_number2);
 		model.addAttribute("emp_dtel_number1", emp_dtel_number1);
 		model.addAttribute("emp_dtel_number2", emp_dtel_number2);
+		
 		
 		return "emp/employee_mypage";
 	}//mypage 끝
@@ -511,8 +566,8 @@ public class EmpController {
 		}
 	}//changePass 끝
 	
-	//-------------마이페이지 비밀번호 변경------------
-	@PostMapping(value = "updateMypageInfo.me")
+	//-------------마이페이지  변경------------
+	@PostMapping(value = "updateMypageInfo.me") 
 	public String updateMypageInfo(@ModelAttribute EmpVo emp, HttpSession session, Model model) {
 		
 		String emp_num = (String)session.getAttribute("emp_num"); //판별할 사원번호
@@ -535,15 +590,50 @@ public class EmpController {
 		
 //		System.out.println(emp);
 //		return "/";
+		
+		//-----------------이미지-------------------------
+		//1. 경로 설정 (가상 경로, 실제 업로드 경로)
+		String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
+		String saveDir = session.getServletContext().getRealPath(uploadDir); //실제 업로드 경로
+		System.out.println("실제 업로드 경로:" + saveDir);
+		
+		//2. 만약, 해당 경로 상에 실제 디렉토리(폴더)가 존재하지 않을 경우 새로 생성
+		File f = new File(saveDir);	
+		if(!f.exists()) {
+			f.mkdirs(); // 지정된 경로 상에 존재하지 않는 모든 경로를 차례대로 생성
+		}
+		//3. MultipartFile 객체 생성(Vo의 file은 MutlipartFile 타입 / PHOTO는 String 타입)
+		// => *** MutlipartFile 타입으로 원본 파일명을 꺼낸 후에 파일명을 String 타입으로 저장 ***
+		MultipartFile mFile = emp.getFile();
+		//4. MultipartFile 객체의 getOriginalFilename() 메서드를 통해 파일명 꺼내기
+		String originalFileName = mFile.getOriginalFilename(); //원본 파일명
+		System.out.println("원본 파일명: " +originalFileName);
+//		System.out.println("파일명: " +mFile.getName());
+		//5. 원본 파일명을 empVo에 저장
+		emp.setPHOTO(originalFileName);
+		
 		//세션아이디에 저장된 emp_num에 일치하는 회원정보를 변경
 		int updateCount = service.getupdateMypageInfo(emp, emp_num);
 		if(updateCount > 0) {
+				//6. transferTo를 통해 파일 업로드
+				try {
+					mFile.transferTo(
+							new File(saveDir, mFile.getOriginalFilename())
+						);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			
 			model.addAttribute("msg","정보 변경에 성공했습니다.");
-			return "fail_back";
+			return "redirect:/";
 		}else {
 			model.addAttribute("msg","정보 변경에 실패했습니다.");
 			return "fail_back";
 		}
 	}//updateMypageInfo 끝
+	
+	
 	
 }//EmpController 끝

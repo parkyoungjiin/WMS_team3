@@ -2,6 +2,8 @@ package com.itwillbs.project.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.ProductVO;
 
@@ -23,7 +25,8 @@ public interface ProductMapper {
 	ProductVO selectProdInfo(int product_cd);
 
 	//--------------------품목 수정----------------------------
-	int modifyProd(ProductVO product);
+	int modifyProd(@Param("product") ProductVO product,
+					@Param("product_image") String product_image);
 	
 
 	

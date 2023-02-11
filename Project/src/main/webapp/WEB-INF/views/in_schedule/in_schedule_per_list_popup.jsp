@@ -44,6 +44,10 @@
 	
 	
 	$(document).ready(function() {
+		if($("input[name=STOCK_CDArr]").val() == ""){
+			$("input[name=STOCK_CDArr]").attr("readonly",true);
+		}
+		
 		//체크 박스 전체 선택
 		$("#chkAll").click(function() {
 			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
@@ -59,19 +63,8 @@
 			else $("#chkAll").prop("checked", true); 
 		});
 		
-// 		//서브밋 막기 작업(하다 말음)
-// 		$("in_submit").click(function() {
-// 			var in_qty_input =$("#in_qty_input").val();
-// 			if()
-// 		});
+		
 	});
-	
-	//-------------입고처리 시 팝업창 ----------------
-	
-	function in_schedule_process() {
-		window.open("In_Per_List_popup", "입고처리", "width=1200, height=750, top=50, left=50")
-	}
-	
 	// ------------재고, 창고조회---------------
 	function stock_num_search_fn() {
 		
@@ -86,7 +79,6 @@
 		})
 		.done(function(stockList) { // 요청 성공 시
 			 console.log(stockList)
-//	 		$(".modal-body").append(buyerList);
 		
 			 if(stockList.length == 0){
 					$("#modal-body-sto > table ").remove();   //테이블 비우고
@@ -107,9 +99,6 @@
 						+ "</tr>";
 				 		+ '</table>';
 
-		// // 			$("#buyer_search").append("<div></div>");
-//		 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
-//		 			$("#buyer_search").css("color","#B9062F");
 			         $("#modal-body-sto").append(no_result);
 			         $("#search_keyword").focus();
 			         
@@ -146,6 +135,74 @@
 		})
 		.fail(function() {
 	 			$("modal-body-sto").append("<h3>요청 실패!</h3>");
+		});
+	}//stock_num_search_fn 끝
+	
+	// ------------창고조회(신규재고등록 시 창고구역 검색하는 함수)---------------
+	function warehouse_search_fn() {
+		
+		let search_keyword = $("#search_keyword_wh").val();
+		
+// 	 	alert(search_keyword);
+		
+		$.ajax({
+			type: "GET",
+			url: "wareHouseListJson?keyword=" + search_keyword,
+			dataType: "json"
+		})
+		.done(function(warehouseList) { // 요청 성공 시
+			 console.log(warehouseList)
+//	 		$(".modal-body").append(buyerList);
+         	
+			 if(warehouseList.length == 0){
+					$("#modal-body-wh > table ").remove();   //테이블 비우고
+
+					let no_result = "<table class='table table-hover' id='warehouse_search_table' style='margin-left: auto; margin-right: ;'>"
+						+ "<tr style='cursor:pointer;'>"
+		                + '<th scope="col" width="200px">창고명(구역명)</th>'
+		                + '<th scope="col" width="157px">위치명</th>'
+		                + '<th scope="col" width="80px">위치코드</th>'
+		                + '</tr>'
+						+ "<tr style='cursor:pointer;'>"
+						+ "<td colspan ='5'>"
+						+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  search_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+						+ "</h6>"
+						+ "</td>"
+						+ "</tr>";
+				 		+ '</table>';
+
+			         $("#modal-body-wh").append(no_result);
+			         $("#search_keyword_wh").focus();
+			         
+			 }else{
+				 
+			
+			$("#modal-body-wh > table").remove();   //테이블 비우고
+			
+				let set_table = "<table class='table table-hover' id='warehouse_search_table' style='margin-left: auto; margin-right: ;'>"
+					+ "<tr style='cursor:pointer;'>"
+	                + '<th scope="col" width="200px">창고명(구역명)</th>'
+	                + '<th scope="col" width="157px">위치명</th>'
+	                + '<th scope="col" width="80px">위치코드</th>'
+	                + '</tr>'
+  			 		+ '</table>'
+				
+		         $("#modal-body-wh").append(set_table);
+				
+			for(let warehouse of warehouseList) {
+		         let result = 
+		        	 	"<tr style='cursor:pointer;'>"
+		                  + "<td>" + warehouse.wh_name + "("+ warehouse.wh_area + "구역)" + "</td>"
+		                  + "<td>" + warehouse.wh_loc_in_area + "</td>"
+		                  + "<td>" + warehouse.wh_loc_in_area_cd + "</td>"
+		                  + "</tr>";
+
+	 			$("#warehouse_search_table").append(result);
+			}//for 긑
+		 }//else 끝
+		})
+		.fail(function() {
+	 			$("modal-body-wh").append("<h3>요청 실패!</h3>");
 // 			$("#stock_search_table > tr").append("<h3>요청 실패!</h3>");
 		});
 	}//stock_num_search_fn 끝
@@ -173,8 +230,31 @@
 		   console.log("wh_loc_in_area_cd : " + wh_loc_in_area_cd);
 		   
 		   // td 클릭시 모달 창 닫기
-		   $('#stock_search').modal('hide');
+	 	   $('#stock_search').modal('hide');
 		   $("#stock_cd_input" + idx).val(stock_cd);
+		   $("#wh_area_loc_input" + idx).val(wh_name + "_" + wh_loc_in_area);
+		   $("#wh_area_loc_hidden" + idx).val(wh_loc_in_area_cd);
+			idx = "";
+	});	   
+		
+	}//input_search_idx 끝
+	
+	//------------구역명_선반위치 값 넣는 함수 ------------
+	function input_search_idx_wh(cb) {
+
+		var idx = cb.id.replace("warehouse_search_btn", "");
+		
+		$("#modal-body-wh").on('click','tr',function(){
+		   let td_arr = $(this).find('td');
+		   console.log(td_arr);
+		   
+		   let wh_name = $(td_arr[0]).text();
+		   let wh_loc_in_area = $(td_arr[1]).text();
+		   let wh_loc_in_area_cd = $(td_arr[2]).text();
+		   
+		   // td 클릭시 모달 창 닫기
+		  
+		   $('#warehouse_search').modal('hide');
 		   $("#wh_area_loc_input" + idx).val(wh_name + "_" + wh_loc_in_area);
 		   $("#wh_area_loc_hidden" + idx).val(wh_loc_in_area_cd);
 			idx = "";
@@ -183,12 +263,52 @@
 	}//input_search_idx 끝
 
 	
-	
-	
-	
+		
+	 function calculateSum(cb) {
+		    var idx = cb.id.replace("in_qty_input","");
+// 			   alert(idx);
+			var check_qty = parseInt($("#in_qty_input" + idx).val());
+// 			alert("check_qty: " + check_qty);
+			var in_schedule_qty = parseInt($("#in_qty_hidden" + idx).val());
+// 			alert("in_schedule_qty : " + in_schedule_qty);
+				if(check_qty> in_schedule_qty){
+					alert("입고예정수량보다 많은 수량입니다.");
+					$("#in_qty_input" + idx).val("");
+					//초기화
+					idx="";
+					check_qty="";
+					in_schedule_qty="";
+				}else{
+				     var sum = 0;
+				     var inputElements = document.getElementsByClassName("out_schedule_qty");
+				     for (var i = 0; i < inputElements.length; i++) {
+				       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
+				         sum += parseFloat(inputElements[i].value);
+				       }
+				     }
+				     document.getElementById("sum").innerHTML = sum;
+					
+				   //초기화
+					idx="";
+					check_qty="";
+					in_schedule_qty="";
+				}
+				
+	   }//function 끝
 
-
+	   var inputFields = document.querySelectorAll(".out_schedule_qty");
+	   inputFields.forEach(function(inputField) {
+	     inputField.addEventListener("input", calculateSum);
+	     
+	   });
+	   
+	   
 </script>
+<style type="text/css">
+/* th, td { */
+/*   text-align: center; */
+/* } */
+</style>
 </head>
 <body class="sb-nav-fixed">
 <header>
@@ -235,36 +355,36 @@
                   </div>
                 </div>
               </div><!-- End Modal Dialog Scrollable-->
-    	 <form action="./In_Per_Schedule_Process" method="post"> 
+    	 <form action="./In_Per_Schedule_Process" method="post" id="editFLForm"> 
             <div class="card mb-4">
                 <div class="card-header">
-                     출고 예정 목록
+                     입고 처리 목록
                  </div>
                <div class="card-body">
-                  <div class="input-group mb-6" id ="stock_history_div">
+                  <div class="input-group mb-4" id ="stock_history_div">
 	                    <table class="table table-hover" id="stock_history_table" style="margin-left: auto; margin-right: ">
 							<tr>
 					 			<th scope="col">입고예정번호</th>
 					 			<th scope="col">품목명</th>
 					 			<th scope="col">입고예정수량</th>
 					 			<th scope="col">입고수량</th>
-					 			<th scope="col">재고번호</th>
-					 			<th scope="col">구역명_선반위치</th>
+					 			<th scope="col">재고번호(※미입력 시 자동생성)</th>
+					 			<th scope="col">구역명_선반위치(※입력 필수)</th>
 				 			</tr>
-
 				 			<c:forEach var="list" items="${list }" varStatus="status">
-				 				<input type="hidden" value="${list.IN_SCHEDULE_QTY }" name="IN_SCHEDULE_QTYArr">
+				 				<input type="hidden" value="${list.IN_SCHEDULE_QTY }" name="IN_SCHEDULE_QTYArr" id="in_qty_hidden${status.index }">
 				 				<input type="hidden" value="${list.IN_SCHEDULE_PER_CD }" name="IN_SCHEDULE_PER_CDArr">
+				 				<input type="hidden" value="${list.IN_SCHEDULE_CD }" name="IN_SCHEDULE_CD">
 				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
 				 				<input type="hidden" value="${list.IN_COMPLETE}" name="IN_COMPLETE">			
-								<input type="hidden"" id ="wh_area_loc_hidden${status.index}" name="WH_LOC_IN_AREA_CDArr">					 			
+								<input type="hidden" id ="wh_area_loc_hidden${status.index}" name="WH_LOC_IN_AREA_CDArr">					 			
 				 			<tr>
 					 			<td>${list.IN_SCHEDULE_CD }</td>
 					 			<td>${list.PRODUCT_NAME }</td>
 					 			<td>${list.IN_SCHEDULE_QTY }</td>
 					 			<td>
 					 				<!-- 입고처리할 수량 입력칸 -->
-					 				<input type="text" class="form-control-sm" id="in_qty_input" name="IN_QTYArr" size="1" required>
+					 				<input type="text" class="form-control-sm out_schedule_qty" id="in_qty_input${status.index }" name="IN_QTYArr" size="1" onchange="calculateSum(this);" " required>
 					 			</td>
 					 			<td>
 					 				<!-- 재고번호 자동 입력될 칸 -->
@@ -276,16 +396,20 @@
 					 				<!-- 구역명_선반위치 -->
 									<input type="text" class="form-control-sm" id ="wh_area_loc_input${status.index}" required>					 			
 
+									<!-- 창고번호 검색 버튼 -->					 			
+                      				<button type="button" class="btn btn-secondary btn-sm" id ="warehouse_search_btn${status.index}" data-bs-toggle="modal" data-bs-target="#warehouse_search" onclick="input_search_idx_wh(this)">검색</button>
+
+
 					 			</td>
 				 			</tr>
 				 			</c:forEach>
 		 				</table>
 		        	 </div>
+		        	 <div>
+	           	 		  <span style="font-size: 15px; float: left;">지시수량 합계 : &nbsp;</span> <span id="sum" style="padding-right: 50px; font-size: 15px;"></span>
+			              <button class="btn btn-primary" type="submit" style="float: right;">입고</button>
+	           	 	</div>
            	 	 </div>
-           	 	<div>
-		              <button class="btn btn-primary" id="in_submit" type="submit">입고처리</button>
-           	 	</div>
-           	 
 		 </div>
          </form>  
               <!-- Extra Large Modal -->
@@ -306,13 +430,42 @@
 	             		<input name="search_keyword" type="text" class="form-control" id="search_keyword" placeholder="검색 후 이용 바랍니다.">
    						<button id="search_buyer" class="btn btn-primary" type="button" onclick="stock_num_search_fn()">검색</button>
    						</div>
-                    	<table class='table table-hover' id="stock_search_table" style="margin-left: auto; margin-right: ;font-size: 13px">
+                    	<table class='table table-hover' id="stock_search_table" style="margin-left: auto; margin-right: ;font-size: 13px"">
 				                <tr>
 				                  <th scope="col" width="70px">재고번호</th>
 				                  <th scope="col" width="160px">품목명</th>
 				                  <th scope="col" width="100px">구역명</th>
 				                  <th scope="col" width="70px">위치명</th>
 				                  <th scope="col" width="70px">위치코드</th>
+				                </tr>
+			        	 </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Vertically centered Modal-->	
+              
+      		 <!-- 창고 검색 시 나오는 모달 -->
+              <div class="modal fade" id="warehouse_search" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 id="pro_search_sto" style="text-align: center;">창고번호 검색</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-wh">
+           	            <div class="input-group mb-6"  style="margin-bottom: 10px">
+                    	
+	             		<input name="search_keyword_wh" type="text" class="form-control" id="search_keyword_wh" placeholder="검색 후 이용 바랍니다.">
+   						<button id="search_buyer" class="btn btn-primary" type="button" onclick="warehouse_search_fn()">검색</button>
+   						</div>
+                    	<table class='table table-hover' id="warehouse_search_table" style="margin-left: auto; margin-right: ;">
+				                <tr>
+				                  <th scope="col" width="200px">창고명(구역명)</th>
+				                  <th scope="col" width="157px">위치명</th>
+				                  <th scope="col" width="80px">위치코드</th>
 				                </tr>
 			        	 </table>
                     </div>
