@@ -123,29 +123,29 @@ public class In_ScheduleController {
 		
 	
 	//-----------입고 등록 PRO 끝------------
-//	
-//	//진행 상태 - 입고 예정
-//	@ResponseBody
-//	@GetMapping(value="InListProd")
-//	public void inListProd(Model model,@RequestParam(value="IN_SCHEDULE_CD", required=false) String IN_SCHEDULE_CD, HttpServletResponse response ) {
-//		
-//		List<InSchedulePerProductVO> inProdList = service.getInProdList(IN_SCHEDULE_CD);
-//		
-//		JSONArray jsonArray = new JSONArray();
-//		
-//		for(InSchedulePerProductVO inProd : inProdList) {
-//			JSONObject jsonObject = new JSONObject(inProd);
-//			jsonArray.put(jsonObject);
-//		}
-//		
-//		try {
-//			response.setCharacterEncoding("UTF-8");
-//			response.getWriter().print(jsonArray);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
+
+	//진행 상태 - 입고 예정
+	@ResponseBody
+	@GetMapping(value="InListProd")
+	public void inListProd(Model model,@RequestParam(value="IN_SCHEDULE_CD", required=false) String IN_SCHEDULE_CD, HttpServletResponse response ) {
+		
+		List<InSchedulePerProductVO> inProdList = service.getInProdList(IN_SCHEDULE_CD);
+		
+		JSONArray jsonArray = new JSONArray();
+		
+		for(InSchedulePerProductVO inProd : inProdList) {
+			JSONObject jsonObject = new JSONObject(inProd);
+			jsonArray.put(jsonObject);
+		}
+		
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print(jsonArray);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	
 	
