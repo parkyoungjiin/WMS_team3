@@ -37,12 +37,12 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 
-// var date = new Date();
-// var yyyy = date.getFullYear();
-// var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
-// var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+var date = new Date();
+var yyyy = date.getFullYear();
+var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
  
-// $("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
+$("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
 
 // alert(${ospList.size()});
 var ospSize = ${ospList.size()};
@@ -260,38 +260,93 @@ function load_proList() {
 			$("#modal-body-pro > table").append("<h3>요청 실패!</h3>");
 	});
 	
-	
-
 }
 
 
-// 재고 목록 조회(모달)
-// function load_stoList() {
+// 재고 목록 조회
+function load_stoList(cb) {
 	
-// 	let sto_keyword = $(".pro_cd").eq(selectIdx).val();
-// // 	alert(sto_keyword);
+	let idx = cb.id.replace("stock_search_btn", "");
+	let sto_keyword = $("#product_cdArr" + idx).val();
+// 	alert(idx);
 	
-// 	$.ajax({
-// 		type: "GET",
-// 		url: "StoListJson?keyword=" + sto_keyword,
-// 		dataType: "json"
-// 	})
-// 	.done(function(stoList) { // 요청 성공 시
+	$.ajax({
+		type: "GET",
+		url: "StoListJson?keyword=" + sto_keyword,
+		dataType: "json"
+	})
+	.done(function(stoList) { // 요청 성공 시
 		
-// 		for(let sto of stoList) {
+		if(stoList.length == 0){
+			$("#modal-body-sto > table ").remove();   //테이블 비우고
+		
+			let no_result = "<table class='table table-hover' id='sto_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer; text-align: center;'>"
+					+'<th scope="col" style="width: 157px"></th>'
+		            +'<th scope="col" style="width: 157px"></th>'
+		            +'<th scope="col" style="width: 151px"></th>'
+	            + '</tr>'
+				+ "<tr style='cursor:pointer;'>"
+				+ "<td colspan ='3'>"
+// 				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  sto_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+				+ "<h6 style='font-weight: bold; text-align: center;'>" + "품목을 선택해주세요."
+				+ "</h6>"
+				+ "</td>"
+				+ "</tr>";
+		 		+ '</table>';
+
+// 			let no_result = "<h6 style='font-weight: bold; text-align: center;'>" + "품목을 선택해주세요." + "</h6>";
+		 		
+		 		
+		 		 $("#modal-body-sto").append(no_result);
+		         $("#sto_keyword").focus();
+		}else{	
+		
+			$("#modal-body-sto > table ").remove();   //테이블 비우고
 			
-// 			let result = "<tr style='cursor:pointer;'>"
-// 		                + "<td>" + sto.stock_cd + "</td>"
-// 		                + "<td>" + sto.stock_qty + "</td>"
-//                			+ "</tr>";
+			let set_result = "<table class='table table-hover' id='sto_table' style='margin-left: auto; margin-right: '>" 
+					+ "<tr style='cursor:pointer; text-align: center;'>"
+					+'<th scope="col" style="width: 157px">품목코드</th>'
+		            +'<th scope="col" style="width: 157px">재고번호</th>'
+		            +'<th scope="col" style="width: 151px">수량</th>'
+	            + '</tr>'
+	            
+	            $("#modal-body-sto").append(set_result);
+	            
+			for(let sto of stoList) {
+			
+			let result = "<tr style='cursor:pointer; text-align: center;'>"
+		                + "<td style='width: 157px'>" + sto.product_cd + "</td>"
+		                + "<td style='width: 157px'>" + sto.stock_cd + "</td>"
+		                + "<td style='width: 151px'>" + sto.stock_qty + "</td>"
              
-// 			$("#modal-body-sto > table").append(result);
-// 		}
-// 	})
-// 	.fail(function() {
-// 		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
-// 	});
-// }
+			$("#sto_table").append(result);
+		}
+			
+			
+	  }
+	})
+	.fail(function() {
+		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+	});
+	
+	$("#modal-body-sto").on('click','tr',function(){
+		   let td_arr = $(this).find('td');
+// 		   alert("뭐임 : " + $("#product_stock_cd" + idx).val());
+		   
+//		   $('#no').val($(td_arr[0]).text());
+		   let pro_cd = $(td_arr[0]).text();
+		   let sto_cd = $(td_arr[1]).text();
+		   let sto_qty = $(td_arr[2]).text();
+		   console.log(pro_cd);
+		   
+		   // td 클릭시 모달 창 닫기
+		   $('#modalDialogScrollable_sto').modal('hide');
+		   $("#product_stock_cd" + idx).val(sto_cd);
+// 		   $("#product_cdArr" + idx).val(pro_cd);
+//		   $("#emp_num").val(emp_num);
+	});	 
+}
 	
 
 
@@ -575,7 +630,7 @@ function input_search_idx(cb) {
 	   $('#modalDialogScrollable_pro').modal('hide');
 	   $("#product_cdArr" + idx).val(pro_cd);
 	   $("#product_namesizeArr" + idx).val(pro_name + " ["+size_des+"]");
-	   $("#stoContent" + idx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
+// 	   $("#stoContent" + idx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
 // 	   $("#wh_area_loc_input" + idx).val(wh_name);
 		idx = "";
     })	  
@@ -766,29 +821,29 @@ function input_search_idx(cb) {
 			
 		 <!-- Vertically centered Modal -->
 		 <!-- 재고 검색 -->
-<!--               <div class="modal fade" id="modalDialogScrollable_sto" tabindex="-1"> -->
-<!--                 <div class="modal-dialog modal-dialog-centered"> -->
-<!--                   <div class="modal-content"> -->
-<!--                     <div class="modal-header"> -->
-<!--                       <h5 id="pro_search_sto" style="text-align: center;"></h5> -->
-<!--                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-<!--                     </div> -->
-<!--                     <div class="modal-body" id="modal-body-sto"> -->
-                    	
-<!--                     	<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: "> -->
-<!-- 				                <tr> -->
-<!-- 				                  <th scope="col">재고번호</th> -->
-<!-- 				                  <th scope="col">수량</th> -->
-<!-- 				                </tr> -->
-<!-- 			        	 </table> -->
-<!--                     </div> -->
-<!--                     <div class="modal-footer"> -->
-<!--                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-<!--                       <button type="button" class="btn btn-primary">Save changes</button> -->
-<!--                     </div> -->
-<!--                   </div> -->
-<!--                 </div> -->
-<!--               </div>End Vertically centered Modal	 -->
+              <div class="modal fade" id="modalDialogScrollable_sto" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 id="pro_search_sto" style="text-align: center;"></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-sto">
+                    	<table class='table table-hover' id="sto_table" style="margin-left: auto; margin-right: ">
+				                <tr style="text-align: center;">
+				                  <th scope="col" style="width: 151px">품목코드</th>
+				                  <th scope="col" style="width: 151px">재고번호</th>
+				                  <th scope="col" style="width: 151px">수량</th>
+				                </tr>
+			        	 </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+<!--               End Vertically centered Modal	 -->
 		<%-- ********************************** 복수개 품목명 입력창(하단부)************************************************* --%>		
 		<div class="card mb-4">
 			<div class="card-header" style="font-size: 20px;">
@@ -805,31 +860,34 @@ function input_search_idx(cb) {
 <!-- 		                    <th scope="col" style="width: 80px">규격</th> -->
 		                    <th scope="col" style="width: 80px">출고예정수량</th>
 		                    <th scope="col" style="width: 197px">납기일자</th>
-		                    <th scope="col" style="width: 120px">비고</th>
-		                    <th scope="col" style="width: 274px">출고대상재고</th>
+		                     <th scope="col" style="width: 274px">비고</th>
+		                    <th scope="col" style="width: 120px">출고대상재고</th>
 		                  </tr>
 		                </thead>
 		                <tbody>
 		                <c:forEach items="${ospList }" var="ospList" varStatus="status">
 		                <input type="hidden" class="form-control form-control-sm pro_name" required="required" value="${ospList.product_name }" name="product_nameArr" id="product_nameArr${status.index}">
 		                <input type="hidden" class="form-control form-control-sm pro_size" required="required" value="${ospList.product_size }" name="product_sizeArr" id="product_sizeArr${status.index}" >
-        				<input type="hidden" name="stock_cdArr" class="stock_cd" value="${ospList.stock_cd }" id="product_stock_cd${status.index}">
+<%--         				<input type="hidden" name="stock_cdArr" class="stock_cd" value="${ospList.stock_cd }" id="product_stock_cd${status.index}"> --%>
         				<input type="hidden" name="out_schedule_per_cdArr" value="${ospList.out_schedule_per_cd }" id="product_stock_cd${status.index}">
 		                
 		                  	<tr>
 							<td>
 
 							<div class="input-group input-group-sm mb-2">
-         					<input type="text" style="text-align: center;" id="product_cdArr${status.index}" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }">
+         					<input type="text" style="text-align: center;" id="product_cdArr${status.index}" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }" readonly="readonly">
 	         				<button class="btn btn-secondary" id="product_search_btn${status.index }" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="input_search_idx(this)">검색</button></div>
           					</td>
           					<!-- 품목명[규격]은 넘어가는 값이 없어서 name값 주지 않음. -->
-							<td><input type="text" style="text-align: center;" class="form-control form-control-sm pro_name" id="product_namesizeArr${status.index }" required="required" value="${ospList.product_name } [${ospList.product_size}]"></td>
+							<td><input type="text" style="text-align: center;" class="form-control form-control-sm pro_name" id="product_namesizeArr${status.index }" required="required" value="${ospList.product_name } [${ospList.product_size}]" readonly="readonly"></td>
 							<td><input type="number" style="text-align: center;" class="form-control form-control-sm out_schedule_qty" id="out_schedule_qtyArr${status.index }" name="out_schedule_qtyArr" required="required"  value="${ospList.out_schedule_qty }" onchange="calculateSum();"></td>
 							<td><input type="date" style="text-align: center; border:none" class="form-control form-control-sm" id="out_dateArr${status.index }" value="${ospList.out_date }" name="out_dateArr" required="required"></td>
 							<td><input type="text" style="text-align: center;" class="form-control form-control-sm" value="${ospList.remarks_pro }" id="remarks_proArr${status.index }" name="remarks_proArr" ></td>
+							<td><div class="input-group input-group-sm mb-10">'
+         					<input type="text" style="text-align:center;" class="form-control form-control-sm stock_cd" name="stock_cdArr" required="required" readonly="readonly" id="product_stock_cd${status.index}" value="${ospList.stock_cd }">
+	         				<button id="stock_search_btn${status.index }" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList(this)">검색</button></div></td>
 <%-- 							<td><span class="stoContent" style="justify-content: center; align-items: center; display: flex;" >재고번호 : ${ospList.stock_cd }</span></td> --%>
-							<td><span class="stoContent" id="stoContent${status.index }" style="justify-content: center; align-items: center; display: flex;" ></span></td>
+<%-- 							<td><span class="stoContent" id="stoContent${status.index }" style="justify-content: center; align-items: center; display: flex;" ></span></td> --%>
 
 
 <!-- 							<input type="hidden" name="stock_qty" class="stock_qty"> -->

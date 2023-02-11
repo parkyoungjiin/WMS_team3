@@ -37,12 +37,12 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 
-// var date = new Date();
-// var yyyy = date.getFullYear();
-// var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
-// var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+var date = new Date();
+var yyyy = date.getFullYear();
+var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
  
-// $("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
+$("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
 
 
 var idx = 0;
@@ -267,32 +267,75 @@ function load_proList() {
 
 
 // 재고 목록 조회(모달)
-// function load_stoList() {
+function load_stoList() {
 	
-// 	let sto_keyword = $(".pro_cd").eq(selectIdx).val();
-// // 	alert(sto_keyword);
 	
-// 	$.ajax({
-// 		type: "GET",
-// 		url: "StoListJson?keyword=" + sto_keyword,
-// 		dataType: "json"
-// 	})
-// 	.done(function(stoList) { // 요청 성공 시
+	let sto_keyword = $(".pro_cd").eq(selectIdx).val();
+// 	alert(sto_keyword);
+
+// 	if(sto_keyword === ""){
+// 		alert("품목을 먼저 선택해주세요!");
+// 		return;
+// 	}
+	
+	$.ajax({
+		type: "GET",
+		url: "StoListJson?keyword=" + sto_keyword,
+		dataType: "json"
+	})
+	.done(function(stoList) { // 요청 성공 시
 		
-// 		for(let sto of stoList) {
+		if(stoList.length == 0){
+			$("#modal-body-sto > table ").remove();   //테이블 비우고
+		
+			let no_result = "<table class='table table-hover' id='sto_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer; text-align: center;'>"
+					+'<th scope="col" style="width: 157px"></th>'
+		            +'<th scope="col" style="width: 157px"></th>'
+		            +'<th scope="col" style="width: 151px"></th>'
+	            + '</tr>'
+				+ "<tr style='cursor:pointer;'>"
+				+ "<td colspan ='3'>"
+// 				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  sto_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+				+ "<h6 style='font-weight: bold; text-align: center;'>" + "품목을 선택해주세요."
+				+ "</h6>"
+				+ "</td>"
+				+ "</tr>";
+		 		+ '</table>';
+
+// 			let no_result = "<h6 style='font-weight: bold; text-align: center;'>" + "품목을 선택해주세요." + "</h6>";
+		 		
+		 		
+		 		 $("#modal-body-sto").append(no_result);
+		         $("#sto_keyword").focus();
+		}else{	
+		
+			$("#modal-body-sto > table ").remove();   //테이블 비우고
 			
-// 			let result = "<tr style='cursor:pointer;'>"
-// 		                + "<td>" + sto.stock_cd + "</td>"
-// 		                + "<td>" + sto.stock_qty + "</td>"
-//                			+ "</tr>";
+			let set_result = "<table class='table table-hover' id='sto_table' style='margin-left: auto; margin-right: '>" 
+					+ "<tr style='cursor:pointer; text-align: center;'>"
+					+'<th scope="col" style="width: 157px">품목코드</th>'
+		            +'<th scope="col" style="width: 157px">재고번호</th>'
+		            +'<th scope="col" style="width: 151px">수량</th>'
+	            + '</tr>'
+	            
+	            $("#modal-body-sto").append(set_result);
+	            
+			for(let sto of stoList) {
+			
+			let result = "<tr style='cursor:pointer; text-align: center;'>"
+		                + "<td style='width: 157px'>" + sto.product_cd + "</td>"
+		                + "<td style='width: 157px'>" + sto.stock_cd + "</td>"
+		                + "<td style='width: 151px'>" + sto.stock_qty + "</td>"
              
-// 			$("#modal-body-sto > table").append(result);
-// 		}
-// 	})
-// 	.fail(function() {
-// 		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
-// 	});
-// }
+			$("#sto_table").append(result);
+		}
+	  }
+	})
+	.fail(function() {
+		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+	});
+}
 	
 
 
@@ -366,14 +409,32 @@ $(function() {
 					   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
 					   $(".product_sizeArr").eq(selectIdx).val(pro_size); // hidden input 에 규격 넣기
 //			 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
-					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
-					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
-					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);
+// 					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
+// 					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
+// 					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);
 			})
 			.fail(function() {
 				$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
 			});
 		   
+	});	   
+	
+	
+	// 재고
+	$("#modal-body-sto").on('click','tr',function(){
+		   let td_arr = $(this).find('td');
+		   console.log(td_arr);
+		   
+// 		   $('#no').val($(td_arr[0]).text());
+		   let pro_cd = $(td_arr[0]).text();
+		   let sto_cd = $(td_arr[1]).text();
+		   let sto_qty = $(td_arr[2]).text();
+		   console.log(pro_cd);
+		   
+		   // td 클릭시 모달 창 닫기
+		   $('#modalDialogScrollable_sto').modal('hide');
+		   $(".stock_cd").eq(selectIdx).val(sto_cd);
+// 		   $("#emp_num").val(emp_num);
 	});	   
 	
 	
@@ -404,18 +465,23 @@ $(function() {
 // 							+ '<td><input type="checkbox" name="chk"></td>'
 							+ '<td>'
 							+ '<div class="input-group input-group-sm mb-10">'
-         					+ '<input type="text" style="text-align:center;" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required">'
+         					+ '<input type="text" style="text-align:center;" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" readonly="readonly">'
 	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button>'
           					+ '</div></td>'
-							+ '<td style="text-align: center;"><input type="text" class="form-control form-control-sm pro_name" required="required">' + '</td>'
+							+ '<td style="text-align: center;"><input type="text" class="form-control form-control-sm pro_name" required="required" readonly="readonly">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
 							+ '<td style="text-align:center;"><input type="number" style="text-align:center;" class="form-control form-control-sm out_schedule_qty" name="out_schedule_qtyArr" required="required" id="out_schedule_qty" onchange="calculateSum();"></td>'
 							+ '<td style="text-align:center;"><input type="date" style="text-align:center;" class="form-control form-control-sm" style="border:none" value="' + date + '" name="out_dateArr" required="required"></td>'
 							+ '<td style="text-align:center;"><input type="text" style="text-align:center;" class="form-control form-control-sm" value="' + remarks + '" name="remarks_proArr"></td>'
-// 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
-							+ '<td style="text-align:center;"><span class="stoContent"></span></td>'
-							+ '<input type="hidden" name="stock_cdArr" class="stock_cd">'
-							+ '<input type="hidden" name="stock_qty" class="stock_qty">'
+							+ '<td>'
+							+ '<div class="input-group input-group-sm mb-10">'
+         					+ '<input type="text" style="text-align:center;" class="form-control form-control-sm stock_cd" name="stock_cdArr" required="required" readonly="readonly">'
+	         				+ '<button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button>'
+          					+ '</div></td>'
+// 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>' // 재고검색
+// 							+ '<td style="text-align:center;"><span class="stoContent"></span></td>'
+// 							+ '<input type="hidden" name="stock_cdArr" class="stock_cd">'
+// 							+ '<input type="hidden" name="stock_qty" class="stock_qty">'
 							+ '<input type="hidden" name="product_nameArr" class="product_nameArr">'
 							+ '<input type="hidden" name="product_sizeArr" class="product_sizeArr">'
             				+ '</tr>';
@@ -552,7 +618,7 @@ $(document).ready(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">거래처</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="cust_name" type="text" class="form-control" id="cust_name" required="required">
+		             		<input name="cust_name" type="text" class="form-control" id="cust_name" required="required" readonly="readonly">
 		             		<input name="business_no" type="hidden" class="form-control" id="business_no" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" >검색</button>
 
@@ -561,7 +627,7 @@ $(document).ready(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">담당자</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="emp_name" type="text" class="form-control" id="emp_name" required="required">
+		             		<input name="emp_name" type="text" class="form-control" id="emp_name" required="required" readonly="readonly">
 		             		<input name="emp_num" type="hidden" class="form-control" id="emp_num" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_emp">검색</button>
 			        	 </div>
@@ -662,9 +728,9 @@ $(document).ready(function() {
 <!-- 			        	 <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->
 						<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
 				                <tr style="text-align: center;">
-				                  <th scope="col" style="width: 151px">품목번호</th>
-				                  <th scope="col" style="width: 157px">품목명</th>
-				                  <th scope="col" style="width: 157px">규격</th>
+				                  <th scope="col" style="width: 157px">품목번호</th>
+				                  <th scope="col" style="width: 151px">품목명</th>
+				                  <th scope="col" style="width: 151px">규격</th>
 				                </tr>
 			        	 </table>
                     </div>
@@ -687,10 +753,11 @@ $(document).ready(function() {
                     </div>
                     <div class="modal-body" id="modal-body-sto">
                     	
-                    	<table class='table table-hover' id="pro_table" style="margin-left: auto; margin-right: ">
-				                <tr>
-				                  <th scope="col">재고번호</th>
-				                  <th scope="col">수량</th>
+                    	<table class='table table-hover' id="sto_table" style="margin-left: auto; margin-right: ">
+				                <tr style="text-align: center;">
+				                  <th scope="col" style="width: 151px">품목코드</th>
+				                  <th scope="col" style="width: 151px">재고번호</th>
+				                  <th scope="col" style="width: 151px">수량</th>
 				                </tr>
 			        	 </table>
                     </div>
@@ -716,8 +783,8 @@ $(document).ready(function() {
 <!-- 		                    <th scope="col">규격</th> -->
 		                    <th scope="col" style="width: 80px">수량</th>
 		                    <th scope="col" style="width: 197px">납기일자</th>
-		                    <th scope="col" style="width: 120px">비고</th>
-		                    <th scope="col" style="width: 274px">출고대상재고</th>
+		                    <th scope="col" style="width: 274px">비고</th>
+		                    <th scope="col" style="width: 120px">출고대상재고</th>
 		                  </tr>
 		                </thead>
 		                <tbody>
