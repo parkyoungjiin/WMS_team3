@@ -95,13 +95,13 @@ public class In_ScheduleController {
 				insp2.setPRODUCT_NAME(insp.getPRODUCT_NAMEArr()[i]);
 				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
 				insp2.setIN_SCHEDULE_QTY(insp.getIN_SCHEDULE_QTYArr()[i]);
-				for(int a =0; a<insp.getREMARKSArr().length; i++) {
-					if(insp.getREMARKSArr()[a] == null || insp.getREMARKSArr()[a].length() ==0) {
+//				for(int a =0; a<insp.getREMARKSArr().length; i++) {
+					if(insp.getREMARKSArr().length == 0 || insp.getREMARKSArr()[i].equals("") || insp.getREMARKSArr()[i] ==null) {
 						insp2.setREMARKS("");
 					}else {
-						insp2.setREMARKS(insp.getREMARKSArr()[a]);
+						insp2.setREMARKS(insp.getREMARKSArr()[i]);
 					}
-				}
+//				}
 //				insp2.setREMARKS(insp.getREMARKSArr()[i]);
 				insp2.setIN_DATE(insp.getIN_DATEArr()[i]);
 				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
@@ -110,12 +110,12 @@ public class In_ScheduleController {
 				System.out.println(insp);
 				int insertCount2 = service.insertInProduct(insp2);
 				
-				if(insertCount2 > 0) {
-					return "redirect:/InList";
-				}else {
-					model.addAttribute("msg","입고 등록 실패");
-					return "fail_back";
-				}
+//				if(insertCount2 > 0) {
+//					return "redirect:/InList";
+//				}else {
+//					model.addAttribute("msg","입고 등록 실패");
+//					return "fail_back";
+//				}
 			}
 			return "redirect:/InList";
 		}else {

@@ -126,6 +126,7 @@ public class In_scheduleService {
 		return mapper.selectInProductList(iN_SCHEDULE_CD);
 	}
 
+	// 입고 예정 리스트 외1건처리
 	public List<InScheduleVO> getInSchedule() {
 		List<InScheduleVO> inSch = mapper.selectInscheduleList();
 		

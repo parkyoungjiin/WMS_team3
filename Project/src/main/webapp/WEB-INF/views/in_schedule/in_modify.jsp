@@ -392,7 +392,7 @@ $(function() {
           					+ '</div></td>'
 							+ '<td><input type="text" class="form-control form-control-sm pro_name" id="PRODUCT_NAMEArr" name="PRODUCT_NAMEArr" required="required">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
-							+ '<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTY" onchange="calculateSum();"></td>'
+							+ '<td><input type="number" class="form-control form-control-sm in_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="in_schedule_qty" onchange="calculateSum();"></td>'
 							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="IN_DATEArr" required="required"></td>'
 							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="REMARKS"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
@@ -516,23 +516,22 @@ function input_search_idx(cb) {
 });      
    
 }
-  
 //수량 합계 계산
- function calculateSum() {
-     var sum = 0;
-     var inputElements = document.getElementsByClassName("out_schedule_qty");
-     for (var i = 0; i < inputElements.length; i++) {
-       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
-         sum += parseFloat(inputElements[i].value);
-       }
-     }
-     document.getElementById("sum").innerHTML = sum;
-   }
+function calculateSum() {
+    var sum = 0;
+    var inputElements = document.getElementsByClassName("in_schedule_qty");
+    for (var i = 0; i < inputElements.length; i++) {
+      if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
+        sum += parseFloat(inputElements[i].value);
+      }
+    }
+    document.getElementById("sum").innerHTML = sum;
+  }
 
-   var inputFields = document.querySelectorAll(".out_schedule_qty");
-   inputFields.forEach(function(inputField) {
-     inputField.addEventListener("input", calculateSum);
-   });
+  var inputFields = document.querySelectorAll(".in_schedule_qty");
+  inputFields.forEach(function(inputField) {
+    inputField.addEventListener("input", calculateSum);
+  });
 </script>
 
 <style type="text/css">
@@ -761,9 +760,9 @@ function input_search_idx(cb) {
 							<div class="input-group input-group-sm mb-2">
          					<input type="text" class="form-control form-control-sm pro_cd" id="product_cd${status.index }" name="PRODUCT_CDArr" required="required" value="${inspList.PRODUCT_CD }">
 	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" id="product_search_btn${status.index }" data-bs-target="#modalDialogScrollable_pro" onclick="input_search_idx(this)">검색</button></div>
-          					</td>
+          					</div></td>
 							<td><input type="text" class="form-control form-control-sm pro_name" required="required" id="product_namesizeArr${status.index }" name="PRODUCT_NAMEArr" value="${inspList.PRODUCT_NAME }[${inspList.PRODUCT_SIZE }]"></td>
-							<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTYArr${status.index }" value="${inspList.IN_SCHEDULE_QTY }" onchange="calculateSum();"></td>
+							<td><input type="number" class="form-control form-control-sm in_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTYArr${status.index }" value="${inspList.IN_SCHEDULE_QTY }" onchange="calculateSum();"></td>
 							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${inspList.IN_DATE }" name="IN_DATEArr" id="IN_DATEArr${status.index }" required="required"></td>
 							<td><input type="text" class="form-control form-control-sm" value="${inspList.REMARKS }"  id="REMARKSArr${status.index }" name="REMARKSArr"></td>
 							<td><input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD}" id="product_stock_cd${status.index}"></td>
