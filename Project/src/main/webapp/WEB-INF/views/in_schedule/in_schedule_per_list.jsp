@@ -159,13 +159,15 @@
 		                <c:forEach items="${list }" var="list"> 
 		                  <tr>
 <!-- 		                    <th scope="row"></th> -->
-		                   	<c:choose>
+		                    	<c:choose>
 		                   		<c:when test="${list.IN_COMPLETE eq '1' }">
 		                   		<td></td>
 		                   		</c:when>
 		                   		<c:otherwise>
 				                    <td><input type="checkbox" name="chk" value="${list.IN_SCHEDULE_PER_CD}"></td>
 		                   		
+<%-- 		                   		</c:otherwise> --%>
+<%-- 		                   	</c:choose> --%>
 		                   		</c:otherwise>
 		                   	</c:choose>
 		                    <td>${list.IN_SCHEDULE_CD }</td>
