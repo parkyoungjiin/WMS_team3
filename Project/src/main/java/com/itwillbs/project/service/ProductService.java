@@ -42,7 +42,7 @@ public class ProductService {
 
 	//--------------------품목 수정---------------------------
 	public int updateProd(ProductVO product) {
-		return mapper.modifyProd(product);
+		return mapper.modifyProd(product, product.getProduct_image());
 	}
 	
 

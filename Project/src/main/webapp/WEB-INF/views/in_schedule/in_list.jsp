@@ -213,7 +213,8 @@ a{text-decoration:none; color:#333;}
 							<tr>
 										
 	<td>${idx.count }</td>
-							<td><input type="checkbox" name="chk"> 
+							<td>
+<!-- 							<input type="checkbox" name="chk">  -->
 							<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
 		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }"></td>
 						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->

@@ -107,6 +107,7 @@
 			p.product_name,
 			p.product_group_bottom_cd,
 			pgb.product_group_bottom_name,
+			pgb.product_group_top_cd,
 			p.size_des,
 			p.unit,
 			p.barcode,
@@ -130,18 +131,18 @@
 			SET 
 <!-- 				product_cd = #{product_cd} -->
 <!-- 				product_cd -->
-				product_name = #{product_name}
-				, product_group_bottom_cd = #{product_group_bottom_cd}
-				, size_des = #{size_des}
-				, unit = #{unit}
-				, in_unit_price = #{in_unit_price}
-				, out_unit_price = #{out_unit_price}
-				, product_type_cd = #{product_type_cd}
-				, business_no = #{cust_name}
+				product_name = #{product.product_name}
+				, product_group_bottom_cd = #{product.product_group_bottom_cd}
+				, size_des = #{product.size_des}
+				, unit = #{product.unit}
+				, in_unit_price = #{product.in_unit_price}
+				, out_unit_price = #{product.out_unit_price}
+				, product_type_cd = #{product.product_type_cd}
+				, business_no = #{product.cust_name}
 				, product_image = #{product_image}
-				, remarks = #{remarks}
+				, remarks = #{product.remarks}
 			WHERE 
-				product_cd = #{product_cd}
+				product_cd = #{product.product_cd}
 	</update>
 	
 	<!-- 거래처 목록 조회 모달 (등록 페이지) -->
@@ -151,7 +152,11 @@
 			WHERE cust_name LIKE '%${keyword}%'
 	</select>
 	
-	<!-- 품목 그룹 리스트 json -->
-
+	<!-- 기존 파일명에서 삭제할 파일명을 제거 -->
+	<update id="deleteFile">
+		UPDATE product
+			SET product_image = REPLACE(product_image, #{product_image}, "")
+			WHERE product_cd = #{product_cd}
+	</update>
 	
 </mapper>

@@ -126,14 +126,16 @@ $(function() {
 		   let p_Tcd = $(td_arr[0]).text();
 		   let p_Gcd = $(td_arr[1]).text();
 		   let p_Gnm = $(td_arr[2]).text();
+		  
+		   console.log(p_Tcd);
 		   console.log(p_Gcd);
 		   console.log(p_Gnm);
 		   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_pGroup').modal('hide');
+		   $("#product_group_top_cd").val(p_Tcd);
 		   $("#product_group_bottom_name").val(p_Gnm);
 		   $("#product_group_bottom_cd").val(p_Gcd);
-		   $("#product_group_top_cd").val(p_Tcd);
 	});	   
 	
 	// 거래처
@@ -203,8 +205,8 @@ $(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" >품목 그룹</label>
                       <div class="col-md-8 col-lg-4">
 		      			<div class="input-group mb-6">
-		      				<input type="hidden" name="product_group_top_cd" id="product_group_top_cd"  class="form-control" >
-		      				<input name="product_group_bottom_cd" type="hidden" class="form-control" id="product_group_bottom_cd" value="${product.product_group_bottom_cd }">
+		      				<input type="hidden" name="product_group_top_cd" id="product_group_top_cd"  class="form-control" value="${product.product_group_top_cd }">
+		      				<input type="hidden" name="product_group_bottom_cd" class="form-control" id="product_group_bottom_cd" value="${product.product_group_bottom_cd }">
 							<input name="product_group_bottom_name" id="product_group_bottom_name" type="text" class="form-control" readonly="readonly" value="${product.product_group_bottom_name }"><!-- prod_group_bottom. -->
 				         <button id="search_pGroup" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pGroup">검색</button>
 			        	 </div>

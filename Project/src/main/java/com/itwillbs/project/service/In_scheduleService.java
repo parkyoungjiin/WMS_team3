@@ -11,6 +11,7 @@ import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
 import com.itwillbs.project.vo.StockVo;
+import com.itwillbs.project.vo.WareHouseVO;
 
 @Service
 public class In_scheduleService {
@@ -76,6 +77,10 @@ public class In_scheduleService {
 	public List<StockVo> getSerachStockNum(String keyword) {
 		return mapper.searchStockNum(keyword);
 	}
+	//-----------재고 번호 받아오기 (팝업창)-----------
+	public List<WareHouseVO> getSerachWareHouse(String keyword) {
+		return mapper.searchWarehouse(keyword);
+	}
 //진행상태 조회
 //	public List<InSchedulePerProductVO> getInProdList(String IN_SCHEDULE_CD) {
 //		return mapper.selectInProdList(IN_SCHEDULE_CD);
@@ -97,8 +102,8 @@ public class In_scheduleService {
 	}
 	
 	//----------입고 예정 수량 - 입고 수량 = 0 일 떄 1로 변경 ----------	
-	public void updateIN_COMPLETE(InSchedulePerProductVO insp) {
-		mapper.updateIN_COMPLETE(insp);
+	public int updateIN_COMPLETE(InSchedulePerProductVO insp) {
+		return mapper.updateIN_COMPLETE(insp);
 	}
 	//----------입고 처리 시 재고이력 등록----------
 	public int getInsertHistory(int insert_qty, int stock_cd, int product_cd, String sId) {
@@ -113,5 +118,9 @@ public class In_scheduleService {
 	public int getStock_cd(int in_SCHEDULE_PER_CD) {
 		
 		return mapper.getStock_cd(in_SCHEDULE_PER_CD);
+	}
+
+	public void update_IN_COMPLETE(InSchedulePerProductVO insp) {
+		mapper.update_IN_COMPLETE(insp);
 	}
 }
