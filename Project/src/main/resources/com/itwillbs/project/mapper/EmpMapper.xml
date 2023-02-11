@@ -90,7 +90,10 @@
 	  			,EMP_ADDR = #{EMP_ADDR}
 	  			,WORK_CD = #{WORK_CD}
 	  			,PRIV_CD = #{PRIV_CD}
+	  			<if test="PHOTO neq ''">
 	  			,PHOTO = #{PHOTO}	
+	  			</if>
+	  			
 	  		WHERE 
 	  			idx = #{IDX}
 	</update>
