@@ -142,7 +142,7 @@
                  <table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                   <th scope="col"><input type="checkbox" id="chkAll"></th>
+		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">품목코드</th>
 		                    <th scope="col">품목명</th>
@@ -174,7 +174,7 @@
 		              	<table class="table table-hover" style="padding: 20px;">
 		              		<thead>
 			                  <tr>
-			                     <th scope="col"><input type="checkbox" id="chkAll"></th>
+			                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 			                    <th scope="col">출고예정번호</th>
 			                    <th scope="col">품목코드</th>
 			                    <th scope="col">품목명</th>
@@ -185,6 +185,24 @@
 			                    <th scope="col">적요</th>
 			                  </tr>
 		                	</thead>
+		                	<tbody>
+		                	
+		                	<c:forEach items="${list }" var="list"> 
+		                	<c:if test="${list.out_schedule_qty - list.out_qty ne '0' }">
+			                  	<tr>
+				                  	<td><input type="checkbox" name="chk"></td>
+				                    <td>${list.out_schedule_cd }</td>
+				                    <td>${list.product_cd }</td>
+				                    <td>${list.product_name }</td>
+				                    <td>${list.out_date }</td>
+				                    <td>${list.out_schedule_qty }</td>
+				                    <td>${list.out_qty }</td>
+				                    <td>${list.out_schedule_qty - list.out_qty}</td>
+				                    <td>${list.remarks_pro }</td>
+			                	</tr>
+			                </c:if>
+		                </c:forEach>
+		                </tbody>
 		              	</table>
 		              </div> <!-- 진행탭 끝 -->
 		              
@@ -202,7 +220,24 @@
 			                    <th scope="col">미출고수량</th>
 			                    <th scope="col">적요</th>
 			                  </tr>
-		                	</thead>                		
+		                	</thead>
+		                	<tbody>
+				                <c:forEach items="${list }" var="list"> 
+				                <c:if test="${list.out_schedule_qty - list.out_qty eq '0' }">
+				                  <tr>
+				                  	<td><input type="checkbox" name="chk"></td>
+				                    <td>${list.out_schedule_cd }</td>
+				                    <td>${list.product_cd }</td>
+				                    <td>${list.product_name }</td>
+				                    <td>${list.out_date }</td>
+				                    <td>${list.out_schedule_qty }</td>
+				                    <td>${list.out_qty }</td>
+				                    <td>${list.out_schedule_qty - list.out_qty}</td>
+				                    <td>${list.remarks_pro }</td>
+				                  </tr>
+			                	</c:if>
+			                	</c:forEach>
+		                </tbody>                		
                 		</table>
                 	</div> <!-- 완료탭 끝 -->		              
 		           </div> <!-- default tab 끝 -->
