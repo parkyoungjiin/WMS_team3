@@ -71,6 +71,11 @@ public class EmpService {
 		public int getupdateMypageInfo(EmpVo emp, String emp_num) {
 			return mapper.updateMypageInfo(emp, emp_num);
 		}
+		//  게시물 수정 작업 중 개별 파일 삭제
+		public int removeImgFile(String EMP_NUM, String PHOTO) {
+			return mapper.deleteImgFile(EMP_NUM, PHOTO);
+		}
+			
 		// 사원 리스트 일반  출력
 		public List<EmpVo> getEmpList() {
 			return mapper.selectEmpList();

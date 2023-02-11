@@ -175,15 +175,15 @@ function saveIdx(cb) {
 	   console.log(td_arr);
 	   
 	   let stock_no = $(td_arr[0]).text(); //재고번호
-	   let move_wh_loc_in_area = $(td_arr[1]).text(); //창고위치
-	   console.log(move_wh_loc_in_area);
+	   let move_wh_name = $(td_arr[1]).text(); //창고명
+	   let move_wh_loc_in_area = $(td_arr[2]).text(); //창고위치
 	   
-		
+
 	   // td 클릭시 모달 창 닫기
 // 	   alert("tr클릭 후 idx : " + idx)
 	   $('#modalDialogScrollable_stock_cd').modal('hide');
 	   $("#move_stock_cd" + idx).val(stock_no);
-	   $("#move_wh_loc_in_area" + idx).val(move_wh_loc_in_area);
+	   $("#move_wh_loc_in_area" + idx).val(move_wh_name + "_" +move_wh_loc_in_area);
 	   idx="";
 	});
 
@@ -192,6 +192,7 @@ function saveIdx(cb) {
 function move_stock(move_cb) {
 		var idx = move_cb.id.replace("moveButton",""); //index 값 저장
 		var current_stock_cd = $("#stock_cd" + idx).val(); //현재 재고번호
+		var current_stock_num = $("#stock_qty" + idx).val(); //현재 재고개수
 		var move_stock_cd = $("#move_stock_cd" + idx).val(); //이동 할 재고번호
 		var move_wh_loc_in_area = $("#move_wh_loc_in_area" + idx).val();//이동 위치
 		var move_stock_num = $("#move_stock_num" + idx).val();//이동할 수량
@@ -217,7 +218,11 @@ function move_stock(move_cb) {
 			alert("빈칸을 채워주세요")
 		}else if(move_stock_cd == current_stock_cd){
 			alert("이동재고번호가 현재 재고번호입니다. 다시 수정해주세요")
-		}else{
+		}else if(move_stock_num > current_stock_num){
+			alert("이동 개수가 현재 재고 개수보다 많습니다.")
+			$("#move_stock_num" + idx).focus();
+		}
+		else{
 			console.log(" move_stock_num : 개수 " + move_stock_num);
 			let confirmMove = confirm("재고번호" + current_stock_cd + "에서 재고번호" + move_stock_cd + "로 재고" + move_stock_num +"개를 이동하시겠습니까?");
 			
@@ -373,8 +378,10 @@ function save_stock_cd(cb) {
 								<input type="hidden" id="stock_cd${status.index}" value="${stockList.stock_cd}">
 								<!-- 재고조정에 필요한 품목번호(히든) -->
 								<input type="hidden" id="product_cd${status.index}" value="${stockList.product_cd}">
+								<!-- 재고이동에 필요한 현재재고개수(히든) -->
+								<input type="hidden" id="stock_qty${status.index}" value="${stockList.stock_qty}">
 								<!-- 재고조정에 필요한 조정수량 -->
-								<input type="number" class="form-control-sm" id="updateStockNum${status.index}" max="${stockList.stock_qty }" min="0">
+								<input type="text" class="form-control-sm" id="updateStockNum${status.index}" size="3" min="0">
 								
 								</td>
 								<!-- 이동재고번호 input, 검색 button -->
@@ -384,7 +391,7 @@ function save_stock_cd(cb) {
 								</td>
 								<!-- 이동 위치 -->
 								<td>
-								<input type="text" size="5" class="form-control-sm" id ="move_wh_loc_in_area${status.index}" >
+								<input type="text" size="18" class="form-control-sm" id ="move_wh_loc_in_area${status.index}" >
 								</td>
 								<!-- 이동 수량 -->
 								<td><input type="text" size="3" class="form-control-sm" id ="move_stock_num${status.index}"></td>
