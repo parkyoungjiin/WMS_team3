@@ -58,6 +58,45 @@ window.onload = function(){
 <!-- 권한 체크 : 1 / 권한 미체크 : 0 -->
 <script type="text/javascript">
 $(document).ready(function(){
+	//권한이 체크되있으면 히든을 disable
+	
+// 	for(var i=1; i<=5; i++){
+		
+		if(document.getElementById("priv_cd1").checked){
+			$('#priv_cd1_hidden').prop('disabled', true);
+		}else{
+			$('#priv_cd1').prop('disabled', true);
+		}
+		
+		if(document.getElementById("priv_cd2").checked){
+			$('#priv_cd2_hidden').prop('disabled', true);
+		}else{
+			$('#priv_cd2').prop('disabled', true);
+		}
+		
+		if(document.getElementById("priv_cd3").checked){
+			$('#priv_cd3_hidden').prop('disabled', true);
+		}else{
+			$('#priv_cd3').prop('disabled', true);
+		}
+		
+		if(document.getElementById("priv_cd4").checked){
+			$('#priv_cd4_hidden').prop('disabled', true);
+		}else{
+			$('#priv_cd4').prop('disabled', true);
+		}
+		
+		if(document.getElementById("priv_cd5").checked){
+			$('#priv_cd5_hidden').prop('disabled', true);
+		}else{
+			$('#priv_cd5').prop('disabled', true);
+		}
+// 	}
+	
+	
+	
+	
+	
 	 $('input:checkbox[name="PRIV_CD"]').change(function(){
 		if(document.getElementById("priv_cd1").checked) {
 			$('#priv_cd1_hidden').prop('disabled', true);
