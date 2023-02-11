@@ -463,7 +463,6 @@ public class In_ScheduleController {
 	
 	//------------- 입고 처리 ------------------------------
 	@PostMapping(value = "/In_Per_Schedule_Process")
-
 	public String In_Per_Schedule_Process(@ModelAttribute InSchedulePerProductVO vo,HttpServletResponse response,Model model,HttpSession session) {
 					System.out.println("입고 처리 : "+vo);
 					String sId = (String)session.getAttribute("emp_num");  
@@ -477,15 +476,16 @@ public class In_ScheduleController {
 							insp.setIN_SCHEDULE_PER_CD(vo.getIN_SCHEDULE_PER_CDArr()[i]);
 //							int Stock_cd = service.getStock_cd(insp.getIN_SCHEDULE_PER_CD());
 							insp.setIN_QTY(vo.getIN_QTYArr()[i]);
-								
+							System.out.println("sock:"+vo.getSTOCK_CDArr()[i]);	
 							//재고번호를 입력 안할 시 0으로 고정 값 주기
-								if(vo.getSTOCK_CDArr().length == 0) {
-									insp.setSTOCK_CD(0);
+								if(vo.getSTOCK_CDArr()[i].equals("")) {
+									insp.setSTOCK_CD("0");
 								}else {
 									insp.setSTOCK_CD(vo.getSTOCK_CDArr()[i]);
+								}
 									insp.setWH_LOC_IN_AREA_CD(vo.getWH_LOC_IN_AREA_CDArr()[i]);
 									insp.setPRODUCT_CD(vo.getPRODUCT_CDArr()[i]);
-								}
+									System.out.println("재고 번호 저장 값 : "+ insp);
 							//테이블에 이미 존재 하는 재고 번호가 있으면 존재 하면 
 							//stock 테이블에 수량 증가
 							if(insp.getIN_SCHEDULE_PER_CD() < insp.getIN_QTY() ) {

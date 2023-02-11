@@ -169,7 +169,7 @@
 <%-- 		                   		</c:otherwise> --%>
 <%-- 		                   	</c:choose> --%>
 		                    <td>${list.IN_SCHEDULE_CD }</td>
-		                    <td>${list.PRODUCT_CD }</td>
+		                    <td>${list.CUST_NAME }</td>
 		                    <td>${list.PRODUCT_NAME }</td>
 		                    <td>${list.IN_DATE }</td>
 		                    <td>${list.IN_SCHEDULE_QTY }</td>
