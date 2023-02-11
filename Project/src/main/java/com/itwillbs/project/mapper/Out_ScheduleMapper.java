@@ -48,7 +48,7 @@ public interface Out_ScheduleMapper {
 	int selectExtraPdCount(String outSchCd);
 
 	// 출고리스트 상품갯수 가져오기
-	OutSchedulePerProductVO selectOutPdName(String outSchCd);
+	int selectOutPdName(String outSchCd);
 
 
 	// 출고 처리 목록
@@ -68,6 +68,16 @@ public interface Out_ScheduleMapper {
 
 	//출고 처리 - 재고 조정
 	void updateOspStock(OutSchedulePerProductVO osp2);
+
+	// 출고 리스트 외 1건처리 
+	String selectOutProduct(int checkCd);
+
+	// 외 1건처리 2
+	List<OutScheduleVO> selectOutSchedule();
+
+	// 외 1건처리 3
+	String selectOutSingle(int checkCd);
+
 
 
 	
