@@ -246,7 +246,7 @@
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.cust_name }</td>
 		                    <td>${outList.emp_name }</td>
-		                    <td></td>
+		                    <td>${outList.product_name }</td>
 		                    <td>${outList.out_date }</td>
 		                    <td>jaego gaetsu</td>
 		                    <td>
@@ -293,7 +293,7 @@
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_name }</td>
-		                    <td>품목명 체크</td>
+		                    <td>${outList.product_name }</td>
 		                    <td>${outList.out_date }</td>
 		                    <td>jaego gaetsu</td>
 		                    <td>
