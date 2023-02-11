@@ -37,6 +37,22 @@ window.onload = function(){
     });
 }
 </script>
+<!-- 이미지 썸네일 -->
+<script>
+	function changeImage(event) {
+		var reader = new FileReader();
+
+        reader.onload = function(event) {
+          var img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
+          document.querySelector("div#image_container").innerHTML = '';
+          document.querySelector("div#image_container").appendChild(img);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+}// changeImage 끝
+</script>
 <script type="text/javascript">
 
 	
@@ -54,8 +70,6 @@ window.onload = function(){
 		history.back();
 	} //권한여부 판별
 </script>
-
-
 <style type="text/css">
 	#title_label{
 		font-weight: bold;
@@ -76,7 +90,6 @@ window.onload = function(){
 		<div id="leftDiv">
 		${employee.PHOTO }
 <%-- 			<img id="empImg" src="../resources/upload${emp.PHOTO }"  width="100px" > --%>
-<img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" class="rounded-circle" style="width:100px; height: 100px;">
 <main id ="main" class="main">
    <div class="pagetitle">
      <h1>사원 관리</h1>
@@ -87,7 +100,6 @@ window.onload = function(){
 		<div class="card mb-4">
 			<div><img src=></div>
 		<!-- Profile Edit Form -->
-<!-- 		<form enctype="multipart/form-data"> -->
 		       <div class="card-body">
                   <input type="hidden" name="EMP_PASSWD" value="${employee.EMP_PASSWD }">
                   <input type="hidden" name="IDX" value="${employee.IDX }">
@@ -105,7 +117,7 @@ window.onload = function(){
                       </div>
                     </div>
 				<c:if test="${sessionScope.emp_num eq employee.EMP_NUM }">
-					<form action="ChangePasswd.em" method="post" enctype="multipart/form-data">
+					<form action="ChangePasswd.em" method="post">
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">현재 패스워드</label>
@@ -264,14 +276,9 @@ window.onload = function(){
 	                    </div>
                     </div>
 
-                    <div class="row mb-3" id="imgChange">
-                    	<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">이미지 업로드</label>
-	                  		<div class="col-md-8 col-lg-9">
-		                        <div id="profile" >
-			                        <img src=" ${pageContext.request.contextPath}/resources/upload/${employee.PHOTO }"  width="200"onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
-		                        		<br><div style="color:gray">현재 등록된 파일 : ${employee.PHOTO}</div>
-		                        </div>
-							</div>
+                    <div class="row mb-3">
+                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 업로드</label>
+                    </div>
 					
 <!--                     <div class="text-left"> -->
 <!--                       <button type="submit" class="btn btn-primary">수정하기</button> -->
@@ -279,7 +286,7 @@ window.onload = function(){
 <!--                       <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button> -->
 <!--                     </div> -->
                 	<!-- End Profile Edit Form -->
-                	</div>
+                </div>
 		</div>
 </main>
 </body>

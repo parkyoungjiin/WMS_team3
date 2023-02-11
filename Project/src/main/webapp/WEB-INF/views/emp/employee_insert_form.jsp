@@ -38,7 +38,7 @@ window.onload = function(){
     });
 }
 </script>
-<!-- 이미지 섬네일 -->
+<!-- 이미지 썸네일 -->
 <script>
 	function changeImage(event) {
 		var reader = new FileReader();
@@ -46,7 +46,7 @@ window.onload = function(){
         reader.onload = function(event) {
           var img = document.createElement("img");
           img.setAttribute("src", event.target.result);
-          img.setAttribute("style", "width: 300px; height: 350px; object-fit: cover;");
+          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
           document.querySelector("div#image_container").innerHTML = '';
           document.querySelector("div#image_container").appendChild(img);
         };
@@ -397,8 +397,7 @@ $(function() {
 					
 					<div class="row mb-3">
 						<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
-                     	 <div id="image_container" style="width: 300px; height: 350px;">
-                      	</div>
+                     	 <div id="image_container" style="width: 150px; height: 200px;"></div>
 					</div>
 					<div>
 					</div>
