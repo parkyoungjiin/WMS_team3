@@ -22,10 +22,29 @@ public class Out_ScheduleService {
 		return mapper.selectProList(keyword);
 	}
 
-	// 출고 예정 리스트
+	// 출고 예정 리스트 (외 1건 처리)
 	public List<OutScheduleVO> getOutScheduleList() {
 		List<OutScheduleVO> outSch = mapper.selectOutScheduleList();
-		return outSch;
+		
+		for(int i = 0; i < outSch.size(); i++) {
+			
+			String outSchCd = outSch.get(i).getOut_schedule_cd();
+//			System.out.println("2번 CD확인 : " + outSch.get(2));
+			int extraPdCount = mapper.selectExtraPdCount(outSchCd);
+			int checkCd = mapper.selectOutPdName(outSchCd);
+//			System.out.println("count 확인:"+extraPdCount);
+			if(extraPdCount > 1) {
+				String pdInfo = mapper.selectOutProduct(checkCd);
+//				System.out.println("pdInfo" + pdInfo);
+				outSch.get(i).setProduct_name(pdInfo +  " 외 " + (extraPdCount-1) + "건");
+//				System.out.println("service 확"+ outSch.get(i).getProduct_name());
+				
+			} else {
+				String pdInfo = mapper.selectOutSingle(checkCd);
+				outSch.get(i).setProduct_name(pdInfo);
+			}	
+		}
+           return outSch;
 	}	
 
 	// 출고 예정 리스트 - 품목별
@@ -101,6 +120,10 @@ public class Out_ScheduleService {
 	// 출고 처리 - 재고 조정
 	public void updateOspStock(OutSchedulePerProductVO osp2) {
 		mapper.updateOspStock(osp2);
+	}
+
+	public List<OutScheduleVO> getOutSchedule() {
+		return mapper.selectOutSchedule();
 	}
 
 }

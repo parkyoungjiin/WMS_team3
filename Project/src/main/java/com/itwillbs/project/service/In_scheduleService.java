@@ -110,8 +110,8 @@ public class In_scheduleService {
 		return mapper.insertHistory(insert_qty, stock_cd, product_cd, sId);
 	}
 	//-----------------종결 버튼----------------
-	public int updateclosing(String iN_COMPLETE, String iN_SCHEDULE_CD) {
-		return mapper.updatecomplete(iN_COMPLETE,iN_SCHEDULE_CD);
+	public int updateclosing(String IN_COMPLETE, String IN_SCHEDULE_CD) {
+		return mapper.updatecomplete(IN_COMPLETE,IN_SCHEDULE_CD);
 	}
 	
 	//----------재고 번호 불러오기 ----------
@@ -120,7 +120,8 @@ public class In_scheduleService {
 		return mapper.getStock_cd(in_SCHEDULE_PER_CD);
 	}
 
-	public void update_IN_COMPLETE(InSchedulePerProductVO insp) {
-		mapper.update_IN_COMPLETE(insp);
+	//--------진행상태---------- 
+	public List<InSchedulePerProductVO> getInProdList(String iN_SCHEDULE_CD) {
+		return mapper.selectInProductList(iN_SCHEDULE_CD);
 	}
 }

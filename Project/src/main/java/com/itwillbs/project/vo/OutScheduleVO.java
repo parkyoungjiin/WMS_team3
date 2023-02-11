@@ -13,6 +13,7 @@ public class OutScheduleVO {
 	private String remarks;
 	private String out_complete;
 	private String out_category;
+	private String product_name;
 
 	
 	public Date getOut_schedule_date() {
@@ -98,6 +99,12 @@ public class OutScheduleVO {
 //	}
 	
 	
+	public String getProduct_name() {
+		return product_name;
+	}
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
 	@Override
 	public String toString() {
 		return "OutScheduleVO [out_schedule_date=" + out_schedule_date + ", out_schedule_cd=" + out_schedule_cd

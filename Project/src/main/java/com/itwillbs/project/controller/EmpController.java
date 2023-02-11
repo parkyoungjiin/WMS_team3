@@ -352,6 +352,19 @@ public class EmpController {
 			model.addAttribute("addr2",addr2);
 			System.out.println( "주소 "+employee.getEMP_ADDR());
 			
+			String privArr[] = employee.getPRIV_CD().split("");
+			String prCd1 = privArr[0];
+			String prCd2 = privArr[1];
+			String prCd3 = privArr[2];
+			String prCd4 = privArr[3];
+			String prCd5 = privArr[4];
+//			System.out.println("권한 array 확인 : " + prCd1 + ", " + prCd2 + ", " + prCd3 + ", " + prCd4 + ", " + prCd5);
+			model.addAttribute("prCd1",prCd1);
+			model.addAttribute("prCd2",prCd2);
+			model.addAttribute("prCd3",prCd3);
+			model.addAttribute("prCd4",prCd4);
+			model.addAttribute("prCd5",prCd5);
+			
 			model.addAttribute("employee", employee);
 			return "emp/employee_modify_form";
 		} // 사원 정보 폼 끝
@@ -421,18 +434,18 @@ public class EmpController {
 				employee.setEMP_ADDR(EMP_ADDR);
 				
 			}
-//			//**사원 코드(EMP_NAME) 결합** 
-//			// -> 사원코드(EMP_NUM) = 부서코드(2)+입사년도(2)+인덱스(3)(= 총 7자리), 자동부여
-//			// 부서코드, 입사년도만 결합을 해서 set 저장한 뒤에 xml 파일에서 인덱스 결합
-//			SimpleDateFormat year_format = new SimpleDateFormat("yy");
-//			String year = year_format.format(employee.getHIRE_DATE());
-//			// idx 앞에 0을 붙이기 위해 select 후에 format 함수 사용
-//			int idx = service.getSelectIdx(employee) + 1;
-//
-//			//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
-//			String EMP_IDX = String.format("%03d", idx); //00x 형태 변환
-//			String EMP_NUM = employee.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
-//			employee.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
+			//**사원 코드(EMP_NAME) 결합** 
+			// -> 사원코드(EMP_NUM) = 부서코드(2)+입사년도(2)+인덱스(3)(= 총 7자리), 자동부여
+			// 부서코드, 입사년도만 결합을 해서 set 저장한 뒤에 xml 파일에서 인덱스 결합
+			SimpleDateFormat year_format = new SimpleDateFormat("yy");
+			String year = year_format.format(employee.getHIRE_DATE());
+			// idx 앞에 0을 붙이기 위해 select 후에 format 함수 사용
+			int idx = service.getSelectIdx(employee) + 1;
+
+			//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
+			String EMP_IDX = String.format("%03d", idx); //00x 형태 변환
+			String EMP_NUM = employee.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
+			employee.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
 			
 			
 			int updateCount = service.modifyEmployee(employee);
