@@ -23,8 +23,8 @@ public class InSchedulePerProductVO {
 	private Date[] IN_DATEArr; //납기일자
 	private String REMARKS; //적요
 	private String[] REMARKSArr; //적요
-	private int STOCK_CD;
-	private int[] STOCK_CDArr;
+	private String STOCK_CD;
+	private String[] STOCK_CDArr;
 	private String IN_COMPLETE;
 	private String[] IN_COMPLETEArr;
 	private int IN_SCHEDULE_PER_CD;
@@ -35,8 +35,17 @@ public class InSchedulePerProductVO {
 	private String[] WH_AREAArr;
 	private String WH_LOC_IN_AREA;
 	private String[] WH_LOC_IN_AREAArr;
-	private int WH_LOC_IN_AREA_CD;
-	private int[] WH_LOC_IN_AREA_CDArr;
+	private String WH_LOC_IN_AREA_CD;
+	private String[] WH_LOC_IN_AREA_CDArr;
+	private String CUST_NAME;
+	
+	
+	public String getCUST_NAME() {
+		return CUST_NAME;
+	}
+	public void setCUST_NAME(String cUST_NAME) {
+		CUST_NAME = cUST_NAME;
+	}
 	public String getIN_SCHEDULE_CD() {
 		return IN_SCHEDULE_CD;
 	}
@@ -133,16 +142,16 @@ public class InSchedulePerProductVO {
 	public void setREMARKSArr(String[] rEMARKSArr) {
 		REMARKSArr = rEMARKSArr;
 	}
-	public int getSTOCK_CD() {
+	public String getSTOCK_CD() {
 		return STOCK_CD;
 	}
-	public void setSTOCK_CD(int sTOCK_CD) {
+	public void setSTOCK_CD(String sTOCK_CD) {
 		STOCK_CD = sTOCK_CD;
 	}
-	public int[] getSTOCK_CDArr() {
+	public String[] getSTOCK_CDArr() {
 		return STOCK_CDArr;
 	}
-	public void setSTOCK_CDArr(int[] sTOCK_CDArr) {
+	public void setSTOCK_CDArr(String[] sTOCK_CDArr) {
 		STOCK_CDArr = sTOCK_CDArr;
 	}
 	public String getIN_COMPLETE() {
@@ -205,16 +214,16 @@ public class InSchedulePerProductVO {
 	public void setWH_LOC_IN_AREAArr(String[] wH_LOC_IN_AREAArr) {
 		WH_LOC_IN_AREAArr = wH_LOC_IN_AREAArr;
 	}
-	public int getWH_LOC_IN_AREA_CD() {
+	public String getWH_LOC_IN_AREA_CD() {
 		return WH_LOC_IN_AREA_CD;
 	}
-	public void setWH_LOC_IN_AREA_CD(int wH_LOC_IN_AREA_CD) {
+	public void setWH_LOC_IN_AREA_CD(String wH_LOC_IN_AREA_CD) {
 		WH_LOC_IN_AREA_CD = wH_LOC_IN_AREA_CD;
 	}
-	public int[] getWH_LOC_IN_AREA_CDArr() {
+	public String[] getWH_LOC_IN_AREA_CDArr() {
 		return WH_LOC_IN_AREA_CDArr;
 	}
-	public void setWH_LOC_IN_AREA_CDArr(int[] wH_LOC_IN_AREA_CDArr) {
+	public void setWH_LOC_IN_AREA_CDArr(String[] wH_LOC_IN_AREA_CDArr) {
 		WH_LOC_IN_AREA_CDArr = wH_LOC_IN_AREA_CDArr;
 	}
 	@Override

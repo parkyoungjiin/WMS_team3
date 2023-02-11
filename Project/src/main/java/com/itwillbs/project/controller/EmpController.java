@@ -447,6 +447,15 @@ public class EmpController {
 			String EMP_NUM = employee.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
 			employee.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
 			
+			//권한 결합 작업
+			String [] emp_priv_arr = employee.getPRIV_CD().split(",");
+			for(int i=0; i<emp_priv_arr.length; i++) {
+				String PRIV_CD = emp_priv_arr[i].join("", emp_priv_arr);
+//				System.out.println(EMP_EMAIL);
+				employee.setPRIV_CD(PRIV_CD);
+				
+			}
+			
 			
 			int updateCount = service.modifyEmployee(employee);
 			System.out.println("수정 비즈니스 로직 : " + updateCount);

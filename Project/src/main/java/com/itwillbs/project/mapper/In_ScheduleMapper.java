@@ -70,7 +70,7 @@ public interface In_ScheduleMapper {
 	//------------입고 처리 시 재고이력 남기기--------------
 	int insertHistory(
 			@Param("insert_qty") int insert_qty,
-			@Param("stock_cd") int stock_cd, 
+			@Param("stock_cd") String string, 
 			@Param("product_cd") int product_cd, 
 			@Param("sId") String sId);
 	

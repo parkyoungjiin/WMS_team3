@@ -9,19 +9,19 @@
 <head>
 <!-- 거래처(기본 등록) 권한 판별 -->
 <script type="text/javascript">
-// 	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
 	
-// 	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
-// 	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
-// 	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
+	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
+	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
+	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
 	
-// 	//기본등록에 대한 권한이 있는 지 판별
-// 	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
+	//기본등록에 대한 권한이 있는 지 판별
+	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
 		
-// 	}else{//없을 경우
-// 		alert("권한이 없습니다");
-// 		history.back();
-// 	}
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,12 +37,15 @@
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 
-var date = new Date();
-var yyyy = date.getFullYear();
-var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
-var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+
+
+
+// var date = new Date();
+// var yyyy = date.getFullYear();
+// var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+// var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
  
-$("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
+// $("#out_schedule_date").val(yyyy+"-"+mm+"-"+dd);
 
 
 var idx = 0;
@@ -344,6 +347,19 @@ function load_stoList() {
 //td 클릭 시 해당 value 가져오기
 $(function() {
 	
+	//출고 처리 날짜 계산
+	var today = new Date();
+
+	var year = today.getFullYear();
+	var month = ('0' + (today.getMonth() + 1)).slice(-2);
+	var day = ('0' + today.getDate()).slice(-2);
+
+	var dateString = year + '-' + month  + '-' + day;
+
+	//alert(dateString); 
+	$("#out_schedule_date").val(dateString);
+	
+	
 	// 거래처
 	$("#modal-body-buyer").on('click','tr',function(){
 		  let td_arr = $(this).find('td');
@@ -615,9 +631,9 @@ $(document).ready(function() {
               
               
               	<div class="row mb-3">
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
+                      <label for="th" id="currentDate" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="out_schedule_date" type="date" class="form-control" id="out_schedule_date" required="required">
+                        <input name="out_schedule_date" type="date" class="form-control" id="out_schedule_date" required="required" readonly="readonly" >
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">출고 유형</label>
                       <div class="col-md-8 col-lg-2">

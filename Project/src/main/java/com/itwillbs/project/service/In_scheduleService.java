@@ -106,8 +106,8 @@ public class In_scheduleService {
 		return mapper.updateIN_COMPLETE(insp);
 	}
 	//----------입고 처리 시 재고이력 등록----------
-	public int getInsertHistory(int insert_qty, int stock_cd, int product_cd, String sId) {
-		return mapper.insertHistory(insert_qty, stock_cd, product_cd, sId);
+	public int getInsertHistory(int insert_qty, String string, int product_cd, String sId) {
+		return mapper.insertHistory(insert_qty, string, product_cd, sId);
 	}
 	//-----------------종결 버튼----------------
 	public int updateclosing(String IN_COMPLETE, String IN_SCHEDULE_CD) {
