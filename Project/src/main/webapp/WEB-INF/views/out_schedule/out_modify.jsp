@@ -332,7 +332,7 @@ function load_stoList(cb) {
 	
 	$("#modal-body-sto").on('click','tr',function(){
 		   let td_arr = $(this).find('td');
-// 		   alert("뭐임 : " + $("#product_stock_cd" + idx).val());
+		   alert("뭐임 : " + $("#product_stock_cd" + idx).val());
 		   
 //		   $('#no').val($(td_arr[0]).text());
 		   let pro_cd = $(td_arr[0]).text();
@@ -345,6 +345,7 @@ function load_stoList(cb) {
 		   $("#product_stock_cd" + idx).val(sto_cd);
 // 		   $("#product_cdArr" + idx).val(pro_cd);
 //		   $("#emp_num").val(emp_num);
+			idx= "";
 	});	 
 }
 	
@@ -603,7 +604,10 @@ function input_search_idx(cb) {
 	$("#modal-body-pro").on('click','tr',function(){
 // 		alert("클릭 후 :" +idx);
 		
-//			console.log("클릭된다.")
+		
+	   $("#product_stock_cd" + idx).val("");
+		console.log("재고번호 input value : " + $("#product_stock_cd" + idx).val());
+		
 	   let td_arr = $(this).find('td');
 	   console.log(td_arr);
 	   
@@ -630,6 +634,8 @@ function input_search_idx(cb) {
 	   $('#modalDialogScrollable_pro').modal('hide');
 	   $("#product_cdArr" + idx).val(pro_cd);
 	   $("#product_namesizeArr" + idx).val(pro_name + " ["+size_des+"]");
+	   $("#product_nameArr" + idx).val(pro_name);
+	   $("#product_sizeArr" + idx).val(size_des);
 // 	   $("#stoContent" + idx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
 // 	   $("#wh_area_loc_input" + idx).val(wh_name);
 		idx = "";
@@ -869,7 +875,7 @@ function input_search_idx(cb) {
 		                <input type="hidden" class="form-control form-control-sm pro_name" required="required" value="${ospList.product_name }" name="product_nameArr" id="product_nameArr${status.index}">
 		                <input type="hidden" class="form-control form-control-sm pro_size" required="required" value="${ospList.product_size }" name="product_sizeArr" id="product_sizeArr${status.index}" >
 <%--         				<input type="hidden" name="stock_cdArr" class="stock_cd" value="${ospList.stock_cd }" id="product_stock_cd${status.index}"> --%>
-        				<input type="hidden" name="out_schedule_per_cdArr" value="${ospList.out_schedule_per_cd }" id="product_stock_cd${status.index}">
+        				<input type="hidden" name="out_schedule_per_cdArr" value="${ospList.out_schedule_per_cd }" id="out_schedule${status.index}">
 		                
 		                  	<tr>
 							<td>
@@ -883,7 +889,7 @@ function input_search_idx(cb) {
 							<td><input type="number" style="text-align: center;" class="form-control form-control-sm out_schedule_qty" id="out_schedule_qtyArr${status.index }" name="out_schedule_qtyArr" required="required"  value="${ospList.out_schedule_qty }" onchange="calculateSum();"></td>
 							<td><input type="date" style="text-align: center; border:none" class="form-control form-control-sm" id="out_dateArr${status.index }" value="${ospList.out_date }" name="out_dateArr" required="required"></td>
 							<td><input type="text" style="text-align: center;" class="form-control form-control-sm" value="${ospList.remarks_pro }" id="remarks_proArr${status.index }" name="remarks_proArr" ></td>
-							<td><div class="input-group input-group-sm mb-10">'
+							<td><div class="input-group input-group-sm mb-10">
          					<input type="text" style="text-align:center;" class="form-control form-control-sm stock_cd" name="stock_cdArr" required="required" readonly="readonly" id="product_stock_cd${status.index}" value="${ospList.stock_cd }">
 	         				<button id="stock_search_btn${status.index }" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList(this)">검색</button></div></td>
 <%-- 							<td><span class="stoContent" style="justify-content: center; align-items: center; display: flex;" >재고번호 : ${ospList.stock_cd }</span></td> --%>

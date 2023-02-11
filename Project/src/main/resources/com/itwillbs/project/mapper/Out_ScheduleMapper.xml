@@ -195,4 +195,20 @@
 	</update>
 	
 	
+	<!-- 출고 처리 - 재고 이력 기록 -->
+	<insert id="insertOutHistory">
+		INSERT INTO stock_history
+			VALUES (
+			#{stock_cd}
+			,1
+			,#{product_cd}
+			,""
+			,""
+			,#{out_qty}
+			,#{sId}
+			,now()
+			,"출고 처리"
+			)
+	</insert>
+	
 </mapper>
