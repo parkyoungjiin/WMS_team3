@@ -630,6 +630,7 @@ function input_search_idx(cb) {
 					alert("재고가 없는 품목입니다.");
 					return;
 				}   
+		
 	   // td 클릭시 모달 창 닫기
 	   $('#modalDialogScrollable_pro').modal('hide');
 	   $("#product_cdArr" + idx).val(pro_cd);
@@ -881,7 +882,7 @@ function input_search_idx(cb) {
 							<td>
 
 							<div class="input-group input-group-sm mb-2">
-         					<input type="text" style="text-align: center;" id="	Arr${status.index}" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }" readonly="readonly">
+         					<input type="text" style="text-align: center;" id="product_cdArr${status.index}" class="form-control form-control-sm pro_cd" name="product_cdArr" required="required" value="${ospList.product_cd }" readonly="readonly">
 	         				<button class="btn btn-secondary" id="product_search_btn${status.index }" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="input_search_idx(this)">검색</button></div>
           					</td>
           					<!-- 품목명[규격]은 넘어가는 값이 없어서 name값 주지 않음. -->
@@ -890,7 +891,7 @@ function input_search_idx(cb) {
 							<td><input type="date" style="text-align: center; border:none" class="form-control form-control-sm" id="out_dateArr${status.index }" value="${ospList.out_date }" name="out_dateArr" required="required"></td>
 							<td><input type="text" style="text-align: center;" class="form-control form-control-sm" value="${ospList.remarks_pro }" id="remarks_proArr${status.index }" name="remarks_proArr" ></td>
 							<td><div class="input-group input-group-sm mb-10">
-         					<input type="text" style="text-align:center;" class="form-control form-control-sm stock_cd" name="stock_cdArr" required="required" readonly="readonly" id="product_stock_cd${status.index}" value="${ospList.stock_cd }">
+         					<input type="text" style="text-align:center;" class="form-control form-control-sm stock_cd" name="stock_cdArr" required="required" id="product_stock_cd${status.index}" value="${ospList.stock_cd }">
 	         				<button id="stock_search_btn${status.index }" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList(this)">검색</button></div></td>
 <%-- 							<td><span class="stoContent" style="justify-content: center; align-items: center; display: flex;" >재고번호 : ${ospList.stock_cd }</span></td> --%>
 <%-- 							<td><span class="stoContent" id="stoContent${status.index }" style="justify-content: center; align-items: center; display: flex;" ></span></td> --%>

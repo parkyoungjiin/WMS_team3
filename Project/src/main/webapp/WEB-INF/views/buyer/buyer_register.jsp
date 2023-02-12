@@ -244,7 +244,7 @@ window.onload = function(){
              
              <div class="row mb-3">
               <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">상호 (*)</label>
-              <div class="col-md-6 col-lg-3">
+              <div class="col-md-6 col-lg-2">
                 <input type="text" class="form-control" name="cust_name" required="required">
               </div>
             </div>	

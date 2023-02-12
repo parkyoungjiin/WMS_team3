@@ -70,25 +70,40 @@ $(document).ready(function(){
 			$('#priv_cd_hidden1').prop('disabled', true);
 			$('#priv_cd1').val(1);
 			
+		}else{
+			$('#priv_cd1').val(0);
+			
 		}
 		if(document.getElementById("priv_cd2").checked){
 			$('#priv_cd_hidden2').prop('disabled', true);
 			$('#priv_cd2').val(1);
+		}else{
+			$('#priv_cd2').val(0);
+			
 		}
 		if(document.getElementById("priv_cd3").checked){
 			$('#priv_cd_hidden3').prop('disabled', true);
 			$('#priv_cd3').val(1);
+		}else{
+			$('#priv_cd3').val(0);
+			
 		}
 		if(document.getElementById("priv_cd4").checked){
 			
 			alert("변경됨.")
 			$('#priv_cd_hidden4').prop('disabled', true);
 			$('#priv_cd4').val(1);
+		}else{
+			$('#priv_cd4').val(0);
+			
 		}
 		
 		if(document.getElementById("priv_cd5").checked){
 			$('#priv_cd_hidden5').prop('disabled', true);
 			$('#priv_cd5').val(1);
+		}else{
+			$('#priv_cd5').val(0);
+			
 		}
 	 })
 });
@@ -105,6 +120,7 @@ function check_priv_cd() {
 			alert(i + "번째는 0")
 
 			$('#priv_cd'  + i).prop('disabled', true);
+			$('#priv_cd_hidden'  + i).prop('disabled', false);
 		}
 		
 // 	
