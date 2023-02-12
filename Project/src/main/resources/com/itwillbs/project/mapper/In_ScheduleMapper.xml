@@ -84,7 +84,7 @@
 		,IN_QTY = #{IN_QTY}
 		,IN_DATE = #{IN_DATE}
 		,REMARKS = #{REMARKS}
-		,STOCK_CD = #{STOCK_CD}
+<!-- 		,STOCK_CD = #{STOCK_CD} -->
 		WHERE IN_SCHEDULE_PER_CD = #{IN_SCHEDULE_PER_CD}
 	
 	</update>

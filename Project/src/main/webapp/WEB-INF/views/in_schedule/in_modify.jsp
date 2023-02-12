@@ -272,7 +272,7 @@ function load_stoList(cb) {
 		for(let sto of stoList) {
 			
 			let result = "<tr style='cursor:pointer;'>"
-		                + "<td>" + sto.stock_cd + "</td>"
+		                + "<td>" + sto._cd + "</td>"
 		                + "<td>" + sto.stock_qty + "</td>"
                			+ "</tr>";
              

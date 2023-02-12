@@ -106,6 +106,7 @@ public class In_ScheduleController {
 				insp2.setIN_DATE(insp.getIN_DATEArr()[i]);
 				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
 				
+				
 				insp2.setIN_SCHEDULE_CD(in_schedule_code);
 				System.out.println(insp);
 				int insertCount2 = service.insertInProduct(insp2);
@@ -208,8 +209,8 @@ public class In_ScheduleController {
 //				}else {
 					insp2.setREMARKS(insp.getREMARKSArr()[i]);
 //				}
-				insp2.setIN_DATE(insp2.getIN_DATEArr()[i]);
-				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
+				insp2.setIN_DATE(insp.getIN_DATEArr()[i]);
+//				insp2.setSTOCK_CD(insp.getSTOCK_CDArr()[i]);
 				insp2.setIN_SCHEDULE_CD(insp.getIN_SCHEDULE_CD());
 				
 				int updateCount2= service.modifyPro2(insp2);
