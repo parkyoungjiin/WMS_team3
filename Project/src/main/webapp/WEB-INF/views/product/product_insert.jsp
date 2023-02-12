@@ -26,6 +26,24 @@
 		history.back();
 	}
 </script>
+<script type="text/javascript">
+<!-- 이미지 썸네일 -->
+	function changeImage(event) {
+		var reader = new FileReader();
+
+        reader.onload = function(event) {
+          var img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          img.setAttribute("style", " width: 200px; height: 200px; padding: 10px; object-fit: cover;");
+          document.querySelector("div#image_container").innerHTML = '';
+          document.querySelector("div#image_container").appendChild(img);
+          console.log(image_container);
+          console.log(img);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+}// changeImage 끝
+</script>
 
 <!-- 구글 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -321,8 +339,16 @@ $(function() {
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">품목 이미지</label>
                       <div class="col-md-8 col-lg-4">
-                        <input name="file" type="file" class="form-control" id="product_image" required>
+                        <input name="file" type="file" class="form-control" id="product_image" required onchange="changeImage(event);">
                       </div>
+            
+                      <div></div>
+		                	<!-- 썸네일 -->
+		               	<div class="row mb-4">
+						<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
+                     	 <div id="image_container" style="width: 200px; height: 200px;"></div>
+						</div>
+		                	
                     </div>
 
 					<!-- 적요 -->

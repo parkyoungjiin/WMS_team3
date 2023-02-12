@@ -50,11 +50,11 @@
 			            <div class="col-12">
 			              <div class="card">
 			                <div class="card-body">
-			                  <h5 class="card-title">재고 <span>/Today</span></h5>
+			                  <h5 class="card-title">일정관리 <span>/Today</span></h5>
+					              <img src="${pageContext.request.contextPath}/resources/upload/cal.JPG" alt="달력" height="500" width="550">
 			                </div>
 			              </div>
 			              <div>
-			              <img src="${pageContext.request.contextPath}/resources/upload/cal.JPG" alt="달력" height="500" width="550">
 			              </div>
 			            </div><!-- End Reports -->
 				</div>
@@ -145,18 +145,18 @@
                       </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="in" items="${inList }" end="4">
+                    <c:forEach var="in" items="${inlist }" end="4">
                       <tr>
-                        <th scope="row">${out.IN_SCHEDULE_CD }</th>
+                        <th scope="row">${in.IN_SCHEDULE_CD }</th>
                         <td>${in.CUST_NAME }</td>
                         <td>${in.EMP_NAME }</td>
                         <td>${in.IN_DATE }</td>
                         <c:choose>
                         	<c:when test="${in.IN_COMPLETE eq '0'}">
-                        		<td><input type="button" class="btn btn-sm btn-warning" value="진행중"></td>
+                        		<td><span class="badge bg-warning">진행중</span></td>
                         	</c:when>
                         	<c:otherwise>
-                        		<td><input type="button" class="btn btn-sm btn-primary" value="완료"></td>
+                        		<td><span class="badge bg-success">완료</span></td>
                         	</c:otherwise>
                         </c:choose>
                       </tr>

@@ -115,11 +115,14 @@
 			p.out_unit_price,
 			p.product_type_cd,
 			p.business_no,
+			b.cust_name,
 			p.product_image,
 			p.remarks
 		FROM product p 
-		JOIN prod_group_bottom pgb 
-		ON(p.product_group_bottom_cd = pgb.product_group_bottom_cd)
+			JOIN prod_group_bottom pgb 
+				ON(p.product_group_bottom_cd = pgb.product_group_bottom_cd)
+			JOIN buyer b
+				ON(p.business_no = b.business_no)
 		WHERE product_cd = #{product_cd};
 
 	
@@ -138,8 +141,12 @@
 				, in_unit_price = #{product.in_unit_price}
 				, out_unit_price = #{product.out_unit_price}
 				, product_type_cd = #{product.product_type_cd}
-				, business_no = #{product.cust_name}
-				, product_image = #{product_image}
+<!-- 				<if test="business_no neq ''"> -->
+				, business_no = #{product.business_no}
+<!-- 				</if> -->
+<!-- 				<if test="product_image neq ''"> -->
+				, product_image = #{product.product_image}
+<!-- 				</if> -->
 				, remarks = #{product.remarks}
 			WHERE 
 				product_cd = #{product.product_cd}
