@@ -133,9 +133,9 @@
 		})
 		.done(function(outProdList) {
 			console.log(outProdList);
+				$("#out > tbody").empty();
 			for(let prod of outProdList) {
 // 				let product_cd = ${prod.out_product_cd}
-				$("#out > tbody").empty();
 				var outList = '<tr>' 
 							  + '<td>' + prod.product_cd + '</td>'
 							  + '<td>' + prod.product_name + '</td>'
