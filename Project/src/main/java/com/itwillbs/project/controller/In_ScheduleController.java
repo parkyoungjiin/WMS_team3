@@ -200,6 +200,7 @@ public class In_ScheduleController {
 			for(int i=0; i < insp.getPRODUCT_CDArr().length; i++) {
 				InSchedulePerProductVO insp2 = new InSchedulePerProductVO();
 				insp2.setPRODUCT_CD(insp.getPRODUCT_CDArr()[i]);
+				System.out.println("확인 : " + insp.getPRODUCT_CDArr()[i]);
 				insp2.setPRODUCT_NAME(insp.getPRODUCT_NAMEArr()[i]);
 				insp2.setPRODUCT_SIZE(insp.getPRODUCT_SIZEArr()[i]);
 				insp2.setIN_SCHEDULE_QTY(insp.getIN_SCHEDULE_QTYArr()[i]);
@@ -214,6 +215,7 @@ public class In_ScheduleController {
 				insp2.setIN_SCHEDULE_CD(insp.getIN_SCHEDULE_CD());
 				
 				int updateCount2= service.modifyPro2(insp2);
+				System.out.println(insp2);
 			}
 			
 //		}else {

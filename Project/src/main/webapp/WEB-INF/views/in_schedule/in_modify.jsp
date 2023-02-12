@@ -766,7 +766,7 @@ function calculateSum() {
 							<td><input type="number" class="form-control form-control-sm in_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTYArr${status.index }" value="${inspList.IN_SCHEDULE_QTY }" onchange="calculateSum();"></td>
 							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${inspList.IN_DATE }" name="IN_DATEArr" id="IN_DATEArr${status.index }" required="required"></td>
 							<td><input type="text" class="form-control form-control-sm" value="${inspList.REMARKS }"  id="REMARKSArr${status.index }" name="REMARKSArr"></td>
-							<td><input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD}" id="product_stock_cd${status.index}"></td>
+<%-- 							<td><input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD}" id="product_stock_cd${status.index}"></td> --%>
 							<td><span class="stoContent"></span></td>
 <!-- 							<input type="hidden" name="stock_cdArr" class="stock_cd"> -->
 <!-- 							<input type="hidden" name="stock_qty" class="stock_qty"> -->
