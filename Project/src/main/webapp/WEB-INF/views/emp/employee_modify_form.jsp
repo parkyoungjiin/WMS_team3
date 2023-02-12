@@ -39,6 +39,19 @@ window.onload = function(){
 }
 </script>
 
+<!-- 권한 여부 판별하여 인사부서인지 판별 -->
+<script type="text/javascript">
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_emp = str.charAt(2); // 사원관리(1) 여부 판별할 값	
+	//사원조회, 사원관리에 대한 권한이 있는 지 판별
+	if(priv_cd_emp == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
+</script>
 
 <!-- 권한 체크 : 1 / 권한 미체크 : 0 -->
 <script type="text/javascript">
@@ -73,7 +86,7 @@ $(document).ready(function(){
 		}
 		if(document.getElementById("priv_cd4").checked){
 			
-			alert("변경됨.")
+// 			alert("변경됨.")
 			$('#priv_cd_hidden4').prop('disabled', true);
 			$('#priv_cd4').val(1);
 		}else{
@@ -93,14 +106,14 @@ $(document).ready(function(){
 //---------폼 전송 전에 val값을 비교해서 1일 때는 히든을 비활성화하고, 0일 때는 체크박스를 비활성화-------
 function check_priv_cd() {
 	for(var i=1; i<=5; i++){
-		alert(i + "번째")
+// 		alert(i + "번째")
 		if($("#priv_cd" + i).val() == '1'){
-			alert(i + "번째는 1")
+// 			alert(i + "번째는 1")
 
 			$('#priv_cd_hidden'  + i).prop('disabled', true);
 			$('#priv_cd'  + i).prop('disabled', false);
 		}else{
-			alert(i + "번째는 0")
+// 			alert(i + "번째는 0")
 
 			$('#priv_cd'  + i).prop('disabled', true);
 			$('#priv_cd_hidden'  + i).prop('disabled', false);

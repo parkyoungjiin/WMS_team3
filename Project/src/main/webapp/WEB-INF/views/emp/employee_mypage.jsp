@@ -19,6 +19,20 @@
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
+<!-- 권한 여부 판별하여 인사부서인지 판별 -->
+<script type="text/javascript">
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_emp = str.charAt(1); // 사원관리(1) 여부 판별할 값	
+	var priv_cd_emp1 = str.charAt(2); // 사원조(1) 여부 판별할 값	
+	//사원조회, 사원관리에 대한 권한이 있는 지 판별
+	if(priv_cd_emp == '1' && priv_cd_emp1 == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
+</script>
 <!------------------- 이미지 수정------------------ -->
 <script type="text/javascript">
 
@@ -52,8 +66,6 @@
 	}
 </script>
 
-
-</script>
 </head>
 <body>
 <header>
@@ -103,7 +115,7 @@
                 <div class="tab-pane fade profile-edit pt-3 show active" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form>
+                  <form action="updateMypageInfo.me" method="post" enctype="multipart/form-data">
       				<div class="row mb-3">
                     	<!-- 프로필 이미지 -->
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사원 이미지</label>
