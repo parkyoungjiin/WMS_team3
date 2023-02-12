@@ -131,6 +131,7 @@ public class EmpController {
 
 		//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
 		String EMP_IDX = String.format("%03d", idx); //00x 형태 변환
+		System.out.println("EMP_IDX : " + EMP_IDX);
 		String EMP_NUM = emp.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
 		emp.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
 		
@@ -443,7 +444,7 @@ public class EmpController {
 			SimpleDateFormat year_format = new SimpleDateFormat("yy");
 			String year = year_format.format(employee.getHIRE_DATE());
 			// idx 앞에 0을 붙이기 위해 select 후에 format 함수 사용
-			int idx = service.getSelectIdx(employee) + 1;
+			int idx = service.getSelectIdx(employee);
 
 			//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
 			String EMP_IDX = String.format("%03d", idx); //00x 형태 변환

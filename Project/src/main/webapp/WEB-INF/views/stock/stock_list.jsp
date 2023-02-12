@@ -151,7 +151,7 @@ function load_stockList() {
 				console.log(stock.wh_loc_in_area)
 		         let result = "<tr style='cursor:pointer;'>"
 			                      + "<td id='stock_cd'>" + stock.stock_cd + "</td>"
-			                      + "<td id='wh_name'>" + stock.wh_name + "(" + stock.wh_area + "구역)" + "</td>"
+			                      + "<td id='wh_name'>" + stock.wh_name + "(" + stock.wh_area + ")" + "</td>"
 			                      + "<td id='wh_loc_in_area'>" + stock.wh_loc_in_area + "</td>"
 	                        + "</tr>"
 	                        + "</table>";
@@ -204,7 +204,7 @@ function move_stock(move_cb) {
 // 		alert(move_stock_cd);
 // 		alert(move_wh_loc_in_area);
 // 		alert("move_stock_num : " + move_stock_num);
-		
+		var check_nan = isNaN(move_stock_num);
 		
 // 		if(move_stock_cd == ""){
 // 			alert("이동 재고번호를 입력하세요")
@@ -216,7 +216,7 @@ function move_stock(move_cb) {
 // 			alert("이동 수량을 입력하세요")
 // 			$('#move_stock_num' + idx).focus();
 // 		}else{
-		if(move_stock_cd == "" || move_wh_loc_in_area =="" || move_stock_num==""){
+		if(move_stock_cd == "" || move_wh_loc_in_area =="" || check_nan == true){
 			alert("빈칸을 채워주세요")
 		}else if(move_stock_cd == current_stock_cd){
 			alert("이동재고번호가 현재 재고번호입니다. 다시 수정해주세요")
@@ -251,7 +251,7 @@ function move_stock(move_cb) {
 					}//success 끝
 				})//ajax 끝
 			}else{
-				alert("재고 조정작업이 취소되었습니다.")		
+				alert("재고 이동작업이 취소되었습니다.")		
 			}
 		}
 		
@@ -264,7 +264,7 @@ function move_stock(move_cb) {
 function save_stock_cd(cb) {
 	var idx = cb.id.replace("save_stock_cd", "");
 	var stock_cd = $("#stock_cd" + idx).val(); //현재 재고번호  cbf
-	alert(stock_cd)
+// 	alert(stock_cd)
 	$.ajax({
 		url: 'StockHistoryList.st',
 		type: 'post',
@@ -403,7 +403,7 @@ function save_stock_cd(cb) {
 								</td>
 								<td><a href="#" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_history">${stockList.product_cd }</a></td>
 								<td>${stockList.product_name }</td>
-								<td>${stockList.wh_name }(${stockList.wh_area }구역)</td>
+								<td>${stockList.wh_name }(${stockList.wh_area })</td>
 								<td>${stockList.wh_loc_in_area }</td>
 								<td>${stockList.stock_qty }</td> 
 								<td>

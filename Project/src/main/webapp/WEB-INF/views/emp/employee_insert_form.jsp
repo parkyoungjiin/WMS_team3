@@ -301,7 +301,7 @@ $(function() {
 									<option value="daum.net">daum.net</option>
 									<option value="nate.com">nate.com</option>
 		                   		 </select>
-		                   		 <button onclick="checkEmail();" class="btn btn-secondary" style="margin-left: 30px">이메일 중복 확인</button>
+		                   		 <button type="button" onclick="checkEmail();" class="btn btn-secondary" style="margin-left: 30px">이메일 중복 확인</button>
 <!-- 		                   		 <input type="text" id="checkResultArea" class="form-control"> -->
 		                   		 <span id ="checkResultArea" class="input-group-text" style="width:133px "></span>
 		                    </div>
