@@ -105,7 +105,7 @@ window.onload = function(){
                       </div>
                     </div>
 				<c:if test="${sessionScope.emp_num eq employee.EMP_NUM }">
-					<form action="ChangePasswd.em" method="post" enctype="multipart/form-data">
+					<form action="ChangePasswdDetail.em" method="post" enctype="multipart/form-data">
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">현재 패스워드</label>
@@ -172,7 +172,7 @@ window.onload = function(){
      					   </div>                 
      					</div>
                     </div>
-
+					<div></div>
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">이메일</label>
                 		  <div class="col-md-8 col-lg-5">
@@ -228,38 +228,32 @@ window.onload = function(){
 	                    </div>
                     </div>
 
-                    <div class="row mb-3">
+					<div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">권한</label>
                        <div class="col-md-8 col-lg-5">
 		                	<div class="input-group mb-6">
 		                        <label class="form-check-label" style="margin-right: 30px">
-		                        	<input type="checkbox" class="form-check-input" id="priv_cd1" name="PRIV_CD" value="1" style="margin-right: 10px">
+		                        	<input type="checkbox" class="form-check-input" id="priv_cd1" disabled name="PRIV_CD" value="${prCd1 }" style="margin-right: 10px" <c:if test="${prCd1 eq '1' }">checked</c:if>>
 		                        	기본등록
 		                        </label>
-								<input type="hidden" id="priv_cd1_hidden"  name="PRIV_CD" value="0">
 								<label class="form-check-label" style="margin-right: 30px">
-									<input type="checkbox" class="form-check-input" id="priv_cd2" name="PRIV_CD" value="1" style="margin-right: 10px">
+									<input type="checkbox" class="form-check-input" id="priv_cd2" name="PRIV_CD" disabled value="${prCd2 }" style="margin-right: 10px" <c:if test="${prCd2 eq '1' }">checked</c:if>>
 									사원조회
 								</label>
-								<input type="hidden" id="priv_cd2_hidden"  name="PRIV_CD" value="0">
-								
 								<label class="form-check-label" style="margin-right: 30px">
-									<input type="checkbox" class="form-check-input" id="priv_cd3" name="PRIV_CD" value="1" style="margin-right: 10px">
+									<input type="checkbox" class="form-check-input" id="priv_cd3" name="PRIV_CD" disabled value="${prCd3 }" style="margin-right: 10px" <c:if test="${prCd3 eq '1' }">checked</c:if>>
 									사원관리
 								</label>
-								<input type="hidden" id="priv_cd3_hidden" name="PRIV_CD" value="0">
-								
+								<input type="hidden" id="priv_cd_hidden3" name="PRIV_CD" value="0">
 								<label class="form-check-label" style="margin-right: 30px">
-									<input type="checkbox" class="form-check-input" id="priv_cd4" name="PRIV_CD" value="1" style="margin-right: 10px">
+									<input type="checkbox" class="form-check-input" id="priv_cd4" name="PRIV_CD" value="${prCd4 }" disabled style="margin-right: 10px"  <c:if test="${prCd4 eq '1' }">checked</c:if>>
 									재고조회
 								</label>
-								<input type="hidden" id="priv_cd4_hidden"  name="PRIV_CD" value="0">
 								
 								<label class="form-check-label" style="margin-right: 30px">
-									<input type="checkbox" class="form-check-input" id="priv_cd5" name="PRIV_CD" value="1" style="margin-right: 10px">
+									<input type="checkbox" class="form-check-input" id="priv_cd5" name="PRIV_CD" value="${prCd5 }" disabled style="margin-right: 10px"  <c:if test="${prCd5 eq '1' }">checked</c:if>>
 									재고관리
 								</label>
-								<input type="hidden" id="priv_cd5_hidden"  name="PRIV_CD" value="0">
 		                    </div>
 	                    </div>
                     </div>

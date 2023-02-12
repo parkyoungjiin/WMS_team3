@@ -30,7 +30,7 @@
 	if(priv_cd_emp == '1'){//권한이 있을 경우
 		
 	}else{//없을 경우
-		alert("사원조회 권한이 없습니다");
+		alert("권한이 없습니다");
 		history.back();
 	}
 </script>

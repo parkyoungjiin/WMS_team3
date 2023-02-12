@@ -39,6 +39,19 @@ window.onload = function(){
 }
 </script>
 
+<!-- 권한 여부 판별하여 인사부서인지 판별 -->
+<script type="text/javascript">
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_emp = str.charAt(2); // 사원관리(1) 여부 판별할 값	
+	//사원조회, 사원관리에 대한 권한이 있는 지 판별
+	if(priv_cd_emp == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
+</script>
 
 <!-- 권한 체크 : 1 / 권한 미체크 : 0 -->
 <script type="text/javascript">
@@ -73,7 +86,7 @@ $(document).ready(function(){
 		}
 		if(document.getElementById("priv_cd4").checked){
 			
-			alert("변경됨.")
+// 			alert("변경됨.")
 			$('#priv_cd_hidden4').prop('disabled', true);
 			$('#priv_cd4').val(1);
 		}else{
@@ -93,14 +106,14 @@ $(document).ready(function(){
 //---------폼 전송 전에 val값을 비교해서 1일 때는 히든을 비활성화하고, 0일 때는 체크박스를 비활성화-------
 function check_priv_cd() {
 	for(var i=1; i<=5; i++){
-		alert(i + "번째")
+// 		alert(i + "번째")
 		if($("#priv_cd" + i).val() == '1'){
-			alert(i + "번째는 1")
+// 			alert(i + "번째는 1")
 
 			$('#priv_cd_hidden'  + i).prop('disabled', true);
 			$('#priv_cd'  + i).prop('disabled', false);
 		}else{
-			alert(i + "번째는 0")
+// 			alert(i + "번째는 0")
 
 			$('#priv_cd'  + i).prop('disabled', true);
 			$('#priv_cd_hidden'  + i).prop('disabled', false);
@@ -348,12 +361,12 @@ $(function() {
        	                  <div class="input-group mb-6">
   	                    	<input type="text" class="form-control" name="EMP_DTEL" value="051" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value=${dTel1 }>
+                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" value=${dTel1 }>
                       		<span class="input-group-text">-</span>
                       		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value=${dTel2 }>
      					   </div>                 
      					</div>
-<!--                     </div> -->
+                    </div>
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">이메일</label>
@@ -370,7 +383,7 @@ $(function() {
 									<option value="daum.net" <c:if test="${email2 eq 'daum.net'}">selected</c:if>>daum.net</option>
 									<option value="nate.com" <c:if test="${email2 eq 'nate.com'}">selected</c:if>>nate.com</option>
 		                   		 </select>
-		                   		 <button onclick="checkEmail();" class="btn btn-secondary" style="margin-left: 30px">이메일 중복 확인</button>
+		                   		 <button type="button" onclick="checkEmail();" class="btn btn-secondary" style="margin-left: 30px">이메일 중복 확인</button>
 		                    </div>
 		                   		 <div id ="checkResultArea" class="col-md-8 col-lg-5"></div>
 	                    </div>
