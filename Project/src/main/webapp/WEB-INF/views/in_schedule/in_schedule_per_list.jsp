@@ -121,7 +121,7 @@
             <div class="card mb-4">
                 <div class="card-header">
                      입고 처리 목록
-                     <button class="btn btn-primary" onclick="location.href='OutRegisterForm'" style="float: right;">신규등록</button>
+                     <button class="btn btn-primary" onclick="location.href='InRegisterForm'" style="float: right;">신규등록</button>
                  </div>
                  <div class="card-body">
               <!-- 탭 항목 -->
