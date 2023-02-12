@@ -431,11 +431,11 @@
 							
 			})
 			.done(function() { // 요청 성공 시
-				alert("정보 성공");
+				alert("삭제 성공");
 				$("#tr"+code).remove();
 			})
 			.fail(function() {
-				alert("정보 실패");
+				alert("재고가 존재합니다");
 			});
 		}// 창고 지역 삭제 끝
 		
@@ -446,7 +446,7 @@
 				url: "WareHouseLocAreadeletePro.wh?wh_loc_in_area_cd="+code
 			})
 			.done(function() { // 요청 성공 시
-				alert("정보 성공");
+				alert("삭제 성공");
 				$("#tr"+code).remove();
 			})
 			.fail(function() {

@@ -31,13 +31,12 @@
 	if(priv_cd_emp == '1' || priv_cd_emp2 == '1' || priv_cd_emp3 == '1'){//권한이 있을 경우
 		
 	}else{//없을 경우
-		alert("창고등록 권한이 없습니다");
+		alert("권한이 없습니다");
 		history.back();
 	}
 	$(function() {
 		$("input:radio[name='wh_location']").change(function() {
 			var location = $("input:radio[name='wh_location']:checked").val();
-			alert(location);
 				if(location == '내부'){
 					$("#address").hide();
 				}else if(location == '외부'){
