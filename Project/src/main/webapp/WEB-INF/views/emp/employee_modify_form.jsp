@@ -107,38 +107,9 @@ function check_priv_cd() {
 			$('#priv_cd'  + i).prop('disabled', true);
 		}
 		
-// 		if($("#priv_cd2").val() == '1'){
-// 			$('#priv_cd_hidden2').prop('disabled', true);
-// 			$('#priv_cd2').prop('disabled', false);
-	
-// 		}else{
-// 			$('#priv_cd2').prop('disabled', true);
-// 		}
-		
-// 		if($("#priv_cd3").val() == '1'){
-// 			$('#priv_cd_hidden3').prop('disabled', true);
-// 			$('#priv_cd3').prop('disabled', false);
-	
-// 		}else{
-// 			$('#priv_cd3').prop('disabled', true);
-// 		}
-// 		if($("#priv_cd4").val() == '1'){//권한이 있으면
-// 			$('#priv_cd_hidden4').prop('disabled', true); //히든비활
-// 			$('#priv_cd4').prop('disabled', false); //체크박스를 활성화
-	
-// 		}else{
-// 			$('#priv_cd4').prop('disabled', true);
-// 		}
-// 		if($("#priv_cd5").val() == '1'){
-// 			$('#priv_cd_hidden5').prop('disabled', true);
-// 			$('#priv_cd5').prop('disabled', false);
-	
-// 		}else{
-// 			$('#priv_cd5').prop('disabled', true);
-// 		}
-		
-	}
-}
+// 	
+	}//for 끝
+}//check_priv_cd 끝
 
 </script>
 
@@ -462,19 +433,16 @@ $(function() {
 		                        	기본등록
 		                        </label>
 								<input type="hidden" id="priv_cd_hidden1"  name="PRIV_CD" value="0">
-								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd2" name="PRIV_CD" value="${prCd2 }" style="margin-right: 10px" <c:if test="${prCd2 eq '1' }">checked</c:if>>
 									사원조회
 								</label>
 								<input type="hidden" id="priv_cd_hidden2"  name="PRIV_CD" value="0">
-								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd3" name="PRIV_CD" value="${prCd3 }" style="margin-right: 10px" <c:if test="${prCd3 eq '1' }">checked</c:if>>
 									사원관리
 								</label>
 								<input type="hidden" id="priv_cd_hidden3" name="PRIV_CD" value="0">
-								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd4" name="PRIV_CD" value="${prCd4 }" style="margin-right: 10px"  <c:if test="${prCd4 eq '1' }">checked</c:if>>
 									재고조회
