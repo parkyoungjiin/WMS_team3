@@ -332,7 +332,7 @@ function load_stoList(cb) {
 	
 	$("#modal-body-sto").on('click','tr',function(){
 		   let td_arr = $(this).find('td');
-		   alert("뭐임 : " + $("#product_stock_cd" + idx).val());
+// 		   alert("뭐임 : " + $("#product_stock_cd" + idx).val());
 		   
 //		   $('#no').val($(td_arr[0]).text());
 		   let pro_cd = $(td_arr[0]).text();
