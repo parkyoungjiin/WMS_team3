@@ -9,19 +9,19 @@
 <head>
 <!-- 거래처(기본 등록) 권한 판별 -->
 <script type="text/javascript">
-// 	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
 	
-// 	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
-// 	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
-// 	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
+	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
+	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
+	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
 	
-// 	//기본등록에 대한 권한이 있는 지 판별
-// 	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
+	//기본등록에 대한 권한이 있는 지 판별
+	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
 		
-// 	}else{//없을 경우
-// 		alert("권한이 없습니다");
-// 		history.back();
-// 	}
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -891,7 +891,7 @@ function input_search_idx(cb) {
 							<td><input type="date" style="text-align: center; border:none" class="form-control form-control-sm" id="out_dateArr${status.index }" value="${ospList.out_date }" name="out_dateArr" required="required"></td>
 							<td><input type="text" style="text-align: center;" class="form-control form-control-sm" value="${ospList.remarks_pro }" id="remarks_proArr${status.index }" name="remarks_proArr" ></td>
 							<td><div class="input-group input-group-sm mb-10">
-         					<input type="text" style="text-align:center;" class="form-control form-control-sm stock_cd" name="stock_cdArr" required="required" id="product_stock_cd${status.index}" value="${ospList.stock_cd }">
+         					<input type="text" style="text-align:center;" class="form-control form-control-sm stock_cd" name="stock_cdArr" required="required" readonly="readonly" id="product_stock_cd${status.index}" value="${ospList.stock_cd }">
 	         				<button id="stock_search_btn${status.index }" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList(this)">검색</button></div></td>
 <%-- 							<td><span class="stoContent" style="justify-content: center; align-items: center; display: flex;" >재고번호 : ${ospList.stock_cd }</span></td> --%>
 <%-- 							<td><span class="stoContent" id="stoContent${status.index }" style="justify-content: center; align-items: center; display: flex;" ></span></td> --%>
