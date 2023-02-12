@@ -197,8 +197,8 @@ function move_stock(move_cb) {
 		var move_wh_loc_in_area = $("#move_wh_loc_in_area" + idx).val();//이동 위치
 		var move_stock_num = parseInt($("#move_stock_num" + idx).val());//이동할 수량
 		var product_cd = $("#product_cd" + idx).val();//품목 번호
-		alert(idx);
-		alert(current_stock_num);
+// 		alert(idx);
+// 		alert(current_stock_num);
 		
 // 		alert(current_stock_cd)
 // 		alert(move_stock_cd);

@@ -14,6 +14,9 @@ public class InScheduleVO {
 	private Date IN_DATE;
 	private String REMARKS;
 	private String IN_COMPLETE;
+	private int SUM_COUNT;
+	
+	
 	public Date getIN_SCHEDULE_DATE() {
 		return IN_SCHEDULE_DATE;
 	}
@@ -46,6 +49,9 @@ public class InScheduleVO {
 	}
 	public String getIN_COMPLETE() {
 		return IN_COMPLETE;
+	}
+	public int getSUM_COUNT() {
+		return SUM_COUNT;
 	}
 	public void setIN_SCHEDULE_DATE(Date iN_SCHEDULE_DATE) {
 		IN_SCHEDULE_DATE = iN_SCHEDULE_DATE;
@@ -80,13 +86,17 @@ public class InScheduleVO {
 	public void setIN_COMPLETE(String iN_COMPLETE) {
 		IN_COMPLETE = iN_COMPLETE;
 	}
+	public void setSUM_COUNT(int sUM_COUNT) {
+		SUM_COUNT = sUM_COUNT;
+	}
 	@Override
 	public String toString() {
 		return "InScheduleVO [IN_SCHEDULE_DATE=" + IN_SCHEDULE_DATE + ", IN_SCHEDULE_CD=" + IN_SCHEDULE_CD
 				+ ", IN_TYPE_CD=" + IN_TYPE_CD + ", BUSINESS_NO=" + BUSINESS_NO + ", CUST_NAME=" + CUST_NAME
 				+ ", EMP_NUM=" + EMP_NUM + ", EMP_NAME=" + EMP_NAME + ", PRODUCT_NAME=" + PRODUCT_NAME + ", IN_DATE="
-				+ IN_DATE + ", REMARKS=" + REMARKS + ", IN_COMPLETE=" + IN_COMPLETE + "]";
+				+ IN_DATE + ", REMARKS=" + REMARKS + ", IN_COMPLETE=" + IN_COMPLETE + ", SUM_COUNT=" + SUM_COUNT + "]";
 	}
+	
 	
 	
 	

@@ -152,7 +152,9 @@ public class WareHouseController {
 	 			 vo.setWh_addr("");
 	 		 }else if(!vo.getWh_addr().equals("")) {
 	 			 String[] arr = vo.getWh_addr().split(",");
-	 			 vo.setWh_addr(arr[0]);
+	 			System.out.println(arr);
+	 			 vo.setWh_addr1(arr[0]);
+	 			 System.out.println(arr[0]);
 	 		 	 vo.setWh_addr_detail(arr[1]);
 	 		 }
 		System.out.println(vo);
@@ -160,34 +162,6 @@ public class WareHouseController {
 		return "warehouse/wh_info";
 	}//whInfo 끝
 	
-	//------------창고 상세페이지 작업---------------
-	@ResponseBody
-	@GetMapping(value = "WareHouseInfoJson.wh")
-	public void whInfoJson(@RequestParam(defaultValue = "1")String wh_cd,Model model,HttpServletResponse response) {
-		WareHouseVO vo = service.getWarehouse(wh_cd);
-		System.out.println(vo);
-		vo.setWh_tel1(vo.getWh_tel().substring(0,3));
-		vo.setWh_tel2(vo.getWh_tel().substring(4,7));
-		vo.setWh_tel3(vo.getWh_tel().substring(8,12));
-		
-		if(vo.getWh_addr().equals(",")){
-			vo.setWh_addr("");
-		}else if(!vo.getWh_addr().equals("")) {
-			String[] arr = vo.getWh_addr().split(",");
-			vo.setWh_addr(arr[0]);
-//	 		 	System.out.println(arr[0]);
-			vo.setWh_addr_detail(arr[1]);
-		}
-		System.out.println(vo);
-		JSONObject jsonObject = new JSONObject(vo);
-		
-		try {
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().print(jsonObject); // toString() 생략됨
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}//whInfo 끝
 	
 	
 	//------------창고 상세페이지 작업(이름 클릭 시)---------------
@@ -206,8 +180,8 @@ public class WareHouseController {
 			vo.setWh_addr("");
 		}else if(!vo.getWh_addr().equals("")) {
 			String[] arr = vo.getWh_addr().split(",");
-			vo.setWh_addr(arr[0]);
-//			System.out.println(arr[0]);
+			vo.setWh_addr1(arr[0]);
+//	 		 	System.out.println(arr[0]);
 			vo.setWh_addr_detail(arr[1]);
 		}
 		
@@ -217,11 +191,12 @@ public class WareHouseController {
 	}//whInfo 끝
 	
 	//------------창고 수정 작업---------------
-	@ResponseBody
 	@PostMapping(value = "WhModify.wh")
-	public void whModify(WareHouseVO vo,@RequestParam(defaultValue = "1")String wh_cd) {
+	public String whModify(WareHouseVO vo,@RequestParam(defaultValue = "1")String wh_cd) {
 		System.out.println("WhModify.wh: "+vo);
-		service.whModify(vo,wh_cd);
+				vo.setWh_addr(vo.getWh_addr1() +","+ vo.getWh_addr_detail());
+				service.whModify(vo,wh_cd);
+		 return "redirect:/WareHouseListPro.wh";
 	}//whModify 끝
 
 	//------------창고 상세페이지 작업(이름 클릭 시)---------------

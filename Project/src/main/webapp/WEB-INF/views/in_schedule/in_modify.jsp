@@ -321,7 +321,7 @@ $(function() {
 			   
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_buyer').modal('hide');
-		   $("#CUST_NAME").val(CUST_NAME);
+		   $("#CUST_NAME").val(cust_name);
 		   $("#BUSINESS_NO").val(no);
 	});	 
 	
@@ -498,7 +498,7 @@ function input_search_idx(cb) {
       .done(function(stoList) { // 요청 성공 시
          
             if(stoList.length === 0){
-               alert("재고가 없는 품목입니다.");
+//                alert("재고가 없는 품목입니다.");
                return;
             }   
       // td 클릭시 모달 창 닫기
@@ -582,7 +582,7 @@ function calculateSum() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">거래처</label>
                       <div class="col-md-8 col-lg-2">
 		      			<div class="input-group mb-6">
-		             		<input name="CUST_NAME" type="text" class="form-control" id="cust_name" required="required" value="${ins.CUST_NAME }">
+		             		<input name="CUST_NAME" type="text" class="form-control" id="CUST_NAME" required="required" value="${ins.CUST_NAME }">
 		             		<input name="BUSINESS_NO" type="hidden" class="form-control" id="BUSINESS_NO" value="${ins.BUSINESS_NO}" >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer" >검색</button>
 
@@ -746,7 +746,7 @@ function calculateSum() {
 		                    <th scope="col" style="width: 80px">수량</th>
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">비고</th>
-		                    <th scope="col">출고대상재고</th>
+<!-- 		                    <th scope="col">출고대상재고</th> -->
 		                  </tr>
 		                </thead>
 		                <tbody>
