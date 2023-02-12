@@ -88,7 +88,7 @@ var outStatus = false;
 //	 		$(".modal-body").append(buyerList);
 			$("#modal-body-sto > table ").remove();   //테이블 비우고
 			
-				let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
+				let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right; font-size: 13px;  '>"
 					+ "<tr style='cursor:pointer;'>"
 	                + '<th scope=col">재고번호</th>'
 	                + '<th scope=col">품목명</th>'
@@ -152,7 +152,7 @@ var outStatus = false;
 		   
 		   $("#modal-body-sto > table ").remove();   //테이블 비우고
 			
-			let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
+			let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right;font-size: 13px; '>"
 				+ "<tr style='cursor:pointer;'>"
                + '<th scope=col">재고번호</th>'
                + '<th scope=col">품목명</th>'
@@ -252,7 +252,7 @@ var outStatus = false;
                     <div class="modal-body" id="modal-body" style="text-align: center;">
 <!--                      	<div class="input-group mb-6"> -->
 <!-- 			        	 </div> -->
-			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; margin-right: ">
+			        	 <table class='table table-hover' id="buyer_table" style="margin-left: auto; font-size: 13px; ">
 				                <tr>
 				                	<th scope="col">품목코드</th>
 				                	<th scope="col">품목명[규격]</th>
@@ -285,7 +285,7 @@ var outStatus = false;
                  </div>
                <div class="card-body">
                   <div class="input-group mb-6" id ="stock_history_div">
-	                    <table class="table table-hover" id="stock_history_table" style="margin-left: auto; margin-right: ">
+	                    <table class="table table-hover" id="stock_history_table" style="margin-left: auto;  ">
 							<tr>
 					 			<th scope="col">출고예정번호</th>
 					 			<th scope="col">품목명</th>
@@ -362,12 +362,13 @@ var outStatus = false;
 	             		<input name="search_keyword" type="text" class="form-control" id="search_keyword" placeholder="검색 후 이용 바랍니다." readonly="readonly">
    						<button id="search_buyer" class="btn btn-primary" type="button" onclick="stock_num_search_fn()">검색</button>
    						</div>
-                    	<table class='table table-hover' id="stock_search_table" style="margin-left: auto; margin-right: ">
+                    	<table class='table table-hover' id="stock_search_table" style="margin-left: auto; font-size: 13px; ">
 				                <tr>
 				                  <th scope="col">재고번호</th>
 				                  <th scope="col">품목명</th>
 				                  <th scope="col">구역명</th>
 				                  <th scope="col">위치명</th>
+				                  <th scope="col">수량</th>
 				                </tr>
 			        	 </table>
                     </div>
