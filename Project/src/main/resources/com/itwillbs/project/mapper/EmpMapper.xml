@@ -48,7 +48,7 @@
 	<select id="selectEmployeeList" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT *
       FROM emp e, dep p 
-			WHERE e.DEPT_CD = p.DEPT_CD AND e.EMP_NAME LIKE '%${keyword}%'
+			WHERE e.DEPT_CD = p.DEPT_CD AND e.EMP_NAME LIKE '%${keyword}%' AND e.WORK_CD = 'C1';
   </select>
 	
 	<!-- 일반사원목록 조회 -->
@@ -90,7 +90,10 @@
 	  			,EMP_ADDR = #{EMP_ADDR}
 	  			,WORK_CD = #{WORK_CD}
 	  			,PRIV_CD = #{PRIV_CD}
+	  			<if test="PHOTO neq ''">
 	  			,PHOTO = #{PHOTO}	
+	  			</if>
+	  			
 	  		WHERE 
 	  			idx = #{IDX}
 	</update>

@@ -48,7 +48,7 @@ public interface Out_ScheduleMapper {
 	int selectExtraPdCount(String outSchCd);
 
 	// 출고리스트 상품갯수 가져오기
-	OutSchedulePerProductVO selectOutPdName(String outSchCd);
+	int selectOutPdName(String outSchCd);
 
 
 	// 출고 처리 목록
@@ -61,14 +61,32 @@ public interface Out_ScheduleMapper {
 	List<StockVo> searchStockNum(String keyword);
 
 	//출고 처리 수량 조정
-	void updateOspQty(OutSchedulePerProductVO osp2);
+	int updateOspQty(OutSchedulePerProductVO osp2);
 
 	//출고 처리 - 상품별 완료 처리
 	void updateOut_complete(OutSchedulePerProductVO osp2);
 
 	//출고 처리 - 재고 조정
-	void updateOspStock(OutSchedulePerProductVO osp2);
+	int updateOspStock(OutSchedulePerProductVO osp2);
 
+	// 출고 리스트 외 1건처리 
+	String selectOutProduct(int checkCd);
+
+	// 외 1건처리 2
+	List<OutScheduleVO> selectOutSchedule();
+
+	// 외 1건처리 3
+	String selectOutSingle(int checkCd);
+
+	int selectOutSum(String schCd);
+
+	List<OutScheduleVO> getOutSchedule();
+
+	int insertOutHistory(
+			@Param("out_qty")int out_qty,
+			@Param("stock_cd")String stock_cd, 
+			@Param("product_cd")int product_cd, 
+			@Param("sId")String sId);
 
 	
 }

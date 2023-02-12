@@ -9,19 +9,19 @@
 <head>
 <script type="text/javascript">
 <!-- 거래처(기본 등록) 권한 판별 -->
-// 	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
 	
-// 	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
-// 	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
-// 	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
+	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
+	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
+	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
 	
-// 	//기본등록에 대한 권한이 있는 지 판별
-// 	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
+	//기본등록에 대한 권한이 있는 지 판별
+	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
 		
-// 	}else{//없을 경우
-// 		alert("권한이 없습니다");
-// 		history.back();
-// 	}
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
 </script>
 
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -143,7 +143,7 @@
                  <table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col">#</th>
+<!-- 		                    <th scope="col">#</th> -->
 		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">입고예정번호</th>
 		                    <th scope="col">보낸곳명</th>
@@ -158,17 +158,20 @@
 		                <tbody>
 		                <c:forEach items="${list }" var="list"> 
 		                  <tr>
-		                    <th scope="row"></th>
-		                   	<c:choose>
+<!-- 		                    <th scope="row"></th> -->
+		                    	<c:choose>
 		                   		<c:when test="${list.IN_COMPLETE eq '1' }">
 		                   		<td></td>
 		                   		</c:when>
 		                   		<c:otherwise>
-		                   		<td><input type="checkbox" name="chk" value="${list.IN_SCHEDULE_PER_CD}"></td>
+				                    <td><input type="checkbox" name="chk" value="${list.IN_SCHEDULE_PER_CD}"></td>
+		                   		
+<%-- 		                   		</c:otherwise> --%>
+<%-- 		                   	</c:choose> --%>
 		                   		</c:otherwise>
 		                   	</c:choose>
 		                    <td>${list.IN_SCHEDULE_CD }</td>
-		                    <td>${list.PRODUCT_CD }</td>
+		                    <td>${list.CUST_NAME }</td>
 		                    <td>${list.PRODUCT_NAME }</td>
 		                    <td>${list.IN_DATE }</td>
 		                    <td>${list.IN_SCHEDULE_QTY }</td>

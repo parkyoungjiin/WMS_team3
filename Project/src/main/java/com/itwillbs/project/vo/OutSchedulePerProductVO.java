@@ -28,7 +28,6 @@ public class OutSchedulePerProductVO {
 	private String[] out_completeArr;
 	private int stock_qty;
 	
-	
 	public String getOut_schedule_cd() {
 		return out_schedule_cd;
 	}

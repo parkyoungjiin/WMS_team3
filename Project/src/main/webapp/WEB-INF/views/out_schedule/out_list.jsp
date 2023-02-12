@@ -9,19 +9,19 @@
 <head>
 <script type="text/javascript">
 <!-- 거래처(기본 등록) 권한 판별 -->
-// 	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
 	
-// 	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
-// 	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
-// 	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
+	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
+	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
+	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
 	
-// 	//기본등록에 대한 권한이 있는 지 판별
-// 	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
+	//기본등록에 대한 권한이 있는 지 판별
+	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
 		
-// 	}else{//없을 경우
-// 		alert("권한이 없습니다");
-// 		history.back();
-// 	}
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
 </script>
 
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -120,8 +120,8 @@
 	function checkIdx(cb) {
 		var ck_idx = cb.id.replace("scSearch", ""); // checkIdx 함수의 id 값 scSearch 를 공백으로 바꾸면 남는 값이 idx값이 됨
 		var out_cd = $("#out_schedule_cd" + ck_idx).val(); // out_cd hidden 으로 숨겨져 있는 input의 out_schedule~+위의 구해진 idx값이 id인 곳으로 가서 value값 가져옴
-		alert(ck_idx);	
-		alert(out_cd);
+// 		alert(ck_idx);	
+// 		alert(out_cd);
 
 		$.ajax({
 			type:"GET"
@@ -133,9 +133,10 @@
 		})
 		.done(function(outProdList) {
 			console.log(outProdList);
+
+				$("#out > tbody").empty();
 			for(let prod of outProdList) {
 // 				let product_cd = ${prod.out_product_cd}
-				$("#out > tbody").empty();
 				var outList = '<tr>' 
 							  + '<td>' + prod.product_cd + '</td>'
 							  + '<td>' + prod.product_name + '</td>'
@@ -192,6 +193,8 @@
 				                </tr>
 				            </thead>
 			                <tbody>
+			                	<tr>
+			                	</tr>
 			                </tbody>
 			        	 </table>
 
@@ -248,9 +251,9 @@
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.cust_name }</td>
 		                    <td>${outList.emp_name }</td>
-		                    <td></td>
+		                    <td>${outList.product_name }</td>
 		                    <td>${outList.out_date }</td>
-		                    <td>jaego gaetsu</td>
+		                    <td style="text-align:center">${outList.sum_count }</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
@@ -295,9 +298,9 @@
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_name }</td>
-		                    <td>품목명 체크</td>
+		                    <td>${outList.product_name }</td>
 		                    <td>${outList.out_date }</td>
-		                    <td>jaego gaetsu</td>
+		                    <td style="text-align:center">${outList.sum_count }</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
@@ -337,10 +340,6 @@
 		                <c:forEach items="${outList }" var="outList" varStatus="status"> 
 		                <c:if test="${outList.out_complete eq '1' }">
 		                  <tr>
-		                    <td>
-		                    <input type="checkbox" name="chk">
-		                    
-		                    </td>
 		                    <td><a href="OutDetail?out_schedule_cd=${outList.out_schedule_cd }">${outList.out_schedule_cd }</a>
 		                    	<input type="hidden" id="out_schedule_cd${status.index}" value="${outList.out_schedule_cd }">
 		                    	<input type="hidden" id="outComplete${status.index}" value="${outList.out_complete }">
@@ -348,9 +347,9 @@
 		                    <td>${outList.out_category }</td>
 		                    <td>${outList.business_no }</td>
 		                    <td>${outList.emp_name }</td>
-		                    <td>품목명 체크</td>
+		                    <td>${outList.product_name }</td>
 		                    <td>${outList.out_date }</td>
-		                    <td>jaego gaetsu</td>
+		                    <td style="text-align:center">${outList.sum_count }</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
@@ -361,7 +360,7 @@
 		                    		</c:when>
 		                    	</c:choose>
 		                    </td>
-		                    <td>
+		                    <td style="text-align:center">
 								<button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button>
 							</td>
 		                  </tr>

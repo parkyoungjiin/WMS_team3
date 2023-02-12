@@ -153,7 +153,7 @@ public class EmpController {
 		//사원 등록 작업
 		int InsertCount = service.InsertEmployee(emp);
 		if(InsertCount > 0) {
-			return "redirect:/";
+			return "redirect:/EmployeeList.em";
 		}else { // 실패
 			model.addAttribute("msg", "사원 등록 실패!");
 			return "fail_back";
@@ -184,7 +184,7 @@ public class EmpController {
 		if(passwd == null || !passwdEncoder.matches(emp.getEMP_PASSWD(), passwd)) { // 실패
 			// Model 객체에 "msg" 속성명으로 "로그인 실패!" 메세지 저장 후
 			// fail_back.jsp 페이지로 포워딩
-			model.addAttribute("msg", "로그인 실패!");
+			model.addAttribute("msg", "로그인 실패! 아이디 또는 비밀번호를 확인해주세요.");
 			return "fail_back";
 		} else { // 성공
 			// HttpSession 객체에 세션 아이디 저장 후 메인페이지로 리다이렉트
@@ -355,6 +355,19 @@ public class EmpController {
 			model.addAttribute("addr2",addr2);
 			System.out.println( "주소 "+employee.getEMP_ADDR());
 			
+			String privArr[] = employee.getPRIV_CD().split("");
+			String prCd1 = privArr[0];
+			String prCd2 = privArr[1];
+			String prCd3 = privArr[2];
+			String prCd4 = privArr[3];
+			String prCd5 = privArr[4];
+//			System.out.println("권한 array 확인 : " + prCd1 + ", " + prCd2 + ", " + prCd3 + ", " + prCd4 + ", " + prCd5);
+			model.addAttribute("prCd1",prCd1);
+			model.addAttribute("prCd2",prCd2);
+			model.addAttribute("prCd3",prCd3);
+			model.addAttribute("prCd4",prCd4);
+			model.addAttribute("prCd5",prCd5);
+			
 			model.addAttribute("employee", employee);
 			return "emp/employee_modify_form";
 		} // 사원 정보 폼 끝
@@ -424,18 +437,27 @@ public class EmpController {
 				employee.setEMP_ADDR(EMP_ADDR);
 				
 			}
-//			//**사원 코드(EMP_NAME) 결합** 
-//			// -> 사원코드(EMP_NUM) = 부서코드(2)+입사년도(2)+인덱스(3)(= 총 7자리), 자동부여
-//			// 부서코드, 입사년도만 결합을 해서 set 저장한 뒤에 xml 파일에서 인덱스 결합
-//			SimpleDateFormat year_format = new SimpleDateFormat("yy");
-//			String year = year_format.format(employee.getHIRE_DATE());
-//			// idx 앞에 0을 붙이기 위해 select 후에 format 함수 사용
-//			int idx = service.getSelectIdx(employee) + 1;
-//
-//			//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
-//			String EMP_IDX = String.format("%03d", idx); //00x 형태 변환
-//			String EMP_NUM = employee.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
-//			employee.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
+			//**사원 코드(EMP_NAME) 결합** 
+			// -> 사원코드(EMP_NUM) = 부서코드(2)+입사년도(2)+인덱스(3)(= 총 7자리), 자동부여
+			// 부서코드, 입사년도만 결합을 해서 set 저장한 뒤에 xml 파일에서 인덱스 결합
+			SimpleDateFormat year_format = new SimpleDateFormat("yy");
+			String year = year_format.format(employee.getHIRE_DATE());
+			// idx 앞에 0을 붙이기 위해 select 후에 format 함수 사용
+			int idx = service.getSelectIdx(employee) + 1;
+
+			//fomrat을 사용하여 00x 형태로 setEMP_NUM 작업을 수행
+			String EMP_IDX = String.format("%03d", idx); //00x 형태 변환
+			String EMP_NUM = employee.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
+			employee.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
+			
+			//권한 결합 작업
+			String [] emp_priv_arr = employee.getPRIV_CD().split(",");
+			for(int i=0; i<emp_priv_arr.length; i++) {
+				String PRIV_CD = emp_priv_arr[i].join("", emp_priv_arr);
+//				System.out.println(EMP_EMAIL);
+				employee.setPRIV_CD(PRIV_CD);
+				
+			}
 			
 			
 			int updateCount = service.modifyEmployee(employee);
@@ -500,24 +522,31 @@ public class EmpController {
 		//-------------마이페이지 이동------------
 		@GetMapping(value = "MyPage.em") 
 		public String mypage(HttpSession session, @ModelAttribute EmpVo emp, Model model) {
-	//		session id에 맞는 사원 정보 가져오기
-			String EMP_NUM = (String)session.getAttribute("emp_num");
+			
+			if(session.getAttribute("emp_num") != null) {
+				String EMP_NUM = (String)session.getAttribute("emp_num");
+				//id에 맞는 사원정보 가져오기
+				emp = service.getEmployee(EMP_NUM);
+				// 개인 연락처 분리
+				String emp_phone_number1 = emp.getEMP_TEL().substring(4, 8);
+				String emp_phone_number2 = emp.getEMP_TEL().substring(9, 13);
+				// 사무실 연락처 분리
+				String emp_dtel_number1 = emp.getEMP_DTEL().substring(4,7);
+				String emp_dtel_number2 = emp.getEMP_DTEL().substring(8,12);
+				model.addAttribute("emp", emp);
+				model.addAttribute("emp_phone_number1", emp_phone_number1);
+				model.addAttribute("emp_phone_number2", emp_phone_number2);
+				model.addAttribute("emp_dtel_number1", emp_dtel_number1);
+				model.addAttribute("emp_dtel_number2", emp_dtel_number2);
+				
+				return "emp/employee_mypage";
+			}else {
+				model.addAttribute("msg","로그인이 필요한 페이지입니다.");
+				return "redirect:/";
+			}
+				
 		
-		emp = service.getEmployee(EMP_NUM);
-		// 개인 연락처 분리
-		String emp_phone_number1 = emp.getEMP_TEL().substring(4, 8);
-		String emp_phone_number2 = emp.getEMP_TEL().substring(9, 13);
-		// 사무실 연락처 분리
-		String emp_dtel_number1 = emp.getEMP_DTEL().substring(4,7);
-		String emp_dtel_number2 = emp.getEMP_DTEL().substring(8,12);
-		model.addAttribute("emp", emp);
-		model.addAttribute("emp_phone_number1", emp_phone_number1);
-		model.addAttribute("emp_phone_number2", emp_phone_number2);
-		model.addAttribute("emp_dtel_number1", emp_dtel_number1);
-		model.addAttribute("emp_dtel_number2", emp_dtel_number2);
 		
-		
-		return "emp/employee_mypage";
 	}//mypage 끝
 	
 	

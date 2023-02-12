@@ -5,6 +5,53 @@
 	SELECT *
 	FROM in_schedule_view
 	</select>
+	
+	<!-- 품목조회 -->
+	<select id="selectProList1">
+	SELECT * FROM product
+	WHERE product_name LIKE '%${keyword}%'
+	
+	</select>
+	
+	<!-- 출고리스트 상품 갯수 조회 -->
+	<select id="selectExtraPdcount" resultType="int">
+	SELECT COUNT(IN_SCHEDULE_CD)
+	FROM IN_SCHEDULE_PER_PRODUCT
+	WHERE IN_SCHEDULE_CD = #{inSchCd}
+	</select>
+	
+	<!--  입고예정 수량 합계 -->
+	<select id="selectInSum" resultType="int">
+	SELECT SUM(IN_SCHEDULE_QTY)
+		FROM IN_SCHEDULE_PER_PRODUCT
+		WHERE IN_SCHEDULE_CD = #{schCd}
+	</select>
+	
+	<!-- 입고예정 품목명 -->
+	<select id="selectInPdName" resultType="int">
+	SELECT MAX(IN_SCHEDULE_PER_CD)
+	FROM IN_SCHEDULE_PER_PRODUCT
+	WHERE IN_SCHEDULE_CD = #{inSchCd}
+	
+	</select>
+	
+	<!-- 외1건 -->
+	<select id="selectInSingle" resultType="String">
+	SELECT PRODUCT_NAME 
+	FROM IN_SCHEDULE_PER_PRODUCT
+	WHERE IN_SCHEDULE_PER_CD = #{checkCd}
+	
+	</select>
+	
+	<!-- 입고예정 목록 품목명 -->
+	<select id="selectInProduct" resultType="String">
+	SELECT PRODUCT_NAME
+	FROM IN_SCHEDULE_PER_PRODUCT
+	WHERE IN_SCHEDULE_PER_CD = #{checkCd}
+	</select>
+	
+	
+	
 	<!-- 입고물품 등록 -->
 	<insert id="insertInschedule">
 	INSERT INTO in_schedule
@@ -44,15 +91,15 @@
 		,IN_QTY = #{IN_QTY}
 		,IN_DATE = #{IN_DATE}
 		,REMARKS = #{REMARKS}
-		,STOCK_CD = #{STOCK_CD}
-		WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
+<!-- 		,STOCK_CD = #{STOCK_CD} -->
+		WHERE IN_SCHEDULE_PER_CD = #{IN_SCHEDULE_PER_CD}
 	
 	</update>
 	
 	<!-- 입고예정 리스트  -->
 	<select id="getInschedulePerList" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 	SELECT *
-		FROM in_schedule_per_product
+		FROM in_schedule_view
 	</select>
 	
 	<select id="selectCode" resultType="integer">
@@ -95,7 +142,7 @@
 	<!-- 선택 된 항목 불러오기 -->	
 	<select id="getInschedulePerInfo" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 		SELECT *
-			FROM in_schedule_per_product
+			FROM in_schedule_view
 			WHERE IN_SCHEDULE_PER_CD = #{IN_SCHEDULE_PER_CD}
 	</select>
 	
@@ -105,24 +152,30 @@
 			FROM stock_view
 				WHERE STOCK_CD LIKE '%${keyword}%' || PRODUCT_NAME LIKE '%${keyword}%' || WH_NAME LIKE '%${keyword}%' 
 	</select>
+	<!-- 모달창 창고 번호 리스트 -->
+	<select id="searchWarehouse" resultType="com.itwillbs.project.vo.WareHouseVO">
+		SELECT *
+			FROM warehouse_view
+				WHERE WH_NAME LIKE '%${keyword}%' || WH_AREA LIKE '%${keyword}%' || WH_LOC_IN_AREA LIKE '%${keyword}%' 
+	</select>
 	
 	<!-- 재고 물량 증가 -->
 	<update id="updateStockQTY">
 		UPDATE stock
-			SET STOCK_QTY = STOCK_QTY + #{IN_QTY}
-			WHERE STOCK_CD =#{STOCK_CD}
+				SET STOCK_QTY = STOCK_QTY + #{IN_QTY}
+					WHERE STOCK_CD = #{STOCK_CD} AND PRODUCT_CD = #{PRODUCT_CD}
 	</update>
 	
 	<!-- 입고 수량 증가 -->
 	<update id="updateInQTY">
-		UPDATE in_schedule_per_product
+		UPDATE in_schedule_view
 			SET IN_QTY = IN_QTY + #{IN_QTY}
 			WHERE IN_SCHEDULE_PER_CD =#{IN_SCHEDULE_PER_CD};
 	</update>
 	
 	<!-- 입고 진행 여부 -->
 	<update id="updateIN_COMPLETE">
-		UPDATE in_schedule_per_product
+		UPDATE in_schedule_view
 			SET IN_COMPLETE = 1
 			WHERE  IN_SCHEDULE_QTY - IN_QTY = 0;
 	</update>
@@ -136,14 +189,14 @@
 	
 	<!-- 입고 처리 -->
 	<insert id="insertStock">
-		<!--재고 번호가 존재 안할 떄  -->
+		<!--재고 번호가 존재 할 떄  -->
 		<choose>
 			<when test="STOCK_CD != 0">
 			UPDATE stock
 				SET STOCK_QTY = STOCK_QTY + #{IN_QTY}
-					WHERE STOCK_CD = #{STOCK_CD} AND PRODUCT_CD = #{PRODUCT_CD} AND #{WH_LOC_IN_AREA_CD}
+					WHERE STOCK_CD = #{STOCK_CD} AND PRODUCT_CD = #{PRODUCT_CD}
 			</when>
-			<!--재고 번호가 존재 할 떄  -->
+			<!--재고 번호가 존재 안할 떄  -->
 			<otherwise>
 			INSERT INTO stock
 				VALUES(

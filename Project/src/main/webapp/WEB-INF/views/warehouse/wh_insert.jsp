@@ -55,7 +55,6 @@
 					dataType: "html",
 					success: function(data){
 						if(data == 0){
-							alert("번경감지");
 							$("#checkCdResult").html("사용 가능한 코드입니다.");
 							$("#checkCdResult").css("color", "#3CAEFF");
 							$("#fr").attr("onsubmit","return true");
@@ -95,7 +94,7 @@ window.onload = function(){
         //카카오 지도 발생
         new daum.Postcode({
             oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("wh_addr").value = data.address; // 주소 넣기
+                document.getElementById("wh_addr1").value = data.address; // 주소 넣기
                 document.getElementById("post_no").value = data.zonecode; // 우편번호 넣기
                 document.querySelector("input[id=wh_addr_detail]").focus(); //상세입력 포커싱
             }
@@ -112,7 +111,7 @@ window.onload = function(){
         //카카오 지도 발생
         new daum.Postcode({
             oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("wh_addr").value = data.address; // 주소 넣기
+                document.getElementById("wh_addr1").value = data.address; // 주소 넣기
                 document.getElementById("post_no").value = data.zonecode; // 우편번호 넣기
                 document.querySelector("input[id=wh_addr_detail]").focus(); //상세입력 포커싱
             }
@@ -136,25 +135,12 @@ window.onload = function(){
 	<form action="WareHouseInserPro.wh" method="post">
 	<div class="card-header">
             창고 등록
-            <select style="float: right;" name="wh_use">
-            	<option value="1">사용</option>
-            	<option value="2">미사용</option>
-            </select>
         </div>
 			<div></div>
 		<div class="card mb-4">
 		<!-- Profile Edit Form -->
 		       <div class="card-body">
-                    <!-- 사용 여부 --> 
-	              <div class="row mb-3">
-	                <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사용 여부</label>
-	                <div class="col-md-3 col-lg-2">
-	                  <select class="form-select" name="by_use" >
-						<option value="1">사용</option>
-						<option value="2">비사용</option>
-			           </select>
-	                </div>
-	              </div>
+                   
                    
                    <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">창고 코드(*)</label>
@@ -219,7 +205,7 @@ window.onload = function(){
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">주소</label>
                       <div class="col-md-8 col-lg-3">
-                        <input name="wh_addr" type="text" class="form-control" id="wh_addr">
+                        <input name="wh_addr1" type="text" class="form-control" id="wh_addr1">
                       </div>
                     </div>
                     <div class="row mb-3">
@@ -246,7 +232,7 @@ window.onload = function(){
                       		<span class="input-group-text">-</span>
                       		<input type="text" class="form-control" name="wh_tel2" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" required>
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" name="wh_tel13" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required>
+                      		<input type="text" class="form-control" name="wh_tel3" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required>
      					   </div>                 
      					</div>
                     </div>

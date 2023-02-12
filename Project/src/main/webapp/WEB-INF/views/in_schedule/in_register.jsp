@@ -321,9 +321,24 @@ $(function() {
 		   $('#modalDialogScrollable_emp').modal('hide');
 		   $("#emp_name").val(emp_name);
 		   $("#emp_num").val(emp_num);
+		   
+				
+				
+		
 	});	   
 	
-	
+	//입고 처리 날짜 계산
+	   let today = new Date();
+
+   let year = today.getFullYear();
+   let month = ('0' + (today.getMonth() + 1)).slice(-2);
+   let day = ('0' + today.getDate()).slice(-2);
+
+   let dateString = year + '-' + month  + '-' + day;
+   
+//    alert(dateString); 
+   $("#in_schedule_date").val(dateString);
+
 	// 품목
 	$("#modal-body-pro").on('click','tr',function(){
 		let td_arr = $(this).find('td');
@@ -342,7 +357,7 @@ $(function() {
 			.done(function(stoList) { // 요청 성공 시
 				
 					if(stoList.length === 0){
-						alert("재고가 없는 품목입니다.");
+// 						alert("재고가 없는 품목입니다.");
 						return;
 					}
 					
@@ -354,7 +369,7 @@ $(function() {
 					   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
 					   $(".product_sizeArr").eq(selectIdx).val(pro_size); // hidden input 에 규격 넣기
 //			 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
-					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
+// 					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
 					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
 					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);
 			})
@@ -389,13 +404,13 @@ $(function() {
 // 							+ '<td><input type="checkbox" name="chk"></td>'
 							+ '<td>'
 							+ '<div class="input-group input-group-sm mb-10">'
-         					+ '<input type="text" style="text-align:center;" class="form-control form-control-sm pro_cd" name="PRODUCT_CDArr" required="required" size=>'
+         					+ '<input type="text" style="text-align:center;" class="form-control form-control-sm pro_cd" name="PRODUCT_CDArr" required="required" size=3>'
 	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button>'
           					+ '</div></td>'
 							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm pro_name" required="required">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
-							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm" name="IN_SCHEDULE_QTYArr" required="required"></td>'
-							+ '<td style="text-align: center"><input type="date" style="text-align:center;" class="form-control form-control-sm" style="border:none" value="' + date + '" name="IN_DATEArr" required="required"></td>'
+							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm in_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="in_schedule_qty" onchange="calculateSum();"></td>'
+							+ '<td style="text-align: center"><input type="date" style="text-align:center;" class="form-control form-control-sm" style="border:none" value="' + date + '" name="IN_DATEArr" required="required" readonly="readonly"></td>'
 							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm" value="' + remarks + '" name="REMARKSArr"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
 							+ '<td style="text-align: center"><span class="stoContent"></span></td>'
@@ -412,25 +427,25 @@ $(function() {
 });
 
 //체크박스 선택 jQuery
-$(document).ready(function() {
-	$("#chkAll").click(function() {
-		if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
-		else $("input[name=chk]").prop("checked", false);
-	});
+// $(document).ready(function() {
+// 	$("#chkAll").click(function() {
+// 		if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+// 		else $("input[name=chk]").prop("checked", false);
+// 	});
 	
-	$("input[name=chk]").click(function() {
-		var total = $("input[name=chk]").length;
-		var checked = $("input[name=chk]:checked").length;
+// 	$("input[name=chk]").click(function() {
+// 		var total = $("input[name=chk]").length;
+// 		var checked = $("input[name=chk]:checked").length;
 		
-		if(total != checked) $("#chkAll").prop("checked", false);
-		else $("#chkAll").prop("checked", true); 
-	});
-});
+// 		if(total != checked) $("#chkAll").prop("checked", false);
+// 		else $("#chkAll").prop("checked", true); 
+// 	});
+// });
 
 //수량 합계 계산
 function calculateSum() {
     var sum = 0;
-    var inputElements = document.getElementsByClassName("out_schedule_qty");
+    var inputElements = document.getElementsByClassName("in_schedule_qty");
     for (var i = 0; i < inputElements.length; i++) {
       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
         sum += parseFloat(inputElements[i].value);
@@ -439,7 +454,7 @@ function calculateSum() {
     document.getElementById("sum").innerHTML = sum;
   }
 
-  var inputFields = document.querySelectorAll(".out_schedule_qty");
+  var inputFields = document.querySelectorAll(".in_schedule_qty");
   inputFields.forEach(function(inputField) {
     inputField.addEventListener("input", calculateSum);
   });
@@ -475,9 +490,9 @@ function calculateSum() {
               
               
               	<div class="row mb-3">
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
+                      <label for="th" id="currentDate" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">작성일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="IN_SCHEDULE_DATE" type="date" class="form-control" id="in_schedule_date" required="required">
+                        <input name="IN_SCHEDULE_DATE" type="date" class="form-control" id="in_schedule_date" required="required" readonly="readonly">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">입고 유형</label>
                       <div class="col-md-8 col-lg-2">
@@ -665,7 +680,7 @@ function calculateSum() {
 		                    <th scope="col" style="width: 80px">수량</th>
 		                    <th scope="col"  style="width: 197px">납기일자</th>
 		                    <th scope="col"  style="width: 120px">비고</th>
-		              		<th scope="col"  style="width: 274px">출고대상재고</th>
+<!-- 		              		<th scope="col"  style="width: 274px">출고대상재고</th> -->
                  
 		                  </tr>
 		                  
@@ -674,7 +689,7 @@ function calculateSum() {
 		              <!-- End Table with hoverable rows -->
        			<div class="text-right" style="float: right; padding-top: 50px">
 		        	<span style="font-size: 15px;">수량 합계 : </span><span id="sum" style="padding-right: 50px; font-size: 15px;"></span>
-                  <button type="submit" class="btn btn-primary" onclick="OutRegister.os">등록</button>
+                  <button type="submit" class="btn btn-primary">등록</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>
        </div>

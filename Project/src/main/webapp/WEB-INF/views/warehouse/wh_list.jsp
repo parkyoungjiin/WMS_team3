@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&family=Kaushan+Script&family=Neucha&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
-<title>거래처</title>
+<title>창고 목록</title>
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
@@ -88,7 +88,7 @@
 								<td>${warehouse.wh_man_name }</td>	
 								<td>
 								<c:choose >
-									<c:when test="${buyerList.by_use eq '1' }">
+									<c:when test="${warehouse.wh_use eq '1' }">
 										<span class="badge bg-success">YES</span>
 									</c:when>		
 									<c:otherwise>

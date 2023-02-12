@@ -10,7 +10,9 @@ import com.itwillbs.project.mapper.In_ScheduleMapper;
 import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
+import com.itwillbs.project.vo.ProductVO;
 import com.itwillbs.project.vo.StockVo;
+import com.itwillbs.project.vo.WareHouseVO;
 
 @Service
 public class In_scheduleService {
@@ -19,7 +21,31 @@ public class In_scheduleService {
 	
 	//물품 리스트 
 	public List<InScheduleVO> getInscheduleList() {
-		return mapper.selectInscheduleList();
+		List<InScheduleVO> inSch = mapper.selectInscheduleList();
+		
+		for(int i=0; i<inSch.size(); i++) {
+			String inSchCd = inSch.get(i).getIN_SCHEDULE_CD();
+			int extraPdCount = mapper.selectExtraPdcount(inSchCd);
+			int checkCd = mapper.selectInPdName(inSchCd);
+			if(extraPdCount > 1) {
+				String pdInfo = mapper.selectInProduct(checkCd);
+				System.out.println("pdinfo확인"+pdInfo);
+				inSch.get(i).setPRODUCT_NAME(pdInfo + "외" + (extraPdCount-1)+"건");
+				
+			}else {
+				String pdInfo = mapper.selectInSingle(checkCd);
+				inSch.get(i).setPRODUCT_NAME(pdInfo);
+			}
+		}
+		
+		for(int i=0; i<inSch.size(); i++) {
+			String schCd = inSch.get(i).getIN_SCHEDULE_CD();
+			int sumIn = mapper.selectInSum(schCd);
+			inSch.get(i).setSUM_COUNT(sumIn);
+			System.out.println("sumcount 확인 : " + sumIn);
+		}
+		return inSch;
+//		return mapper.selectInscheduleList();
 	}
 	
 	//입고 등록 
@@ -76,6 +102,10 @@ public class In_scheduleService {
 	public List<StockVo> getSerachStockNum(String keyword) {
 		return mapper.searchStockNum(keyword);
 	}
+	//-----------재고 번호 받아오기 (팝업창)-----------
+	public List<WareHouseVO> getSerachWareHouse(String keyword) {
+		return mapper.searchWarehouse(keyword);
+	}
 //진행상태 조회
 //	public List<InSchedulePerProductVO> getInProdList(String IN_SCHEDULE_CD) {
 //		return mapper.selectInProdList(IN_SCHEDULE_CD);
@@ -101,12 +131,12 @@ public class In_scheduleService {
 		return mapper.updateIN_COMPLETE(insp);
 	}
 	//----------입고 처리 시 재고이력 등록----------
-	public int getInsertHistory(int insert_qty, int stock_cd, int product_cd, String sId) {
-		return mapper.insertHistory(insert_qty, stock_cd, product_cd, sId);
+	public int getInsertHistory(int insert_qty, String string, int product_cd, String sId) {
+		return mapper.insertHistory(insert_qty, string, product_cd, sId);
 	}
 	//-----------------종결 버튼----------------
-	public int updateclosing(String iN_COMPLETE, String iN_SCHEDULE_CD) {
-		return mapper.updatecomplete(iN_COMPLETE,iN_SCHEDULE_CD);
+	public int updateclosing(String IN_COMPLETE, String IN_SCHEDULE_CD) {
+		return mapper.updatecomplete(IN_COMPLETE,IN_SCHEDULE_CD);
 	}
 	
 	//----------재고 번호 불러오기 ----------
@@ -115,7 +145,41 @@ public class In_scheduleService {
 		return mapper.getStock_cd(in_SCHEDULE_PER_CD);
 	}
 
-	public void update_IN_COMPLETE(InSchedulePerProductVO insp) {
-		mapper.update_IN_COMPLETE(insp);
+	//--------진행상태---------- 
+	public List<InSchedulePerProductVO> getInProdList(String iN_SCHEDULE_CD) {
+		return mapper.selectInProductList(iN_SCHEDULE_CD);
+	}
+
+	// 입고 예정 리스트 외1건처리
+	public List<InScheduleVO> getInSchedule() {
+		List<InScheduleVO> inSch = mapper.selectInscheduleList();
+		
+		for(int i=0; i<inSch.size(); i++) {
+			String inSchCd = inSch.get(i).getIN_SCHEDULE_CD();
+			int extraPdCount = mapper.selectExtraPdcount(inSchCd);
+			int checkCd = mapper.selectInPdName(inSchCd);
+			if(extraPdCount > 1) {
+				String pdInfo = mapper.selectInProduct(checkCd);
+				System.out.println("pdinfo확인"+pdInfo);
+				inSch.get(i).setPRODUCT_NAME(pdInfo + "외" + (extraPdCount-1)+"건");
+				
+			}else {
+				String pdInfo = mapper.selectInSingle(checkCd);
+				inSch.get(i).setPRODUCT_NAME(pdInfo);
+			}
+		}
+		
+		for(int i=0; i<inSch.size(); i++) {
+			String schCd = inSch.get(i).getIN_SCHEDULE_CD();
+			int sumIn = mapper.selectInSum(schCd);
+			inSch.get(i).setSUM_COUNT(sumIn);
+			System.out.println("sumcount 확인 : " + sumIn);
+		}
+		return inSch;
+	}
+
+	public List<ProductVO> getProductList1(String keyword) {
+		// TODO Auto-generated method stub
+		return mapper.selectProList1(keyword);
 	}
 }

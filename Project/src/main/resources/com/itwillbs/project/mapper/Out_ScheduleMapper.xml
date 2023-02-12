@@ -14,6 +14,46 @@
 			FROM out_schedule
 	</select>
 	
+	<select id="selectExtraPdCount" resultType="int">
+		SELECT COUNT(out_schedule_cd)
+			FROM out_schedule_per_product
+			WHERE out_schedule_cd = #{outSchCd}
+	</select>
+	
+	<!-- 출고예정 품목명  -->
+	<select id="selectOutPdName" resultType="int">
+		SELECT MAX(out_schedule_per_cd)
+			FROM out_schedule_per_product
+			WHERE OUT_SCHEDULE_CD = #{outSchCd}
+	</select>
+	
+	<!-- 출고예정목록 품목명  -->
+	<select id="selectOutProduct" resultType="String">
+		SELECT product_name 
+			from out_schedule_per_product 
+			where out_schedule_per_cd = #{checkCd}
+	</select>
+	
+	<!-- 상품이 하나일 때 이름 가져오기₩ -->
+	<select id="selectOutSingle" resultType="String">
+		SELECT product_name 
+			from out_schedule_per_product 
+			where out_schedule_per_cd = #{checkCd}
+	</select>
+		
+	<!-- 출고 예정 수량 합계 구하기 -->
+	<select id="selectOutSum" resultType="int">
+		SELECT SUM(out_schedule_qty)
+			FROM out_schedule_per_product
+			WHERE out_schedule_cd = #{schCd}
+	</select>
+	
+	<!-- 출고예 com.itwillbs.project.vo.ProductVO -->
+	<select id="selectOutSchedule" resultType="com.itwillbs.project.vo.OutScheduleVO">
+		SELECT *
+			FROM out_schedule
+	</select>
+	
 	<!-- 이름과 규격을 합치는 구문 -->
 <!-- 	<select id="nameSize" resultType="object[]"> -->
 <!-- 		SELECT CONCAT(product_name, '[', product_size,']') -->
@@ -162,5 +202,22 @@
 			WHERE stock_cd = #{stock_cd} 
 	</update>
 	
+	<!-- 테스트 -->
+	
+	<!-- 출고 처리 - 재고 이력 기록 -->
+	<insert id="insertOutHistory">
+		INSERT INTO stock_history
+			VALUES (
+			#{stock_cd}
+			,1
+			,#{product_cd}
+			,""
+			,""
+			,#{out_qty}
+			,#{sId}
+			,now()
+			,"출고 처리"
+			)
+	</insert>
 	
 </mapper>

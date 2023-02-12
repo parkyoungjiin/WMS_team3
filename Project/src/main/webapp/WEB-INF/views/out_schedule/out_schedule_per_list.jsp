@@ -9,19 +9,19 @@
 <head>
 <script type="text/javascript">
 <!-- 거래처(기본 등록) 권한 판별 -->
-// 	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
 	
-// 	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
-// 	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
-// 	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
+	var priv_cd_res = str.charAt(0); // 기본등록(0) 여부 판별할 값
+	var priv_cd_pro = str.charAt(3); // 재고조회(3) 여부 판별할 값
+	var priv_cd_pro2 = str.charAt(4); // 재고관리(4) 여부 판별할 값
 	
-// 	//기본등록에 대한 권한이 있는 지 판별
-// 	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
+	//기본등록에 대한 권한이 있는 지 판별
+	if(priv_cd_res == '1' || priv_cd_pro == '1' || priv_cd_pro2 == '1'){//권한이 있을 경우
 		
-// 	}else{//없을 경우
-// 		alert("권한이 없습니다");
-// 		history.back();
-// 	}
+	}else{//없을 경우
+		alert("권한이 없습니다");
+		history.back();
+	}
 </script>
 
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -142,7 +142,7 @@
                  <table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                   <th scope="col"><input type="checkbox" id="chkAll"></th>
+		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">출고예정번호</th>
 		                    <th scope="col">품목코드</th>
 		                    <th scope="col">품목명</th>
@@ -156,7 +156,14 @@
 		                <tbody>
 		                <c:forEach items="${list }" var="list"> 
 		                  <tr>
-		                    <td><input type="checkbox" name="chk" value="${list.out_schedule_per_cd}"></td>
+		                    <c:choose>
+		                   		<c:when test="${list.out_complete eq '1' }">
+		                   		<td></td>
+		                   		</c:when>
+		                   		<c:otherwise>
+		                   		<td><input type="checkbox" name="chk" value="${list.out_schedule_per_cd}"></td>
+		                   		</c:otherwise>
+		                   	</c:choose>
 		                    <td>${list.out_schedule_cd }</td>
 		                    <td>${list.product_cd }</td>
 		                    <td>${list.product_name }</td>
@@ -169,27 +176,10 @@
 		                </c:forEach>
 		                </tbody>
 		              </table>
+		              <button class="btn btn-primary" onclick="out_schedule_process()">출고처리</button>
 		              </div> <!-- 전체탭 끝 -->
 		              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> <%-- 진행 --%>
 		              	<table class="table table-hover" style="padding: 20px;">
-		              		<thead>
-			                  <tr>
-			                     <th scope="col"><input type="checkbox" id="chkAll"></th>
-			                    <th scope="col">출고예정번호</th>
-			                    <th scope="col">품목코드</th>
-			                    <th scope="col">품목명</th>
-			                    <th scope="col">납기일자</th>
-			                    <th scope="col">출고예정수량</th>
-			                    <th scope="col">출고수량</th>
-			                    <th scope="col">미출고수량</th>
-			                    <th scope="col">적요</th>
-			                  </tr>
-		                	</thead>
-		              	</table>
-		              </div> <!-- 진행탭 끝 -->
-		              
-                	<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"> <%--완료탭 시작 --%> 
-                		<table class="table table-hover" style="padding: 20px;">
 		              		<thead>
 			                  <tr>
 			                    <th scope="col"><input type="checkbox" id="chkAll"></th>
@@ -202,11 +192,65 @@
 			                    <th scope="col">미출고수량</th>
 			                    <th scope="col">적요</th>
 			                  </tr>
-		                	</thead>                		
+		                	</thead>
+		                	<tbody>
+		                	
+		                	<c:forEach items="${list }" var="list"> 
+		                	<c:if test="${list.out_schedule_qty - list.out_qty ne '0' }">
+			                  	<tr>
+				                  	<td><input type="checkbox" name="chk"></td>
+				                    <td>${list.out_schedule_cd }</td>
+				                    <td>${list.product_cd }</td>
+				                    <td>${list.product_name }</td>
+				                    <td>${list.out_date }</td>
+				                    <td>${list.out_schedule_qty }</td>
+				                    <td>${list.out_qty }</td>
+				                    <td>${list.out_schedule_qty - list.out_qty}</td>
+				                    <td>${list.remarks_pro }</td>
+			                	</tr>
+			                </c:if>
+		                </c:forEach>
+		                </tbody>
+		              	</table>
+		              	<button class="btn btn-primary" onclick="out_schedule_process()">출고처리</button>
+		              </div> <!-- 진행탭 끝 -->
+		              
+                	<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"> <%--완료탭 시작 --%> 
+                		<table class="table table-hover" style="padding: 20px;">
+		              		<thead>
+			                  <tr>
+<!-- 			                    <th scope="col"><input type="checkbox" id="chkAll"></th> -->
+			                    <th scope="col">출고예정번호</th>
+			                    <th scope="col">품목코드</th>
+			                    <th scope="col">품목명</th>
+			                    <th scope="col">납기일자</th>
+			                    <th scope="col">출고예정수량</th>
+			                    <th scope="col">출고수량</th>
+			                    <th scope="col">미출고수량</th>
+			                    <th scope="col">적요</th>
+			                  </tr>
+		                	</thead>
+		                	<tbody>
+				                <c:forEach items="${list }" var="list"> 
+				                <c:if test="${list.out_schedule_qty - list.out_qty eq '0' }">
+				                  <tr>
+<!-- 				                  	<td><input type="checkbox" name="chk"></td> -->
+				                    <td>${list.out_schedule_cd }</td>
+				                    <td>${list.product_cd }</td>
+				                    <td>${list.product_name }</td>
+				                    <td>${list.out_date }</td>
+				                    <td>${list.out_schedule_qty }</td>
+				                    <td>${list.out_qty }</td>
+				                    <td>${list.out_schedule_qty - list.out_qty}</td>
+				                    <td>${list.remarks_pro }</td>
+				                  </tr>
+			                	</c:if>
+			                	</c:forEach>
+		                </tbody>                		
                 		</table>
                 	</div> <!-- 완료탭 끝 -->		              
 		           </div> <!-- default tab 끝 -->
-		              <button class="btn btn-primary" onclick="out_schedule_process()">출고처리</button>
+		              
             	</div>
             </div>
             

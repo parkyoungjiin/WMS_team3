@@ -131,7 +131,7 @@ var outStatus = false;
 		$("#modal-body-sto").on('click','tr',function(){
 // 			alert("클릭 후 :" +idx);
 
-			console.log("클릭된다.")
+// 			console.log("클릭된다.")
 		   let td_arr = $(this).find('td');
 		   console.log(td_arr);
 		   
@@ -139,15 +139,30 @@ var outStatus = false;
 		   let stock_cd = $(td_arr[0]).text();
 //		   $('#name').val($(td_arr[1]).text());
 		   let wh_name = $(td_arr[2]).text();
+		   let wh_loc_in_area = $(td_arr[3]).text();
 		   let stock_qty = $(td_arr[4]).text();
 		   console.log(stock_cd);
 		   
 		   // td 클릭시 모달 창 닫기
 		   $('#stock_search').modal('hide');
 		   $("#stock_cd_input" + idx).val(stock_cd);
-		   $("#wh_area_loc_input" + idx).val(wh_name);
+		   $("#wh_area_loc_input" + idx).val(wh_name + "_" + wh_loc_in_area);
 		   $("#stock_qty" + idx).val(stock_qty);
 		   idx = "";
+		   
+		   $("#modal-body-sto > table ").remove();   //테이블 비우고
+			
+			let set_table = "<table class='table table-hover' id='stock_search_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer;'>"
+               + '<th scope=col">재고번호</th>'
+               + '<th scope=col">품목명</th>'
+               + '<th scope=col">구역명</th>'
+               + '<th scope=col">위치명</th>'
+               + '<th scope=col">수량</th>'
+               + '</tr>'
+			 		+ '</table>'
+			
+	         $("#modal-body-sto").append(set_table);
 	});	  
 		
 		
@@ -263,7 +278,7 @@ var outStatus = false;
               </div><!-- End Modal Dialog Scrollable-->
     	
     	
-    	<form action="Out_Per_Schedule_Process" method="post"> 
+    	<form action="Out_Per_Schedule_Process" method="post" id="editFLForm"> 
             <div class="card mb-4">
                 <div class="card-header">
                      출고 처리
@@ -274,12 +289,12 @@ var outStatus = false;
 							<tr>
 					 			<th scope="col">출고예정번호</th>
 					 			<th scope="col">품목명</th>
-					 			<th scope="col">재고번호</th>
-					 			<th scope="col">구역명_선반위치</th>
-					 			<th scope="col">재고수량</th>
-					 			<th scope="col">출고예정수량</th>
-					 			<th scope="col">미출고수량</th>
-					 			<th scope="col">지시수량</th>
+					 			<th scope="col" width="150px;">재고번호</th>
+					 			<th scope="col" width="180px;">구역명_선반위치</th>
+					 			<th scope="col" width="120px;">재고수량</th>
+					 			<th scope="col" width="120px;">출고예정수량</th>
+					 			<th scope="col" width="120px;">미출고수량</th>
+					 			<th scope="col" width="120px;">지시수량</th>
 				 			</tr>
 				 			<c:forEach var="list" items="${list }" varStatus="status">
 				 			<input type="hidden" value="${list.out_schedule_cd }" name="out_schedule_cd">
@@ -324,7 +339,7 @@ var outStatus = false;
 		        	 </div>
 	           	 	<div>
 	           	 		  <span style="font-size: 15px; float: left;">지시수량 합계 : &nbsp;</span> <span id="sum" style="padding-right: 50px; font-size: 15px;"></span>
-			              <button class="btn btn-primary" type="submit" style="float: right;">출고</button>
+			              <button class="btn btn-primary" type="submit" style="float: right;" id="in_submit">출고</button>
 	           	 	</div>
            	 </div>
 		 </div>
