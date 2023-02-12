@@ -21,7 +21,31 @@ public class In_scheduleService {
 	
 	//물품 리스트 
 	public List<InScheduleVO> getInscheduleList() {
-		return mapper.selectInscheduleList();
+		List<InScheduleVO> inSch = mapper.selectInscheduleList();
+		
+		for(int i=0; i<inSch.size(); i++) {
+			String inSchCd = inSch.get(i).getIN_SCHEDULE_CD();
+			int extraPdCount = mapper.selectExtraPdcount(inSchCd);
+			int checkCd = mapper.selectInPdName(inSchCd);
+			if(extraPdCount > 1) {
+				String pdInfo = mapper.selectInProduct(checkCd);
+				System.out.println("pdinfo확인"+pdInfo);
+				inSch.get(i).setPRODUCT_NAME(pdInfo + "외" + (extraPdCount-1)+"건");
+				
+			}else {
+				String pdInfo = mapper.selectInSingle(checkCd);
+				inSch.get(i).setPRODUCT_NAME(pdInfo);
+			}
+		}
+		
+		for(int i=0; i<inSch.size(); i++) {
+			String schCd = inSch.get(i).getIN_SCHEDULE_CD();
+			int sumIn = mapper.selectInSum(schCd);
+			inSch.get(i).setSUM_COUNT(sumIn);
+			System.out.println("sumcount 확인 : " + sumIn);
+		}
+		return inSch;
+//		return mapper.selectInscheduleList();
 	}
 	
 	//입고 등록 
@@ -136,6 +160,7 @@ public class In_scheduleService {
 			int checkCd = mapper.selectInPdName(inSchCd);
 			if(extraPdCount > 1) {
 				String pdInfo = mapper.selectInProduct(checkCd);
+				System.out.println("pdinfo확인"+pdInfo);
 				inSch.get(i).setPRODUCT_NAME(pdInfo + "외" + (extraPdCount-1)+"건");
 				
 			}else {
@@ -144,6 +169,12 @@ public class In_scheduleService {
 			}
 		}
 		
+		for(int i=0; i<inSch.size(); i++) {
+			String schCd = inSch.get(i).getIN_SCHEDULE_CD();
+			int sumIn = mapper.selectInSum(schCd);
+			inSch.get(i).setSUM_COUNT(sumIn);
+			System.out.println("sumcount 확인 : " + sumIn);
+		}
 		return inSch;
 	}
 
