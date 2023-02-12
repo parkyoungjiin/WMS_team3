@@ -55,7 +55,6 @@
 					dataType: "html",
 					success: function(data){
 						if(data == 0){
-							alert("번경감지");
 							$("#checkCdResult").html("사용 가능한 코드입니다.");
 							$("#checkCdResult").css("color", "#3CAEFF");
 							$("#fr").attr("onsubmit","return true");

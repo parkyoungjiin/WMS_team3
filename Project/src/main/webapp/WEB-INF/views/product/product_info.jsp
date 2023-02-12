@@ -159,6 +159,59 @@ $(function() {
 });
 
 </script>
+<!------------------- 이미지 수정------------------ -->
+<script type="text/javascript">
+
+	function deleteFile(fileName, index) {
+		var confirmAlert = confirm("사진을 삭제하시겠습니까?")
+		if(confirmAlert == true){
+			$("#Product").empty();
+			// 파일 삭제를 AJAX 로 처리
+			$.ajax({
+				type: "POST", 
+				url: "DeleteImgFile2",
+				data: {  
+					"product_cd" : index,
+					"product_image" : fileName
+				},
+				success: function(data) {
+						console.log(data)
+					if(data == "true") {
+						// 삭제 성공 시 파일명 표시 위치의 기존 항목을 제거하고
+						// 파일 업로드를 위한 "파일 선택" 버튼 항목 표시
+						$("#imgChange").html('<input type="file" name="file">');
+						alert("파일이 삭제되었습니다!");
+					} else if(data == "false") {
+						alert(index);
+						alert("일시적인 오류로 파일 삭제에 실패했습니다!");
+					} 
+				}
+			});
+		}else{
+			alert("이미지 삭제가 취소되었습니다!")
+		}
+	}
+</script>
+
+<script type="text/javascript">
+<!-- 이미지 썸네일 -->
+	function changeImage(event) {
+		var reader = new FileReader();
+
+        reader.onload = function(event) {
+          var img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
+          document.querySelector("div#image_container").innerHTML = '';
+          document.querySelector("div#image_container").appendChild(img);
+          console.log(image_container);
+          console.log(img);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+}// changeImage 끝
+
+</script>
 
 </head>
 
@@ -179,7 +232,7 @@ $(function() {
         </div>
 			<div></div>
 		<div class="card mb-4">
-		<!-- Profile Edit Form -->
+		<!-- Product Edit Form -->
 		       <div class="card-body">
 			
 				  <!-- 품목 코드 -->
@@ -286,10 +339,31 @@ $(function() {
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">품목 이미지</label>
                       <div class="col-md-8 col-lg-4">
-                         <input name="file" type="file" class="form-control" id="file" value="${product.product_image }"> 
-                      		현재 등록된 이미지 : ${product.product_image }
-                      </div>
-                    </div>
+<%--                          <input name="file" type="file" class="form-control" id="file" value="${product.product_image }">  --%>
+                      	 <div id="Product">
+                      	 <img src="${pageContext.request.contextPath}/resources/upload/${product.product_image }" alt="Product" onError="this.onerror=null; this.src='resources/upload/차.JPG';" height="150" width="150" alt="Product" >
+                     	 </div>
+	                      <!-- 이미지 수정 버튼 -->
+							<div id="imgChange" style="padding-top:10px">
+		                  		<c:choose>
+									<c:when test="${product.product_image ne '' }">
+										<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
+										<input type="button" value="삭제" class="btn btn-secondary btn-sm" onclick="deleteFile('${product.product_image}','${product.product_cd}')">
+									</c:when>
+									<c:otherwise>
+										<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);">
+									</c:otherwise>								
+								</c:choose>
+							</div>
+			                </div>
+		                        <div></div>
+			                	<!-- 썸네일 -->
+								<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
+								<div id="image_container" ></div> <!-- style="width: 250px; height: 250px;" -->
+	<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
+	                      </div>
+                    
+                
 
 					<!-- 적요 -->
 					<div class="row mb-3">

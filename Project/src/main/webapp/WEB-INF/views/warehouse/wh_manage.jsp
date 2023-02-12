@@ -53,6 +53,7 @@
 										+"<a href='javascript:void(0)' onclick='stocklist("+list.wh_cd+")'>"+list.wh_name+"</a></td>" 
 										+"<td>" + list.wh_man_name + "</td>"
 										+"<td><div></div></td>"
+										+"<input type='hidden' value='"+list.wh_cd+"' id='wh_hidden_value'> "
 										+"</tr>"
 										+"<tr id='tr"+list.wh_cd+"' class='hide"+list.wh_cd+"'>"
 										+"<td> <input type='text' placeholder='창고지역' class='hide"+list.wh_cd+"' id='wh_area"+list.wh_cd+"'>"
@@ -89,7 +90,6 @@
 							+"<td></td>"
 							+"<input type='hidden' value='"+list.wh_area_cd+"' id='hidden_value'> "
 							+"<input type='hidden' value='"+list.wh_area+"' id='area_hidden_value'> "
-							+"<input type='hidden' value='"+list.wh_cd+"' id='wh_hidden_value'> "
 							+"</tr>"
 							+"<tr id='tr"+list.wh_cd+"' class='loc_hide"+list.wh_area_cd+"'>"
 							+"<td>&nbsp;&nbsp;&nbsp;<input type='text' placeholder='선반 위치' id='wh_area_loc"+list.wh_area_cd+"'>"
@@ -117,7 +117,8 @@
 					})
 					.done(function(wharealoclist) { // 요청 성공 시
 						var wh_cd = Number($("#wh_hidden_value").val());
-						idx=1;	
+						alert(wh_cd);	
+					idx=1;	
 					for(let list of wharealoclist) {
 							let tet = null;
 							let test = '"'+list.wh_loc_in_area+'"';

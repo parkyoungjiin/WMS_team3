@@ -192,11 +192,13 @@ function saveIdx(cb) {
 function move_stock(move_cb) {
 		var idx = move_cb.id.replace("moveButton",""); //index 값 저장
 		var current_stock_cd = $("#stock_cd" + idx).val(); //현재 재고번호
-		var current_stock_num = $("#stock_qty" + idx).val(); //현재 재고개수
+		var current_stock_num = parseInt($("#stock_qty" + idx).val()); //현재 재고개수
 		var move_stock_cd = $("#move_stock_cd" + idx).val(); //이동 할 재고번호
 		var move_wh_loc_in_area = $("#move_wh_loc_in_area" + idx).val();//이동 위치
-		var move_stock_num = $("#move_stock_num" + idx).val();//이동할 수량
+		var move_stock_num = parseInt($("#move_stock_num" + idx).val());//이동할 수량
 		var product_cd = $("#product_cd" + idx).val();//품목 번호
+		alert(idx);
+		alert(current_stock_num);
 		
 // 		alert(current_stock_cd)
 // 		alert(move_stock_cd);
@@ -219,7 +221,8 @@ function move_stock(move_cb) {
 		}else if(move_stock_cd == current_stock_cd){
 			alert("이동재고번호가 현재 재고번호입니다. 다시 수정해주세요")
 		}else if(move_stock_num > current_stock_num){
-			alert("이동 개수가 현재 재고 개수보다 많습니다.")
+			alert("이동할 개수가 현재 재고개수보다 많습니다.")
+// 			alert("move_stock_num : " + move_stock_num)
 			$("#move_stock_num" + idx).focus();
 		}
 		else{
@@ -271,7 +274,7 @@ function save_stock_cd(cb) {
 		dataType: "json"
 	})//ajax 끝
 		.done(function(stockHistoryList) {
-			if(stockHistoryList != null){
+			if(stockHistoryList != null && stockHistoryList != ""){
 				
 				$("#stock_history_div > h3").remove();   
 				$("#stock_history_div > table").remove();   
@@ -318,7 +321,37 @@ function save_stock_cd(cb) {
 					$("#stock_history_table").append(result2);
 				}
 			}else{
-				alert("목록 없음")
+				$("#stock_history_div > h3").remove();   
+				$("#stock_history_div > table").remove();   
+// 				$("#stock_history_div > table > h3").remove();   
+
+				
+				
+				let result = '<table class="table table-hover" id="stock_history_table" style="margin-left: auto; margin-right: ">'
+				+ "<tr>"
+				+ "<h3 style='text-align: center;'>재고번호: " + stock_cd + "번</h3>"
+				+ "</tr>"
+				+ '<tr>'
+	 			+ '<th scope="col">작업일자</th>'
+	 			+ '<th scope="col">작업구분</th>'
+	 			+ '<th scope="col">품목명</th>'
+	 			+ '<th scope="col">보낸 재고번호</th>'
+	 			+ '<th scope="col">받은 재고번호</th>'
+	 			+ '<th scope="col">작업수량</th>'
+	 			+ '<th scope="col">작업자 명</th>'
+	 			+ '<th scope="col">적요</th>'
+	 			+ '</tr>'
+ 				+ '</table>';
+ 				
+				$("#stock_history_div").append(result);
+				
+				let no_result = 
+					"<tr style='cursor:pointer;'>"
+					+ "<td colspan='8'><h3>재고 이력이 없습니다.</h3></td>"
+           			+ "</tr>";
+
+				$("#stock_history_table").append(no_result);
+
 			}
 			
 		})//success 끝

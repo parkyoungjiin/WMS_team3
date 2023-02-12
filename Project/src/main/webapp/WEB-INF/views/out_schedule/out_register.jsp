@@ -397,18 +397,6 @@ $(function() {
 	});	 
 	
 	
-	//입고 처리 날짜 계산
-	   let today = new Date();
-
-let year = today.getFullYear();
-let month = ('0' + (today.getMonth() + 1)).slice(-2);
-let day = ('0' + today.getDate()).slice(-2);
-
-let dateString = year + '-' + month  + '-' + day;
-
-// alert(dateString); 
-$("#out_schedule_date").val(dateString);
-	
 	
 	// 품목
 	$("#modal-body-pro").on('click','tr',function(){

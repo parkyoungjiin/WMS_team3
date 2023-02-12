@@ -78,14 +78,15 @@ public interface Out_ScheduleMapper {
 	// 외 1건처리 3
 	String selectOutSingle(int checkCd);
 
-	// 출고 처리 - 재고 이력 기록
+	int selectOutSum(String schCd);
+
+	List<OutScheduleVO> getOutSchedule();
+
 	int insertOutHistory(
 			@Param("out_qty")int out_qty,
 			@Param("stock_cd")String stock_cd, 
 			@Param("product_cd")int product_cd, 
 			@Param("sId")String sId);
-
-
 
 	
 }
