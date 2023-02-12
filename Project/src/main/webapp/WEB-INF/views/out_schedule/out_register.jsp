@@ -272,16 +272,20 @@ function load_proList() {
 
 
 // 재고 목록 조회(모달)
-function load_stoList() {
+function load_stoList(cb) {
 	
+	selectIdx = cb.id;
+// 	alert(selectIdx);
 	
 	let sto_keyword = $(".pro_cd").eq(selectIdx).val();
 // 	alert(sto_keyword);
-
-// 	if(sto_keyword === ""){
-// 		alert("품목을 먼저 선택해주세요!");
-// 		return;
-// 	}
+	
+	if(sto_keyword === ""){
+		alert("품목을 먼저 선택해주세요!");
+// 		return false;
+		event.preventDefault();
+	} else {
+		
 	
 	$.ajax({
 		type: "GET",
@@ -340,6 +344,7 @@ function load_stoList() {
 	.fail(function() {
 		$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
 	});
+	}
 }
 	
 
@@ -454,6 +459,17 @@ $(function() {
 		   $('#modalDialogScrollable_sto').modal('hide');
 		   $(".stock_cd").eq(selectIdx).val(sto_cd);
 // 		   $("#emp_num").val(emp_num);
+
+		   $("#modal-body-sto > table ").remove();   //테이블 비우고
+			
+			let set_result = "<table class='table table-hover' id='sto_table' style='margin-left: auto; margin-right: '>" 
+					+ "<tr style='cursor:pointer; text-align: center;'>"
+					+'<th scope="col" style="width: 157px">품목코드</th>'
+		            +'<th scope="col" style="width: 157px">재고번호</th>'
+		            +'<th scope="col" style="width: 151px">수량</th>'
+	            + '</tr>'
+	            
+	            $("#modal-body-sto").append(set_result);			
 	});	   
 	
 	
@@ -495,7 +511,7 @@ $(function() {
 							+ '<td>'
 							+ '<div class="input-group input-group-sm mb-10">'
          					+ '<input type="text" style="text-align:center;" class="form-control form-control-sm stock_cd" name="stock_cdArr" required="required" readonly="readonly">'
-	         				+ '<button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button>'
+	         				+ '<button id="'+ idx +'" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList(this)">검색</button>'
           					+ '</div></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>' // 재고검색
 // 							+ '<td style="text-align:center;"><span class="stoContent"></span></td>'
