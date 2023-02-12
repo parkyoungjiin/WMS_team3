@@ -46,7 +46,7 @@ window.onload = function(){
         reader.onload = function(event) {
           var img = document.createElement("img");
           img.setAttribute("src", event.target.result);
-          img.setAttribute("style", "width: 200px; height: 200px; padding:10px;  object-fit: cover;");
+          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
           document.querySelector("div#image_container").innerHTML = '';
           document.querySelector("div#image_container").appendChild(img);
         };
@@ -392,13 +392,13 @@ $(function() {
                        <div class="col-md-8 col-lg-3">
                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);">
                       </div>
-               		 <div></div>
-					<div class="row mb-3">
-						<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
-                     	 <div id="image_container" style="padding:10px; height=200px; width=200px; text-align: center;"></div>
-					</div>
+               		 
                     </div>
 					
+					<div class="row mb-3">
+						<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
+                     	 <div id="image_container" style="width: 150px; height: 200px;"></div>
+					</div>
 					<div>
 					</div>
                     <div class="text-left">

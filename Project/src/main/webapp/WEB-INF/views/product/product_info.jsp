@@ -179,9 +179,8 @@ $(function() {
 					if(data == "true") {
 						// 삭제 성공 시 파일명 표시 위치의 기존 항목을 제거하고
 						// 파일 업로드를 위한 "파일 선택" 버튼 항목 표시
-						$("#imgChange").html('<input type="file" name="file" onclick=>');
+						$("#imgChange").html('<input type="file" name="file">');
 						alert("파일이 삭제되었습니다!");
-						$(window).on('load')
 					} else if(data == "false") {
 						alert(index);
 						alert("일시적인 오류로 파일 삭제에 실패했습니다!");
@@ -194,6 +193,25 @@ $(function() {
 	}
 </script>
 
+<script type="text/javascript">
+<!-- 이미지 썸네일 -->
+	function changeImage(event) {
+		var reader = new FileReader();
+
+        reader.onload = function(event) {
+          var img = document.createElement("img");
+          img.setAttribute("src", event.target.result);
+          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
+          document.querySelector("div#image_container").innerHTML = '';
+          document.querySelector("div#image_container").appendChild(img);
+          console.log(image_container);
+          console.log(img);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+}// changeImage 끝
+
+</script>
 
 </head>
 
@@ -309,8 +327,8 @@ $(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" >구매 거래처</label>
                       <div class="col-md-8 col-lg-4">
 		      			<div class="input-group mb-6">
-		             		<input name="cust_name" id="cust_name" type="text" class="form-control" readonly="readonly" value="${product.cust_name }">
-				         	<input name="business_no" id="business_no" type="hidden" class="form-control" value="${product.business_no }">
+		             		<input name="cust_name" id="cust_name" type="text" class="form-control" readonly="readonly" value="${product.business_no }">
+				         	<input name="business_no" id="business_no" type="hidden" class="form-control"  >
 				         <button id="" class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_buyer">검색</button>
 			        	 </div>
 			          </div>
@@ -322,7 +340,7 @@ $(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">품목 이미지</label>
                       <div class="col-md-8 col-lg-4">
 <%--                          <input name="file" type="file" class="form-control" id="file" value="${product.product_image }">  --%>
-                      	 <div id="Product" >
+                      	 <div id="Product">
                       	 <img src="${pageContext.request.contextPath}/resources/upload/${product.product_image }" alt="Product" onError="this.onerror=null; this.src='resources/upload/차.JPG';" height="150" width="150" alt="Product" >
                      	 </div>
 	                      <!-- 이미지 수정 버튼 -->
@@ -330,21 +348,18 @@ $(function() {
 		                  		<c:choose>
 									<c:when test="${product.product_image ne '' }">
 										<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
-										<input type="button" value="삭제" class="btn btn-secondary" onclick="deleteFile('${product.product_image}','${product.product_cd}')">
+										<input type="button" value="삭제" class="btn btn-secondary btn-sm" onclick="deleteFile('${product.product_image}','${product.product_cd}')">
 									</c:when>
 									<c:otherwise>
-										<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);" value="${product.product_image }">
+										<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);">
 									</c:otherwise>								
 								</c:choose>
 							</div>
-										<input type="hidden" name="product_image" value="${product.product_image }">
 			                </div>
 		                        <div></div>
-<!-- 			                	썸네일 -->
-<!-- 								<div class="row mb-3"> -->
-<!-- 								<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label> -->
-<!-- 								<div class="col-md-8 col-lg-4"> -->
-<!-- 								<div id="image_container" ></div> style="width: 250px; height: 250px;" -->
+			                	<!-- 썸네일 -->
+								<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
+								<div id="image_container" ></div> <!-- style="width: 250px; height: 250px;" -->
 	<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
 	                      </div>
                     
@@ -363,7 +378,6 @@ $(function() {
 					<div></div>
                     <div class="text-right">
                       <button type="submit" class="btn btn-primary">품목 수정</button>
-                      <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                     </div>
                     
 			          
@@ -418,7 +432,6 @@ $(function() {
                     <div class="modal-body" id="modal-body-buyer" style="text-align: center;">
                      	<div class="input-group mb-6">
 		             		<input name="buyer_keyword" type="text" class="form-control" id="buyer_keyword" placeholder="검색 후 이용 바랍니다.">
-				         	
 				         <button id="search_buyer" class="btn btn-secondary" type="button" onclick="load_buyerList()">검색</button>
 			        	 </div>
 <!-- 			        	 <div id="modal-body-result" style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div> -->

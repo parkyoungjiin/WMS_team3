@@ -108,7 +108,7 @@
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
 <%--             <img src="${path}/resources/test_image.jpg" alt="" class="rounded-circle" style="width:36px; height: 36px;"> <!-- 프로필 사진? --> --%>
 <%--             <img src="<%=request.getScheme()+"://"+request.getServerName() + ":" + request.getServerPort() +"/"+request.getContextPath()%>/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';"  alt="Profile" class="rounded-circle" style="width:100px; height: 100px;"> --%>
-<%--             <img src=" ${pageContext.request.contextPath}/resources/upload/${sessionScope.PHOTO }" onError="this.onerror=null; this.src='resources/upload/noImg.png';"  alt="Profile" class="rounded-circle" style="width:36px; height: 36px;"> --%>
+            <img src=" ${pageContext.request.contextPath}/resources/upload/${sessionScope.PHOTO }" onError="this.onerror=null; this.src='resources/upload/noImg.png';"  alt="Profile" class="rounded-circle" style="width:36px; height: 36px;">
 <%--             <img src="${path}/resources/test_image.jpg" alt="" class="rounded-circle" style="width:36px; height: 36px;"> <!-- 프로필 사진? --> --%>
             	
             <span class="d-none d-md-block dropdown-toggle ps-2">${sessionScope.sId } 님</span>

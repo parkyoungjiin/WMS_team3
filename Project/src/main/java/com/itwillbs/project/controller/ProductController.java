@@ -270,8 +270,7 @@ public String productUpdate(
 	String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
 	String saveDir = session.getServletContext().getRealPath(uploadDir); //실제 업로드 경로
 	System.out.println("실제 업로드 경로:" + saveDir);
-	System.out.println("이미지 : " + product.getProduct_image());
-	System.out.println("거래처 : " + product.getBusiness_no());
+	
 	//2. 만약, 해당 경로 상에 실제 디렉토리(폴더)가 존재하지 않을 경우 새로 생성
 	File f = new File(saveDir);	
 	if(!f.exists()) {
@@ -279,17 +278,12 @@ public String productUpdate(
 	}
 	//3. MultipartFile 객체 생성(Vo의 file은 MutlipartFile 타입 / PHOTO는 String 타입)
 	MultipartFile mFile = product.getFile();
-	
 	//4. MultipartFile 객체의 getOriginalFilename() 메서드를 통해 파일명 꺼내기
-	
-//	if(mFile == null) {
-//		product.setProduct_image(product.getProduct_image());
-//	} else {
-		String originalFileName = mFile.getOriginalFilename(); //원본 파일명
-		System.out.println("원본 파일명: " +originalFileName);
-		System.out.println("파일명: " +mFile.getName());
-		//5. 원본 파일명을 empVo에 저장
-		product.setProduct_image(originalFileName);
+	String originalFileName = mFile.getOriginalFilename(); //원본 파일명
+	System.out.println("원본 파일명: " +originalFileName);
+	System.out.println("파일명: " +mFile.getName());
+	//5. 원본 파일명을 empVo에 저장
+	product.setProduct_image(originalFileName);
 
 	// --------------- 수정 --------------------------------
 	int updateCount = service.updateProd(product);
@@ -305,15 +299,14 @@ public String productUpdate(
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	
+		
 		model.addAttribute("msg", "품목 수정 성공!");
-//		return "redirect:/ProdModify?product_cd=" + product.getProduct_cd();
-		return "redirect:/ProductList";
+		return "redirect:/ProdModify?product_cd=" + product.getProduct_cd();
 	} else { // 수정 실패 시
 		model.addAttribute("msg", "품목 수정 실패!");
 		return "fail_back";
 	}
-//	}
+
 }
 
 //======== 품목 수정 시 개별 파일 삭제 처리 ===============================
