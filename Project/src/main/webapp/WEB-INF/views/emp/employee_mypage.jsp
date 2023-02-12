@@ -62,7 +62,7 @@
         reader.onload = function(event) {
           var img = document.createElement("img");
           img.setAttribute("src", event.target.result);
-          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
+          img.setAttribute("style", "width: 300px; height: 150px; object-fit: cover;");
           document.querySelector("div#image_container").innerHTML = '';
           document.querySelector("div#image_container").appendChild(img);
           console.log(image_container);
@@ -71,8 +71,9 @@
 
         reader.readAsDataURL(event.target.files[0]);
 }// changeImage 끝
-</script>
 
+
+</script>
 </head>
 <body>
 <header>
@@ -127,7 +128,7 @@
               </ul>
 
               <!-- 마이페이지 Edit Profile--> 
-                <div class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+                <div class="tab-pane fade show active profile-edit pt-2" id="#profile-change-password">
 
                   <!-- Profile Edit Form -->
                   <form action="updateMypageInfo.me" method="post" enctype="multipart/form-data">
@@ -135,21 +136,33 @@
                     	<!-- 프로필 이미지 -->
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사원 이미지</label>
                       <div class="col-md-8 col-lg-9">
-                        <div id="profile" >
-                        <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }"  width="400" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
-                        </div>
+
+                       
+		                     
+                        
                         <!-- 이미지 수정 버튼 -->
-						<div id="imgChange" >
-	                  		<c:choose>
-								<c:when test="${emp.PHOTO ne '' }">
-									<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
-									<input type="button" value="삭제" onclick="deleteFile('${emp.PHOTO}','${emp.EMP_NUM}')">
-								</c:when>
-								<c:otherwise>
-									<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);">
-								</c:otherwise>									
-							</c:choose>
-						</div>
+							<div id="imgChange" >
+		                  		<c:choose>
+									<c:when test="${emp.PHOTO ne '' }">
+										 <div id="profile" >
+                       							 <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" style="width: 300px; height: 150px;"  onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
+                      					  </div>
+										<%-- 컨텍스트 경로/resources/upload 디렉토리 내의 파일 지정 --%> 
+	<%-- 									<a href="${pageContext.request.contextPath }/resources/upload/${PHOTO }" download="${PHOTO }"> ${PHOTO }</a> --%>
+	<%-- 									<img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" > --%>
+										<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
+										<input class="btn btn-secondary" type="button" value="삭제" onclick="deleteFile('${emp.PHOTO}','${emp.EMP_NUM}')">
+									</c:when>
+									<c:otherwise>
+									   <div class="row mb-3">
+		                     	 			<div id="image_container" style="width: 300px; height: 200px;"></div>
+										<input type="file" name="file" id="input_image" onchange="changeImage(event);">
+										</div>
+									</c:otherwise>									
+								</c:choose>
+							</div>
+
+
 		                </div>
 		                <div></div>
 		                	<!-- 썸네일 -->
@@ -157,8 +170,6 @@
 							<div id="image_container" ></div> <!-- style="width: 250px; height: 250px;" -->
 <!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
                       </div>
-                      
-<!--                    <div></div> -->
                     <div class="row mb-3">
                       <label for="EMP_NAME" class="col-md-4 col-lg-3 col-form-label">사원코드</label>
                       <div class="col-md-8 col-lg-2">
@@ -248,11 +259,11 @@
 					
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                      <button type="submit" class="btn btn-primary">정보 수정</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
 
-
+				</div><!-- End Bordered Tabs -->
 
 <!--                 <div class="tab-pane fade pt-3" id="profile-settings"> -->
 
@@ -296,40 +307,40 @@
 
 <!--                 </div> -->
 
-                <div class="tab-pane fade pt-3" id="profile-change-password">
+                <div class="tab-pane fade show active"" id="profile-change-password">
                   <form action="ChangePasswd.em" method="post">
                   <!-- Change Password Form -->
 
-<!--                     <div class="row mb-3"> -->
-<!--                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">현재 패스워드</label> -->
-<!--                       <div class="col-md-8 col-lg-9"> -->
-<!--                         <input name="inputpasswd" type="password" class="form-control" id="currentPassword" placeholder="확인을 위해 패스워드를 입력 해주세요"> -->
-<!--                       </div> -->
-<!--                     </div> -->
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">현재 패스워드</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="inputpasswd" type="password" class="form-control" id="currentPassword" placeholder="확인을 위해 패스워드를 입력 해주세요">
+                      </div>
+                    </div>
 
-<!--                     <div class="row mb-3"> -->
-<!--                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">새 패스워드</label> -->
-<!--                       <div class="col-md-8 col-lg-9"> -->
-<!--                         <input name="newpasswd" type="password" class="form-control" id="newPassword" placeholder="새 비밀번호"> -->
-<!--                       </div> -->
-<!--                     </div> -->
+                    <div class="row mb-3">
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">새 패스워드</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="newpasswd" type="password" class="form-control" id="newPassword" placeholder="새 비밀번호">
+                      </div>
+                    </div>
 
-<!--                     <div class="row mb-3"> -->
-<!--                       <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">새 패스워드 재입력</label> -->
-<!--                       <div class="col-md-8 col-lg-9"> -->
-<!--                         <input name="renewpasswd" type="password" class="form-control" id="renewPassword" placeholder="새 비밀번호 재입력"> -->
-<!--                       </div> -->
-<!--                     </div> -->
+                    <div class="row mb-3">
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">새 패스워드 재입력</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="renewpasswd" type="password" class="form-control" id="renewPassword" placeholder="새 비밀번호 재입력">
+                      </div>
+                    </div>
 
-<!--                     <div class="text-center"> -->
-<!--                       <button type="submit" class="btn btn-primary">Change Password</button> -->
-<!--                     </div> -->
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
 
                   </form><!-- End Change Password Form -->
 
-                </div>
+                </div><!-- password div 끝 -->
 
-              </div><!-- End Bordered Tabs -->
+              
 
             </div>
           </div>
