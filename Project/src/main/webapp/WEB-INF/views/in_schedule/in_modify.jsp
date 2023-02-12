@@ -490,28 +490,29 @@ function input_search_idx(cb) {
       let size_des = $(td_arr[2]).text();
       console.log(pro_cd);
       
-      $.ajax({
-         type: "GET",
-         url: "StoListJson?keyword=" + pro_cd,
-         dataType: "json"
-      })
-      .done(function(stoList) { // 요청 성공 시
+//       $.ajax({
+//          type: "GET",
+//          url: "StoListJson?keyword=" + pro_cd,
+//          dataType: "json"
+//       })
+//       .done(function(stoList) { // 요청 성공 시
          
-            if(stoList.length === 0){
-//                alert("재고가 없는 품목입니다.");
-               return;
-            }   
+//             if(stoList.length === 0){
+// //                alert("재고가 없는 품목입니다.");
+//                return;
+//             }   
       // td 클릭시 모달 창 닫기
       $('#modalDialogScrollable_pro').modal('hide');
       $("#product_cd" + idx).val(pro_cd);
+      $("#product_nameArr" + idx).val(pro_name);
       $("#product_namesizeArr" + idx).val(pro_name + " ["+size_des+"]");
 //       $("#stoContent" + idx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
 //       $("#wh_area_loc_input" + idx).val(wh_name);
       idx = "";
-    })     
-   .fail(function() {
-      $("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
-   });
+//     })     
+//    .fail(function() {
+//       $("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+//    });
       
 });      
    
@@ -761,7 +762,7 @@ function calculateSum() {
          					<input type="text" class="form-control form-control-sm pro_cd" id="product_cd${status.index }" name="PRODUCT_CDArr" required="required" value="${inspList.PRODUCT_CD }">
 	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" id="product_search_btn${status.index }" data-bs-target="#modalDialogScrollable_pro" onclick="input_search_idx(this)">검색</button></div>
           					</div></td>
-							<td><input type="text" class="form-control form-control-sm pro_name" required="required" id="product_namesizeArr${status.index }" name="PRODUCT_NAMEArr" value="${inspList.PRODUCT_NAME }[${inspList.PRODUCT_SIZE }]"></td>
+							<td><input type="text" class="form-control form-control-sm pro_name" required="required" id="product_namesizeArr${status.index }" value="${inspList.PRODUCT_NAME }[${inspList.PRODUCT_SIZE }]"></td>
 							<td><input type="number" class="form-control form-control-sm in_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTYArr${status.index }" value="${inspList.IN_SCHEDULE_QTY }" onchange="calculateSum();"></td>
 							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${inspList.IN_DATE }" name="IN_DATEArr" id="IN_DATEArr${status.index }" required="required"></td>
 							<td><input type="text" class="form-control form-control-sm" value="${inspList.REMARKS }"  id="REMARKSArr${status.index }" name="REMARKSArr"></td>
