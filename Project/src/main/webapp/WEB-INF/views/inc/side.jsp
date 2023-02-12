@@ -89,7 +89,7 @@
             </a>
           </li>
          <li>
-            <a href="InRegisterForm">
+            <a href="#">
               <i class="fa-regular fa-circle fa-2xs"></i>&nbsp;<span>입고 관리</span>
             </a>
             <ul id="out-nav" >
