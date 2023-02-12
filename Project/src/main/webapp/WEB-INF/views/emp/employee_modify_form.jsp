@@ -365,12 +365,12 @@ $(function() {
        	                  <div class="input-group mb-6">
   	                    	<input type="text" class="form-control" name="EMP_DTEL" value="051" onkeyup="inputOnlyNumberFormat(this)" maxlength="3">
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value=${dTel1 }>
+                      		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" value=${dTel1 }>
                       		<span class="input-group-text">-</span>
                       		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value=${dTel2 }>
      					   </div>                 
      					</div>
-<!--                     </div> -->
+                    </div>
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">이메일</label>
@@ -387,7 +387,7 @@ $(function() {
 									<option value="daum.net" <c:if test="${email2 eq 'daum.net'}">selected</c:if>>daum.net</option>
 									<option value="nate.com" <c:if test="${email2 eq 'nate.com'}">selected</c:if>>nate.com</option>
 		                   		 </select>
-		                   		 <button onclick="checkEmail();" class="btn btn-secondary" style="margin-left: 30px">이메일 중복 확인</button>
+		                   		 <button type="button" onclick="checkEmail();" class="btn btn-secondary" style="margin-left: 30px">이메일 중복 확인</button>
 		                    </div>
 		                   		 <div id ="checkResultArea" class="col-md-8 col-lg-5"></div>
 	                    </div>

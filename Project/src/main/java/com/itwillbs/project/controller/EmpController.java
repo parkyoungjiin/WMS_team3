@@ -302,18 +302,18 @@ public class EmpController {
 			model.addAttribute("addr1",addr1);
 			model.addAttribute("addr2",addr2);
 			
-			String emp_priv_arr[] = employee.getPRIV_CD().split(""); 
-			System.out.println("권한배열 갯수:"+emp_priv_arr.length);
-//			String priv_cd1 = emp_priv_arr[0];
-//			String priv_cd2 = emp_priv_arr[1];
-//			String priv_cd3 = emp_priv_arr[2];
-//			String priv_cd4 = emp_priv_arr[3];
-//			String priv_cd5 = emp_priv_arr[4];		
-//			model.addAttribute("priv_cd1",priv_cd1);
-//			model.addAttribute("priv_cd2",priv_cd2);
-//			model.addAttribute("priv_cd3",priv_cd3);
-//			model.addAttribute("priv_cd4",priv_cd4);
-//			model.addAttribute("priv_cd5",priv_cd5);
+			String privArr[] = employee.getPRIV_CD().split("");
+			String prCd1 = privArr[0];
+			String prCd2 = privArr[1];
+			String prCd3 = privArr[2];
+			String prCd4 = privArr[3];
+			String prCd5 = privArr[4];
+//			System.out.println("권한 array 확인 : " + prCd1 + ", " + prCd2 + ", " + prCd3 + ", " + prCd4 + ", " + prCd5);
+			model.addAttribute("prCd1",prCd1);
+			model.addAttribute("prCd2",prCd2);
+			model.addAttribute("prCd3",prCd3);
+			model.addAttribute("prCd4",prCd4);
+			model.addAttribute("prCd5",prCd5);
 			
 			model.addAttribute("employee", employee);
 
@@ -575,12 +575,45 @@ public class EmpController {
 			int updateCount = service.getUpdatePasswd(emp_num,securePasswd);
 			//업데이트 성공 여부 판별
 				if(updateCount > 0) {
-					model.addAttribute("msg","비밀번호 변경에 성공했습니다.");
 					return "redirect:/MyPage.em";
 				}else {
 					model.addAttribute("msg","비밀번호 변경에 실패했습니다.");
 					return "fail_back";
 				}
+		}
+	}//changePass 끝
+	
+	// 상세정보에서의 비밀번호 변경
+	@PostMapping(value = "ChangePasswdDetail.em")
+	public String changePassDetail(HttpSession session, 
+			@RequestParam("inputpasswd") String inputpasswd, 
+			@RequestParam("newpasswd") String newpasswd,
+			Model model) {
+		//비밀번호 일치 여부 판별
+//		System.out.println(inputpasswd);
+		String emp_num = (String)session.getAttribute("emp_num"); //판별할 사원번호
+		//비밀번호 해싱 작업
+		BCryptPasswordEncoder passwdEncoder = new BCryptPasswordEncoder();
+		String passwd = service.getSelectPasswd(emp_num); //패스워드 가져오기
+		System.out.println("비밀번호: " + passwd);
+		
+		
+		if(passwd == null |!passwdEncoder.matches(inputpasswd, passwd)) { //비밀번호 미일치 시
+			model.addAttribute("msg","비밀번호가 일치하지 않습니다.");
+			return "fail_back";
+		}else {
+			//일치할 경우 파라미터 newPassWd를 update
+			String securePasswd = passwdEncoder.encode(newpasswd);
+			//비밀번호 업데이트
+			int updateCount = service.getUpdatePasswd(emp_num,securePasswd);
+			//업데이트 성공 여부 판별
+			if(updateCount > 0) {
+//				model.addAttribute("msg","비밀번호 변경에 성공했습니다.");
+				return "redirect:/EmployeeDetail.em?EMP_NUM=" + emp_num;
+			}else {
+				model.addAttribute("msg","비밀번호 변경에 실패했습니다.");
+				return "fail_back";
+			}
 		}
 	}//changePass 끝
 	

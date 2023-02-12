@@ -252,26 +252,26 @@
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form>
-
+                  <form action="ChangePasswd.em?EMP_NUM=${emp.EMP_NUM }" method="post" enctype="multipart/form-data">
+					
                      <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">현재 패스워드</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword" placeholder="확인을 위해 패스워드를 입력 해주세요">
+                        <input name="inputpasswd" type="password" class="form-control" id="currentPassword" placeholder="확인을 위해 패스워드를 입력 해주세요">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">새 패스워드</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword" placeholder="새 비밀번호">
+                        <input name="newpasswd" type="password" class="form-control" id="newPassword" placeholder="새 비밀번호">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">새 패스워드 재입력</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword" placeholder="새 비밀번호 재입력">
+                        <input name="renewpasswd" type="password" class="form-control" id="renewPassword" placeholder="새 비밀번호 재입력">
                       </div>
                     </div>
 
