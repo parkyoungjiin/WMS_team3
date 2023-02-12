@@ -153,7 +153,7 @@ public class EmpController {
 		//사원 등록 작업
 		int InsertCount = service.InsertEmployee(emp);
 		if(InsertCount > 0) {
-			return "redirect:/";
+			return "redirect:/EmployeeList.em";
 		}else { // 실패
 			model.addAttribute("msg", "사원 등록 실패!");
 			return "fail_back";
@@ -184,7 +184,7 @@ public class EmpController {
 		if(passwd == null || !passwdEncoder.matches(emp.getEMP_PASSWD(), passwd)) { // 실패
 			// Model 객체에 "msg" 속성명으로 "로그인 실패!" 메세지 저장 후
 			// fail_back.jsp 페이지로 포워딩
-			model.addAttribute("msg", "로그인 실패!");
+			model.addAttribute("msg", "로그인 실패! 아이디 또는 비밀번호를 확인해주세요.");
 			return "fail_back";
 		} else { // 성공
 			// HttpSession 객체에 세션 아이디 저장 후 메인페이지로 리다이렉트
@@ -522,24 +522,31 @@ public class EmpController {
 		//-------------마이페이지 이동------------
 		@GetMapping(value = "MyPage.em") 
 		public String mypage(HttpSession session, @ModelAttribute EmpVo emp, Model model) {
-	//		session id에 맞는 사원 정보 가져오기
-			String EMP_NUM = (String)session.getAttribute("emp_num");
+			
+			if(session.getAttribute("emp_num") != null) {
+				String EMP_NUM = (String)session.getAttribute("emp_num");
+				//id에 맞는 사원정보 가져오기
+				emp = service.getEmployee(EMP_NUM);
+				// 개인 연락처 분리
+				String emp_phone_number1 = emp.getEMP_TEL().substring(4, 8);
+				String emp_phone_number2 = emp.getEMP_TEL().substring(9, 13);
+				// 사무실 연락처 분리
+				String emp_dtel_number1 = emp.getEMP_DTEL().substring(4,7);
+				String emp_dtel_number2 = emp.getEMP_DTEL().substring(8,12);
+				model.addAttribute("emp", emp);
+				model.addAttribute("emp_phone_number1", emp_phone_number1);
+				model.addAttribute("emp_phone_number2", emp_phone_number2);
+				model.addAttribute("emp_dtel_number1", emp_dtel_number1);
+				model.addAttribute("emp_dtel_number2", emp_dtel_number2);
+				
+				return "emp/employee_mypage";
+			}else {
+				model.addAttribute("msg","로그인이 필요한 페이지입니다.");
+				return "redirect:/";
+			}
+				
 		
-		emp = service.getEmployee(EMP_NUM);
-		// 개인 연락처 분리
-		String emp_phone_number1 = emp.getEMP_TEL().substring(4, 8);
-		String emp_phone_number2 = emp.getEMP_TEL().substring(9, 13);
-		// 사무실 연락처 분리
-		String emp_dtel_number1 = emp.getEMP_DTEL().substring(4,7);
-		String emp_dtel_number2 = emp.getEMP_DTEL().substring(8,12);
-		model.addAttribute("emp", emp);
-		model.addAttribute("emp_phone_number1", emp_phone_number1);
-		model.addAttribute("emp_phone_number2", emp_phone_number2);
-		model.addAttribute("emp_dtel_number1", emp_dtel_number1);
-		model.addAttribute("emp_dtel_number2", emp_dtel_number2);
 		
-		
-		return "emp/employee_mypage";
 	}//mypage 끝
 	
 	
