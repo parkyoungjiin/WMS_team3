@@ -357,7 +357,7 @@ $(function() {
 			.done(function(stoList) { // 요청 성공 시
 				
 					if(stoList.length === 0){
-						alert("재고가 없는 품목입니다.");
+// 						alert("재고가 없는 품목입니다.");
 						return;
 					}
 					
@@ -369,7 +369,7 @@ $(function() {
 					   $(".product_nameArr").eq(selectIdx).val(pro_name); // hidden input 에 품목명 넣기
 					   $(".product_sizeArr").eq(selectIdx).val(pro_size); // hidden input 에 규격 넣기
 //			 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
-					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
+// 					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
 					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
 					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);
 			})
@@ -680,7 +680,7 @@ function calculateSum() {
 		                    <th scope="col" style="width: 80px">수량</th>
 		                    <th scope="col"  style="width: 197px">납기일자</th>
 		                    <th scope="col"  style="width: 120px">비고</th>
-		              		<th scope="col"  style="width: 274px">출고대상재고</th>
+<!-- 		              		<th scope="col"  style="width: 274px">출고대상재고</th> -->
                  
 		                  </tr>
 		                  

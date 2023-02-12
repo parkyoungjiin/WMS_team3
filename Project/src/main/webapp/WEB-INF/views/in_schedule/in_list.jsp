@@ -344,7 +344,6 @@ a{text-decoration:none; color:#333;}
 		                <thead>
 		                  <tr>
 		                    <th scope="col"></th>
-		                    <th scope="col"></th>
 		                    <th scope="col">입고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">보낸곳명</th>

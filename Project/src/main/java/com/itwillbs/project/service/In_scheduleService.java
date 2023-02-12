@@ -136,6 +136,7 @@ public class In_scheduleService {
 			int checkCd = mapper.selectInPdName(inSchCd);
 			if(extraPdCount > 1) {
 				String pdInfo = mapper.selectInProduct(checkCd);
+				System.out.println("pdinfo확인"+pdInfo);
 				inSch.get(i).setPRODUCT_NAME(pdInfo + "외" + (extraPdCount-1)+"건");
 				
 			}else {
