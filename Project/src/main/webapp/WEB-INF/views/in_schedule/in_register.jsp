@@ -343,24 +343,25 @@ $(function() {
 	$("#modal-body-pro").on('click','tr',function(){
 		let td_arr = $(this).find('td');
 		   
-//		   console.log(td_arr);
+// 		alert(selectIdx);
+		   console.log(td_arr);
 		   
 		   let pro_cd = $(td_arr[0]).text();
 		   let pro_name = $(td_arr[1]).text();
 		   let pro_size = $(td_arr[2]).text();
 		   
-		   $.ajax({
-				type: "GET",
-				url: "StoListJson?keyword=" + pro_cd,
-				dataType: "json"
-			})
-			.done(function(stoList) { // 요청 성공 시
+// 		   $.ajax({
+// 				type: "GET",
+// 				url: "StoListJson?keyword=" + pro_cd,
+// 				dataType: "json"
+// 			})
+// 			.done(function(stoList) { // 요청 성공 시
 				
-					if(stoList.length === 0){
-// 						alert("재고가 없는 품목입니다.");
-						return;
-					}
-					
+// 					if(stoList.length === 0){
+// // 						alert("재고가 없는 품목입니다.");
+// 						return;
+// 					}
+// 					 alert(pro_cd);
 			
 					// td 클릭시 모달 창 닫기
 					   $('#modalDialogScrollable_pro').modal('hide');
@@ -370,12 +371,12 @@ $(function() {
 					   $(".product_sizeArr").eq(selectIdx).val(pro_size); // hidden input 에 규격 넣기
 //			 		   $("#pro_search_sto").text("품목코드 : " + pro_cd);
 // 					$(".stoContent").eq(selectIdx).html("재고 번호 : " +stoList[0].stock_cd + "<br> 재고 수량 : " + stoList[0].stock_qty);
-					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
-					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);
-			})
-			.fail(function() {
-				$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
-			});
+// 					$(".stock_cd").eq(selectIdx).val(stoList[0].stock_cd);
+// 					$(".stock_qty").eq(selectIdx).val(stoList[0].stock_qty);
+// 			})
+// 			.fail(function() {
+// 				$("#modal-body-sto > table").append("<h3>요청 실패!</h3>");
+// 			});
 		   
 		   
 	});	   
@@ -407,7 +408,7 @@ $(function() {
          					+ '<input type="text" style="text-align:center;" class="form-control form-control-sm pro_cd" name="PRODUCT_CDArr" required="required" size=3>'
 	         				+ '<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button>'
           					+ '</div></td>'
-							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm pro_name" required="required">' + '</td>'
+							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm pro_name" id="pro_name" required="required">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
 							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm in_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="in_schedule_qty" onchange="calculateSum();"></td>'
 							+ '<td style="text-align: center"><input type="date" style="text-align:center;" class="form-control form-control-sm" style="border:none" value="' + date + '" name="IN_DATEArr" required="required" readonly="readonly"></td>'
