@@ -170,7 +170,7 @@
 							<div id="image_container" ></div> <!-- style="width: 250px; height: 250px;" -->
 <!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
                       </div>
-                    <div class="row mb-3">
+      <div class="row mb-3">
                       <label for="EMP_NAME" class="col-md-4 col-lg-3 col-form-label">사원코드</label>
                       <div class="col-md-8 col-lg-2">
                         <input name="EMP_NAME" type="text" class="form-control" id="EMP_CD" value="${emp.EMP_NUM} " readonly>
@@ -346,7 +346,6 @@
           </div>
 
         </div>
-      </div>
     </section>
 
   </main><!-- End #main -->

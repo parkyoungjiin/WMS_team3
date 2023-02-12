@@ -433,19 +433,16 @@ $(function() {
 		                        	기본등록
 		                        </label>
 								<input type="hidden" id="priv_cd_hidden1"  name="PRIV_CD" value="0">
-								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd2" name="PRIV_CD" value="${prCd2 }" style="margin-right: 10px" <c:if test="${prCd2 eq '1' }">checked</c:if>>
 									사원조회
 								</label>
 								<input type="hidden" id="priv_cd_hidden2"  name="PRIV_CD" value="0">
-								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd3" name="PRIV_CD" value="${prCd3 }" style="margin-right: 10px" <c:if test="${prCd3 eq '1' }">checked</c:if>>
 									사원관리
 								</label>
 								<input type="hidden" id="priv_cd_hidden3" name="PRIV_CD" value="0">
-								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd4" name="PRIV_CD" value="${prCd4 }" style="margin-right: 10px"  <c:if test="${prCd4 eq '1' }">checked</c:if>>
 									재고조회
