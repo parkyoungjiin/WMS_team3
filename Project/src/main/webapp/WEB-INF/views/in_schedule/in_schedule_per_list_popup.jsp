@@ -251,7 +251,7 @@
 		   let wh_name = $(td_arr[0]).text();
 		   let wh_loc_in_area = $(td_arr[1]).text();
 		   let wh_loc_in_area_cd = $(td_arr[2]).text();
-		   
+		   console.log(wh_loc_in_area_cd);	
 		   // td 클릭시 모달 창 닫기
 		  
 		   $('#warehouse_search').modal('hide');
@@ -270,9 +270,17 @@
 			var check_qty = parseInt($("#in_qty_input" + idx).val());
 // 			alert("check_qty: " + check_qty);
 			var in_schedule_qty = parseInt($("#in_qty_hidden" + idx).val());
+			var in_qty_checkval = parseInt($("#in_qty_check" + idx).val());
 // 			alert("in_schedule_qty : " + in_schedule_qty);
 				if(check_qty> in_schedule_qty){
 					alert("입고예정수량보다 많은 수량입니다.");
+					$("#in_qty_input" + idx).val("");
+					//초기화
+					idx="";
+					check_qty="";
+					in_schedule_qty="";
+				}else if(check_qty > in_qty_checkval){
+					alert("미입고재고보다 많은 수량입니다.");
 					$("#in_qty_input" + idx).val("");
 					//초기화
 					idx="";
@@ -367,6 +375,7 @@
 					 			<th scope="col">입고예정번호</th>
 					 			<th scope="col">품목명</th>
 					 			<th scope="col">입고예정수량</th>
+					 			<th scope="col">미입고수량</th>
 					 			<th scope="col">입고수량</th>
 					 			<th scope="col">재고번호(※미입력 시 자동생성)</th>
 					 			<th scope="col">구역명_선반위치(※입력 필수)</th>
@@ -378,10 +387,12 @@
 				 				<input type="hidden" value="${list.PRODUCT_CD}" name="PRODUCT_CDArr">
 				 				<input type="hidden" value="${list.IN_COMPLETE}" name="IN_COMPLETE">			
 								<input type="hidden" id ="wh_area_loc_hidden${status.index}" name="WH_LOC_IN_AREA_CDArr">					 			
+								<input type="hidden" id ="in_qty_check${status.index}" value="${list.IN_SCHEDULE_QTY - list.IN_QTY }">					 			
 				 			<tr>
 					 			<td>${list.IN_SCHEDULE_CD }</td>
 					 			<td>${list.PRODUCT_NAME }</td>
 					 			<td>${list.IN_SCHEDULE_QTY }</td>
+					 			<td>${list.IN_SCHEDULE_QTY - list.IN_QTY}</td>
 					 			<td>
 					 				<!-- 입고처리할 수량 입력칸 -->
 					 				<input type="text" class="form-control-sm out_schedule_qty" id="in_qty_input${status.index }" name="IN_QTYArr" size="1" onchange="calculateSum(this);" " required>

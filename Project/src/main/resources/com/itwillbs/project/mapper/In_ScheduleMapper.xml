@@ -92,7 +92,7 @@
 	<!-- 입고예정 리스트  -->
 	<select id="getInschedulePerList" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 	SELECT *
-		FROM in_schedule_view
+		FROM in_schedule_per_view
 	</select>
 	
 	<select id="selectCode" resultType="integer">
@@ -161,24 +161,19 @@
 	
 	<!-- 입고 수량 증가 -->
 	<update id="updateInQTY">
-		UPDATE in_schedule_view
+		UPDATE in_schedule_per_product
 			SET IN_QTY = IN_QTY + #{IN_QTY}
 			WHERE IN_SCHEDULE_PER_CD =#{IN_SCHEDULE_PER_CD};
 	</update>
 	
 	<!-- 입고 진행 여부 -->
 	<update id="updateIN_COMPLETE">
-		UPDATE in_schedule_view
+		UPDATE in_schedule_per_product
 			SET IN_COMPLETE = 1
 			WHERE  IN_SCHEDULE_QTY - IN_QTY = 0;
 	</update>
 	
-	<!-- 입고 진행 여부 -->
-	<update id="update_IN_COMPLETE">
-		UPDATE in_schedule
-			SET IN_COMPLETE = 1
-			WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
-	</update>
+	
 	
 	<!-- 입고 처리 -->
 	<insert id="insertStock">
