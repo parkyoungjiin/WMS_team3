@@ -185,7 +185,6 @@
 				$("#test"+code).replaceWith(newText);
 				$("#modify_button2"+code).hide();
 				$("#modify_button"+code).show();
-				alert("#test2"+code);
 			}else {
 				alert("창고 지역을 입력 해주세요!");
 			}
@@ -424,7 +423,6 @@
 		
 		//--------창고 지역 삭제 버튼-----------
 		function tableDelte(code) {
-			alert(code)
 			$.ajax({
 				type: "GET",
 				url: "WareHouseAreadeletePro.wh?wh_area_cd="+code
