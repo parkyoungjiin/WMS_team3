@@ -130,7 +130,7 @@ a{text-decoration:none; color:#333;}
 			console.log(inProdList);
 			for(let prod of inProdList) {
 // 				let product_cd = ${prod.out_product_cd}
-				$("#out > tbody").empty();
+				$("#in > tbody").empty();
 				var inList = '<tr>' 
 							  + '<td>' + prod.PRODUCT_CD + '</td>'
 							  + '<td>' + prod.PRODUCT_NAME + '</td>'
@@ -184,6 +184,36 @@ a{text-decoration:none; color:#333;}
       <h1>입고 관리</h1>
     </div><!-- End Page Title -->
     
+    <div class="modal fade" id="modalDialogScrollable_complete" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body" style="text-align: center;">
+<!--                      	<div class="input-group mb-6"> -->
+<!-- 			        	 </div> -->
+			        	 <table class='table table-hover' id="in" style="margin-left: auto; margin-right: ">
+			                <thead>
+				                <tr>
+				                	<th scope="col">품목코드</th>
+				                	<th scope="col">품목명[규격]</th>
+				                	<th scope="col">출고예정수량</th>
+				                	<th scope="col">미출고수량</th>
+				                </tr>
+				            </thead>
+			                <tbody>
+			                </tbody>
+			        	 </table>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Modal Dialog Scrollable-->
+    
     <div class="card mb-4">
   <div class="card-header">
                      입고 예정 목록
@@ -207,11 +237,9 @@ a{text-decoration:none; color:#333;}
               </ul>
               <div class="tab-content pt-2" id="myTabContent">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                 	<table class="table table-hover">
+                 	<table class="table table-hover" style="padding:10px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col"></th>
-		                    <th scope="col"></th>
 		                    <th scope="col">입고예정번호</th>
 		                    <th scope="col">유형</th>
 		                    <th scope="col">보낸곳명</th>
@@ -228,12 +256,11 @@ a{text-decoration:none; color:#333;}
 							<tr>
 										
 <%-- 	<td>${idx.count }</td> --%>
-							<th scope="row"></th>
-							<td> 
-							<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
-		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }">
-		                    </td>
-						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a></td> <!-- 입고예정번호 -->
+<!-- 							<th scope="row"></th> -->
+							
+						<td><a href="InDetail?IN_SCHEDULE_CD=${isList.IN_SCHEDULE_CD }">${isList.IN_SCHEDULE_CD }</a>
+						<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
+		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }"></td> <!-- 입고예정번호 -->
 		                    <td>${isList.IN_TYPE_CD }</td> <!-- 유형 -->
 		                    <td>${isList.CUST_NAME}</td> <!-- 보낸곳명 -->
 		                    <td>${isList.EMP_NAME}</td>	<!-- 담당자명 -->
@@ -338,7 +365,7 @@ a{text-decoration:none; color:#333;}
 
 							<tr>
 										
-	<td>${idx.count }</td>
+<%-- 	<td>${idx.count }</td> --%>
 							<td> 
 							<input type="hidden" id="IN_SCHEDULE_CD${status.index}" value="${isList.IN_SCHEDULE_CD }">
 		                    <input type="hidden" id="InComplete${status.index}" value="${isList.IN_COMPLETE }"></td>

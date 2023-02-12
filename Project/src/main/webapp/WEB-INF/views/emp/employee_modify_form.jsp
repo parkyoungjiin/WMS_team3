@@ -38,17 +38,19 @@ window.onload = function(){
     });
 }
 </script>
+<script type="text/javascript">
 <!-- 이미지 섬네일 -->
-<script>
 	function changeImage(event) {
 		var reader = new FileReader();
 
         reader.onload = function(event) {
           var img = document.createElement("img");
           img.setAttribute("src", event.target.result);
-          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
+          img.setAttribute("style", "width: 200px; height: 200px; object-fit: cover;");
           document.querySelector("div#image_container").innerHTML = '';
           document.querySelector("div#image_container").appendChild(img);
+          console.log(image_container);
+          console.log(img);
         };
 
         reader.readAsDataURL(event.target.files[0]);
@@ -58,24 +60,56 @@ window.onload = function(){
 <!-- 권한 체크 : 1 / 권한 미체크 : 0 -->
 <script type="text/javascript">
 $(document).ready(function(){
+	//권한이 체크되있으면 히든을 disable
+	
+		
+
+	
 	 $('input:checkbox[name="PRIV_CD"]').change(function(){
 		if(document.getElementById("priv_cd1").checked) {
-			$('#priv_cd1_hidden').prop('disabled', true);
+			$('#priv_cd_hidden1').prop('disabled', true);
+			$('#priv_cd1').val(1);
+			
 		}
 		if(document.getElementById("priv_cd2").checked){
-			$('#priv_cd2_hidden').prop('disabled', true);
+			$('#priv_cd_hidden2').prop('disabled', true);
+			$('#priv_cd2').val(1);
 		}
 		if(document.getElementById("priv_cd3").checked){
-			$('#priv_cd3_hidden').prop('disabled', true);
+			$('#priv_cd_hidden3').prop('disabled', true);
+			$('#priv_cd3').val(1);
 		}
 		if(document.getElementById("priv_cd4").checked){
-			$('#priv_cd4_hidden').prop('disabled', true);
+			
+			alert("변경됨.")
+			$('#priv_cd_hidden4').prop('disabled', true);
+			$('#priv_cd4').val(1);
 		}
+		
 		if(document.getElementById("priv_cd5").checked){
-			$('#priv_cd5_hidden').prop('disabled', true);
+			$('#priv_cd_hidden5').prop('disabled', true);
+			$('#priv_cd5').val(1);
 		}
 	 })
 });
+//---------폼 전송 전에 val값을 비교해서 1일 때는 히든을 비활성화하고, 0일 때는 체크박스를 비활성화-------
+function check_priv_cd() {
+	for(var i=1; i<=5; i++){
+		alert(i + "번째")
+		if($("#priv_cd" + i).val() == '1'){
+			alert(i + "번째는 1")
+
+			$('#priv_cd_hidden'  + i).prop('disabled', true);
+			$('#priv_cd'  + i).prop('disabled', false);
+		}else{
+			alert(i + "번째는 0")
+
+			$('#priv_cd'  + i).prop('disabled', true);
+		}
+		
+// 	
+	}//for 끝
+}//check_priv_cd 끝
 
 </script>
 
@@ -320,7 +354,7 @@ $(function() {
                       		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value=${dTel2 }>
      					   </div>                 
      					</div>
-                    </div>
+<!--                     </div> -->
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">이메일</label>
@@ -395,34 +429,31 @@ $(function() {
                        <div class="col-md-8 col-lg-5">
 		                	<div class="input-group mb-6">
 		                        <label class="form-check-label" style="margin-right: 30px">
-		                        	<input type="checkbox" class="form-check-input" id="priv_cd1" name="PRIV_CD" value="${prCd1 }" style="margin-right: 10px" <c:if test="${prCd3 eq '1' }">checked</c:if>>
+		                        	<input type="checkbox" class="form-check-input" id="priv_cd1" name="PRIV_CD" value="${prCd1 }" style="margin-right: 10px" <c:if test="${prCd1 eq '1' }">checked</c:if>>
 		                        	기본등록
 		                        </label>
-<!-- 								<input type="hidden" id="priv_cd1_hidden"  name="PRIV_CD" value="0"> -->
-								
+								<input type="hidden" id="priv_cd_hidden1"  name="PRIV_CD" value="0">
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd2" name="PRIV_CD" value="${prCd2 }" style="margin-right: 10px" <c:if test="${prCd2 eq '1' }">checked</c:if>>
 									사원조회
 								</label>
-<!-- 								<input type="hidden" id="priv_cd2_hidden"  name="PRIV_CD" value="0"> -->
-								
+								<input type="hidden" id="priv_cd_hidden2"  name="PRIV_CD" value="0">
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd3" name="PRIV_CD" value="${prCd3 }" style="margin-right: 10px" <c:if test="${prCd3 eq '1' }">checked</c:if>>
 									사원관리
 								</label>
-<!-- 								<input type="hidden" id="priv_cd3_hidden" name="PRIV_CD" value="0"> -->
-								
+								<input type="hidden" id="priv_cd_hidden3" name="PRIV_CD" value="0">
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd4" name="PRIV_CD" value="${prCd4 }" style="margin-right: 10px"  <c:if test="${prCd4 eq '1' }">checked</c:if>>
 									재고조회
 								</label>
-<!-- 								<input type="hidden" id="priv_cd4_hidden"  name="PRIV_CD" value="0"> -->
+								<input type="hidden" id="priv_cd_hidden4"  name="PRIV_CD" value="0">
 								
 								<label class="form-check-label" style="margin-right: 30px">
 									<input type="checkbox" class="form-check-input" id="priv_cd5" name="PRIV_CD" value="${prCd5 }" style="margin-right: 10px"  <c:if test="${prCd5 eq '1' }">checked</c:if>>
 									재고관리
 								</label>
-<!-- 								<input type="hidden" id="priv_cd5_hidden"  name="PRIV_CD" value="0"> -->
+								<input type="hidden" id="priv_cd_hidden5"  name="PRIV_CD" value="0">
 		                    </div>
 	                    </div>
                     </div>
@@ -432,35 +463,33 @@ $(function() {
                        <div class="col-md-8 col-lg-3">
                        		<div id="profile" >
                        		<img src=" ${pageContext.request.contextPath}/resources/upload/${employee.PHOTO }"  width="200" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
+                       		<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);" value="${employee.PHOTO }" style="display: none;">
+<%--                        		<input type="hidden" name="file" class="form-control" id="input_image" onchange="changeImage(event);" value="${employee.PHOTO }" > --%>
+                       		
                         	</div>
                         	<!-- 이미지 수정 버튼 -->
 								<div id="imgChange" >
 			                  		<c:choose>
 										<c:when test="${employee.PHOTO ne '' }">
-											<%-- 컨텍스트 경로/resources/upload 디렉토리 내의 파일 지정 --%> 
-		<%-- 									<a href="${pageContext.request.contextPath }/resources/upload/${PHOTO }" download="${PHOTO }"> ${PHOTO }</a> --%>
-		<%-- 									<img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" > --%>
 											<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
-											<input type="button" value="삭제" onclick="deleteFile('${employee.PHOTO}','${employee.EMP_NUM}')">
-										</c:when>
+											<input type="button"  value="삭제" onclick="deleteFile('${employee.PHOTO}','${employee.EMP_NUM}')">
+										</c:when>   
 										<c:otherwise>
 											<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);">
 										</c:otherwise>									
 									</c:choose>
-								
-			                     	 
-					</div>
-								<!-- 썸네일 -->
-									<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기
-									</label>
-									<div id="image_container" style="width: 150px; height: 200px;"></div>
-<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
-                      </div>
-                    </div>
+									</div>
+			                        </div>
+			                        <div></div>
+										<!-- 썸네일 -->
+										<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
+										<div id="image_container" ></div> <!-- style="width: 250px; height: 250px;" -->
+			<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
+			                    </div>
 					
-					<div></div>
+<!-- 					<div></div> -->
                     <div class="text-left">
-                      <button type="submit" class="btn btn-primary">수정하기</button>
+                      <button type="submit" class="btn btn-primary" onclick="check_priv_cd()">수정하기</button>
                       <button type="reset" class="btn btn-secondary">다시 쓰기</button>
                       <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                     </div>

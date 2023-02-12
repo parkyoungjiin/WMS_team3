@@ -57,34 +57,56 @@ $(function() {
 	});// 내부,외부처리 
 	//------------수정-------------------------
 	$("#updatebutton").click(function() {
-		var params = $("#fr").serialize();
-		$.ajax({
-			type: "post",
-			url: "WhModify.wh",
-			data:params,
-			dataType: "html"
-		})
-		.done(function() { // 요청 성공 시
-			alert("수정 하셨습니다.");
-		})
-		.fail(function() {
-			alert("수정 실패 하셨습니다.");	
-		});
-	});// 수정처리
-});//제이쿼리 끝
-//---------주소 api-----------------------
-window.onload = function(){
-    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-        //카카오 지도 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("wh_addr").value = data.address; // 주소 넣기
-                document.getElementById("post_no").value = data.zonecode; // 우편번호 넣기
-                document.querySelector("input[id=wh_addr_detail]").focus(); //상세입력 포커싱
-            }
-        }).open();
-    });
-}
+		
+			if($.trim($("#wh_name").val()) == '') {
+				alert("창고 이름 입력해주세요.");
+				return false;
+			}else if ($.trim($("#wh_tel1").val()) == '') {
+				alert("전화 번호를 입력해주세요.");
+				return false;
+			}else if ($.trim($("#wh_tel2").val()) == '') {
+				alert("전화 번호를 입력해주세요.");
+				return false;
+			}else if ($.trim($("#wh_tel3").val()) == '') {
+				alert("전화 번호를 입력해주세요.");
+				return false;
+			}else if ($.trim($("#wh_man_name").val()) == '') {
+				alert("관리자명을 입력해주세요.");
+				return false;
+			}
+			var params = $("#fr").serialize();
+			$.ajax({
+				type : "post",
+				url : "WhModify.wh",
+				data : params,
+				dataType : "html"
+			}).done(function() { // 요청 성공 시
+				alert("수정 하셨습니다.");
+			}).fail(function() {
+				alert("수정 실패 하셨습니다.");
+			});
+		});// 수정처리
+	});//제이쿼리 끝
+	//---------주소 api-----------------------
+	window.onload = function() {
+		document
+				.getElementById("address_kakao")
+				.addEventListener(
+						"click",
+						function() { //주소입력칸을 클릭하면
+							//카카오 지도 발생
+							new daum.Postcode(
+									{
+										oncomplete : function(data) { //선택시 입력값 세팅
+											document.getElementById("wh_addr").value = data.address; // 주소 넣기
+											document.getElementById("post_no").value = data.zonecode; // 우편번호 넣기
+											document.querySelector(
+													"input[id=wh_addr_detail]")
+													.focus(); //상세입력 포커싱
+										}
+									}).open();
+						});
+	}
 </script>
 <!-- 연락처 숫자만 입력되는 유효성 검사 -->
 <script type="text/javascript">
@@ -256,7 +278,7 @@ function onlynumber(str) {
                       </div>
                     </div>
                    
-                    \<div class="row mb-3">
+                    <div class="row mb-3">
               		<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">적요</label>
               		<div class="col-md-6 col-lg-6">
                     <textarea class="form-control" style="height: 100px;" name="remarks"></textarea>
@@ -278,7 +300,7 @@ function onlynumber(str) {
 					
 					<div></div>
                     <div class="text-left">
-                      <button type="button" id="updatebutton" class="btn btn-primary">창고 수정</button>
+                      <button type="submit" id="updatebutton" class="btn btn-primary">창고 수정</button>
                     </div>
                 </div>
 		</div>

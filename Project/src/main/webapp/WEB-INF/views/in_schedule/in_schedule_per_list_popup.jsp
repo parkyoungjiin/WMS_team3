@@ -388,7 +388,7 @@
 					 			</td>
 					 			<td>
 					 				<!-- 재고번호 자동 입력될 칸 -->
-									<input type="text" class="form-control-sm" id ="stock_cd_input${status.index}" name="STOCK_CDArr" size="5">				 			
+									<input type="text" class="form-control-sm" id ="stock_cd_input${status.index}"  name="STOCK_CDArr" size="5">				 			
 									<!-- 재고번호 검색 버튼 -->					 			
                       				<button type="button" class="btn btn-secondary btn-sm" id ="stock_search_btn${status.index}" data-bs-toggle="modal" data-bs-target="#stock_search" onclick="input_search_idx(this)">재고번호 검색</button>
 					 			</td>

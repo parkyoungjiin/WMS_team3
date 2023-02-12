@@ -66,7 +66,20 @@
 		}
 	}
 </script>
-
+<!-- 권한 여부 판별하여 인사부서인지 판별 -->
+<script type="text/javascript">
+	var str = '${priv_cd}' // 세션에 저장된 권한코드
+	
+	var priv_cd_emp = str.charAt(1); // 사원조회(1) 여부 판별할 값
+	var priv_cd_emp2 = str.charAt(2); // 사원관리(2) 여부 판별할 값
+	
+	//사원조회, 사원관리에 대한 권한이 있는 지 판별
+	if(priv_cd_emp == '1' || priv_cd_emp2 == '1'){//권한이 있을 경우
+		
+	}else{//없을 경우
+		alert("사원조회 권한이 없습니다");
+		history.back();
+	}
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -84,7 +97,7 @@
     
             <div class="card mb-4">
                 <div class="card-header">
-                    <button class="btn btn-secondary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
+                	사원 목록
                  </div>
                  <div class="card-body">
                  <!-- Default Tabs -->
@@ -121,7 +134,7 @@
 	                    <c:if test="${emp.WORK_CD eq 'C1' }">
 		                    <tr>
 <%-- 		                    	<td><img src="${path}/resources/${emp.PHOTO}" alt="등록된 사진이 없습니다."></td> --%>
-		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" style="width:50px; height: 50px;"></td>
+		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='resources/upload/noProfile.png';" alt="Profile" style="width:50px; height: 50px;"></td>
 		                    	<td>${emp.EMP_NUM }</td>
 		                    	<td>${emp.EMP_NAME }</td>
 		                    	<td>${emp.DEPT_CD }</td>
@@ -138,6 +151,8 @@
 		                 </c:forEach>  
 						</tbody>
                     </table>
+           				<button class="btn btn-primary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
+                    
                     </div> <%--1번탭 끝 --%>
                     
                     <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -159,7 +174,7 @@
 	                    <c:forEach items="${empList }" var="emp">
 	                    <c:if test="${emp.WORK_CD eq 'C2' }">
 		                    <tr>
-		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" style="width:50px; height: 50px;"></td>
+		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='resources/upload/noProfile.png';" alt="Profile" style="width:50px; height: 50px;"></td>
 		                    	<td>${emp.EMP_NUM }</td>
 		                    	<td>${emp.EMP_NAME }</td>
 		                    	<td>${emp.DEPT_CD }</td>
@@ -176,6 +191,8 @@
 		                 </c:forEach>  
 						</tbody>
                     </table>
+                       <button class="btn btn-primary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
+                    
                     </div><!-- 2번탭  -->
                 	
                    <div class="tab-pane fade active" id="contact" role="tabpanel" aria-labelledby="contact-tab"> <!-- 3번탭 시작  -->
@@ -212,6 +229,7 @@
 		                 </c:forEach>  
 						</tbody>
                     </table>
+                    	<button class="btn btn-primary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
                    </div> <%--3번 탭 끝 --%>
                  </div><!-- End Default Tabs -->
                 </div>

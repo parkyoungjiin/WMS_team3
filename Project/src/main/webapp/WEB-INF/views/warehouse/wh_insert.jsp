@@ -55,7 +55,6 @@
 					dataType: "html",
 					success: function(data){
 						if(data == 0){
-							alert("번경감지");
 							$("#checkCdResult").html("사용 가능한 코드입니다.");
 							$("#checkCdResult").css("color", "#3CAEFF");
 							$("#fr").attr("onsubmit","return true");
@@ -246,7 +245,7 @@ window.onload = function(){
                       		<span class="input-group-text">-</span>
                       		<input type="text" class="form-control" name="wh_tel2" onkeyup="inputOnlyNumberFormat(this)" maxlength="3" required>
                       		<span class="input-group-text">-</span>
-                      		<input type="text" class="form-control" name="wh_tel13" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required>
+                      		<input type="text" class="form-control" name="wh_tel3" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" required>
      					   </div>                 
      					</div>
                     </div>

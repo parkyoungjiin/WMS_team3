@@ -102,8 +102,8 @@ function load_buyerList() {
                 + '</tr>'
 				+ "<tr style='cursor:pointer;'>"
 				+ "<td colspan ='2'>"
-				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  buyer_keyword + "'" +  " 에 대한 검색결과가 없습니다."
-				+ "</h6>"
+				+ "<h4 style='font-weight: bold; text-align: center;'>검색결과가 없습니다."
+				+ "</h4>"
 				+ "</td>"
 				+ "</tr>";
 		 		+ '</table>';
@@ -112,7 +112,6 @@ function load_buyerList() {
 // 			$("#buyer_search").html("<div>등록된 데이터가 없습니다.</div>");
 // 			$("#buyer_search").css("color","#B9062F");
 	         $("#modal-body-buyer").append(no_result);
-	         $("#buyer_keyword").focus();
 
 
 		}else{
@@ -147,30 +146,31 @@ function load_buyerList() {
 	.fail(function() {
 		$("#modal-body-buyer").append("<h3>요청 실패!</h3>");
 	});
-	
-	
-	// td 클릭 시 해당 value 가져오기
-	$(function() {
-		// 품목 그룹
-		$("#pGroup_table").on('click','tr',function(){
-			   let td_arr = $(this).find('td');
-			   
-			   console.log(td_arr);
-			   
-			   let p_Tcd = $(td_arr[0]).text();
-			   let p_Gcd = $(td_arr[1]).text();
-			   let p_Gnm = $(td_arr[2]).text();
-			   
-			   console.log(p_Tcd);
-			   console.log(p_Gcd);
-			   console.log(p_Gnm);
-			   
-			   // td 클릭시 모달 창 닫기
-			   $('#modalDialogScrollable_pGroup').modal('hide');
-			   $("#product_group_top_cd").val(p_Tcd);
-			   $("#product_group_bottom_name").val(p_Gnm);
-			   $("#product_group_bottom_cd").val(p_Gcd);
-		});	   
+}
+
+
+// td 클릭 시 해당 value 가져오기
+$(function() {
+	// 품목 그룹
+	$("#pGroup_table").on('click','tr',function(){
+		   let td_arr = $(this).find('td');
+		   
+		   console.log(td_arr);
+		   
+		   let p_Tcd = $(td_arr[0]).text();
+		   let p_Gcd = $(td_arr[1]).text();
+		   let p_Gnm = $(td_arr[2]).text();
+		  
+		   console.log(p_Tcd);
+		   console.log(p_Gcd);
+		   console.log(p_Gnm);
+		   
+		   // td 클릭시 모달 창 닫기
+		   $('#modalDialogScrollable_pGroup').modal('hide');
+		   $("#product_group_top_cd").val(p_Tcd);
+		   $("#product_group_bottom_name").val(p_Gnm);
+		   $("#product_group_bottom_cd").val(p_Gcd);
+	});	   	   
 		
 		// 거래처
 		$("#modal-body-buyer").on('click','tr',function(){

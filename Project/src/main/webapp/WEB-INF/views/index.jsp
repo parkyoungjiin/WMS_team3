@@ -53,6 +53,9 @@
 			                  <h5 class="card-title">재고 <span>/Today</span></h5>
 			                </div>
 			              </div>
+			              <div>
+			              <img src="${pageContext.request.contextPath}/resources/upload/cal.JPG" alt="달력" height="500" width="550">
+			              </div>
 			            </div><!-- End Reports -->
 				</div>
 			

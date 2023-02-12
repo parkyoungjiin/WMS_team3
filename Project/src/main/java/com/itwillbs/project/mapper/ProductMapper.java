@@ -27,8 +27,11 @@ public interface ProductMapper {
 	//--------------------품목 수정----------------------------
 	int modifyProd(@Param("product") ProductVO product,
 					@Param("product_image") String product_image);
-	
 
+	//--------------------- 개별 파일 삭제------------------
+	int deleteImgFile2(@Param("product_cd")int product_cd,
+					  @Param("product_image") String product_image);
+	
 	
 
 }

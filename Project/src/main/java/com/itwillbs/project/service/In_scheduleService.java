@@ -10,6 +10,7 @@ import com.itwillbs.project.mapper.In_ScheduleMapper;
 import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
+import com.itwillbs.project.vo.ProductVO;
 import com.itwillbs.project.vo.StockVo;
 import com.itwillbs.project.vo.WareHouseVO;
 
@@ -106,8 +107,8 @@ public class In_scheduleService {
 		return mapper.updateIN_COMPLETE(insp);
 	}
 	//----------입고 처리 시 재고이력 등록----------
-	public int getInsertHistory(int insert_qty, int stock_cd, int product_cd, String sId) {
-		return mapper.insertHistory(insert_qty, stock_cd, product_cd, sId);
+	public int getInsertHistory(int insert_qty, String string, int product_cd, String sId) {
+		return mapper.insertHistory(insert_qty, string, product_cd, sId);
 	}
 	//-----------------종결 버튼----------------
 	public int updateclosing(String IN_COMPLETE, String IN_SCHEDULE_CD) {
@@ -123,5 +124,31 @@ public class In_scheduleService {
 	//--------진행상태---------- 
 	public List<InSchedulePerProductVO> getInProdList(String iN_SCHEDULE_CD) {
 		return mapper.selectInProductList(iN_SCHEDULE_CD);
+	}
+
+	// 입고 예정 리스트 외1건처리
+	public List<InScheduleVO> getInSchedule() {
+		List<InScheduleVO> inSch = mapper.selectInscheduleList();
+		
+		for(int i=0; i<inSch.size(); i++) {
+			String inSchCd = inSch.get(i).getIN_SCHEDULE_CD();
+			int extraPdCount = mapper.selectExtraPdcount(inSchCd);
+			int checkCd = mapper.selectInPdName(inSchCd);
+			if(extraPdCount > 1) {
+				String pdInfo = mapper.selectInProduct(checkCd);
+				inSch.get(i).setPRODUCT_NAME(pdInfo + "외" + (extraPdCount-1)+"건");
+				
+			}else {
+				String pdInfo = mapper.selectInSingle(checkCd);
+				inSch.get(i).setPRODUCT_NAME(pdInfo);
+			}
+		}
+		
+		return inSch;
+	}
+
+	public List<ProductVO> getProductList1(String keyword) {
+		// TODO Auto-generated method stub
+		return mapper.selectProList1(keyword);
 	}
 }

@@ -31,14 +31,14 @@
 	<select id="selectOutProduct" resultType="String">
 		SELECT product_name 
 			from out_schedule_per_product 
-			where out_schedule_per_cd = #{checkcd}
+			where out_schedule_per_cd = #{checkCd}
 	</select>
 	
 	<!-- 상품이 하나일 때 이름 가져오기₩ -->
 	<select id="selectOutSingle" resultType="String">
 		SELECT product_name 
 			from out_schedule_per_product 
-			where out_schedule_per_cd = #{checkcd}
+			where out_schedule_per_cd = #{checkCd}
 	</select>
 		
 	<!-- 출고 예정 수량 합계 구하기 -->
@@ -203,5 +203,21 @@
 	</update>
 	
 	<!-- 테스트 -->
+	
+	<!-- 출고 처리 - 재고 이력 기록 -->
+	<insert id="insertOutHistory">
+		INSERT INTO stock_history
+			VALUES (
+			#{stock_cd}
+			,1
+			,#{product_cd}
+			,""
+			,""
+			,#{out_qty}
+			,#{sId}
+			,now()
+			,"출고 처리"
+			)
+	</insert>
 	
 </mapper>

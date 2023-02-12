@@ -153,7 +153,7 @@ public class EmpController {
 		//사원 등록 작업
 		int InsertCount = service.InsertEmployee(emp);
 		if(InsertCount > 0) {
-			return "redirect:/";
+			return "redirect:/EmployeeList.em";
 		}else { // 실패
 			model.addAttribute("msg", "사원 등록 실패!");
 			return "fail_back";
@@ -184,7 +184,7 @@ public class EmpController {
 		if(passwd == null || !passwdEncoder.matches(emp.getEMP_PASSWD(), passwd)) { // 실패
 			// Model 객체에 "msg" 속성명으로 "로그인 실패!" 메세지 저장 후
 			// fail_back.jsp 페이지로 포워딩
-			model.addAttribute("msg", "로그인 실패!");
+			model.addAttribute("msg", "로그인 실패! 아이디 또는 비밀번호를 확인해주세요.");
 			return "fail_back";
 		} else { // 성공
 			// HttpSession 객체에 세션 아이디 저장 후 메인페이지로 리다이렉트
@@ -194,7 +194,10 @@ public class EmpController {
 			session.setAttribute("priv_cd", emp.getPRIV_CD()); //권한코드 저장
 			session.setAttribute("emp_num", emp.getEMP_NUM()); //사원코드 저장
 			session.setAttribute("idx", emp.getIDX()); //idx 저장
+			session.setAttribute("PHOTO", emp.getPHOTO()); // PHOTO 저장
 			
+			System.out.println("#####################################################################33");
+			System.out.println("emp ; "+emp);
 			return "redirect:/";
 		}
 	}//LoginPro 끝 
@@ -447,6 +450,15 @@ public class EmpController {
 			String EMP_NUM = employee.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
 			employee.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
 			
+			//권한 결합 작업
+			String [] emp_priv_arr = employee.getPRIV_CD().split(",");
+			for(int i=0; i<emp_priv_arr.length; i++) {
+				String PRIV_CD = emp_priv_arr[i].join("", emp_priv_arr);
+//				System.out.println(EMP_EMAIL);
+				employee.setPRIV_CD(PRIV_CD);
+				
+			}
+			
 			
 			int updateCount = service.modifyEmployee(employee);
 			System.out.println("수정 비즈니스 로직 : " + updateCount);
@@ -463,7 +475,7 @@ public class EmpController {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+				session.getAttribute(originalFileName);
 				return "redirect:/EmployeeList.em"; //EmpList.em
 			} else { // 수정 실패 
 				model.addAttribute("msg","수정에 실패하였습니다");
@@ -487,7 +499,7 @@ public class EmpController {
 			try {
 					// Service 객체의 removeBoardFile() 메서드 호출하여 개별 파일 삭제 요청
 					int deleteCount = service.removeImgFile(EMP_NUM, PHOTO);
-					
+					EmpVo vo =service.getEmployee(EMP_NUM);
 					// DB 파일 삭제 성공 시 실제 파일 삭제
 					if(deleteCount > 0) { // 삭제 성공
 						String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
@@ -495,7 +507,7 @@ public class EmpController {
 						
 						Path path = Paths.get(saveDir + "/" + PHOTO);
 						Files.deleteIfExists(path);
-						
+//						session.removeAttribute("PHOTO");
 						response.getWriter().print("true");
 					} else { // 삭제 실패
 						response.getWriter().print("false");
@@ -507,28 +519,34 @@ public class EmpController {
 			
 		} //========================== 이미지 (수정) 삭제 끝============================
 		
-		
 		//-------------마이페이지 이동------------
 		@GetMapping(value = "MyPage.em") 
 		public String mypage(HttpSession session, @ModelAttribute EmpVo emp, Model model) {
-	//		session id에 맞는 사원 정보 가져오기
-			String EMP_NUM = (String)session.getAttribute("emp_num");
+			
+			if(session.getAttribute("emp_num") != null) {
+				String EMP_NUM = (String)session.getAttribute("emp_num");
+				//id에 맞는 사원정보 가져오기
+				emp = service.getEmployee(EMP_NUM);
+				// 개인 연락처 분리
+				String emp_phone_number1 = emp.getEMP_TEL().substring(4, 8);
+				String emp_phone_number2 = emp.getEMP_TEL().substring(9, 13);
+				// 사무실 연락처 분리
+				String emp_dtel_number1 = emp.getEMP_DTEL().substring(4,7);
+				String emp_dtel_number2 = emp.getEMP_DTEL().substring(8,12);
+				model.addAttribute("emp", emp);
+				model.addAttribute("emp_phone_number1", emp_phone_number1);
+				model.addAttribute("emp_phone_number2", emp_phone_number2);
+				model.addAttribute("emp_dtel_number1", emp_dtel_number1);
+				model.addAttribute("emp_dtel_number2", emp_dtel_number2);
+				
+				return "emp/employee_mypage";
+			}else {
+				model.addAttribute("msg","로그인이 필요한 페이지입니다.");
+				return "redirect:/";
+			}
+				
 		
-		emp = service.getEmployee(EMP_NUM);
-		// 개인 연락처 분리
-		String emp_phone_number1 = emp.getEMP_TEL().substring(4, 8);
-		String emp_phone_number2 = emp.getEMP_TEL().substring(9, 13);
-		// 사무실 연락처 분리
-		String emp_dtel_number1 = emp.getEMP_DTEL().substring(4,7);
-		String emp_dtel_number2 = emp.getEMP_DTEL().substring(8,12);
-		model.addAttribute("emp", emp);
-		model.addAttribute("emp_phone_number1", emp_phone_number1);
-		model.addAttribute("emp_phone_number2", emp_phone_number2);
-		model.addAttribute("emp_dtel_number1", emp_dtel_number1);
-		model.addAttribute("emp_dtel_number2", emp_dtel_number2);
 		
-		
-		return "emp/employee_mypage";
 	}//mypage 끝
 	
 	
