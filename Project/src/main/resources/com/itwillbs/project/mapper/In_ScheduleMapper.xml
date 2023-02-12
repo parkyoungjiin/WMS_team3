@@ -142,7 +142,7 @@
 	<!-- 선택 된 항목 불러오기 -->	
 	<select id="getInschedulePerInfo" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 		SELECT *
-			FROM in_schedule_view
+			FROM IN_SCHEDULE_PER_PRODUCT
 			WHERE IN_SCHEDULE_PER_CD = #{IN_SCHEDULE_PER_CD}
 	</select>
 	
