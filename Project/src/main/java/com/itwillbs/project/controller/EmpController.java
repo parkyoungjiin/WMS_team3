@@ -194,7 +194,10 @@ public class EmpController {
 			session.setAttribute("priv_cd", emp.getPRIV_CD()); //권한코드 저장
 			session.setAttribute("emp_num", emp.getEMP_NUM()); //사원코드 저장
 			session.setAttribute("idx", emp.getIDX()); //idx 저장
+			session.setAttribute("PHOTO", emp.getPHOTO()); // PHOTO 저장
 			
+			System.out.println("#####################################################################33");
+			System.out.println("emp ; "+emp);
 			return "redirect:/";
 		}
 	}//LoginPro 끝 
@@ -450,7 +453,7 @@ public class EmpController {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+				session.getAttribute(originalFileName);
 				return "redirect:/EmployeeList.em"; //EmpList.em
 			} else { // 수정 실패 
 				model.addAttribute("msg","수정에 실패하였습니다");
@@ -474,7 +477,7 @@ public class EmpController {
 			try {
 					// Service 객체의 removeBoardFile() 메서드 호출하여 개별 파일 삭제 요청
 					int deleteCount = service.removeImgFile(EMP_NUM, PHOTO);
-					
+					EmpVo vo =service.getEmployee(EMP_NUM);
 					// DB 파일 삭제 성공 시 실제 파일 삭제
 					if(deleteCount > 0) { // 삭제 성공
 						String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
@@ -482,7 +485,7 @@ public class EmpController {
 						
 						Path path = Paths.get(saveDir + "/" + PHOTO);
 						Files.deleteIfExists(path);
-						
+//						session.removeAttribute("PHOTO");
 						response.getWriter().print("true");
 					} else { // 삭제 실패
 						response.getWriter().print("false");
@@ -493,7 +496,6 @@ public class EmpController {
 			}
 			
 		} //========================== 이미지 (수정) 삭제 끝============================
-		
 		
 		//-------------마이페이지 이동------------
 		@GetMapping(value = "MyPage.em") 

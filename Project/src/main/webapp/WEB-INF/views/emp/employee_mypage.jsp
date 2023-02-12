@@ -20,11 +20,6 @@
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
-<script type="text/javascript">
-if(${msg} != null){
-	alert("${msg}");
-}
-</script>
 
 <!------------------- 이미지 수정------------------ -->
 <script type="text/javascript">
@@ -47,6 +42,7 @@ if(${msg} != null){
 						// 삭제 성공 시 파일명 표시 위치의 기존 항목을 제거하고
 						// 파일 업로드를 위한 "파일 선택" 버튼 항목 표시
 						$("#imgChange").html('<input type="file" name="file">');
+						alert("파일이 삭제되었습니다!");
 					} else if(data == "false") {
 						alert("일시적인 오류로 파일 삭제에 실패했습니다!");
 					} 
@@ -59,7 +55,7 @@ if(${msg} != null){
 </script>
 <script type="text/javascript">
 <!-- 이미지 썸네일 -->
-<script>
+
 	function changeImage(event) {
 		var reader = new FileReader();
 
@@ -86,7 +82,6 @@ if(${msg} != null){
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 		<main id="main" class="main">
-			
     <div class="pagetitle">
      <h1>마이페이지</h1>
    </div><!-- End Page Title -->
@@ -141,37 +136,29 @@ if(${msg} != null){
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사원 이미지</label>
                       <div class="col-md-8 col-lg-9">
                         <div id="profile" >
-                        <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }"  width="400"onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
+                        <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }"  width="400" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
                         </div>
-<!--                         	썸네일 -->
-<!-- 		                        <div class="row mb-3"> -->
-<!-- 		                     	 <div id="image_container" style="width: 150px; height: 200px;"></div> -->
-<!-- 								</div> -->
-<!--                      		썸네일 끝 -->
-                        <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                        </div>
-                        
                         <!-- 이미지 수정 버튼 -->
 						<div id="imgChange" >
 	                  		<c:choose>
 								<c:when test="${emp.PHOTO ne '' }">
-									<%-- 컨텍스트 경로/resources/upload 디렉토리 내의 파일 지정 --%> 
-<%-- 									<a href="${pageContext.request.contextPath }/resources/upload/${PHOTO }" download="${PHOTO }"> ${PHOTO }</a> --%>
-<%-- 									<img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" > --%>
 									<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
 									<input type="button" value="삭제" onclick="deleteFile('${emp.PHOTO}','${emp.EMP_NUM}')">
 								</c:when>
 								<c:otherwise>
-									<input type="file" name="file">
+									<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);">
 								</c:otherwise>									
 							</c:choose>
 						</div>
 		                </div>
+		                <div></div>
+		                	<!-- 썸네일 -->
+							<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
+							<div id="image_container" ></div> <!-- style="width: 250px; height: 250px;" -->
+<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
                       </div>
-                    </div>
-
+                      
+<!--                    <div></div> -->
                     <div class="row mb-3">
                       <label for="EMP_NAME" class="col-md-4 col-lg-3 col-form-label">사원코드</label>
                       <div class="col-md-8 col-lg-2">
