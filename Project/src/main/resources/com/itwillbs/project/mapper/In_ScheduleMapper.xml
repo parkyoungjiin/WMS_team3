@@ -6,6 +6,13 @@
 	FROM in_schedule_view
 	</select>
 	
+	<!-- 품목조회 -->
+	<select id="selectProList1">
+	SELECT * FROM product
+	WHERE product_name LIKE '%${keyword}%'
+	
+	</select>
+	
 	<!-- 출고리스트 상품 갯수 조회 -->
 	<select id="selectExtraPdcount" resultType="int">
 	SELECT COUNT(IN_SCHEDULE_CD)
@@ -78,7 +85,7 @@
 		,IN_DATE = #{IN_DATE}
 		,REMARKS = #{REMARKS}
 		,STOCK_CD = #{STOCK_CD}
-		WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
+		WHERE IN_SCHEDULE_PER_CD = #{IN_SCHEDULE_PER_CD}
 	
 	</update>
 	

@@ -392,7 +392,7 @@ $(function() {
           					+ '</div></td>'
 							+ '<td><input type="text" class="form-control form-control-sm pro_name" id="PRODUCT_NAMEArr" name="PRODUCT_NAMEArr" required="required">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
-							+ '<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTY" onchange="calculateSum();"></td>'
+							+ '<td><input type="number" class="form-control form-control-sm in_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="in_schedule_qty" onchange="calculateSum();"></td>'
 							+ '<td><input type="date" class="form-control form-control-sm" style="border:none" value="' + date + '" name="IN_DATEArr" required="required"></td>'
 							+ '<td><input type="text" class="form-control form-control-sm" value="' + remarks + '" name="REMARKS"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
@@ -516,23 +516,22 @@ function input_search_idx(cb) {
 });      
    
 }
-  
 //수량 합계 계산
- function calculateSum() {
-     var sum = 0;
-     var inputElements = document.getElementsByClassName("out_schedule_qty");
-     for (var i = 0; i < inputElements.length; i++) {
-       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
-         sum += parseFloat(inputElements[i].value);
-       }
-     }
-     document.getElementById("sum").innerHTML = sum;
-   }
+function calculateSum() {
+    var sum = 0;
+    var inputElements = document.getElementsByClassName("in_schedule_qty");
+    for (var i = 0; i < inputElements.length; i++) {
+      if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
+        sum += parseFloat(inputElements[i].value);
+      }
+    }
+    document.getElementById("sum").innerHTML = sum;
+  }
 
-   var inputFields = document.querySelectorAll(".out_schedule_qty");
-   inputFields.forEach(function(inputField) {
-     inputField.addEventListener("input", calculateSum);
-   });
+  var inputFields = document.querySelectorAll(".in_schedule_qty");
+  inputFields.forEach(function(inputField) {
+    inputField.addEventListener("input", calculateSum);
+  });
 </script>
 
 <style type="text/css">
@@ -602,7 +601,7 @@ function input_search_idx(cb) {
                 <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">납기일자</label>
                       <div class="col-md-8 col-lg-2">
-                        <input name="IN_DATE" type="date" class="form-control" id="testDate" required="required" value="${ins.IN_DATE }">
+                        <input name="IN_DATE" type="date" class="form-control" id="IN_DATE" required="required" value="${ins.IN_DATE }">
                       </div>
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label" style="text-align: center;">비고</label>
                       <div class="col-md-8 col-lg-2">
@@ -620,7 +619,8 @@ function input_search_idx(cb) {
 			 <!-- Modal Dialog Scrollable -->
 			 <!-- 거래처 검색 -->
               <div class="modal fade" id="modalDialogScrollable_buyer" tabindex="-1">
-                <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-dialog mod
+                al-dialog-scrollable">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title">거래처 검색</h5>
@@ -751,18 +751,22 @@ function input_search_idx(cb) {
 		                </thead>
 		                <tbody>
 		                <c:forEach items="${inspList }" var="inspList" varStatus="status"> 
+		                <input type="hidden" class="form-control form-control-sm pro_name" required="required" value="${inspList.PRODUCT_NAME }" name="PRODUCT_NAMEArr" id="product_nameArr${status.index}">
+		                <input type="hidden" class="form-control form-control-sm pro_size" required="required" value="${inspList.PRODUCT_SIZE }" name="PRODUCT_SIZEArr" id="product_sizeArr${status.index}" >
+<%--         				<input type="hidden" name="stock_cdArr" class="stock_cd" value="${ospList.stock_cd }" id="product_stock_cd${status.index}"> --%>
+        				<input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD }" id="in_schedule${status.index}">
 		                  	<tr>
 							<td>
-							<div class="col-md-8 col-lg-8"><div class="input-group input-group-sm mb-2">
+							<div class="input-group input-group-sm mb-2">
          					<input type="text" class="form-control form-control-sm pro_cd" id="product_cd${status.index }" name="PRODUCT_CDArr" required="required" value="${inspList.PRODUCT_CD }">
-	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_pro" onclick="selectIdx='+idx+'">검색</button></div>
+	         				<button class="btn btn-secondary" type="button" data-bs-toggle="modal" id="product_search_btn${status.index }" data-bs-target="#modalDialogScrollable_pro" onclick="input_search_idx(this)">검색</button></div>
           					</div></td>
-							<td><input type="text" class="form-control form-control-sm pro_name" required="required" value="${inspList.PRODUCT_NAME }"></td>
-							<td><input type="number" class="form-control form-control-sm out_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTY" value="${inspList.IN_SCHEDULE_QTY }" onchange="calculateSum();"></td>
-							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${inspList.IN_DATE }" name="IN_DATEArr" required="required"></td>
-							<td><input type="text" class="form-control form-control-sm" value="${inspList.REMARKS }" name="REMARKS"></td>
+							<td><input type="text" class="form-control form-control-sm pro_name" required="required" id="product_namesizeArr${status.index }" name="PRODUCT_NAMEArr" value="${inspList.PRODUCT_NAME }[${inspList.PRODUCT_SIZE }]"></td>
+							<td><input type="number" class="form-control form-control-sm in_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="IN_SCHEDULE_QTYArr${status.index }" value="${inspList.IN_SCHEDULE_QTY }" onchange="calculateSum();"></td>
+							<td><input type="date" class="form-control form-control-sm" style="border:none" value="${inspList.IN_DATE }" name="IN_DATEArr" id="IN_DATEArr${status.index }" required="required"></td>
+							<td><input type="text" class="form-control form-control-sm" value="${inspList.REMARKS }"  id="REMARKSArr${status.index }" name="REMARKSArr"></td>
+							<td><input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD}" id="product_stock_cd${status.index}"></td>
 							<td><span class="stoContent"></span></td>
-							<input type="hidden" name="IN_SCHEDULE_PER_CDArr" value="${inspList.IN_SCHEDULE_PER_CD}" id="product_stock_cd${status.index}">
 <!-- 							<input type="hidden" name="stock_cdArr" class="stock_cd"> -->
 <!-- 							<input type="hidden" name="stock_qty" class="stock_qty"> -->
 <!-- 							<input type="hidden" name="product_nameArr" class="product_nameArr"> -->

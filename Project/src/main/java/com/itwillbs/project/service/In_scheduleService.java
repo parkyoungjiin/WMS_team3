@@ -10,6 +10,7 @@ import com.itwillbs.project.mapper.In_ScheduleMapper;
 import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.InSchedulePerProductVO;
 import com.itwillbs.project.vo.InScheduleVO;
+import com.itwillbs.project.vo.ProductVO;
 import com.itwillbs.project.vo.StockVo;
 import com.itwillbs.project.vo.WareHouseVO;
 
@@ -125,6 +126,7 @@ public class In_scheduleService {
 		return mapper.selectInProductList(iN_SCHEDULE_CD);
 	}
 
+	// 입고 예정 리스트 외1건처리
 	public List<InScheduleVO> getInSchedule() {
 		List<InScheduleVO> inSch = mapper.selectInscheduleList();
 		
@@ -143,5 +145,10 @@ public class In_scheduleService {
 		}
 		
 		return inSch;
+	}
+
+	public List<ProductVO> getProductList1(String keyword) {
+		// TODO Auto-generated method stub
+		return mapper.selectProList1(keyword);
 	}
 }

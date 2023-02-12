@@ -409,7 +409,7 @@ $(function() {
           					+ '</div></td>'
 							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm pro_name" required="required">' + '</td>'
 // 							+ '<td>' + '규격' + '</td>'
-							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm" name="IN_SCHEDULE_QTYArr" required="required"></td>'
+							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm in_schedule_qty" name="IN_SCHEDULE_QTYArr" required="required" id="in_schedule_qty" onchange="calculateSum();"></td>'
 							+ '<td style="text-align: center"><input type="date" style="text-align:center;" class="form-control form-control-sm" style="border:none" value="' + date + '" name="IN_DATEArr" required="required" readonly="readonly"></td>'
 							+ '<td style="text-align: center"><input type="text" style="text-align:center;" class="form-control form-control-sm" value="' + remarks + '" name="REMARKSArr"></td>'
 // 							+ '<td><button id="" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_sto" onclick="load_stoList()">검색</button></td>'
@@ -427,25 +427,25 @@ $(function() {
 });
 
 //체크박스 선택 jQuery
-$(document).ready(function() {
-	$("#chkAll").click(function() {
-		if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
-		else $("input[name=chk]").prop("checked", false);
-	});
+// $(document).ready(function() {
+// 	$("#chkAll").click(function() {
+// 		if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+// 		else $("input[name=chk]").prop("checked", false);
+// 	});
 	
-	$("input[name=chk]").click(function() {
-		var total = $("input[name=chk]").length;
-		var checked = $("input[name=chk]:checked").length;
+// 	$("input[name=chk]").click(function() {
+// 		var total = $("input[name=chk]").length;
+// 		var checked = $("input[name=chk]:checked").length;
 		
-		if(total != checked) $("#chkAll").prop("checked", false);
-		else $("#chkAll").prop("checked", true); 
-	});
-});
+// 		if(total != checked) $("#chkAll").prop("checked", false);
+// 		else $("#chkAll").prop("checked", true); 
+// 	});
+// });
 
 //수량 합계 계산
 function calculateSum() {
     var sum = 0;
-    var inputElements = document.getElementsByClassName("out_schedule_qty");
+    var inputElements = document.getElementsByClassName("in_schedule_qty");
     for (var i = 0; i < inputElements.length; i++) {
       if (!isNaN(inputElements[i].value) && inputElements[i].value.length != 0) {
         sum += parseFloat(inputElements[i].value);
@@ -454,7 +454,7 @@ function calculateSum() {
     document.getElementById("sum").innerHTML = sum;
   }
 
-  var inputFields = document.querySelectorAll(".out_schedule_qty");
+  var inputFields = document.querySelectorAll(".in_schedule_qty");
   inputFields.forEach(function(inputField) {
     inputField.addEventListener("input", calculateSum);
   });
@@ -689,7 +689,7 @@ function calculateSum() {
 		              <!-- End Table with hoverable rows -->
        			<div class="text-right" style="float: right; padding-top: 50px">
 		        	<span style="font-size: 15px;">수량 합계 : </span><span id="sum" style="padding-right: 50px; font-size: 15px;"></span>
-                  <button type="submit" class="btn btn-primary" onclick="OutRegister.os">등록</button>
+                  <button type="submit" class="btn btn-primary">등록</button>
                   <button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
                 </div>
        </div>

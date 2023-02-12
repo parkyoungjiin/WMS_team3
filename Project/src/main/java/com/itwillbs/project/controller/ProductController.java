@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.project.service.ProductService;
 import com.itwillbs.project.vo.BuyerVo;
+import com.itwillbs.project.vo.EmpVo;
 import com.itwillbs.project.vo.ProductVO;
 
 @Controller
@@ -142,7 +143,7 @@ public class ProductController {
 		// 등록 성공 / 실패에 따른 포워딩
 		if(insertCount > 0) { // 성공
 			model.addAttribute("msg", "등록 성공");
-			return "redirect:/ProductInsertForm";
+			return "redirect:/ProductList";
 		} else {
 			model.addAttribute("msg", "등록 실패");
 			return "fail_back";
@@ -308,61 +309,41 @@ public String productUpdate(
 
 }
 
+//======== 품목 수정 시 개별 파일 삭제 처리 ===============================
+		@ResponseBody
+		@PostMapping("/DeleteImgFile2")
+		public void deleteImgFile(
+				@RequestParam int product_cd,
+				@RequestParam String product_image,
+				HttpSession session, HttpServletResponse response
+				, Model model) {
+			
+			response.setCharacterEncoding("UTF-8");
+			
+			try {
+					// Service 객체의 removeBoardFile() 메서드 호출하여 개별 파일 삭제 요청
+					int deleteCount = service.removeImgFile(product_cd, product_image);
+					ProductVO vo =service.getProdInfo(product_cd);
+					// DB 파일 삭제 성공 시 실제 파일 삭제
+					if(deleteCount > 0) { // 삭제 성공
+						String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
+						String saveDir = session.getServletContext().getRealPath(uploadDir);
+						
+						Path path = Paths.get(saveDir + "/" + product_image);
+						Files.deleteIfExists(path);
+//						session.removeAttribute("PHOTO");
+						response.getWriter().print("true");
+					} else { // 삭제 실패
+						response.getWriter().print("false");
+					}
+					
+			} catch (IOException e) {
+				e.printStackTrace();
+				model.addAttribute("msg", "일시적인 오류로 파일 삭제에 실패했습니다!");
+			}
+			
+		} //========================== 이미지 (수정) 삭제 끝============================
+		
 
-	
-
-//-------------이미지 파일 출력------------------------
-//@RequestMapping(value="/", method = RequestMethod.GET)
-//public String img(Locale locale, Model model) {
-//	
-//	model.addAttribute("img", img);
-//}================================================
-	
-//글 수정 시 개별 파일 삭제 처리를 별도로 수행(AJAX 요청)
-	// => 파라미터 : 글번호, 파일명, 세션 객체, 응답 객체 필요
-//	@ResponseBody
-//	@PostMapping("/BoardDeleteFile.bo")
-//	public void deleteFile(
-//			@RequestParam int board_num,
-//			@RequestParam String board_pass,
-//			@RequestParam String fileName,
-//			HttpSession session, HttpServletResponse response) {
-////		System.out.println(board_num + ", " + fileName);
-//		
-//		response.setCharacterEncoding("UTF-8");
-//		
-//		try {
-//			// Service 객체의 isBoardWriter() 메서드를 호출하여 
-//			// 전달받은 패스워드가 게시물의 패스워드와 일치하는지 비교
-//			// => 파라미터 : 글번호, 패스워드    리턴타입 : BoardVO
-//			if(service.isBoardWriter(board_num, board_pass) != null) {
-//				// 게시물 패스워드가 일치할 경우 
-//				// Service 객체의 removeBoardFile() 메서드 호출하여 개별 파일 삭제 요청
-//				// => 파라미터 : 글번호, 파일명
-//				int deleteCount = service.removeBoardFile(board_num, fileName);
-//				
-//				// DB 파일 삭제 성공 시 실제 파일 삭제
-//				if(deleteCount > 0) { // 삭제 성공
-//					String uploadDir = "/resources/upload"; // 가상의 업로드 경로(루트(webapp) 기준)
-//					String saveDir = session.getServletContext().getRealPath(uploadDir);
-//					
-//					Path path = Paths.get(saveDir + "/" + fileName);
-//					Files.deleteIfExists(path);
-//					
-//					response.getWriter().print("true");
-//				} else { // 삭제 실패
-//					response.getWriter().print("false");
-//				}
-//				
-//			} else {
-//				response.getWriter().print("incorrectPasswd");
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
-//	
-	
 	
 }// ProductController 끝

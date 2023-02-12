@@ -38,17 +38,19 @@ window.onload = function(){
     });
 }
 </script>
+<script type="text/javascript">
 <!-- 이미지 섬네일 -->
-<script>
 	function changeImage(event) {
 		var reader = new FileReader();
 
         reader.onload = function(event) {
           var img = document.createElement("img");
           img.setAttribute("src", event.target.result);
-          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
+          img.setAttribute("style", "width: 200px; height: 200px; object-fit: cover;");
           document.querySelector("div#image_container").innerHTML = '';
           document.querySelector("div#image_container").appendChild(img);
+          console.log(image_container);
+          console.log(img);
         };
 
         reader.readAsDataURL(event.target.files[0]);
@@ -381,7 +383,7 @@ $(function() {
                       		<input type="text" class="form-control" name="EMP_DTEL" onkeyup="inputOnlyNumberFormat(this)" maxlength="4" value=${dTel2 }>
      					   </div>                 
      					</div>
-                    </div>
+<!--                     </div> -->
 
                     <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">이메일</label>
@@ -501,28 +503,23 @@ $(function() {
 								<div id="imgChange" >
 			                  		<c:choose>
 										<c:when test="${employee.PHOTO ne '' }">
-											<%-- 컨텍스트 경로/resources/upload 디렉토리 내의 파일 지정 --%> 
-		<%-- 									<a href="${pageContext.request.contextPath }/resources/upload/${PHOTO }" download="${PHOTO }"> ${PHOTO }</a> --%>
-		<%-- 									<img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" > --%>
 											<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
-											<input type="button" value="삭제" onclick="deleteFile('${employee.PHOTO}','${employee.EMP_NUM}')">
-										</c:when>
+											<input type="button"  value="삭제" onclick="deleteFile('${employee.PHOTO}','${employee.EMP_NUM}')">
+										</c:when>   
 										<c:otherwise>
 											<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);">
 										</c:otherwise>									
 									</c:choose>
-								
-			                     	 
-					</div>
-								<!-- 썸네일 -->
-									<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기
-									</label>
-									<div id="image_container" style="width: 150px; height: 200px;"></div>
-<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
-                      </div>
-                    </div>
+									</div>
+			                        </div>
+			                        <div></div>
+										<!-- 썸네일 -->
+										<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
+										<div id="image_container" ></div> <!-- style="width: 250px; height: 250px;" -->
+			<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
+			                    </div>
 					
-					<div></div>
+<!-- 					<div></div> -->
                     <div class="text-left">
                       <button type="submit" class="btn btn-primary" onclick="check_priv_cd()">수정하기</button>
                       <button type="reset" class="btn btn-secondary">다시 쓰기</button>
