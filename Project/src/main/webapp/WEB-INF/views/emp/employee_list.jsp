@@ -108,7 +108,7 @@
 	                    <c:if test="${emp.WORK_CD eq 'C1' }">
 		                    <tr>
 <%-- 		                    	<td><img src="${path}/resources/${emp.PHOTO}" alt="등록된 사진이 없습니다."></td> --%>
-		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" style="width:50px; height: 50px;"></td>
+		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='resources/upload/noProfile.png';" alt="Profile" style="width:50px; height: 50px;"></td>
 		                    	<td>${emp.EMP_NUM }</td>
 		                    	<td>${emp.EMP_NAME }</td>
 		                    	<td>${emp.DEPT_CD }</td>
@@ -146,7 +146,7 @@
 	                    <c:forEach items="${empList }" var="emp">
 	                    <c:if test="${emp.WORK_CD eq 'C2' }">
 		                    <tr>
-		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" style="width:50px; height: 50px;"></td>
+		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='resources/upload/noProfile.png';" alt="Profile" style="width:50px; height: 50px;"></td>
 		                    	<td>${emp.EMP_NUM }</td>
 		                    	<td>${emp.EMP_NAME }</td>
 		                    	<td>${emp.DEPT_CD }</td>

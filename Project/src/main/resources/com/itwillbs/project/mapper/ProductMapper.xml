@@ -153,7 +153,7 @@
 	</select>
 	
 	<!-- 기존 파일명에서 삭제할 파일명을 제거 -->
-	<update id="deleteFile">
+	<update id="deleteImgFile2">
 		UPDATE product
 			SET product_image = REPLACE(product_image, #{product_image}, "")
 			WHERE product_cd = #{product_cd}

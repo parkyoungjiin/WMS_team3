@@ -92,7 +92,7 @@
 								<td>${ProdList.out_unit_price }</td>
 								<td>${ProdList.product_type_name }</td>
 <%-- 								<td> <input type="image" alt="${ProdList.product_image }" src="<%=request.getScheme()+"://"+request.getServerName() + ":" + request.getServerPort() +"/"+request.getContextPath()%>/resources/upload/${ProdList.product_image }" height="70" width="70"> --%>
-								<td> <input type="image" alt="${ProdList.product_image }" src="${pageContext.request.contextPath}/resources/upload/${ProdList.product_image }" height="70" width="70">
+								<td> <input type="image" alt="${ProdList.product_image }" src="${pageContext.request.contextPath}/resources/upload/${ProdList.product_image }" onError="this.onerror=null; this.src='resources/upload/차.JPG';" height="70" width="70">
 <!-- 									<img src="/upload/noImg.png" width="100" height="100"> -->
 								</td>
 							</tr> 

@@ -35,7 +35,7 @@ public class ProductService {
 	public List<ProductVO> getPdList(String keyword) {
 		return mapper.selectPdList(keyword);
 	}
-	
+	//----------------- 품목 정보 ------------------------------
 	public ProductVO getProdInfo(int product_cd) {
 		return mapper.selectProdInfo(product_cd);
 	}
@@ -44,8 +44,11 @@ public class ProductService {
 	public int updateProd(ProductVO product) {
 		return mapper.modifyProd(product, product.getProduct_image());
 	}
+
+	//----------------- 목록 수정 작업 중 개별 파일 삭제 ----------------
+	public int removeImgFile(int product_cd, String product_image) {
+		return mapper.deleteImgFile2(product_cd, product_image);
+	}
 	
-
-
 
 }
