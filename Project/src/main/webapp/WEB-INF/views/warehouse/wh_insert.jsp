@@ -140,7 +140,16 @@ window.onload = function(){
 		<div class="card mb-4">
 		<!-- Profile Edit Form -->
 		       <div class="card-body">
-                   
+                    <!-- 사용 여부 --> 
+              <div class="row mb-3">
+                <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사용 여부</label>
+                <div class="col-md-3 col-lg-2">
+                  <select class="form-select" name="wh_use" >
+					<option value="1">사용</option>
+					<option value="2">비사용</option>
+		           </select>
+                </div>
+              </div>
                    
                    <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">창고 코드(*)</label>

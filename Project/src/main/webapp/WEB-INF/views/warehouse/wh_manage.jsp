@@ -270,13 +270,11 @@
 		
 		//--------창고 지역 plus 버튼-----------
 		function loc_plus_button(cd) {
-				alert(cd);
 				$(".loc_hide"+cd).show();
 		}// 창고 지역 plus 버튼 끝
 		
 		//--------창고 지역 minus 버튼-----------
 		function minus_button(cd,cc) {
-			alert(cc);
 			var bb =Number($("#loc_hidden_value").val());
 			$(".hide"+cd).hide();
 			$("#check_button"+bb).hide();
@@ -491,7 +489,6 @@
 		}
 		//------창고 안 재고 리스트 출력
 		function stocklist_area_loc(wh_cd,wh_area_cd,wh_loc_in_area_cd){
-			alert(wh_loc_in_area_cd);
 			$.ajax({
 				type: "GET",
 				url: "WareHouseStockListJsonPro.wh",
