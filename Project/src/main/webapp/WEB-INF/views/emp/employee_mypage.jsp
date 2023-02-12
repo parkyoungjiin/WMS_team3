@@ -53,25 +53,6 @@
 		}
 	}
 </script>
-<script type="text/javascript">
-<!-- 이미지 썸네일 -->
-
-	function changeImage(event) {
-		var reader = new FileReader();
-
-        reader.onload = function(event) {
-          var img = document.createElement("img");
-          img.setAttribute("src", event.target.result);
-          img.setAttribute("style", "width: 100px; height: 150px; object-fit: cover;");
-          document.querySelector("div#image_container").innerHTML = '';
-          document.querySelector("div#image_container").appendChild(img);
-          console.log(image_container);
-          console.log(img);
-        };
-
-        reader.readAsDataURL(event.target.files[0]);
-}// changeImage 끝
-</script>
 
 </head>
 <body>
@@ -136,14 +117,14 @@
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사원 이미지</label>
                       <div class="col-md-8 col-lg-9">
                         <div id="profile" >
-                        <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }"  width="400" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
+                        <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }"  onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
                         </div>
                         <!-- 이미지 수정 버튼 -->
 						<div id="imgChange" >
 	                  		<c:choose>
 								<c:when test="${emp.PHOTO ne '' }">
 									<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
-									<input type="button" value="삭제" onclick="deleteFile('${emp.PHOTO}','${emp.EMP_NUM}')">
+									<input type="button" class="btn btn-secondary btn-sm" value="삭제" onclick="deleteFile('${emp.PHOTO}','${emp.EMP_NUM}')" >
 								</c:when>
 								<c:otherwise>
 									<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);">
@@ -152,10 +133,6 @@
 						</div>
 		                </div>
 		                <div></div>
-		                	<!-- 썸네일 -->
-							<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
-							<div id="image_container" ></div> <!-- style="width: 250px; height: 250px;" -->
-<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
                       </div>
                       
 <!--                    <div></div> -->

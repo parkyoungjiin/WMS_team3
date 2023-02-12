@@ -38,24 +38,7 @@ window.onload = function(){
     });
 }
 </script>
-<script type="text/javascript">
-<!-- 이미지 섬네일 -->
-	function changeImage(event) {
-		var reader = new FileReader();
 
-        reader.onload = function(event) {
-          var img = document.createElement("img");
-          img.setAttribute("src", event.target.result);
-          img.setAttribute("style", "width: 200px; height: 200px; object-fit: cover;");
-          document.querySelector("div#image_container").innerHTML = '';
-          document.querySelector("div#image_container").appendChild(img);
-          console.log(image_container);
-          console.log(img);
-        };
-
-        reader.readAsDataURL(event.target.files[0]);
-}// changeImage 끝
-</script>
 
 <!-- 권한 체크 : 1 / 권한 미체크 : 0 -->
 <script type="text/javascript">
@@ -449,10 +432,6 @@ $(function() {
 									</div>
 			                        </div>
 			                        <div></div>
-										<!-- 썸네일 -->
-										<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label>
-										<div id="image_container" ></div> <!-- style="width: 250px; height: 250px;" -->
-			<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
 			                    </div>
 					
 <!-- 					<div></div> -->
