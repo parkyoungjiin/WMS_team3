@@ -251,7 +251,7 @@
 		                    <td>${outList.emp_name }</td>
 		                    <td>${outList.product_name }</td>
 		                    <td>${outList.out_date }</td>
-		                    <td>${sumOut }</td>
+		                    <td style="text-align:center">${outList.sum_count }</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
@@ -298,7 +298,7 @@
 		                    <td>${outList.emp_name }</td>
 		                    <td>${outList.product_name }</td>
 		                    <td>${outList.out_date }</td>
-		                    <td>${sumOut }</td>
+		                    <td style="text-align:center">${outList.sum_count }</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
@@ -347,7 +347,7 @@
 		                    <td>${outList.emp_name }</td>
 		                    <td>${outList.product_name }</td>
 		                    <td>${outList.out_date }</td>
-		                    <td>${sumOut }</td>
+		                    <td style="text-align:center">${outList.sum_count }</td>
 		                    <td>
 		                    	<c:choose>
 		                    		<c:when test="${outList.out_complete eq '1'}">
@@ -358,7 +358,7 @@
 		                    		</c:when>
 		                    	</c:choose>
 		                    </td>
-		                    <td>
+		                    <td style="text-align:center">
 								<button class="btn btn-secondary btn-sm" id="scSearch${status.index}" type="button" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_complete" onclick="checkIdx(this)">조회</button>
 							</td>
 		                  </tr>

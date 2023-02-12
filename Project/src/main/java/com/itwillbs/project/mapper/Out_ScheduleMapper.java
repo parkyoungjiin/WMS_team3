@@ -81,6 +81,8 @@ public interface Out_ScheduleMapper {
 	// 출고예정수량 합계
 	int selectOutSum(String schCd);
 
+	List<OutScheduleVO> getOutSchedule();
+
 
 	
 }

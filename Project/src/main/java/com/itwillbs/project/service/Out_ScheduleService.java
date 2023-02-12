@@ -29,7 +29,6 @@ public class Out_ScheduleService {
 		for(int i = 0; i < outSch.size(); i++) {
 			
 			String outSchCd = outSch.get(i).getOut_schedule_cd();
-//			System.out.println("2번 CD확인 : " + outSch.get(2));
 			int extraPdCount = mapper.selectExtraPdCount(outSchCd);
 			int checkCd = mapper.selectOutPdName(outSchCd);
 //			System.out.println("count 확인:"+extraPdCount);
@@ -44,7 +43,16 @@ public class Out_ScheduleService {
 				outSch.get(i).setProduct_name(pdInfo);
 			}	
 		}
-           return outSch;
+		
+		for(int i=0; i<outSch.size();i++) {
+			String schCd = outSch.get(i).getOut_schedule_cd();
+			System.out.println("스케줄 코드 : "+schCd);
+			int sumOut = mapper.selectOutSum(schCd);
+			System.out.println("예정갯수 서비스 :" + sumOut);
+			outSch.get(i).setSum_count(sumOut);
+		}
+		
+       return outSch;
 	}	
 
 	// 출고 예정 리스트 - 품목별
@@ -125,20 +133,5 @@ public class Out_ScheduleService {
 	public List<OutScheduleVO> getOutSchedule() {
 		return mapper.selectOutSchedule();
 	}
-
-	// 출고 예정 수량 합계
-	public int getSumOut(String schCd) {
-//		List<OutScheduleVO> out = service.getOutSchedule();
-//		int sumOut = 0;
-//		// 출고예정 갯수 합계
-//		for(int i=0; i<out.size();i++) {
-//			String schCd = out.get(i).getOut_schedule_cd();
-//			System.out.println("스케줄 코드 : "+schCd);
-//			sumOut = service.getSumOut(schCd);
-//			System.out.println("예정갯수 :" + sumOut);
-//			model.addAttribute("sumOut", sumOut);
-		return mapper.selectOutSum(schCd);
-	}
-
-
+	
 }

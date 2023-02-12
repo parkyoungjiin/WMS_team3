@@ -33,11 +33,19 @@
 			from out_schedule_per_product 
 			where out_schedule_per_cd = #{checkcd}
 	</select>
-
+	
+	<!-- 상품이 하나일 때 이름 가져오기₩ -->
 	<select id="selectOutSingle" resultType="String">
 		SELECT product_name 
 			from out_schedule_per_product 
 			where out_schedule_per_cd = #{checkcd}
+	</select>
+		
+	<!-- 출고 예정 수량 합계 구하기 -->
+	<select id="selectOutSum" resultType="int">
+		SELECT SUM(out_schedule_qty)
+			FROM out_schedule_per_product
+			WHERE out_schedule_cd = #{schCd}
 	</select>
 	
 	<!-- 출고예 com.itwillbs.project.vo.ProductVO -->
@@ -193,13 +201,6 @@
 			SET stock_qty = #{stock_qty} - #{out_qty}
 			WHERE stock_cd = #{stock_cd} 
 	</update>
-	
-	<!-- 출고 예정 수량 합계 구하기 -->
-	<select id="selectOutSum" resultType="int">
-		SELECT SUM(out_schedule_qty)
-			FROM out_schedule_per_product
-			WHERE out_schedule_cd = #{schCd}
-	</select>
 	
 	<!-- 테스트 -->
 	

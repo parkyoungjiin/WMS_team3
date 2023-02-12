@@ -49,24 +49,7 @@ public class Out_ScheduleController {
 	public String outList(Model model, @ModelAttribute OutSchedulePerProductVO osp) { 
 		List<OutScheduleVO> outList = service.getOutScheduleList();
 		model.addAttribute("outList", outList); 
-		
-		List<OutScheduleVO> out = service.getOutSchedule();
-		int sumOut = 0;
-		// 출고예정 갯수 합계
-		for(int i=0; i<out.size();i++) {
-			String schCd = out.get(i).getOut_schedule_cd();
-			System.out.println("스케줄 코드 : "+schCd);
-			sumOut = service.getSumOut(schCd);
-			System.out.println("예정갯수 :" + sumOut);
-			model.addAttribute("sumOut", sumOut);
-//			return "out_schedule/out_list";
-		}
-		 
-		System.out.println(sumOut + ", " + outList + "출고예정갯수");
-//		System.out.println("컨트롤러 확인" + outList);
-//		String perName = service.concatName();
-//		System.out.println(perName);
-//		model.addAttribute("perName",perName);
+		System.out.println("개수 호ㅓㅏㄱ인 : "+outList );
 		return "out_schedule/out_list";
 
 	} // outList 끝
