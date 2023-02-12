@@ -150,7 +150,7 @@ public String getWh_addr_detail() {
 
 public void setWh_addr_detail(String wh_addr_detail) {
 	this.wh_addr_detail = wh_addr_detail;
-	wh_addr = wh_addr+","+wh_addr_detail;
+	wh_addr = wh_addr1+","+wh_addr_detail;
 }
 
 
