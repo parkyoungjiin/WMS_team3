@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath }" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +20,7 @@
 <link href="${path}/resources/css/main.css" rel="stylesheet" type="text/css" />
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
+
 <!------------------- 이미지 수정------------------ -->
 <script type="text/javascript">
 
@@ -81,7 +83,6 @@
 	<!-- side -->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 		<main id="main" class="main">
-			
     <div class="pagetitle">
      <h1>마이페이지</h1>
    </div><!-- End Page Title -->
@@ -92,7 +93,8 @@
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-			  <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" class="rounded-circle" style="width:100px; height: 100px;">
+<%--               <img src="${path}/resources/test_image.jpg" alt="Profile" class="rounded-circle" style="width:100px; height: 100px;"> --%>
+				<img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" class="rounded-circle" style="width:100px; height: 100px;">
               <h2 style="margin-bottom: 15px">${emp.EMP_NAME}</h2>
               <h3>${emp.GRADE_CD}</h3>
             </div>
@@ -104,25 +106,33 @@
 
           <div class="card">
             <div class="card-body pt-3">
+            
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
+<!-- 				 <li class="nav-item"> -->
+<!--                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button> -->
+<!--                 </li> -->
 
                 <li class="nav-item">
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                 </li>
+
+<!--                 <li class="nav-item"> -->
+<!--                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button> -->
+<!--                 </li> -->
 
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
                 </li>
 
               </ul>
-              <div class="tab-content pt-2">
-
-                <div class="tab-pane fade profile-edit pt-3 show active" id="profile-edit">
+			<div class="tab-content pt-2">
+              <!-- 마이페이지 Edit Profile--> 
+                <div class="tab-pane fade show active profile-edit pt-3" id="#profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form>
-      				<div class="row mb-3">
+                  <form action="updateMypageInfo.me" method="post" enctype="multipart/form-data">
+                    <div class="row mb-3">
                     	<!-- 프로필 이미지 -->
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사원 이미지</label>
                       <div class="col-md-8 col-lg-9">
@@ -248,13 +258,54 @@
                     </div>
                   </form><!-- End Profile Edit Form -->
 
-                </div>
+				
+<!--                 <div class="tab-pane fade pt-3" id="profile-settings"> -->
+
+<!--                   Settings Form -->
+<!--                   <form> -->
+
+<!--                     <div class="row mb-3"> -->
+<!--                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label> -->
+<!--                       <div class="col-md-8 col-lg-9"> -->
+<!--                         <div class="form-check"> -->
+<!--                           <input class="form-check-input" type="checkbox" id="changesMade" checked> -->
+<!--                           <label class="form-check-label" for="changesMade"> -->
+<!--                             Changes made to your account -->
+<!--                           </label> -->
+<!--                         </div> -->
+<!--                         <div class="form-check"> -->
+<!--                           <input class="form-check-input" type="checkbox" id="newProducts" checked> -->
+<!--                           <label class="form-check-label" for="newProducts"> -->
+<!--                             Information on new products and services -->
+<!--                           </label> -->
+<!--                         </div> -->
+<!--                         <div class="form-check"> -->
+<!--                           <input class="form-check-input" type="checkbox" id="proOffers"> -->
+<!--                           <label class="form-check-label" for="proOffers"> -->
+<!--                             Marketing and promo offers -->
+<!--                           </label> -->
+<!--                         </div> -->
+<!--                         <div class="form-check"> -->
+<!--                           <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled> -->
+<!--                           <label class="form-check-label" for="securityNotify"> -->
+<!--                             Security alerts -->
+<!--                           </label> -->
+<!--                         </div> -->
+<!--                       </div> -->
+<!--                     </div> -->
+
+<!--                     <div class="text-center"> -->
+<!--                       <button type="submit" class="btn btn-primary">Save Changes</button> -->
+<!--                     </div> -->
+<!--                   </form>End settings Form -->
+
+<!--                 </div> -->
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <form action="ChangePasswd.em" method="post">
                   <!-- Change Password Form -->
-                  <form>
 
-                     <div class="row mb-3">
+                    <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">현재 패스워드</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="password" type="password" class="form-control" id="currentPassword" placeholder="확인을 위해 패스워드를 입력 해주세요">
@@ -280,16 +331,16 @@
                     </div>
 
                   </form><!-- End Change Password Form -->
+                </div><!-- password div 끝 -->
 
-                </div>
-
-              </div><!-- End Bordered Tabs -->
-
-            </div>
-          </div>
-
-        </div>
-      </div>
+				</div><!-- End Bordered Tabs -->
+				
+              </div>
+		
+            </div> <%--cardbody pt-3 --%>
+          </div> <%-- div class card --%>
+		 </div> <%-- div class col-xl-8 --%>
+        </div> <%-- div class row --%>
     </section>
 
   </main><!-- End #main -->
