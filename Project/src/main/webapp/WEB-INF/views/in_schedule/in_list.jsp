@@ -115,8 +115,8 @@ a{text-decoration:none; color:#333;}
 	function checkIdx(cb) {
 		var ck_idx = cb.id.replace("scSearch", ""); // checkIdx 함수의 id 값 scSearch 를 공백으로 바꾸면 남는 값이 idx값이 됨
 		var in_cd = $("#IN_SCHEDULE_CD" + ck_idx).val(); // out_cd hidden 으로 숨겨져 있는 input의 out_schedule~+위의 구해진 idx값이 id인 곳으로 가서 value값 가져옴
-		alert(ck_idx);	
-		alert(in_cd);
+// 		alert(ck_idx);	
+// 		alert(in_cd);
 
 		$.ajax({
 			type:"GET"
@@ -128,9 +128,10 @@ a{text-decoration:none; color:#333;}
 		})
 		.done(function(inProdList) {
 			console.log(inProdList);
+			$("#in > tbody").empty();
 			for(let prod of inProdList) {
 // 				let product_cd = ${prod.out_product_cd}
-				$("#in > tbody").empty();
+				
 				var inList = '<tr>' 
 							  + '<td>' + prod.PRODUCT_CD + '</td>'
 							  + '<td>' + prod.PRODUCT_NAME + '</td>'
@@ -266,7 +267,7 @@ a{text-decoration:none; color:#333;}
 		                    <td>${isList.EMP_NAME}</td>	<!-- 담당자명 -->
 		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 pro--> 
 		                    <td>${isList.IN_DATE}</td> <!-- 납기일자 -->
-		                    <td></td> <!-- 입고예정량합계 -->
+		                    <td style="text-align:center">${isList.SUM_COUNT}</td> <!-- 입고예정량합계 -->
 		                       <td>
 		                    	<c:choose>
 		                    		<c:when test="${isList.IN_COMPLETE eq '1'}">
@@ -319,7 +320,7 @@ a{text-decoration:none; color:#333;}
 		                    <td>${isList.EMP_NAME}</td>	<!-- 담당자명 -->
 		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 pro--> 
 		                    <td>${isList.IN_DATE}</td> <!-- 납기일자 -->
-		                    <td></td> <!-- 입고예정량합계 -->
+		                    <td style="text-align:center">${isList.SUM_COUNT} </td> <!-- 입고예정량합계 -->
 		                       <td>
 		                    	<c:choose>
 		                    		<c:when test="${isList.IN_COMPLETE eq '1'}">
@@ -374,7 +375,7 @@ a{text-decoration:none; color:#333;}
 		                    <td>${isList.EMP_NAME}</td>	<!-- 담당자명 -->
 		                    <td>${isList.PRODUCT_NAME }</td> <!-- 품목명 pro--> 
 		                    <td>${isList.IN_DATE}</td> <!-- 납기일자 -->
-		                    <td></td> <!-- 입고예정량합계 -->
+		                    <td style="text-align:center">${isList.SUM_COUNT }</td> <!-- 입고예정량합계 -->
 		                       <td>
 		                    	<c:choose>
 		                    		<c:when test="${isList.IN_COMPLETE eq '1'}">

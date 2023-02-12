@@ -498,7 +498,7 @@ function input_search_idx(cb) {
       .done(function(stoList) { // 요청 성공 시
          
             if(stoList.length === 0){
-               alert("재고가 없는 품목입니다.");
+//                alert("재고가 없는 품목입니다.");
                return;
             }   
       // td 클릭시 모달 창 닫기
@@ -746,7 +746,7 @@ function calculateSum() {
 		                    <th scope="col" style="width: 80px">수량</th>
 		                    <th scope="col">납기일자</th>
 		                    <th scope="col">비고</th>
-		                    <th scope="col">출고대상재고</th>
+<!-- 		                    <th scope="col">출고대상재고</th> -->
 		                  </tr>
 		                </thead>
 		                <tbody>

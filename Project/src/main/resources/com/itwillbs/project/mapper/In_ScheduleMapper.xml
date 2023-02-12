@@ -20,6 +20,13 @@
 	WHERE IN_SCHEDULE_CD = #{inSchCd}
 	</select>
 	
+	<!--  입고예정 수량 합계 -->
+	<select id="selectInSum" resultType="int">
+	SELECT SUM(IN_SCHEDULE_QTY)
+		FROM IN_SCHEDULE_PER_PRODUCT
+		WHERE IN_SCHEDULE_CD = #{schCd}
+	</select>
+	
 	<!-- 입고예정 품목명 -->
 	<select id="selectInPdName" resultType="int">
 	SELECT MAX(IN_SCHEDULE_PER_CD)

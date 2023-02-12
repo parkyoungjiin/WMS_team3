@@ -85,6 +85,8 @@ public interface In_ScheduleMapper {
 	String selectInSingle(int checkCd);
 	
 	List<ProductVO> selectProList1(String keyword);
+	//입고 예정 개수 합계
+	int selectInSum(String schCd);
 	
 	
 
