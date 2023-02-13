@@ -16,21 +16,21 @@
 	<!-- 출고리스트 상품 갯수 조회 -->
 	<select id="selectExtraPdcount" resultType="int">
 	SELECT COUNT(IN_SCHEDULE_CD)
-	FROM IN_SCHEDULE_PER_PRODUCT
-	WHERE IN_SCHEDULE_CD = #{inSchCd}
+	FROM in_schedule_per_product
+	WHERE in_schedule_cd = #{inSchCd}
 	</select>
 	
 	<!--  입고예정 수량 합계 -->
 	<select id="selectInSum" resultType="int">
 	SELECT SUM(IN_SCHEDULE_QTY)
-		FROM IN_SCHEDULE_PER_PRODUCT
+		FROM in_schedule_per_product
 		WHERE IN_SCHEDULE_CD = #{schCd}
 	</select>
 	
 	<!-- 입고예정 품목명 -->
 	<select id="selectInPdName" resultType="int">
 	SELECT MAX(IN_SCHEDULE_PER_CD)
-	FROM IN_SCHEDULE_PER_PRODUCT
+	FROM in_schedule_per_product
 	WHERE IN_SCHEDULE_CD = #{inSchCd}
 	
 	</select>
@@ -38,7 +38,7 @@
 	<!-- 외1건 -->
 	<select id="selectInSingle" resultType="String">
 	SELECT PRODUCT_NAME 
-	FROM IN_SCHEDULE_PER_PRODUCT
+	FROM in_schedule_per_product
 	WHERE IN_SCHEDULE_PER_CD = #{checkCd}
 	
 	</select>
@@ -46,7 +46,7 @@
 	<!-- 입고예정 목록 품목명 -->
 	<select id="selectInProduct" resultType="String">
 	SELECT PRODUCT_NAME
-	FROM IN_SCHEDULE_PER_PRODUCT
+	FROM in_schedule_per_product
 	WHERE IN_SCHEDULE_PER_CD = #{checkCd}
 	</select>
 	
@@ -82,7 +82,7 @@
 	</update>
 	
 	<update id="updateInschedulepro">
-	UPDATE IN_SCHEDULE_PER_PRODUCT
+	UPDATE in_schedule_per_product
 	SET
 		PRODUCT_CD = #{PRODUCT_CD}
 		,PRODUCT_NAME = #{PRODUCT_NAME}
@@ -109,7 +109,7 @@
 	</select>
 	
 	<insert id="insertOutProduct">
-	INSERT INTO IN_SCHEDULE_PER_PRODUCT VALUES(
+	INSERT INTO in_schedule_per_product VALUES(
 	0,
 	#{IN_SCHEDULE_CD}
 	,#{PRODUCT_CD}
@@ -134,7 +134,7 @@
 	<select id="selectInProductList"
 		resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 		SELECT *
-		FROM IN_SCHEDULE_PER_PRODUCT
+		FROM in_schedule_per_product
 		WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
 
 	</select>
@@ -142,7 +142,7 @@
 	<!-- 선택 된 항목 불러오기 -->	
 	<select id="getInschedulePerInfo" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
 		SELECT *
-			FROM IN_SCHEDULE_PER_PRODUCT
+			FROM in_schedule_per_product
 			WHERE IN_SCHEDULE_PER_CD = #{IN_SCHEDULE_PER_CD}
 	</select>
 	
@@ -231,7 +231,7 @@
 	</update>
 	
 	<select id="selectInProdList" resultType="com.itwillbs.project.vo.InSchedulePerProductVO">
-	SELECT * FROM InSchedule_Per_Product
+	SELECT * FROM in_schedule_per_product
 	WHERE IN_SCHEDULE_CD = #{IN_SCHEDULE_CD}
 	</select>
 	

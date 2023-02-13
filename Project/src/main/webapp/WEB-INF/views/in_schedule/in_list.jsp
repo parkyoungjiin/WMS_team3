@@ -199,7 +199,7 @@ a{text-decoration:none; color:#333;}
 				                <tr>
 				                	<th scope="col">품목코드</th>
 				                	<th scope="col">품목명[규격]</th>
-				                	<th scope="col">출고예정수량</th>
+				                	<th scope="col">입고예정수량</th>
 				                	<th scope="col">미출고수량</th>
 				                </tr>
 				            </thead>
