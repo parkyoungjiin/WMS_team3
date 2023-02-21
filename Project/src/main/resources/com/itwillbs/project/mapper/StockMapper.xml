@@ -62,7 +62,7 @@
 			)
 	
 	</insert>
-	<!--  -->
+	<!-- 재고이 -->
 	<select id="stockHistoryList" resultType="com.itwillbs.project.vo.StockHistoryVo">
 		SELECT *
 			FROM stock_history_view
@@ -70,4 +70,11 @@
 	
 	</select>
 
+<!-- 체크 된 항목 팝업창 넘기기 -->
+	<select id="getStockWork" resultType="com.itwillbs.project.vo.StockVo">
+		SELECT *
+			FROM stock_view
+				WHERE stock_cd = #{stock_cd}
+	
+	</select>
 </mapper>

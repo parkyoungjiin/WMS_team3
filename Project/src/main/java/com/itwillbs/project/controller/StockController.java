@@ -1,6 +1,7 @@
 package com.itwillbs.project.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -73,63 +74,10 @@ public class StockController {
 			e.printStackTrace();
 		}
 	}
-	//--------재고 조정 작업---------
-	@PostMapping(value = "StockUpdate.st")
-	public void stockUpdate(
-			@RequestParam("updateStockNum") int update_qty,//업데이트 하는 수량
-			@RequestParam("stock_cd") int stock_cd, //재고번호
-			@RequestParam("product_cd") String product_cd, //품목코드
-			HttpServletResponse response,
-			HttpSession session
-			) {
-		//업데이트 하는 사원번호 (재고 이력에 등록)
-		String sId = (String)session.getAttribute("emp_num");  
-		//재고 조정
-		int updateCount = service.stockUpdate(update_qty, stock_cd);
-		if(updateCount > 0) {
-			//재고 조정 후 재고이력 테이블에 재고이력을 등록
-			int historyInsertCount = service.getInsertHistory(update_qty, stock_cd, product_cd, sId);
-			if(historyInsertCount > 0) {
-				try {
-					response.getWriter().print(updateCount); //emailcheck 값을 보내는 작업
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-			}
-		}
-	}//stockUpdate 끝
+
 	
 	
-	//---------재고 이동----------
-	@PostMapping(value = "stockMove.st")
-	public void stockMove(
-			@RequestParam("current_stock_cd") int current_stock_cd, //현재 재고번호
-			@RequestParam("move_stock_cd") int move_stock_cd, // 이동할 재고번호
-			@RequestParam("move_wh_loc_in_area") String move_wh_loc_in_area, // 이동할 구역
-			@RequestParam("move_stock_num") int move_stock_num, //이동할 개수
-			@RequestParam("product_cd") int product_cd, //품목
-			HttpServletResponse response,
-			HttpSession session
-			) {
-		//업데이트 하는 사원번호 (재고 이력에 등록)
-		String sId = (String)session.getAttribute("emp_num");  
-		//이동 작업
-		int moveCount = service.stockMove(current_stock_cd, move_stock_cd, move_wh_loc_in_area, move_stock_num);
-		if(moveCount > 0) {
-			//이동 작업 성공 시 이력 테이블에 등록
-			int historyInsertCount = service.getInsertHistory(current_stock_cd, move_stock_cd, move_stock_num, sId, product_cd);
-			if(historyInsertCount > 0) {
-				
-				try {
-					response.getWriter().print(moveCount); //emailcheck 값을 보내는 작업
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}//if 끝
-		
-	}//stockMove 끝
+	
 	
 	//----------재고 키워드 조회------------
 	@GetMapping(value = "StockListJson", produces = "application/json; charset=utf-8")
@@ -170,6 +118,92 @@ public class StockController {
 		}
 		
 	}//listJson_stock 끝
+	
+	//재고 복수개 처리
+	@GetMapping(value = "stockWork.st")
+	public String stockWork(@ModelAttribute StockVo stock, Model model) {
+		System.out.println(stock.getStock_cdArr().length);
+		//arr로 저장한 stock_cd를 
+		
+		List<StockVo> stolist = new ArrayList<StockVo>();
+		for(int i=0; i<=stock.getStock_cdArr().length-1;i++) {
+			StockVo stock2 = new StockVo();
+			stock2.setStock_cd(stock.getStock_cdArr()[i]);
+			stock2 = service.getStockWork(stock2);
+			stolist.add(stock2);
+			
+		}
+		System.out.println(stolist);
+		model.addAttribute("stolist", stolist);
+		return "stock/stock_work_popup";
+	}//stockWork 끝
+	
+	//재고 이동, 조정 처리 메서드
+	@GetMapping(value = "stockMoveUpdate.st")
+	public String stockMoveUpdate(@ModelAttribute StockVo stock, Model model, HttpSession session) {
+		//세션 아이디가 없는 경우 작업 불가 ! 
+		String sId = (String)session.getAttribute("emp_num"); 
+		if(sId == "") {
+			model.addAttribute("msg","로그인 상태를 확인해주세요.");
+		}else {
+//			stock_control_length 길이 계산 후 반복문에 사용 
+			int stock_control_length = stock.getStock_controlArr().length;
+			for(int i=0; i<stock_control_length; i++) {
+				int stock_control  = stock.getStock_controlArr()[i];
+				System.out.println(i + "번째 control : " + stock_control);
+				System.out.println(stock);
+
+				//1. 작업구분 코드 = 2(조정) 일 경우 조정 작업처리 
+					if(stock_control == 2) {
+	//					(조정)필요한 값 : 업데이트 수량, 재고번호, 품목코드
+						int updateCountNum = stock.getUpdate_qtyArr()[i];
+						int stockCd = stock.getStock_cdArr()[i];
+						int productCd = stock.getProduct_cdArr()[i];
+						//재고 조정 작업 
+						int updateCount = service.stockUpdate(updateCountNum, stockCd);
+						//조정 성공 시 재고이력 저장 
+						if(updateCount > 0) {
+							int historyInsertCount = service.getInsertHistory(updateCountNum, stockCd, productCd, sId);
+							if(historyInsertCount > 0) {
+								model.addAttribute("msg","재고작업 성공");
+							}else {
+								model.addAttribute("msg","재고조정 후 이력 저장 실패");
+							}
+						}else {
+							model.addAttribute("msg", "재고조정 실패");
+						}
+
+				//2. 작업구분 코드 = 3(이동) 일 경우 이동 작업처리
+					}else if(stock_control == 3) {
+	//					(이동)필요한 값 : 현재 재고번호, 이동할 재고번호, 이동할 구역, 이동할 개수, 품목코드 
+						int stockCd = stock.getStock_cdArr()[i];
+						int moveStockCd = stock.getMove_stock_cdArr()[i];
+//						int moveWhAreatCd = stock.getMove_wh_loc_in_area_cdArr()[i];
+						int moveNum = stock.getUpdate_qtyArr()[i];
+						int productCd = stock.getProduct_cdArr()[i];
+						//재고 이동 작업 
+						int moveCount = service.stockMove(stockCd, moveStockCd, moveNum);
+						//조정 성공 시 재고이력 저장  
+						if(moveCount > 0) {
+							int historyInsertCount = service.getInsertHistory(stockCd, moveStockCd, moveNum, sId, productCd);
+							if(historyInsertCount > 0) {
+								model.addAttribute("msg","재고작업 성공");
+							}else {
+								model.addAttribute("msg","재고조정 후 이력 저장 실패");
+							}
+						}else {
+							model.addAttribute("msg", "재고이동 실패");
+						}
+
+						
+					}// else if 끝 
+			}//for 끝
+
+		}//else 끝 
+		return "reload_stock";
+		
+	}//stockMoveUpdate
+
 	
 		
 }//BuyerController 끝

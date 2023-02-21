@@ -37,234 +37,49 @@
 		history.back();
 	}
 </script>
-<!-- 재고 수량 조정작업 -->
+<!--체크박스 작업 -->
 <script type="text/javascript">
-	function updateStock(cb) {
-// 		//조정 수량
-// 		var updateStockNum = $("#updateStockNum0").val();
-// 		//재고 번호
+// 체크박스 선택 jQuery
+	$(document).ready(function() {
+		$("#chkAll").click(function() {
+			if($("#chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
+			else $("input[name=chk]").prop("checked", false);
 		
-		//버튼에 status.index 해둔 값을 추출 하는 작업
-		var idx = cb.id.replace("updateButton", "");//updateButton을 공백으로 만들어서 status.index 값 출력 
-		console.log("index_ck : " + idx)
-		var updateStockNum = $("#updateStockNum" + idx).val(); //조정 수량
-		var stock_cd = $("#stock_cd" + idx).val();//재고 번호
-		var product_cd = $("#product_cd" + idx).val();//품목 번호
+		});
+	
+		$("input[name=chk]").click(function() {
+			var total = $("input[name=chk]").length;
+			var checked = $("input[name=chk]:checked").length;
 		
-		
-		if(updateStockNum == ""){
-			alert("조정 할 수량을 입력하세요")
-			$('#updateStockNum' + idx).focus();
-		}else{
-			let confirmUpdate = confirm("재고를 "+updateStockNum +"개로 조정하시겠습니까?");
-			
-			if(confirmUpdate){
-				$.ajax({
-					url: 'StockUpdate.st',
-					type: 'post',
-					data: {
-						updateStockNum : updateStockNum,
-						stock_cd : stock_cd,
-						product_cd : product_cd
-					},
-					success: function(result) {
-						if(result > 0){
-							alert("재고가 조정 되었습니다.")
-							location.reload();
-						}else{
-							alert("재고 조정에 실패했습니다.")
-							location.reload();
-						}
-					}//success 끝
-				})//ajax 끝
-			}else{
-				alert("재고 조정작업이 취소되었습니다.")		
-			}
-		}
-		
-		
-
-	}//updateStock 끝
-	
-	
-	
-	
-	
-</script>
-<script type="text/javascript">
-	//--------모달창에서 재고번호, 창고위치 클릭 시 해당 값을 이동재고번호/이동위치 input 박스 안에 값 넣는 함수-----------
-
-
-//---------------재고번호 목록 조회(모달)--------------
-function load_stockList() {
-	
-	let stock_keyword = $("#stock_keyword").val();
-	
-// 	alert(buyer_keyword);
-	
-	$.ajax({
-		type: "GET",
-		url: "StockListJson?keyword=" + stock_keyword,
-		dataType: "json"
-	})
-	.done(function(stockList) { // 요청 성공 시
-		console.log(stockList)
-		if(stockList.length == 0){
-			
-			 $("#modal-body-stock > table").remove();   //테이블 비우기
-		
-		 let no_result = "<table class='table table-hover' id='stock_table' style='margin-left: auto; margin-right:'>"
-				+ "<tr style='cursor:pointer; text-align: left;'>"
-	            + '<th scope="col" style ="width:151px">재고번호</th>'
-	            + '<th scope="col" style ="width:157px">창고명(구역명)</th>'
-	            + '<th scope="col" style ="width:157px">창고위치</th>'
-	            + '</tr>'
-				+ "<tr style='cursor:pointer; text-align: left;'>"
-				+ "<td colspan ='3'>"
-				+ "<h6 style='font-weight: bold; text-align: center;'>" + "'" +  stock_keyword + "'" +  " 에 대한 검색결과가 없습니다."
-				+ "</h6>"
-				+ "</td>"
-				+ "</tr>";
-		 		+ '</table>';
-
-	         $("#modal-body-stock").append(no_result);
-	         $("#stock_keyword").focus();
-
-		}else{
-			$("#modal-body-stock > table ").remove();   //테이블 비우고
-					
-			let set_table = 
-				"<table class='table table-hover' id='stock_table' style='margin-left: auto; margin-right: '>"
-				+ "<tr style='cursor:pointer; text-align: left;'>"
-				+ '<th scope="col" style ="width:151px">재고번호</th>'
-	            + '<th scope="col" style ="width:157px">창고명(구역명)</th>'
-	            + '<th scope="col" style ="width:157px">창고위치</th>'
-                + '</tr>'
-		 		+ '</table>';
-			 		
-	         $("#modal-body-stock").append(set_table);
-					
-			for(let stock of stockList) {
-				console.log(stock.stock_cd)
-				console.log(stock.wh_name)
-				console.log(stock.wh_area)
-				console.log(stock.wh_loc_in_area)
-		         let result = "<tr style='cursor:pointer;'>"
-			                      + "<td id='stock_cd'>" + stock.stock_cd + "</td>"
-			                      + "<td id='wh_name'>" + stock.wh_name + "(" + stock.wh_area + ")" + "</td>"
-			                      + "<td id='wh_loc_in_area'>" + stock.wh_loc_in_area + "</td>"
-	                        + "</tr>"
-	                        + "</table>";
-	                        
-		         $("#modal-body-stock > table").append(result);
-			}//for 끝
-		}//else 끝
-	})//done 끝
-	.fail(function() {
-		$("#modal-body-stock > table").append("<h3>요청 실패!</h3>");
-	});//fail 끝
-}//stockList 끝
-
-
-function saveIdx(cb) {
-	var idx = cb.id.replace("search_move_cd", ""); //클릭한 버튼의 idx값 출력 -> 이동재고번호, 이동위치에 넣을 위치 !
-// 	alert("tr클릭 전 idx : " + idx)
-	$("#modal-body-stock").on('click','tr',function(){
-
-	   let td_arr = $(this).find('td');
-	   console.log(td_arr);
-	   
-	   let stock_no = $(td_arr[0]).text(); //재고번호
-	   let move_wh_name = $(td_arr[1]).text(); //창고명
-	   let move_wh_loc_in_area = $(td_arr[2]).text(); //창고위치
-	   
-
-	   // td 클릭시 모달 창 닫기
-// 	   alert("tr클릭 후 idx : " + idx)
-	   $('#modalDialogScrollable_stock_cd').modal('hide');
-	   $("#move_stock_cd" + idx).val(stock_no);
-	   $("#move_wh_loc_in_area" + idx).val(move_wh_name + "_" +move_wh_loc_in_area);
-	   idx="";
+			if(total != checked) $("#chkAll").prop("checked", false);
+			else $("#chkAll").prop("checked", true); 
+		});
 	});
+	
+	//-------------재고선택 후 조정버튼 클릭 시 팝업창 ----------------
+	
+	function stock_process() {
+		var genreArray = new Array();
 
-}//saveIdx 끝
-//========================재고 이동 작업=====================================
-function move_stock(move_cb) {
-		var idx = move_cb.id.replace("moveButton",""); //index 값 저장
-		var current_stock_cd = $("#stock_cd" + idx).val(); //현재 재고번호
-		var current_stock_num = parseInt($("#stock_qty" + idx).val()); //현재 재고개수
-		var move_stock_cd = $("#move_stock_cd" + idx).val(); //이동 할 재고번호
-		var move_wh_loc_in_area = $("#move_wh_loc_in_area" + idx).val();//이동 위치
-		var move_stock_num = parseInt($("#move_stock_num" + idx).val());//이동할 수량
-		var product_cd = $("#product_cd" + idx).val();//품목 번호
-// 		alert(idx);
-// 		alert(current_stock_num);
-		
-// 		alert(current_stock_cd)
-// 		alert(move_stock_cd);
-// 		alert(move_wh_loc_in_area);
-// 		alert("move_stock_num : " + move_stock_num);
-		var check_nan = isNaN(move_stock_num);
-		
-// 		if(move_stock_cd == ""){
-// 			alert("이동 재고번호를 입력하세요")
-// 			$('#move_stock_cd' + idx).focus();
-// 		}else if(move_wh_loc_in_area ==""){
-// 			alert("이동 위치를 입력하세요")
-// 			$('#move_wh_loc_in_area' + idx).focus();
-// 		}else if(move_stock_num =""){
-// 			alert("이동 수량을 입력하세요")
-// 			$('#move_stock_num' + idx).focus();
-// 		}else{
-		if(move_stock_cd == "" || move_wh_loc_in_area =="" || check_nan == true){
-			alert("빈칸을 채워주세요")
-		}else if(move_stock_cd == current_stock_cd){
-			alert("이동재고번호가 현재 재고번호입니다. 다시 수정해주세요")
-		}else if(move_stock_num > current_stock_num){
-			alert("이동할 개수가 현재 재고개수보다 많습니다.")
-// 			alert("move_stock_num : " + move_stock_num)
-			$("#move_stock_num" + idx).focus();
-		}
-		else{
-			console.log(" move_stock_num : 개수 " + move_stock_num);
-			let confirmMove = confirm("재고번호" + current_stock_cd + "에서 재고번호" + move_stock_cd + "로 재고" + move_stock_num +"개를 이동하시겠습니까?");
-			
-			if(confirmMove){
-				$.ajax({
-					url: 'stockMove.st',
-					type: 'post',
-					data: {
-						current_stock_cd : current_stock_cd,
-						move_stock_cd : move_stock_cd,
-						move_wh_loc_in_area : move_wh_loc_in_area,
-						move_stock_num : move_stock_num,
-						product_cd : product_cd
-					},
-					success: function(result) {
-						if(result > 0){
-							alert("재고가 이동 되었습니다.")
-							location.reload();
-						}else{
-							alert("재고 이동에 실패했습니다.")
-							location.reload();
-						}
-					}//success 끝
-				})//ajax 끝
-			}else{
-				alert("재고 이동작업이 취소되었습니다.")		
-			}
-		}
-		
-		
-}//move_stock 끝
+	    $('input:checkbox[name=chk]:checked').each(function() {
+	        genreArray.push(this.value);
+	    });
+		alert(genreArray)
+	    window.open("stockWork.st?stock_cdArr="+genreArray, "재고작업", "width=1200, height=750, top=50, left=50");
+	}
+	
 
 </script>
+
+<!-- 재고이력 확인  -->
 <script type="text/javascript">
-// ---------재고번호 클릭 시 해당 재고이력(History)을 모달 창으로 출력---------------
-function save_stock_cd(cb) {
-	var idx = cb.id.replace("save_stock_cd", "");
-	var stock_cd = $("#stock_cd" + idx).val(); //현재 재고번호  cbf
-// 	alert(stock_cd)
+// ---------재고번호 클릭 시 해당 재고이력(History)을 모달(Modal) 창으로 출력---------------
+function check_history(cb) {
+	var idx=cb.id.replace("save_stock_cd", "");
+	alert(idx);
+	var stock_cd =  $("#chk" + idx).val(); //현재 재고번호
+	alert(stock_cd);
+// 	alert($("#stock_cd_num0").val());
 	$.ajax({
 		url: 'StockHistoryList.st',
 		type: 'post',
@@ -379,65 +194,40 @@ function save_stock_cd(cb) {
                      <table id="datatablesSimple" style="">
                          <thead>
                              <tr>
-<!--                               				<th scope="col">#</th> -->
+                               <th><input type="checkbox" id="chkAll"></th>
                                <th>재고번호</th>
                                <th>품목코드</th>
                                <th>품목명</th>
                                <th>창고명(구역명)</th>
                                <th>위치명</th>
                                <th>재고수량</th>
-                               <th>조정수량 </th>
-                               <th>이동재고번호</th>
-                               <th>이동위치</th>
-                               <th>이동수량</th>
-                               <th>재고조정 및 이동</th>
+                               
                            </tr>
                        </thead>
                       <tbody>
                                  <c:forEach var="stockList" items="${stockList }" varStatus="status">
 							<tr>
-<!-- 										<td><input type="checkbox"></td> -->
-<!-- 										<td scope="row"></td> -->
+								<!-- 체크박스  -->
+								<td><input type="checkbox" id="chk${status.index }" name="chk" value="${stockList.stock_cd }"></td>
 								<td>
-								<a href="#" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_history" onclick="save_stock_cd(this)" id="save_stock_cd${status.index}"> ${stockList.stock_cd}</a>
+								<!-- 재고번호  -->
+								<a href="#" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_history" onclick="check_history(this)" id="save_stock_cd${status.index}">${stockList.stock_cd}</a>
 								</td>
-								<td><a href="#" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_history">${stockList.product_cd }</a></td>
+								<!-- 품목코드  -->
+								<td>${stockList.product_cd }</td>
 								<td>${stockList.product_name }</td>
 								<td>${stockList.wh_name }(${stockList.wh_area })</td>
 								<td>${stockList.wh_loc_in_area }</td>
 								<td>${stockList.stock_qty }</td> 
-								<td>
-								<!-- 재고조정에 필요한 재고번호(히든) -->
-								<input type="hidden" id="stock_cd${status.index}" value="${stockList.stock_cd}">
-								<!-- 재고조정에 필요한 품목번호(히든) -->
-								<input type="hidden" id="product_cd${status.index}" value="${stockList.product_cd}">
-								<!-- 재고이동에 필요한 현재재고개수(히든) -->
-								<input type="hidden" id="stock_qty${status.index}" value="${stockList.stock_qty}">
-								<!-- 재고조정에 필요한 조정수량 -->
-								<input type="text" class="form-control-sm" id="updateStockNum${status.index}" size="3" min="0">
-								
-								</td>
-								<!-- 이동재고번호 input, 검색 button -->
-								<td>
-								<input type="text" size="3" class="form-control-sm" id ="move_stock_cd${status.index}">
-								<button id="search_move_cd${status.index}" class="btn btn-secondary btn-sm" type="button" onclick="saveIdx(this)"  data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_cd">검색</button>
-								</td>
-								<!-- 이동 위치 -->
-								<td>
-								<input type="text" size="18" class="form-control-sm" id ="move_wh_loc_in_area${status.index}" >
-								</td>
-								<!-- 이동 수량 -->
-								<td><input type="text" size="3" class="form-control-sm" id ="move_stock_num${status.index}"></td>
-								<!-- 재고이동버튼 -->
-								<td>
-								<!-- 재고조정 버튼 -->
-								<button id="updateButton${status.index}" class="btn btn-secondary btn-sm" type="button" onclick="updateStock(this)">재고조정</button>
-								<button id="moveButton${status.index}" class="btn btn-secondary btn-sm" type="button" onclick="move_stock(this)">재고이동</button>
-								</td>
 							</tr> 
-							</c:forEach>  
+								<input type="hidden" id="stock_cd_num${status.index}" value="${stockList.stock_cd }">
+								<input type="hidden" id="product_cd${status.index}" value="${stockList.product_cd }">
+								<input type="hidden" id="stock_qty${status.index}" value="${stockList.stock_qty }">
+								
+							</c:forEach>
                         </tbody>
                     </table>
+                       		<button id="search_stock" class="btn btn-primary" type="button" onclick="stock_process()">조정</button>
                 </div>
             </div>
             
