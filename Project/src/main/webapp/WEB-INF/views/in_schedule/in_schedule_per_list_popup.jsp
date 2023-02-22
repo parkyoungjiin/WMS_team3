@@ -321,7 +321,6 @@
 <body class="sb-nav-fixed">
 <header>
 	<!-- top-->
-		<jsp:include page="../inc/top.jsp"/>
 	</header>
 	<!-- side -->
 <main id="main" class="main"  style="margin-left: 10px;">

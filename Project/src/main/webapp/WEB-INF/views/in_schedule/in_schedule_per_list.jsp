@@ -186,7 +186,6 @@
                  <table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col">#</th>
 		                    <th scope="col"><input type="checkbox" id="chkAll"></th>
 		                    <th scope="col">입고예정번호</th>
 		                    <th scope="col">보낸곳명</th>
@@ -202,7 +201,6 @@
 		                <c:forEach items="${list }" var="list"> 
 		                 <c:if test="${list.IN_COMPLETE eq '0' }"> 
 		                  <tr>
-		                    <th scope="row"></th>
 		                    <td><input type="checkbox" name="chk" value="${list.IN_SCHEDULE_PER_CD}"></td>
 		                    <td>${list.IN_SCHEDULE_CD }</td>
 		                    <td>${list.PRODUCT_CD }</td>
@@ -225,7 +223,6 @@
                  <table class="table table-hover" style="padding: 20px;">
 		                <thead>
 		                  <tr>
-		                    <th scope="col">#</th>
 <!-- 		                    <th scope="col"><input type="checkbox" id="chkAll"></th> -->
 		                    <th scope="col">입고예정번호</th>
 		                    <th scope="col">보낸곳명</th>
@@ -241,8 +238,6 @@
 		                <c:forEach items="${list }" var="list"> 
 		                  <c:if test="${list.IN_COMPLETE eq '1' }">
 		                  <tr>
-		                    <th scope="row"></th>
-<%-- 		                    <td><input type="checkbox" name="chk" value="${list.IN_SCHEDULE_PER_CD}"></td> --%>
 		                    <td>${list.IN_SCHEDULE_CD }</td>
 		                    <td>${list.PRODUCT_CD }</td>
 		                    <td>${list.PRODUCT_NAME }</td>

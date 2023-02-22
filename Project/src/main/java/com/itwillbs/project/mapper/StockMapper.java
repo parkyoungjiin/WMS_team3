@@ -36,6 +36,8 @@ public interface StockMapper {
 			@Param("product_cd") int product_cd);
 	//---------재고 이력 목록 가져오기(stock_cd와 일치하는 목록)-------------
 	List<StockHistoryVo> stockHistoryList(int stock_cd);
+	//---------재고 이력 목록 가져오기(stock_cd, control_type 과 일치하는 목록)-------------
+	List<StockHistoryVo> stockHistoryList_ajax(@Param("stock_cd") int stock_cd, @Param("control_type") int control_type);
 	//---------체크 된 항목 팝업창 넘기기---------
 	StockVo getStockWork(StockVo stock2);
 	

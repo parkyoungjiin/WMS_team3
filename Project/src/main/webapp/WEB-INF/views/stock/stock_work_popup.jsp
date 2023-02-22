@@ -131,8 +131,9 @@
 	if(priv_cd_emp == '1' || priv_cd_emp2 == '1'){//권한이 있을 경우
 		
 	}else{//없을 경우
-		alert("재고관리 권한이 없습니다");
-		history.back();
+		alert("권한이 없습니다");
+		window.opener.location.reload();    //부모창 reload
+		window.close();
 	}
 </script>
 <!-- selectbox 조정, 이동 클릭에 따른 작업 -->
@@ -305,6 +306,21 @@ function saveIdx(cb) {
 
 }//saveIdx 끝
 
+//이동수량 입력 값이 현재재고보다 많을 경우 입력 불가능 하도록 하는 함수
+function check_move_stock_num(cb){
+	var idx = cb.id.replace("move_stock_num", ""); //클릭한 버튼의 idx값 출력 -> 이동재고번호, 이동위치에 넣을 위치 !
+	var move_num = parseInt($("#move_stock_num" + idx).val());
+	var stock_num = parseInt($("#stock_qty" + idx).val());
+	alert(move_num);
+	alert(stock_num);
+	if(move_num > stock_num){
+		alert("이동수량이 현재재고보다 많습니다.");
+		$("#move_stock_num" + idx).val("");
+		$("#move_stock_num" + idx).focus();
+	}
+	
+}
+
 
 </script>
 <style type="text/css">
@@ -316,7 +332,6 @@ function saveIdx(cb) {
 <body class="sb-nav-fixed">
 <header>
 	<!-- top-->
-		<jsp:include page="../inc/top.jsp"/>
 	</header>
 	<!-- side -->
 <main id="main" class="main"  style="margin-left: 10px;">
@@ -395,7 +410,7 @@ function saveIdx(cb) {
 								<input type="hidden" id="move_wh_loc_in_area_hidden${status.index}" name ="move_wh_loc_in_areaArr">
 								</td>
 								<!-- 이동 수량 -->
-								<td><input type="text" size="3" class="form-control-sm" id ="move_stock_num${status.index}" name="update_qtyArr" readonly></td>
+								<td><input type="text" size="3" class="form-control-sm" id ="move_stock_num${status.index}" name="update_qtyArr" readonly onchange="check_move_stock_num(this)"></td>
 							</tr> 
 							</c:forEach>  
                         </tbody>

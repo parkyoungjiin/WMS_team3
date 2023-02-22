@@ -34,7 +34,7 @@
 		
 	}else{//없을 경우
 		alert("재고관리 권한이 없습니다");
-		history.back();
+		location.href ="EmpLoginForm.em";
 	}
 </script>
 <!--체크박스 작업 -->
@@ -74,7 +74,7 @@
 <!-- 재고이력 확인  -->
 <script type="text/javascript">
 // ---------재고번호 클릭 시 해당 재고이력(History)을 모달(Modal) 창으로 출력---------------
-function check_history(cb) {
+function check_history1(cb) {
 	var idx=cb.id.replace("save_stock_cd", "");
 	alert(idx);
 	var stock_cd =  $("#chk" + idx).val(); //현재 재고번호
@@ -172,6 +172,18 @@ function check_history(cb) {
 		})//success 끝
  }
 </script>
+<!-- 재고이력 확인 ( 팝업창 )  -->
+<script type="text/javascript">
+function check_history(cb){
+	var idx=cb.id.replace("save_stock_cd", "");
+	alert(idx);
+	var stock_cd =  $("#chk" + idx).val(); //현재 재고번호
+	alert(stock_cd);
+	
+    window.open("StockHistoryList.st?stock_cd="+stock_cd, "재고이력", "width=1200, height=750, top=50, left=50");
+
+}
+</script>
 </head>
 <body class="sb-nav-fixed">
 <header>
@@ -211,7 +223,8 @@ function check_history(cb) {
 								<td><input type="checkbox" id="chk${status.index }" name="chk" value="${stockList.stock_cd }"></td>
 								<td>
 								<!-- 재고번호  -->
-								<a href="#" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_history" onclick="check_history(this)" id="save_stock_cd${status.index}">${stockList.stock_cd}</a>
+<%-- 								<a href="#" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_history" onclick="check_history(this)" id="save_stock_cd${status.index}">${stockList.stock_cd}</a> --%>
+								<a href="#" onclick="check_history(this)" id="save_stock_cd${status.index}">${stockList.stock_cd}</a>
 								</td>
 								<!-- 품목코드  -->
 								<td>${stockList.product_cd }</td>

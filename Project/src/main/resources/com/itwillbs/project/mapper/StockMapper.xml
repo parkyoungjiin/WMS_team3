@@ -62,12 +62,21 @@
 			)
 	
 	</insert>
-	<!-- 재고이 -->
+	<!-- 재고이력  -->
 	<select id="stockHistoryList" resultType="com.itwillbs.project.vo.StockHistoryVo">
 		SELECT *
 			FROM stock_history_view
 				WHERE STOCK_CD = #{stock_cd}
 	
+	</select>
+	<!-- 재고이력  -->
+	<select id="stockHistoryList_ajax" resultType="com.itwillbs.project.vo.StockHistoryVo">
+		SELECT *
+			FROM stock_history_view
+				WHERE STOCK_CD = #{stock_cd}
+				<if test="control_type != 99">
+					AND CONTROL_TYPE_CD = #{control_type}
+				</if>
 	</select>
 
 <!-- 체크 된 항목 팝업창 넘기기 -->

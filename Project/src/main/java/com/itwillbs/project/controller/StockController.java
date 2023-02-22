@@ -26,6 +26,7 @@ import com.itwillbs.project.vo.BuyerVo;
 import com.itwillbs.project.vo.EmpVo;
 import com.itwillbs.project.vo.StockHistoryVo;
 import com.itwillbs.project.vo.StockVo;
+import com.mysql.cj.xdevapi.JsonArray;
 
 @Controller
 public class StockController {
@@ -44,24 +45,69 @@ public class StockController {
 		
 		return "stock/stock_list";
 	}//stock 끝
-	//------------재고번호 클릭 시 재고번호와 일치하는 history 목록 가져오기 ajax 사용-------------------
-	@ResponseBody
-	@PostMapping(value = "StockHistoryList.st")
-	public void stockHistory(Model model, @RequestParam() int stock_cd, HttpServletResponse response) {
+//	//------------재고번호 클릭 시 재고번호와 일치하는 history 목록 가져오기 ajax 사용-------------------
+//	@PostMapping(value = "StockHistoryList.st")
+//	public void stockHistory(Model model, @RequestParam() int stock_cd, HttpServletResponse response) {
+//		List<StockHistoryVo> stockHistoryList = service.getStockHistoryList(stock_cd);
+//		
+//		JSONArray jsonArray = new JSONArray();
+//		
+//		// 1. List 객체 크기만큼 반복
+//		for(StockHistoryVo stockhistory : stockHistoryList) {
+//			// 2. JSONObject 클래스 인스턴스 생성
+//			// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
+//			JSONObject jsonObject = new JSONObject(stockhistory);
+//	//		System.out.println(jsonObject);
+//			
+//			// 3. JSONArray 객체의 put() 메서드를 호출하여 JSONObject 객체 추가
+//			jsonArray.put(jsonObject);
+//		}
+//		try {
+//			// 생성된 JSON 객체를 활용하여 응답 데이터를 직접 생성 후 웹페이지에 출력
+//			// response 객체의 setCharacterEncoding() 메서드로 출력 데이터 인코딩 지정 후
+//			// response 객체의 getWriter() 메서드로 PrintWriter 객체를 리턴받아
+//			// PrintWriter 객체의 print() 메서드를 호출하여 응답데이터 출력
+//			response.setCharacterEncoding("UTF-8");
+//			response.getWriter().print(jsonArray); // toString() 생략됨
+//			System.out.println(jsonArray);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	//------------재고번호 클릭 시 재고번호와 일치하는 history 목록 가져오기 팝업창 사용-------------------
+	@GetMapping(value = "StockHistoryList.st")
+	public String stockHistory(Model model, 
+			@RequestParam() int stock_cd, 
+			HttpServletResponse response) {
 		List<StockHistoryVo> stockHistoryList = service.getStockHistoryList(stock_cd);
+		model.addAttribute("stockHistoryList", stockHistoryList);
+		model.addAttribute("stock_cd", stock_cd);
 		
+		return "stock/stock_history_popup";
+	}
+	//------------재고번호 클릭 시 재고번호, control_type과 일치하는 history 목록 가져오기 팝업창 사용 :ajax 사용 -------------------
+	@PostMapping(value = "StockHistoryListAjax.st", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public void stockHistory(Model model, 
+			@RequestParam() int stock_cd,
+			@RequestParam() int control_type,
+			HttpServletResponse response) {
+		System.out.println(stock_cd);
+		System.out.println(control_type);
+		//stock_cd, control_type에 맞는 리스트 가져오기
+		List<StockHistoryVo> stockHistoryList = service.getStockHistoryListAjax(stock_cd, control_type);
+		//-------JSON 형식으로 변환
+		// 1. JSONObject 클래스 활용하여 JSON 객체 1개를 생성하고, 
+		// JSONArray 클래스를 활용하여 JSONObject 객체 복수개에 대한 배열을 생성
 		JSONArray jsonArray = new JSONArray();
-		
-		// 1. List 객체 크기만큼 반복
-		for(StockHistoryVo stockhistory : stockHistoryList) {
-			// 2. JSONObject 클래스 인스턴스 생성
-			// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
-			JSONObject jsonObject = new JSONObject(stockhistory);
-	//		System.out.println(jsonObject);
-			
-			// 3. JSONArray 객체의 put() 메서드를 호출하여 JSONObject 객체 추가
+		//리스트 크기만큼 반복 
+		for(StockHistoryVo stockHistory: stockHistoryList) {
+			JSONObject jsonObject = new JSONObject(stockHistory);
 			jsonArray.put(jsonObject);
-		}
+			//object에다가 list를 하나씩 넣고, array에다가 하나씩 넣는 반복문!
+			
+		}//for 끝
+		
 		try {
 			// 생성된 JSON 객체를 활용하여 응답 데이터를 직접 생성 후 웹페이지에 출력
 			// response 객체의 setCharacterEncoding() 메서드로 출력 데이터 인코딩 지정 후
@@ -69,10 +115,10 @@ public class StockController {
 			// PrintWriter 객체의 print() 메서드를 호출하여 응답데이터 출력
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().print(jsonArray); // toString() 생략됨
-			System.out.println(jsonArray);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	
