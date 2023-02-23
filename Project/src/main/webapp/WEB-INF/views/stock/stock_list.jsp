@@ -34,7 +34,7 @@
 		
 	}else{//없을 경우
 		alert("재고관리 권한이 없습니다");
-		location.href ="EmpLoginForm.em";
+		location.href ="${path }/";
 	}
 </script>
 <!--체크박스 작업 -->
@@ -64,7 +64,7 @@
 	    $('input:checkbox[name=chk]:checked').each(function() {
 	        genreArray.push(this.value);
 	    });
-		alert(genreArray)
+// 		alert(genreArray)
 	    window.open("stockWork.st?stock_cdArr="+genreArray, "재고작업", "width=1200, height=750, top=50, left=50");
 	}
 	
@@ -76,9 +76,9 @@
 // ---------재고번호 클릭 시 해당 재고이력(History)을 모달(Modal) 창으로 출력---------------
 function check_history1(cb) {
 	var idx=cb.id.replace("save_stock_cd", "");
-	alert(idx);
+// 	alert(idx);
 	var stock_cd =  $("#chk" + idx).val(); //현재 재고번호
-	alert(stock_cd);
+// 	alert(stock_cd);
 // 	alert($("#stock_cd_num0").val());
 	$.ajax({
 		url: 'StockHistoryList.st',
@@ -176,9 +176,9 @@ function check_history1(cb) {
 <script type="text/javascript">
 function check_history(cb){
 	var idx=cb.id.replace("save_stock_cd", "");
-	alert(idx);
+// 	alert(idx);
 	var stock_cd =  $("#chk" + idx).val(); //현재 재고번호
-	alert(stock_cd);
+// 	alert(stock_cd);
 	
     window.open("StockHistoryList.st?stock_cd="+stock_cd, "재고이력", "width=1200, height=750, top=50, left=50");
 

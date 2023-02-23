@@ -1,11 +1,13 @@
 package com.itwillbs.project.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 // 재고 관리 ( 목록 ) 페이지에 담는 Vo
 public class StockHistoryVo {
 	private String stock_cd; //재고 번호
-	private Date stock_date; //작업날짜
+	private Timestamp stock_date; //작업날짜
 	private String control_type_cd; //작업 유형
 	private String stock_control_type_name; //작업 유형 이름
 	private int product_cd; //품목 번호
@@ -22,10 +24,11 @@ public class StockHistoryVo {
 	public void setStock_cd(String stock_cd) {
 		this.stock_cd = stock_cd;
 	}
-	public Date getStock_date() {
+	
+	public Timestamp getStock_date() {
 		return stock_date;
 	}
-	public void setStock_date(Date stock_date) {
+	public void setStock_date(Timestamp stock_date) {
 		this.stock_date = stock_date;
 	}
 	public String getControl_type_cd() {
@@ -96,9 +99,7 @@ public class StockHistoryVo {
 				+ ", target_stock_cd=" + target_stock_cd + ", qty=" + qty + ", emp_num=" + emp_num + ", emp_name="
 				+ emp_name + ", remarks=" + remarks + "]";
 	}
-	
-	
-	
+
 	
 	
 	
