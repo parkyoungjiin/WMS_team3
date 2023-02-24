@@ -32,6 +32,12 @@
 	
 <!-- 재고 조정 시 재고이력 테이블에 등록 -->
 	<insert id="insertHistory">
+		<!-- 조정작업 후 시점 재고수량을 select해서 재고이력에 등록! -->
+		<selectKey keyProperty="stock_qty" resultType="int" order="BEFORE">
+			SELECT stock_qty 
+				FROM stock
+					WHERE stock_cd = #{stock_cd}
+		</selectKey>
 		INSERT INTO stock_history
 			VALUES (
 			#{stock_cd}
@@ -40,6 +46,7 @@
 			,""
 			,""
 			,#{update_qty}
+			,#{stock_qty}
 			,#{sId}
 			,now()
 			,"재고 조정작업"
@@ -48,6 +55,12 @@
 	</insert>
 <!-- 재고 이동 시 재고이력 테이블에 등록 -->
 	<insert id="insertHistory_mv">
+	<!-- 이동 작업 후 시점 재고수량을 select해서 재고이력에 등록! -->
+		<selectKey keyProperty="stock_qty" resultType="int" order="BEFORE">
+			SELECT stock_qty 
+				FROM stock
+					WHERE stock_cd = #{current_stock_cd}
+		</selectKey>
 		INSERT INTO stock_history
 			VALUES (
 			#{current_stock_cd}
@@ -56,6 +69,7 @@
 			,#{current_stock_cd}
 			,#{move_stock_cd}
 			,#{move_stock_num}
+			,#{stock_qty}
 			,#{sId}
 			,now()
 			,"재고 이동작업" 

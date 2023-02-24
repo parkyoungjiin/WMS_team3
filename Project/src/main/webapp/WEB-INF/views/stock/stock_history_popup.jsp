@@ -41,10 +41,8 @@
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <!-- moment.js 라이브러리  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.js"></script>
 
-moment.locale('ko');         // en - 영어
-</script>
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
 <script type="text/javascript">
 function change_list_fn(){
@@ -73,10 +71,12 @@ function change_list_fn(){
 		     }
 		//삭제 후 ajax결과를 행에 추가
 			for(let stockHistory of result){
-				
+				//moment.js를 사용하여 stock_date를 반복할 때마다 형식을 변환! 
+				var date_format = moment(stockHistory.stock_date).format("YYYY-MM-DD (dd) HH:mm:ss");
+				console.log("date_format : " + date_format);
 				let tr = 
 					"<tr>"
-					+ "<td>" + stockHistory.stock_date + "</td>"
+					+ "<td>" + date_format + "</td>"
 					+ "<td>" + stockHistory.stock_control_type_name + "</td>"
 					+ "<td>" + stockHistory.product_name + "</td>"
 					+ "<td>" + "<a href='StockHistoryList.st?stock_cd=" +stockHistory.source_stock_cd + "'>" + stockHistory.source_stock_cd + "</a>" + "</td>"
@@ -153,6 +153,7 @@ function change_list_fn(){
                                <th>보낸 재고번호</th>
                                <th>받은 재고번호</th>
                                <th>작업 수량</th>
+                               <th>작업 후 수량</th>
                                <th>작업자명</th>
                                <th>적요</th>
                            </tr>
@@ -165,7 +166,7 @@ function change_list_fn(){
 								<td>
 								<!-- 작업일자  -->
 <%-- 								<a href="#" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_history" onclick="save_stock_cd(this)" id="save_stock_cd${status.index}" > ${stockHistory.stock_date}</a> --%>
-								<fmt:formatDate value="${stockHistory.stock_date}" pattern="yyyy-MM-dd (E) HH:mm:ss"/> 
+								<fmt:formatDate value="${stockHistory.stock_date}" pattern="yyyy-MM-dd (E) HH:mm:ss"/>
 								</td>
 								<!-- 작업구분  -->
 								<td>${stockHistory.stock_control_type_name}</td>
@@ -177,6 +178,8 @@ function change_list_fn(){
 								<td><a href="StockHistoryList.st?stock_cd=${stockHistory.target_stock_cd}">${stockHistory.target_stock_cd}</a></td>
 								<!-- 작업 수량 -->
 								<td>${stockHistory.qty }</td> 
+								<!-- 작업 후 수량 -->
+								<td>${stockHistory.stock_qty }</td> 
 								<!-- 작업자명 -->
 								<td>${stockHistory.emp_name }</td> 
 								<!-- 적요 -->
