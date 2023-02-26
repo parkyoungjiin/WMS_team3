@@ -90,10 +90,9 @@
 	  			,EMP_ADDR = #{EMP_ADDR}
 	  			,WORK_CD = #{WORK_CD}
 	  			,PRIV_CD = #{PRIV_CD}
-	  			<if test="PHOTO neq ''">
-	  			,PHOTO = #{PHOTO}	
-	  			</if>
-	  			
+	  			<if test="PHOTO != null">
+					,PHOTO = #{PHOTO}	
+				</if>
 	  		WHERE 
 	  			idx = #{IDX}
 	</update>
@@ -116,7 +115,9 @@
 			SET 
 				EMP_TEL = #{emp.EMP_TEL},
 				EMP_DTEL = #{emp.EMP_DTEL},
-				PHOTO = #{emp.PHOTO}
+<!-- 				<if test="PHOTO != null"> -->
+					photo = #{emp.PHOTO}
+<!-- 				</if> -->
 	  		WHERE 
 	  			EMP_NUM = #{emp_num}
 	

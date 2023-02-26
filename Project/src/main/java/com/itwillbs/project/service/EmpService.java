@@ -52,7 +52,6 @@ public class EmpService {
 			return mapper.selectEmployee(EMP_NUM);
 		} // 사원 상세 정보 끝
 		
-
 		//-----------------사원 수정--------------------
 		public int modifyEmployee(EmpVo employee) {
 			System.out.println("서비스 확인 : " +employee);

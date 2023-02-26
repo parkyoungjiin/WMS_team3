@@ -25,8 +25,7 @@ public interface ProductMapper {
 	ProductVO selectProdInfo(int product_cd);
 
 	//--------------------품목 수정----------------------------
-	int modifyProd(ProductVO product
-					);
+	int modifyProd(ProductVO product);
 
 	//--------------------- 개별 파일 삭제------------------
 	int deleteImgFile2(@Param("product_cd")int product_cd,
