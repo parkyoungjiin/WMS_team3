@@ -151,6 +151,7 @@
 			
 			//이동 관련 input disabled 적용  
 			$("#move_stock_cd" + idx).attr("disabled",true)
+			$("#move_stock_cd_required" + idx).attr("disabled",true)
 			$("#search_move_cd" + idx).attr("disabled",true)
 			$("#move_wh_loc_in_area" + idx).attr("disabled",true)
 			$("#move_stock_num" + idx).attr("disabled",true)
@@ -299,6 +300,7 @@ function saveIdx(cb) {
 	// 	   alert("tr클릭 후 idx : " + idx)
 		   $('#modalDialogScrollable_stock_cd').modal('hide');
 		   $("#move_stock_cd" + idx).val(stock_no);
+		   $("#move_stock_cd_required" + idx).val(stock_no);
 		   $("#move_wh_loc_in_area" + idx).val(move_wh_name + "_" +move_wh_loc_in_area);
 		   idx="";
 	   }
@@ -311,8 +313,8 @@ function check_move_stock_num(cb){
 	var idx = cb.id.replace("move_stock_num", ""); //클릭한 버튼의 idx값 출력 -> 이동재고번호, 이동위치에 넣을 위치 !
 	var move_num = parseInt($("#move_stock_num" + idx).val());
 	var stock_num = parseInt($("#stock_qty" + idx).val());
-	alert(move_num);
-	alert(stock_num);
+// 	alert(move_num);
+// 	alert(stock_num);
 	if(move_num > stock_num){
 		alert("이동수량이 현재재고보다 많습니다.");
 		$("#move_stock_num" + idx).val("");
@@ -320,7 +322,9 @@ function check_move_stock_num(cb){
 	}
 	
 }
-
+//이동재고번호, 이동위치가 입력되지 않았을 경우 전송 안되도록 설정
+function submit_check() {
+}
 
 </script>
 <style type="text/css">
@@ -371,7 +375,8 @@ function check_move_stock_num(cb){
 <!-- 										<td scope="row"></td> -->
 								<td>
 								<!-- 재고번호  -->
-								<a href="#" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_history" onclick="save_stock_cd(this)" id="save_stock_cd${status.index}" > ${stockList.stock_cd}</a>
+<%-- 								<a href="#" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_history" onclick="save_stock_cd(this)" id="save_stock_cd${status.index}" > ${stockList.stock_cd}</a> --%>
+								 ${stockList.stock_cd}
 								</td>
 								<!-- 품목코드  -->
 								<td>${stockList.product_cd }</td>
@@ -400,7 +405,10 @@ function check_move_stock_num(cb){
 								</td>
 								<!-- 이동재고번호 input, 검색 button -->
 								<td>
-								<input type="text" size="3" class="form-control-sm" id ="move_stock_cd${status.index}" name="move_stock_cdArr" readonly>
+								<input type="text" size="3" class="form-control-sm" id ="move_stock_cd${status.index}" readonly>
+								<!-- 이동재고번호 required 전용 input 박스  -->
+								<input type="text" size="3" class="form-control-sm" id ="move_stock_cd_required${status.index}" name="move_stock_cdArr" required style="display: none">
+								<!-- hidden값은 조정일 때 넘어가는 값  -->
 								<input type="hidden" id="move_stock_cd_hidden${status.index}" name="move_stock_cdArr">
 								<button id="search_move_cd${status.index}" class="btn btn-secondary btn-sm" type="button" onclick="saveIdx(this)"  data-bs-toggle="modal" data-bs-target="#modalDialogScrollable_stock_cd" disabled>검색</button>
 								</td>
@@ -412,7 +420,7 @@ function check_move_stock_num(cb){
 								<!-- 이동 수량 -->
 								<td><input type="text" size="3" class="form-control-sm" id ="move_stock_num${status.index}" name="update_qtyArr" readonly onchange="check_move_stock_num(this)"></td>
 							</tr> 
-							</c:forEach>  
+							</c:forEach>    
                         </tbody>
                     </table>
                     <button type="submit" id="stock_work" class="btn btn-primary" onclick="check_value()">조정</button>

@@ -16,7 +16,7 @@ public interface ProductMapper {
 	int existCd(int product_cd);
 
 	//--------------품목 그룹 리스트---------------------------
-	public List<ProductVO> selectGroupList();
+	public List<ProductVO> selectGroupList(String keyword);
 
 	//------------------- 품목 리스트 조회 --------------------
 	List<ProductVO> selectPdList(String keyword);
@@ -25,8 +25,7 @@ public interface ProductMapper {
 	ProductVO selectProdInfo(int product_cd);
 
 	//--------------------품목 수정----------------------------
-	int modifyProd(@Param("product") ProductVO product,
-					@Param("product_image") String product_image);
+	int modifyProd(ProductVO product);
 
 	//--------------------- 개별 파일 삭제------------------
 	int deleteImgFile2(@Param("product_cd")int product_cd,

@@ -55,6 +55,7 @@
 						// 파일 업로드를 위한 "파일 선택" 버튼 항목 표시
 						$("#imgChange").html('<input type="file" name="file">');
 						alert("파일이 삭제되었습니다!");
+						$(window).on('load')
 					} else if(data == "false") {
 						alert("일시적인 오류로 파일 삭제에 실패했습니다!");
 					} 
@@ -86,7 +87,7 @@
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-			  <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" class="rounded-circle" style="width:100px; height: 100px;">
+			  <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="profile" class="rounded-circle" style="width:100px; height: 100px;">
               <h2 style="margin-bottom: 15px">${emp.EMP_NAME}</h2>
               <h3>${emp.GRADE_CD}</h3>
             </div>
@@ -121,7 +122,7 @@
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사원 이미지</label>
                       <div class="col-md-8 col-lg-9">
                         <div id="profile" >
-                        <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }"  onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
+                        <img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }"  onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="profile" >
                         </div>
                         <!-- 이미지 수정 버튼 -->
 						<div id="imgChange" >
@@ -135,6 +136,7 @@
 								</c:otherwise>									
 							</c:choose>
 						</div>
+							<input type="hidden" name="PHOTO" value="${emp.PHOTO }"> 
 		                </div>
 		                <div></div>
 

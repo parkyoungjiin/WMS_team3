@@ -249,8 +249,11 @@ $(function() {
 					if(data == "true") {
 						// 삭제 성공 시 파일명 표시 위치의 기존 항목을 제거하고
 						// 파일 업로드를 위한 "파일 선택" 버튼 항목 표시
-						$("#imgChange").html('<input type="file" name="file">');
+						$("#imgChange").html('<input type="file" name="file" onclick=>');
+						alert("파일이 삭제되었습니다!");
+						$(window).on('load')
 					} else if(data == "false") {
+						alert(index);
 						alert("일시적인 오류로 파일 삭제에 실패했습니다!");
 					} 
 				}
@@ -474,15 +477,14 @@ $(function() {
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 업로드</label>
                        <div class="col-md-8 col-lg-3">
                        		<div id="profile" >
-                       		<img src=" ${pageContext.request.contextPath}/resources/upload/${employee.PHOTO }"  width="200" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" >
-                       		<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);" value="${employee.PHOTO }" style="display: none;">
+                       		<img src=" ${pageContext.request.contextPath}/resources/upload/${employee.PHOTO }"  width="200" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="profile" >
+<%--                        		<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);" value="${employee.PHOTO }" style="display: none;"> --%>
 <%--                        		<input type="hidden" name="file" class="form-control" id="input_image" onchange="changeImage(event);" value="${employee.PHOTO }" > --%>
-                       		
                         	</div>
                         	<!-- 이미지 수정 버튼 -->
 								<div id="imgChange" >
 			                  		<c:choose>
-										<c:when test="${employee.PHOTO ne '' }">
+										<c:when test="${employee.PHOTO ne '' and employee.PHOTO ne null }">
 											<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
 											<input type="button"  value="삭제" onclick="deleteFile('${employee.PHOTO}','${employee.EMP_NUM}')">
 										</c:when>   
