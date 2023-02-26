@@ -34,38 +34,7 @@
 		history.back();
 	}
 </script>
-<script>
 <!------------------- 이미지 수정------------------ -->
-<script type="text/javascript">
-
-	function deleteFile(fileName, index) {
-		var confirmAlert = confirm("사진을 삭제하시겠습니까?")
-		if(confirmAlert == true){
-			$("#profile").empty();
-			// 파일 삭제를 AJAX 로 처리
-			$.ajax({
-				type: "POST",
-				url: "DeleteImgFile",
-				data: {
-					"EMP_NUM" : index,
-					"PHOTO" : fileName
-				},
-				success: function(data) {
-						console.log(data)
-					if(data == "true") {
-						// 삭제 성공 시 파일명 표시 위치의 기존 항목을 제거하고
-						// 파일 업로드를 위한 "파일 선택" 버튼 항목 표시
-						$("#imgChange").html('<input type="file" name="file">');
-					} else if(data == "false") {
-						alert("일시적인 오류로 파일 삭제에 실패했습니다!");
-					} 
-				}
-			});
-		}else{
-			alert("이미지 삭제가 취소되었습니다!")
-		}
-	}
-</script>
 <!-- 권한 여부 판별하여 인사부서인지 판별 -->
 <script type="text/javascript">
 	var str = '${priv_cd}' // 세션에 저장된 권한코드
@@ -213,7 +182,7 @@
 	                    <tbody>
 	                    <c:forEach items="${empList }" var="emp">
 	                    <c:if test="${emp.WORK_CD eq 'C3' }">
-	                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" style="width:50px; height: 50px;"></td>
+	                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noProfile.png';" alt="Profile" style="width:50px; height: 50px;"></td>
 	                    	<td>${emp.EMP_NUM }</td>
 	                    	<td>${emp.EMP_NAME }</td>
 	                    	<td>${emp.DEPT_CD }</td>
