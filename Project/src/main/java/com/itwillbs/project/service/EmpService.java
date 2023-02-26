@@ -26,6 +26,10 @@ public class EmpService {
 	public String getSelectPass(String emp_EMAIL) {
 		return mapper.getSelectPass(emp_EMAIL);
 	}
+	//로그인 시 재직자 판별을 위해 재직코드 가져오기
+	public String getSelectWorkCd(String emp_EMAIL) {
+		return mapper.getSelectWorkCd(emp_EMAIL);
+	}
 	//세션에 저장할 이름값,권한코드,idx값 가져오기
 	public EmpVo getSelectName(String emp_EMAIL) {
 		return mapper.getSelectName(emp_EMAIL);
@@ -80,4 +84,6 @@ public class EmpService {
 		public List<EmpVo> getEmpList() {
 			return mapper.selectEmpList();
 		}
+
+		
 }

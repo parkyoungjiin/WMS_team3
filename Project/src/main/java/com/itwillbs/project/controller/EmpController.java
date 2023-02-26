@@ -181,25 +181,37 @@ public class EmpController {
 		}
 		//비밀번호 일치 여부 확인을 위해 비밀번호 가져오기
 		
-		String passwd = service.getSelectPass(emp.getEMP_EMAIL()); //DB에저장된 pass가져오기
+		String passwd = service.getSelectPass(emp.getEMP_EMAIL()); // DB에 저장된 pass가져오기
+		String work_cd = service.getSelectWorkCd(emp.getEMP_EMAIL()); //DB에 저장된 work_cd 가져오기
+		System.out.println("work_cd : " + work_cd);
+		//로그인 작업(비밀번호 일치여부 판별)
 		if(passwd == null || !passwdEncoder.matches(emp.getEMP_PASSWD(), passwd)) { // 실패
 			// Model 객체에 "msg" 속성명으로 "로그인 실패!" 메세지 저장 후
 			// fail_back.jsp 페이지로 포워딩
-			model.addAttribute("msg", "로그인 실패! 아이디 또는 비밀번호를 확인해주세요.");
-			return "fail_back";
-		} else { // 성공
-			// HttpSession 객체에 세션 아이디 저장 후 메인페이지로 리다이렉트
-			//세션에 저장할 이름값,권한코드,idx값 가져오기
-			emp = service.getSelectName(emp.getEMP_EMAIL());
-			session.setAttribute("sId", emp.getEMP_NAME()); //이름 저장
-			session.setAttribute("priv_cd", emp.getPRIV_CD()); //권한코드 저장
-			session.setAttribute("emp_num", emp.getEMP_NUM()); //사원코드 저장
-			session.setAttribute("idx", emp.getIDX()); //idx 저장
-			session.setAttribute("PHOTO", emp.getPHOTO()); // PHOTO 저장
+				model.addAttribute("msg", "로그인 실패(아이디 또는 비밀번호를 확인해주세요.)");
+				return "fail_back";
+//		}else if(work_cd != "C1") {
+//			return "fail_back";
+		}else { // 성공
+			if(work_cd != "C1") {
+				model.addAttribute("msg", "로그인 실패(휴직자 및 퇴직자는 로그인할 수 없습니다.)");
+				return "fail_back";
+			}else {
+				
+				// HttpSession 객체에 세션 아이디 저장 후 메인페이지로 리다이렉트
+				//세션에 저장할 이름값,권한코드,idx값 가져오기
+				emp = service.getSelectName(emp.getEMP_EMAIL());
+				session.setAttribute("sId", emp.getEMP_NAME()); //이름 저장
+				session.setAttribute("priv_cd", emp.getPRIV_CD()); //권한코드 저장
+				session.setAttribute("emp_num", emp.getEMP_NUM()); //사원코드 저장
+				session.setAttribute("idx", emp.getIDX()); //idx 저장
+				session.setAttribute("PHOTO", emp.getPHOTO()); // PHOTO 저장
+				
+				System.out.println("#####################################################################33");
+				System.out.println("emp ; "+emp);
+				return "redirect:/";
+			}
 			
-			System.out.println("#####################################################################33");
-			System.out.println("emp ; "+emp);
-			return "redirect:/";
 		}
 	}//LoginPro 끝 
 	

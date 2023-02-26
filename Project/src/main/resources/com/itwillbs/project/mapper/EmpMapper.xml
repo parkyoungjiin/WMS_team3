@@ -33,6 +33,11 @@
 			FROM emp
 				WHERE EMP_EMAIL = #{EMP_EMAIL}
 	</select>
+	<select id="getSelectWorkCd" resultType="string">
+		SELECT WORK_CD
+			FROM emp
+				WHERE EMP_EMAIL = #{EMP_EMAIL}
+	</select>
 	<select id="getSelectName" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT EMP_NAME, PRIV_CD, IDX, EMP_NUM
 			FROM emp
