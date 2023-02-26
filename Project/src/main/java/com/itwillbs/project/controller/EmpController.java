@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.itwillbs.project.service.EmpService;
 import com.itwillbs.project.vo.EmpVo;
+import com.itwillbs.project.vo.PageInfo;
 
 @Controller
 public class EmpController {
@@ -234,10 +235,29 @@ public class EmpController {
 	//===================================== 인사 파트 2 : 채원 ================================================
 		//-------------- 사원 목록 출력------------
 		@GetMapping("/EmployeeList.em")
-		public String emplList(Model model, HttpSession session,@RequestParam(defaultValue = "") String keyword) {
+		public String emplList(Model model, HttpSession session,
+				@RequestParam(defaultValue = "") String keyword,
+				@RequestParam(defaultValue = "1") int pageNum) {
 	
+			int listLimit = 10;
+			int startRow = (pageNum-1) * listLimit;
+			
+			
 			List<EmpVo> employeeList = service.getEmployeeList(keyword); // 검색 모달용
-			List<EmpVo> empList = service.getEmpList(); // 인사용
+			List<EmpVo> empList = service.getEmpList(startRow,listLimit); // 인사 목록용
+			
+			int listCount = service.getEmpListCount();
+			int pageListLimit = 10;
+			int maxPage = listCount / listLimit + (listCount % listLimit == 0 ? 0:1);
+			int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
+			int endPage = startPage + pageListLimit - 1;
+			if(endPage > maxPage) {
+				endPage = maxPage;
+			}
+			// PageInfo 객체 생성 후 페이징 처리 정보 저장
+			PageInfo pageInfo = new PageInfo(listCount, pageListLimit, maxPage, startPage, endPage);
+			model.addAttribute("pageInfo", pageInfo);
+			
 			model.addAttribute("empList",empList);
 			return "emp/employee_list";			
 		} // 사원 목록 끝 

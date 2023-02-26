@@ -15,6 +15,7 @@ public class EmpVo {
 	private String DEPT_CD; //부서코드
 	private String DEPT_NAME; //부서명
 	private String GRADE_CD; //직급코드
+	private String GRADE_NAME; //직급코드
 	private String EMP_TEL; //연락처(개인)
 	private String EMP_DTEL; //연락처(사무실) 
 	private String EMP_EMAIL; 
@@ -63,6 +64,12 @@ public class EmpVo {
 	}
 	public void setGRADE_CD(String gRADE_CD) {
 		GRADE_CD = gRADE_CD;
+	}
+	public String getGRADE_NAME() {
+		return GRADE_NAME;
+	}
+	public void setGRADE_NAME(String gRADE_NAME) {
+		GRADE_NAME = gRADE_NAME;
 	}
 	public String getEMP_TEL() {
 		return EMP_TEL;
