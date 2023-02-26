@@ -56,7 +56,6 @@ public class EmpService {
 			return mapper.selectEmployee(EMP_NUM);
 		} // 사원 상세 정보 끝
 		
-
 		//-----------------사원 수정--------------------
 		public int modifyEmployee(EmpVo employee) {
 			System.out.println("서비스 확인 : " +employee);
@@ -81,9 +80,22 @@ public class EmpService {
 		}
 			
 		// 사원 리스트 일반  출력
-		public List<EmpVo> getEmpList() {
-			return mapper.selectEmpList();
+		public List<EmpVo> getEmpList(int startRow, int listLimit) {
+			List<EmpVo> empList = mapper.selectEmpList(startRow,listLimit);
+			for(int i = 0; i < empList.size(); i++) {
+				String dept_cd = empList.get(i).getDEPT_CD();
+				String dept_name = mapper.selectEmpDept(dept_cd);
+				empList.get(i).setDEPT_NAME(dept_name);
+				String grade_cd = empList.get(i).getGRADE_CD();
+				String grade_name = mapper.selectEmpGrd(grade_cd);
+				empList.get(i).setGRADE_NAME(grade_name);
+			}
+			return empList;
 		}
-
+		
+		// 리스트 페이징 처리
+		public int getEmpListCount() {
+			return mapper.selectBoardListCount();
+		}
 		
 }

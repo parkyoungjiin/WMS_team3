@@ -59,9 +59,31 @@
 	<!-- 일반사원목록 조회 -->
 	<select id="selectEmpList" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT *
-			FROM emp 
+			FROM emp
+			LIMIT 
+				#{startRow}
+				, #{listLimit}
+  	</select>
+  	
+  	<!-- 사원목록:부서명 -->
+  	<select id="selectEmpDept" resultType="String">
+  		SELECT DEPT_NAME
+  			FROM dep
+  			WHERE DEPT_CD=#{DEPT_CD}
+  	</select>
+  	
+  	<!-- 사원목록:직급명 -->
+  	<select id="selectEmpGrd" resultType="String">
+  		SELECT GRADE_NAME
+  			FROM grade
+  			WHERE GRADE_CD=#{GRADE_CD}
   	</select>
 	
+	<!-- 페이징 처리 -->
+	<select id="selectBoardListCount" resultType="int">
+		SELECT COUNT(*)
+			FROM emp
+	</select>
 	
 	<!-- 현재 로그인한 사원의 권한 조회 -->
 	<select id="selectPrivCode" resultType="String">
@@ -95,10 +117,9 @@
 	  			,EMP_ADDR = #{EMP_ADDR}
 	  			,WORK_CD = #{WORK_CD}
 	  			,PRIV_CD = #{PRIV_CD}
-	  			<if test="PHOTO neq ''">
-	  			,PHOTO = #{PHOTO}	
-	  			</if>
-	  			
+	  			<if test="PHOTO != null">
+					,PHOTO = #{PHOTO}	
+				</if>
 	  		WHERE 
 	  			idx = #{IDX}
 	</update>
@@ -121,7 +142,9 @@
 			SET 
 				EMP_TEL = #{emp.EMP_TEL},
 				EMP_DTEL = #{emp.EMP_DTEL},
-				PHOTO = #{emp.PHOTO}
+<!-- 				<if test="PHOTO != null"> -->
+					photo = #{emp.PHOTO}
+<!-- 				</if> -->
 	  		WHERE 
 	  			EMP_NUM = #{emp_num}
 	

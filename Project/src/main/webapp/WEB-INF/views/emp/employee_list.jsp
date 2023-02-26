@@ -21,6 +21,11 @@
 <%--<link href="${path}/resources/css/styles.css" rel="stylesheet" type="text/css" /> --%>
 <link href="${path}/resources/css/form_style.css" rel="stylesheet" type="text/css" />
 <script src="${path}/resources/js/jquery-3.6.3.js"></script>
+<style type="text/css">
+	.pageList {
+		text-align: center;
+	}
+</style>
 <!-- 권한 여부 판별하여 인사부서인지 판별 -->
 <script type="text/javascript">
 	var str = '${priv_cd}' // 세션에 저장된 권한코드
@@ -34,38 +39,7 @@
 		history.back();
 	}
 </script>
-<script>
 <!------------------- 이미지 수정------------------ -->
-<script type="text/javascript">
-
-	function deleteFile(fileName, index) {
-		var confirmAlert = confirm("사진을 삭제하시겠습니까?")
-		if(confirmAlert == true){
-			$("#profile").empty();
-			// 파일 삭제를 AJAX 로 처리
-			$.ajax({
-				type: "POST",
-				url: "DeleteImgFile",
-				data: {
-					"EMP_NUM" : index,
-					"PHOTO" : fileName
-				},
-				success: function(data) {
-						console.log(data)
-					if(data == "true") {
-						// 삭제 성공 시 파일명 표시 위치의 기존 항목을 제거하고
-						// 파일 업로드를 위한 "파일 선택" 버튼 항목 표시
-						$("#imgChange").html('<input type="file" name="file">');
-					} else if(data == "false") {
-						alert("일시적인 오류로 파일 삭제에 실패했습니다!");
-					} 
-				}
-			});
-		}else{
-			alert("이미지 삭제가 취소되었습니다!")
-		}
-	}
-</script>
 <!-- 권한 여부 판별하여 인사부서인지 판별 -->
 <script type="text/javascript">
 	var str = '${priv_cd}' // 세션에 저장된 권한코드
@@ -121,8 +95,8 @@
                                 <th width="120">사진</th>
 								<th width="90px">사원번호</th>
 								<th width="120px">사원명</th>
-								<th width="60">부서코드</th>
-								<th width="60">직급코드</th>
+								<th width="60">부서</th>
+								<th width="60">직급</th>
 								<th width="140px">연락처(휴대폰)</th>
 								<th width="140px">연락처(내선번호)</th>
 								<th width="200px">이메일</th>
@@ -137,8 +111,8 @@
 		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='resources/upload/noProfile.png';" alt="Profile" style="width:50px; height: 50px;"></td>
 		                    	<td>${emp.EMP_NUM }</td>
 		                    	<td>${emp.EMP_NAME }</td>
-		                    	<td>${emp.DEPT_CD }</td>
-		                    	<td>${emp.GRADE_CD }</td>
+		                    	<td>${emp.DEPT_NAME }</td>
+		                    	<td>${emp.GRADE_NAME }</td>
 		                    	<td>${emp.EMP_TEL }</td>
 		                    	<td>${emp.EMP_DTEL }</td>
 		                    	<td>${emp.EMP_EMAIL }</td>
@@ -151,7 +125,40 @@
 		                 </c:forEach>  
 						</tbody>
                     </table>
-           				<button class="btn btn-primary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
+                    <section class="pageList">
+						<c:choose>
+							<c:when test="${pageNum > 1}">
+								<input type="button" value="이전" class="btn btn-sm btn-secondary" onclick="location.href='EmployeeList.em?pageNum=${pageNum - 1}'">
+							</c:when>
+							<c:otherwise>
+								<input type="button" class="btn btn-sm btn-secondary" value="이전">
+							</c:otherwise>
+						</c:choose>
+							
+						<!-- 페이지 번호 목록은 시작 페이지(startPage)부터 끝 페이지(endPage) 까지 표시 -->
+						<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+							<!-- 단, 현재 페이지 번호는 링크 없이 표시 -->
+							<c:choose>
+								<c:when test="${pageNum eq i}">
+									${i }
+								</c:when>
+								<c:otherwise>
+									<a href="EmployeeList.em?pageNum=${i }">${i }</a>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+				
+						<!-- 현재 페이지 번호(pageNum)가 총 페이지 수보다 작을 때만 [다음] 링크 동작 -->
+						<c:choose>
+							<c:when test="${pageNum < pageInfo.maxPage}">
+								<input type="button" class="btn btn-sm btn-secondary" value="다음" onclick="location.href='EmployeeList.em?pageNum=${pageNum + 1}'">
+							</c:when>
+							<c:otherwise>
+								<input type="button" class="btn btn-sm btn-secondary" value="다음">
+							</c:otherwise>
+						</c:choose>
+					</section>
+           			<button class="btn btn-primary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
                     
                     </div> <%--1번탭 끝 --%>
                     
@@ -162,8 +169,8 @@
                              	<th width="120">사진</th>
 								<th width="90px">사원번호</th>
 								<th width="120px">사원명</th>
-								<th width="60">부서코드</th>
-								<th width="60">직급코드</th>
+								<th width="60">부서</th>
+								<th width="60">직급</th>
 								<th width="140px">연락처(휴대폰)</th>
 								<th width="140px">연락처(내선번호)</th>
 								<th width="200px">이메일</th>
@@ -177,8 +184,8 @@
 		                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='resources/upload/noProfile.png';" alt="Profile" style="width:50px; height: 50px;"></td>
 		                    	<td>${emp.EMP_NUM }</td>
 		                    	<td>${emp.EMP_NAME }</td>
-		                    	<td>${emp.DEPT_CD }</td>
-		                    	<td>${emp.GRADE_CD }</td>
+		                    	<td>${emp.DEPT_NAME }</td>
+		                    	<td>${emp.GRADE_NAME }</td>
 		                    	<td>${emp.EMP_TEL }</td>
 		                    	<td>${emp.EMP_DTEL }</td>
 		                    	<td>${emp.EMP_EMAIL }</td>
@@ -191,6 +198,39 @@
 		                 </c:forEach>  
 						</tbody>
                     </table>
+                    	<section class="pageList">
+								<c:choose>
+									<c:when test="${pageNum > 1}">
+										<input type="button" value="이전" class="btn btn-sm btn-secondary" onclick="location.href='EmployeeList.em?pageNum=${pageNum - 1}'">
+									</c:when>
+									<c:otherwise>
+										<input type="button" value="이전" class="btn btn-sm btn-secondary">
+									</c:otherwise>
+								</c:choose>
+									
+								<!-- 페이지 번호 목록은 시작 페이지(startPage)부터 끝 페이지(endPage) 까지 표시 -->
+								<c:forEach var="i" begin="${pageInfo.startPage }" end="${pageInfo.endPage }">
+									<!-- 단, 현재 페이지 번호는 링크 없이 표시 -->
+									<c:choose>
+										<c:when test="${pageNum eq i}">
+											${i }
+										</c:when>
+										<c:otherwise>
+											<a href="EmployeeList.em?pageNum=${i }">${i }</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+						
+								<!-- 현재 페이지 번호(pageNum)가 총 페이지 수보다 작을 때만 [다음] 링크 동작 -->
+								<c:choose>
+									<c:when test="${pageNum < pageInfo.maxPage}">
+										<input type="button" value="다음" class="btn btn-sm btn-secondary" onclick="location.href='EmployeeList.em?pageNum=${pageNum + 1}'">
+									</c:when>
+									<c:otherwise>
+										<input type="button" value="다음" class="btn btn-sm btn-secondary">
+									</c:otherwise>
+								</c:choose>
+							</section>
                        <button class="btn btn-primary" onclick="location.href='EmpInsertForm.em'" style="float: right;">신규등록</button>
                     
                     </div><!-- 2번탭  -->
@@ -202,8 +242,8 @@
                                 <th width="120">사진</th>
 								<th width="90px">사원번호</th>
 								<th width="120px">사원명</th>
-								<th width="60">부서코드</th>
-								<th width="60">직급코드</th>
+								<th width="60">부서</th>
+								<th width="60">직급</th>
 								<th width="140px">연락처(휴대폰)</th>
 								<th width="140px">연락처(내선번호)</th>
 								<th width="200px">이메일</th>
@@ -213,11 +253,11 @@
 	                    <tbody>
 	                    <c:forEach items="${empList }" var="emp">
 	                    <c:if test="${emp.WORK_CD eq 'C3' }">
-	                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noImg.png';" alt="Profile" style="width:50px; height: 50px;"></td>
+	                    	<td><img src=" ${pageContext.request.contextPath}/resources/upload/${emp.PHOTO }" onError="this.onerror=null; this.src='/resources/upload/noProfile.png';" alt="Profile" style="width:50px; height: 50px;"></td>
 	                    	<td>${emp.EMP_NUM }</td>
 	                    	<td>${emp.EMP_NAME }</td>
-	                    	<td>${emp.DEPT_CD }</td>
-	                    	<td>${emp.GRADE_CD }</td>
+	                    	<td>${emp.DEPT_NAME }</td>
+	                    	<td>${emp.GRADE_NAME }</td>
 	                    	<td>${emp.EMP_TEL }</td>
 	                    	<td>${emp.EMP_DTEL }</td>
 	                    	<td>${emp.EMP_EMAIL }</td>

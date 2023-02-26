@@ -389,7 +389,7 @@ $(function() {
                       <div class="col-md-8 col-lg-4">
 <%--                          <input name="file" type="file" class="form-control" id="file" value="${product.product_image }">  --%>
                       	 <div id="Product" >
-                      	 <img src="${pageContext.request.contextPath}/resources/upload/${product.product_image }" alt="Product" onError="this.onerror=null; this.src='resources/upload/차.JPG';" height="150" width="150" alt="Product" >
+                      	 <img src="${pageContext.request.contextPath}/resources/upload/${product.product_image }" onError="this.onerror=null; this.src='resources/upload/차.JPG';" height="150" width="150" alt="Product" >
                      	 </div>
 	                      <!-- 이미지 수정 버튼 -->
 							<div id="imgChange" style="padding-top:10px">
@@ -406,12 +406,6 @@ $(function() {
 <%-- 										<input type="hidden" name="product_image" value="${product.product_image }"> --%>
 			                </div>
 		                        <div></div>
-<!-- 			                	썸네일 -->
-<!-- 								<div class="row mb-3"> -->
-<!-- 								<label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">사진 미리보기</label> -->
-<!-- 								<div class="col-md-8 col-lg-4"> -->
-<!-- 								<div id="image_container" ></div> style="width: 250px; height: 250px;" -->
-	<!--                         <input name="file" type="file" class="form-control" id="input_image" onchange="changeImage(event);"> -->
 	                      </div>
                     
                 
