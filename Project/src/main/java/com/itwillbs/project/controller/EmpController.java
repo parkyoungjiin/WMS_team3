@@ -191,10 +191,8 @@ public class EmpController {
 			// fail_back.jsp 페이지로 포워딩
 				model.addAttribute("msg", "로그인 실패(아이디 또는 비밀번호를 확인해주세요.)");
 				return "fail_back";
-//		}else if(work_cd != "C1") {
-//			return "fail_back";
 		}else { // 성공
-			if(work_cd != "C1") {
+			if(!work_cd.equals("C1")) {
 				model.addAttribute("msg", "로그인 실패(휴직자 및 퇴직자는 로그인할 수 없습니다.)");
 				return "fail_back";
 			}else {
