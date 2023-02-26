@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,10 +61,10 @@ public class ProductController {
 	@GetMapping(value = "ProductInsertForm")
 	public String prodInsert(@ModelAttribute ProductVO prod, Model model) {
 		
-		// 품목 그룹 모달
-		List<ProductVO> ProdGList = service.getProdList();
-		model.addAttribute("ProdGList", ProdGList);
-		System.out.println("ProdGList : " +  ProdGList);
+		// (수정 전)품목 그룹 모달
+//		List<ProductVO> ProdGList = service.getProdList();
+//		model.addAttribute("ProdGList", ProdGList);
+//		System.out.println("ProdGList : " +  ProdGList);
 		
 		return "product/product_insert";
 	}// ProductInsertForm 끝
@@ -74,23 +75,25 @@ public class ProductController {
 	public String ProdInsertPro(
 			@ModelAttribute ProductVO prod
 			, Model model
-			, HttpSession session) {
+			, HttpSession session
+			) {
 		System.out.println(prod);
 		
 		try {
 			//**품목 바코드 결합** 
-			// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 8자리), 자동부여
-			SimpleDateFormat year_format = new SimpleDateFormat("yyMM");
+//			// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 8자리), 자동부여
+			//** 바코드 중복 방지를 위한 수정 ** 
+			// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 초ss(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 10자리), 자동부여
+			SimpleDateFormat year_format = new SimpleDateFormat("yyMMss");
 			Date date = new Date(System.currentTimeMillis());
 			String year = year_format.format(date);
 			
 			System.out.println("year : " + year);
 			System.out.println("date : " + date);
 			
-			
-			// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 8자리), 자동부여
 //				String Pcode = Integer.toString(prod.getProduct_group_top_cd())+Integer.toString(prod.getProduct_group_bottom_cd());
-			String Pcode = String.valueOf(prod.getProduct_group_top_cd())+String.valueOf(prod.getProduct_group_bottom_cd());
+			String Pcode = String.valueOf(prod.getProduct_group_top_cd()) + String.valueOf(prod.getProduct_group_bottom_cd());
+			System.out.println("품목코드 확인 : " + prod.getProduct_cd());
 			System.out.println("Pcode : " + Pcode);
 			
 			String barcode = year + Pcode;
@@ -172,66 +175,6 @@ public class ProductController {
 	
 	
 	
-	//-------------- 품목 그룹 폼 이동 --------------
-//	@GetMapping(value = "/ProductGroupForm")
-//	public String prodGroup() {
-//		return "product/product_group";
-//	}// ProductInsertForm 끝
-
-	//-------- 품목 그룹 리스트 -------------------------------
-//	@ResponseBody
-//	@GetMapping("/ProdGroupList")
-//	public void prodList(
-//			@RequestParam(defaultValue = "") String searchType,
-//			@RequestParam(defaultValue = "") String keyword,
-//			@RequestParam(defaultValue = "1") int pageNum,
-//			Model model,
-//			HttpServletResponse response) {
-//			
-//		int listLimit = 10;
-//		int startRow = (pageNum - 1) * listLimit;
-//		
-//		List<ProductVO> prodList = service.getProdList(searchType, keyword, startRow, listLimit);
-//		
-//		JSONArray jsonArray = new JSONArray();
-//		for(ProductVO product : prodList) {
-//			JSONObject jsonObject = new JSONObject(product);
-//			System.out.println(jsonObject);
-//			jsonArray.put(jsonObject);
-//		}
-//			try {
-//				response.setCharacterEncoding("UTF-8");
-//				response.getWriter().print(jsonArray);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-
-//	@ResponseBody
-//	@GetMapping(value = "/ProdGroupList", produces = "application/json; charset=utf-8")
-//	public void groupList(Model model, HttpServletResponse response
-//						, @RequestParam(defaultValue = "") String keyword) {
-//		
-//			//------------ 품목 그룹 리스트 (모달) ------------------------
-//			List<ProductVO> ProdList = service.getProdList(keyword);
-//			JSONArray jsonArray = new JSONArray();
-//			
-//			for(ProductVO list: ProdList) {
-//				
-//				JSONObject jsonObject = new JSONObject(list);
-//				System.out.println(jsonObject);
-//				
-//				jsonArray.put(jsonObject);
-//			}
-//			try {
-//				response.setCharacterEncoding("UTF-8");
-//				response.getWriter().print(jsonArray); 
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//			
-//	
-//}//---------- pGroup list 끝----------------------------
-	
 	
 	
 //----------------- 품목 info (상세)----------------------------
@@ -246,24 +189,53 @@ public String prodInfo(
 	
 	product = service.getProdInfo(product_cd);
 	model.addAttribute("product", product);
-	System.out.println(product);
+//	System.out.println(product);
 	
-	// 품목 그룹 모달
-	List<ProductVO> ProdGList = service.getProdList();
-	model.addAttribute("ProdGList", ProdGList);
+	// (수정 전)품목 그룹 모달
+//	List<ProductVO> ProdGList = service.getProdList();
+//	model.addAttribute("ProdGList", ProdGList);
 	
 	
 	return "product/product_info";
 	
 }
 
-//-------------------- 품목 수정 Pro -------------------------------
+//-------------------- 품목 상세 - 품목 그룹 조회 --------------------
+@GetMapping(value="/pGroupListJson", produces = "application/json; charset=utf-8")
+@ResponseBody
+public void listJson_product(
+		@RequestParam(defaultValue = "") String keyword,
+		Model model,
+		HttpServletResponse response) {
+	
+	List<ProductVO> ProdList = service.getProdList(keyword);
+		
+	JSONArray jsonArray = new JSONArray();
+	
+	for(ProductVO prod : ProdList) {
+		JSONObject jsonObject = new JSONObject(prod);
+//		System.out.println(jsonObject);
+		
+		jsonArray.put(jsonObject);
+	}
+		
+	try {
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().print(jsonArray);
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	
+}
 
+
+//-------------------- 품목 수정 Pro -------------------------------
 @PostMapping(value="/UpdateProd")
 public String productUpdate(
 		@ModelAttribute ProductVO product
 		, Model model
-		, HttpSession session) {
+		, HttpSession session
+		,@RequestParam(value = "file",required = false) MultipartFile file) {
 	
 	//------------- 이미지 수정 -------------------------------
 	
@@ -272,49 +244,50 @@ public String productUpdate(
 	System.out.println("실제 업로드 경로:" + saveDir);
 	System.out.println("이미지 : " + product.getProduct_image());
 	System.out.println("거래처 : " + product.getBusiness_no());
-	//2. 만약, 해당 경로 상에 실제 디렉토리(폴더)가 존재하지 않을 경우 새로 생성
-	File f = new File(saveDir);	
-	if(!f.exists()) {
-		f.mkdirs(); // 지정된 경로 상에 존재하지 않는 모든 경로를 차례대로 생성
-	}
-	//3. MultipartFile 객체 생성(Vo의 file은 MutlipartFile 타입 / PHOTO는 String 타입)
-	MultipartFile mFile = product.getFile();
-	
-	//4. MultipartFile 객체의 getOriginalFilename() 메서드를 통해 파일명 꺼내기
-	
-//	if(mFile == null) {
-//		product.setProduct_image(product.getProduct_image());
-//	} else {
-		String originalFileName = mFile.getOriginalFilename(); //원본 파일명
-		System.out.println("원본 파일명: " +originalFileName);
-		System.out.println("파일명: " +mFile.getName());
-		//5. 원본 파일명을 empVo에 저장
-		product.setProduct_image(originalFileName);
 
-	// --------------- 수정 --------------------------------
-	int updateCount = service.updateProd(product);
-	
-	if(updateCount > 0) { // 수정 성공 시
-		
-			//6. transferTo를 통해 파일 이동
+	String product_image = product.getProduct_image(); // 기존 파일명을 설정
+	 
+	if (file != null) { // file 객체가 null이 아닌 경우에만 처리
+	    if (!file.isEmpty()) { // 파일을 선택한 경우    	 
+	    	product_image = file.getOriginalFilename().toString(); // 파일명을 설정
+	        // 파일 생성
+	        File f = new File(saveDir,product_image); 	
+			
+			if(!f.exists()) {
+				f.mkdirs(); // 지정된 경로 상에 존재하지 않는 모든 경로를 차례대로 생성
+			}
+			// MultipartFile 객체의 getOriginalFilename() 메서드를 통해 파일명 꺼내기
 			try {
-				mFile.transferTo(new File(saveDir, mFile.getOriginalFilename()));
+				// transferTo를 통해 파일 이동
+				file.transferTo(f);
 				
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	
-		model.addAttribute("msg", "품목 수정 성공!");
-//		return "redirect:/ProdModify?product_cd=" + product.getProduct_cd();
-		return "redirect:/ProductList";
-	} else { // 수정 실패 시
-		model.addAttribute("msg", "품목 수정 실패!");
-		return "fail_back";
+	    
+	    } else { // 파일을 선택하지 않은 경우
+	        product_image = product.getProduct_image(); // 기존 파일명을 설정
+	    }
+	} else { // file 객체가 null인 경우
+	    product_image = product.getProduct_image(); // 기존 파일명을 설정
 	}
-//	}
-}
+			
+		product.setProduct_image(product_image);
+	
+		// --------------- 수정 --------------------------------
+		int updateCount = service.updateProd(product);
+		
+		if(updateCount > 0) { // 수정 성공 시		
+			model.addAttribute("msg", "품목 수정 성공!");
+			return "redirect:/ProductList";
+		} else { // 수정 실패 시
+			model.addAttribute("msg", "품목 수정 실패!");
+			return "fail_back";
+		}
+	}
+
 
 //======== 품목 수정 시 개별 파일 삭제 처리 ===============================
 		@ResponseBody

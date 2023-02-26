@@ -43,7 +43,73 @@
 var idx = 0;
 var selectIdx;
 
-//거래처 목록 조회(모달)
+
+//=============================== 품목 목록 조회(모달) ========================================
+function load_pGroupList() {
+	
+	let pGroup_keyword = $("#pGroup_keyword").val();
+// 	alert(pGroup_keyword);
+	
+	$.ajax({
+		type: "GET",
+		url: "pGroupListJson?keyword=" + pGroup_keyword,
+		dataType: "json"
+	})
+	.done(function(ProdList) { // 요청 성공 시
+		if(ProdList.length == 0){
+			$("#modal-body-pGroup > table ").remove();   //테이블 비우기
+
+			let no_result = "<table class='table table-hover' id='pGroup_table' style='margin-left: auto; margin-right: '>"
+				+ "<tr style='cursor:pointer;'>"
+                + '<th scope="col">품목 그룹 코드(대)</th>'
+                + '<th scope="col">품목 그룹 코드(소)</th>'
+                + '<th scope="col">품목 그룹명(소)</th>'
+                + '</tr>'
+				+ "<tr style='cursor:pointer;'>"
+				+ "<td colspan ='3'>"
+				+ "<h4 style='font-weight: bold; text-align: center;'>" + "'" +  pGroup_keyword + "'" +  " 에 대한 검색결과가 없습니다."
+				+ "</h4>"
+				+ "</td>"
+				+ "</tr>";
+		 		+ '</table>'
+
+	         $("#modal-body-pGroup").append(no_result);
+	         $("#pGroup_keyword").focus();
+
+		} else {
+			
+		$("#modal-body-pGroup > table").remove();   // 테이블 비움
+			
+				let set_table = "<table class='table table-hover' id='pGroup_table' style='margin-left: auto; margin-right: '>"
+					+ "<tr style='cursor:pointer;'>"
+	                + '<th scope="col">품목 그룹 코드(대)</th>'
+	                + '<th scope="col">품목 그룹 코드(소)</th>'
+	                + '<th scope="col">품목 그룹명(소)</th>'
+	                + '</tr>'
+  			 		+ '</table>'
+  			 		
+		         $("#modal-body-pGroup").append(set_table);
+				
+		for(let prod of ProdList) {
+			console.log("prod.product_group_top_cd : " + prod.product_group_top_cd);
+			
+			let result = "<tr style='cursor:pointer; text-align: center;'>"
+		                + "<td>" + prod.product_group_top_cd + "</td>"
+		                + "<td id='product_group_top_cd'>" + prod.product_group_bottom_cd + "</td>"
+		                + "<td id='product_group_top_cd'>" + prod.product_group_bottom_name + "</td>"
+               			+ "</tr>";
+             
+			$("#pGroup_table").append(result);
+		}
+		}
+
+	})
+	.fail(function() {
+		$("#modal-body-pGroup").append("<h5>요청 실패!</h5>");
+	});
+}//==========================품목 목록 조회===================================
+
+//========================== 거래처 목록 조회(모달)==========================================
 function load_buyerList() {
 	
 	let buyer_keyword = $("#buyer_keyword").val();
@@ -59,7 +125,7 @@ function load_buyerList() {
 // 			$(".modal-body").append(buyerList);
 // 		$("#modal-body > table").empty();
 		if(buyerList.length == 0){
-			$("#modal-body-buyer > table ").remove();   //테이블 비우고
+			$("#modal-body-pGroup > table").remove();   //테이블 비우고
 
 			let no_result = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right: '>"
 				+ "<tr style='cursor:pointer;'>"
@@ -82,7 +148,7 @@ function load_buyerList() {
 
 		}else{
 			
-		$("#modal-body-buyer > table ").remove();   //테이블 비우고
+		$("#modal-body-buyer > table").remove();   //테이블 비우고
 			
 				let set_table = "<table class='table table-hover' id='buyer_table' style='margin-left: auto; margin-right: '>"
 					+ "<tr style='cursor:pointer;'>"
@@ -118,7 +184,7 @@ function load_buyerList() {
 // td 클릭 시 해당 value 가져오기
 $(function() {
 	// 품목 그룹
-	$("#pGroup_table").on('click','tr',function(){
+	$("#modal-body-pGroup").on('click','tr',function(){
 		   let td_arr = $(this).find('td');
 		   
 		   console.log(td_arr);
@@ -134,8 +200,8 @@ $(function() {
 		   // td 클릭시 모달 창 닫기
 		   $('#modalDialogScrollable_pGroup').modal('hide');
 		   $("#product_group_top_cd").val(p_Tcd);
-		   $("#product_group_bottom_name").val(p_Gnm);
 		   $("#product_group_bottom_cd").val(p_Gcd);
+		   $("#product_group_bottom_name").val(p_Gnm);
 	});	   
 	
 	// 거래처
@@ -328,16 +394,16 @@ $(function() {
 	                      <!-- 이미지 수정 버튼 -->
 							<div id="imgChange" style="padding-top:10px">
 		                  		<c:choose>
-									<c:when test="${product.product_image ne '' }">
+									<c:when test="${product.product_image ne '' and product.product_image ne null}">
 										<%-- 삭제 버튼 클릭 시 파일명과 인덱스번호 전달 --%>
 										<input type="button" value="삭제" class="btn btn-secondary" onclick="deleteFile('${product.product_image}','${product.product_cd}')">
 									</c:when>
 									<c:otherwise>
-										<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);" value="${product.product_image }">
+										<input type="file" name="file" class="form-control" id="input_image" onchange="changeImage(event);">
 									</c:otherwise>								
 								</c:choose>
 							</div>
-										<input type="hidden" name="product_image" value="${product.product_image }">
+<%-- 										<input type="hidden" name="product_image" value="${product.product_image }"> --%>
 			                </div>
 		                        <div></div>
 <!-- 			                	썸네일 -->
@@ -376,26 +442,18 @@ $(function() {
                       <h5 class="modal-title">품목 그룹 검색</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="modal-body-pGroup" style="text-align: center;">
                      	<div class="input-group mb-6">
-<!-- 		             		<input name="" type="text" class="form-control" id="pGroup_keyword" > -->
-<!-- 				         <button id="search_pGroup" class="btn btn-secondary" type="button" onclick="load_pGroupList">검색</button> -->
+		             		<input name="pGroup_keyword" type="text" class="form-control" id="pGroup_keyword" placeholder="검색 후 이용 바랍니다." >
+				         <button id="search_pGroup" class="btn btn-secondary" type="button" onclick="load_pGroupList()">검색</button>
 			        	 </div>
                    		 <table class='table table-hover' id="pGroup_table" style="margin-left: auto; margin-right: ">
-				                <tr style="text-align: center">
+				                <tr>
 				                  <th scope="col">품목 그룹 코드(대)</th>
 				                  <th scope="col">품목 그룹 코드(소)</th>
 				                  <th scope="col">품목 그룹명(소)</th>
 				                </tr>
-	                                 <c:forEach var="ProdGList" items="${ProdGList }" varStatus="status">
-		        	 			<tr>
-		        	 				<td>${ProdGList.product_group_top_cd}</td>
-		        	 				<td>${ProdGList.product_group_bottom_cd}</td>
-		        	 				<td>${ProdGList.product_group_bottom_name}</td>
-		        	 			</tr>
-                                 </c:forEach>
 			        	 </table>
-                    
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
