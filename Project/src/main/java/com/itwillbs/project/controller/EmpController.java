@@ -11,6 +11,7 @@ import java.text.Format;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -135,8 +136,11 @@ public class EmpController {
 		System.out.println("EMP_IDX : " + EMP_IDX);
 		String EMP_NUM = emp.getDEPT_CD() + year + EMP_IDX; // 부서코드(2)+입사년도(2)+인덱스(3)
 		emp.setEMP_NUM(EMP_NUM); //set으로 EMP_NUM 저장
-		
-		
+		//임시 비밀번호 생성 작업 (service에서 정의한 메서드 가져오기)
+		String tempPasswd = service.getTempPassWd(8);
+		//생성 한 비밀번호 vo에 담기 
+		emp.setEMP_PASSWD(tempPasswd);
+		System.out.println("임시비밀번호 : " + emp.getEMP_PASSWD());
 		//비밀번호 해싱 작업
 		BCryptPasswordEncoder passwdEncoder = new BCryptPasswordEncoder();
 		String securePasswd = passwdEncoder.encode(emp.getEMP_PASSWD());
@@ -155,6 +159,10 @@ public class EmpController {
 		//사원 등록 작업
 		int InsertCount = service.InsertEmployee(emp);
 		if(InsertCount > 0) {
+			//등록 성공 시 이메일 전송(임시비밀번호)
+			emp.setEMP_PASSWD(tempPasswd);
+			System.out.println("전송되는 비밀번호 :" + tempPasswd);
+			service.sendTempLoginPwToEmail(emp);
 			return "redirect:/EmployeeList.em";
 		}else { // 실패
 			model.addAttribute("msg", "사원 등록 실패!");

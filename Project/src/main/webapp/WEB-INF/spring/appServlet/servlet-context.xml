@@ -30,7 +30,25 @@
 	</beans:bean>
 	<!-- 컨트롤러를 비롯한 웹 관련 어노테이션을 통해 자동 주입될 클래스가 포함되는 패키지 지정 -->
 	<context:component-scan base-package="com.itwillbs.project" />
-	
+	<!-- 메일 service 등록  -->
+	<context:component-scan base-package="spring.service" />
+	<!-- 메일링 -->
+	<beans:bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<beans:property name="host" value="smtp.gmail.com"/>
+		<beans:property name="port" value="587"/>
+		<beans:property name="defaultEncoding" value="utf-8"/>
+		<beans:property name="username" value="pyjs18593@gmail.com"/>
+		<beans:property name="password" value="qilrfyksjojavulu"/>
+		<beans:property name="javaMailProperties">
+			<beans:props>
+				<beans:prop key="mail.transport.protocol">smtp</beans:prop>
+				<beans:prop key="mail.smtp.ssl.protocols">TLSv1.2</beans:prop>
+				<beans:prop key="mail.smtp.auth">false</beans:prop> <!-- 2단계본인인증을 했으니 보안적으로 true라고 준다 -->
+				<beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+				<beans:prop key="mail.debug">true</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
 	
 	
 	
