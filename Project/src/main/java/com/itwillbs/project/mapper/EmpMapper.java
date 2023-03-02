@@ -14,6 +14,10 @@ public interface EmpMapper {
 	
 	//비밀번호 일치 여부 확인을 위해 비밀번호 가져오기(로그인 시 )
 	String getSelectPass(String emp_EMAIL);
+	
+	//로그인 시 재직자 판별을 위해 재직코드 가져오기
+	String getSelectWorkCd(String emp_EMAIL);
+
 	//세션에 저장할 이름값,권한코드,idx값 가져오기
 	EmpVo getSelectName(String emp_EMAIL);
 	//이메일 중복 체크
@@ -22,8 +26,16 @@ public interface EmpMapper {
 	// ----------검색용 사원 목록 출력-------------- String keyword
 	List<EmpVo> selectEmployeeList(String keyword);
 
-	//----------------------일반 사원목록 출력
-	List<EmpVo> selectEmpList();
+	//----------일반 사원목록 출력------------
+	List<EmpVo> selectEmpList(
+			@Param("startRow") int startRow,
+			@Param("listLimit") int listLimit);
+	
+	// --------- 사원목록 : 부서명------------
+	String selectEmpDept(String dept_cd);
+	
+	// ---------- 사원목록 : 직급명 -------------------
+	String selectEmpGrd(String grade_cd);
 	
 	// ---------- 권한 조회 -------------
 	String selectPrivCode(String sId);
@@ -45,6 +57,9 @@ public interface EmpMapper {
 	
 	//---------------------- 개별 파일 삭제----------------------------------- 
 	int deleteImgFile(@Param("EMP_NUM")String EMP_NUM, @Param("PHOTO") String PHOTO);
+	
+	// ------------------------ 사원 목록 페이징 처리-----------------------------
+	int selectBoardListCount();
 
 	
 }

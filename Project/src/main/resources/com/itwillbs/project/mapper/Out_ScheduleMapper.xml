@@ -206,6 +206,11 @@
 	
 	<!-- 출고 처리 - 재고 이력 기록 -->
 	<insert id="insertOutHistory">
+		<selectKey keyProperty="stock_qty" resultType="int" order="BEFORE">
+			SELECT stock_qty 
+				FROM stock
+					WHERE stock_cd = #{stock_cd}
+		</selectKey>
 		INSERT INTO stock_history
 			VALUES (
 			#{stock_cd}
@@ -214,6 +219,7 @@
 			,""
 			,""
 			,#{out_qty}
+			,#{stock_qty}
 			,#{sId}
 			,now()
 			,"출고 처리"
