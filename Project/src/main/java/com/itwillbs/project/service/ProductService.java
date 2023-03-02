@@ -50,5 +50,10 @@ public class ProductService {
 		return mapper.deleteImgFile2(product_cd, product_image);
 	}
 	
+	//------------- product_cd 중 가장 큰 값 조회 -----------------
+	public int getMaxProdCd(int product_cd) {
+		return mapper.selectMaxProdCd(product_cd);
+	}
+	
 
 }
