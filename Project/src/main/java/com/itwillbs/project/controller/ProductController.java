@@ -74,27 +74,34 @@ public class ProductController {
 	@PostMapping(value="ProdInsertPro")
 	public String ProdInsertPro(
 			@ModelAttribute ProductVO prod
+//			, @RequestParam(defaultValue = "1") int product_cd
 			, Model model
 			, HttpSession session
 			) {
 		System.out.println(prod);
+		
 		
 		try {
 			//**품목 바코드 결합** 
 //			// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 8자리), 자동부여
 			//** 바코드 중복 방지를 위한 수정 ** 
 			// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 초ss(2) + 그룹코드 대(2) + 그룹코드 소(2)(= 총 10자리), 자동부여
-			SimpleDateFormat year_format = new SimpleDateFormat("yyMMss");
+			
+			//** 바코드 중복 방지를 위한 수정 2 ** 
+			// -> 바코드(barcode) = 연도yy(2) + 월MM(2) + 그룹코드 대(2) + 그룹코드 소(2) + 품목코드(4) (= 총 12자리), 자동부여
+			SimpleDateFormat year_format = new SimpleDateFormat("yyMM");
 			Date date = new Date(System.currentTimeMillis());
 			String year = year_format.format(date);
 			
-			System.out.println("year : " + year);
-			System.out.println("date : " + date);
+//			System.out.println("year : " + year);
+//			System.out.println("date : " + date);
 			
-//				String Pcode = Integer.toString(prod.getProduct_group_top_cd())+Integer.toString(prod.getProduct_group_bottom_cd());
-			String Pcode = String.valueOf(prod.getProduct_group_top_cd()) + String.valueOf(prod.getProduct_group_bottom_cd());
-			System.out.println("품목코드 확인 : " + prod.getProduct_cd());
-			System.out.println("Pcode : " + Pcode);
+			// 이전 품목 코드 중 가장 큰 수(최신)를 가져와서 + 1 = 새로 등록 될 품목 코드
+			int getMaxProdCd = service.getMaxProdCd(0)+1;
+			System.out.println("getMaxProdCd + 1 : " + getMaxProdCd);
+			
+			String Pcode = String.valueOf(prod.getProduct_group_top_cd()) + String.valueOf(prod.getProduct_group_bottom_cd()) +  String.valueOf(getMaxProdCd);
+//			System.out.println("Pcode : " + Pcode);
 			
 			String barcode = year + Pcode;
 					

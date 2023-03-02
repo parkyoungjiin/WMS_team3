@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>   
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
@@ -88,8 +88,8 @@
 								<td>${ProdList.product_group_bottom_name }</td>
 								<td>${ProdList.size_des }</td>
 								<td>${ProdList.barcode }</td>
-								<td>${ProdList.in_unit_price }</td>
-								<td>${ProdList.out_unit_price }</td>
+								<td><fmt:formatNumber type="number" value="${ProdList.in_unit_price }"/></td>
+								<td><fmt:formatNumber type="number" value="${ProdList.out_unit_price }"/></td>
 								<td>${ProdList.product_type_name }</td>
 <%-- 								<td> <input type="image" alt="${ProdList.product_image }" src="<%=request.getScheme()+"://"+request.getServerName() + ":" + request.getServerPort() +"/"+request.getContextPath()%>/resources/upload/${ProdList.product_image }" height="70" width="70"> --%>
 								<td> <input type="image" alt="${ProdList.product_image }" src="${pageContext.request.contextPath}/resources/upload/${ProdList.product_image }" onError="this.onerror=null; this.src='resources/upload/차.JPG';" height="70" width="70">
