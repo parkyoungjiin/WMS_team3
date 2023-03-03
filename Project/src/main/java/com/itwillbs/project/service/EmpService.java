@@ -96,8 +96,8 @@ public class EmpService {
 		}
 			
 		// 사원 리스트 일반  출력
-		public List<EmpVo> getEmpList(int startRow, int listLimit) {
-			List<EmpVo> empList = mapper.selectEmpList(startRow,listLimit);
+		public List<EmpVo> getEmpList(String keyword, int startRow, int listLimit) {
+			List<EmpVo> empList = mapper.selectEmpList(keyword,startRow,listLimit);
 			for(int i = 0; i < empList.size(); i++) {
 				String dept_cd = empList.get(i).getDEPT_CD();
 				String dept_name = mapper.selectEmpDept(dept_cd);
@@ -109,9 +109,10 @@ public class EmpService {
 			return empList;
 		}
 		
-		// 리스트 페이징 처리
-		public int getEmpListCount() {
-			return mapper.selectBoardListCount();
+		// 리스트 페이징 처리, 사원 검색
+		public int getEmpListCount(String keyword) {
+			System.out.println("service의 keyword확인:" + keyword);
+			return mapper.selectBoardListCount(keyword);
 		}
 		//----------임시 비밀번호 생성-------------
 		public String getTempPassWd(int length) {

@@ -25,6 +25,11 @@
 	.pageList {
 		text-align: center;
 	}
+	
+	#search {
+		width: 150px;
+/* 		padding-right: 200px; */
+	}
 </style>
 <!-- 권한 여부 판별하여 인사부서인지 판별 -->
 <script type="text/javascript">
@@ -71,9 +76,15 @@
     
             <div class="card mb-4">
                 <div class="card-header">
-                	사원 목록
+                	사원 목록 <i class="bi bi-search"></i>
                  </div>
                  <div class="card-body">
+                 <form action="EmployeeList.em" id="search" >
+	                 <div class="input-group">
+						 <input type="text" class="form-control" name="keyword" value="${param.keyword }">
+						 <input type="submit" class="btn btn-sm btn-outline-secondary" value="검색">
+					 </div>
+				 </form>
                  <!-- Default Tabs -->
 	              <ul class="nav nav-tabs" id="myTab" role="tablist">
 	                <li class="nav-item" role="presentation">
@@ -282,6 +293,6 @@
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
   <script src="${path}/resources/js/datatables-simple-demo.js"></script>
 <!--   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
-  
+ 
 </body>
 </html>

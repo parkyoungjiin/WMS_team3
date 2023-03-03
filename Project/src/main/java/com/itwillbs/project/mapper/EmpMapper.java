@@ -28,6 +28,7 @@ public interface EmpMapper {
 
 	//----------일반 사원목록 출력------------
 	List<EmpVo> selectEmpList(
+			@Param("keyword") String keyword,
 			@Param("startRow") int startRow,
 			@Param("listLimit") int listLimit);
 	
@@ -59,7 +60,7 @@ public interface EmpMapper {
 	int deleteImgFile(@Param("EMP_NUM")String EMP_NUM, @Param("PHOTO") String PHOTO);
 	
 	// ------------------------ 사원 목록 페이징 처리-----------------------------
-	int selectBoardListCount();
+	int selectBoardListCount(@Param("keyword") String keyword);
 
 	
 }

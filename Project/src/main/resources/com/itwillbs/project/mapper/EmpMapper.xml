@@ -60,6 +60,10 @@
 	<select id="selectEmpList" resultType="com.itwillbs.project.vo.EmpVo">
 		SELECT *
 			FROM emp
+			<if test="!keyword.equals('')">
+				WHERE
+					EMP_NAME LIKE '%{keyword}%'
+			</if>
 			LIMIT 
 				#{startRow}
 				, #{listLimit}
@@ -78,11 +82,14 @@
   			FROM grade
   			WHERE GRADE_CD=#{GRADE_CD}
   	</select>
-	
+
 	<!-- 페이징 처리 -->
 	<select id="selectBoardListCount" resultType="int">
 		SELECT COUNT(*)
 			FROM emp
+			<if test="!keyword.equals('')">
+				WHERE EMP_NAME LIKE '%{keyword}%'
+			</if>	
 	</select>
 	
 	<!-- 현재 로그인한 사원의 권한 조회 -->

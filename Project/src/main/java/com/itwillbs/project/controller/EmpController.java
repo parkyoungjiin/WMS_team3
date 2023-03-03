@@ -262,9 +262,9 @@ public class EmpController {
 			
 			
 			List<EmpVo> employeeList = service.getEmployeeList(keyword); // 검색 모달용
-			List<EmpVo> empList = service.getEmpList(startRow,listLimit); // 인사 목록용
+			List<EmpVo> empList = service.getEmpList(keyword,startRow,listLimit); // 인사 목록용
 			
-			int listCount = service.getEmpListCount();
+			int listCount = service.getEmpListCount(keyword);
 			int pageListLimit = 10;
 			int maxPage = listCount / listLimit + (listCount % listLimit == 0 ? 0:1);
 			int startPage = (pageNum - 1) / pageListLimit * pageListLimit + 1;
