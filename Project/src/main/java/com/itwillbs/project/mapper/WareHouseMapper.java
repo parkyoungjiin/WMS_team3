@@ -25,9 +25,9 @@ public interface WareHouseMapper {
 	//------------창고 코드 중복 확인 작업-----------------
 	int getDB_wh_cd(String wh_cd);
 	void WhAreaInsert(WareHouseVO vo);
-	List<WareHouseVO> getwhAreaList();
+	List<WareHouseVO> getwhAreaList(String wh_cd);
 	void WhAreaDelte(int wh_area_cd);
-	List<WareHouseVO> getwhAreaLocInList();
+	List<WareHouseVO> getwhAreaLocInList(String wh_area_cd);
 	void WhLocAreaInsert(WareHouseVO vo);
 	void WhLocAreaDelte(int wh_loc_in_area_cd);
 	void WhAreaupdate(WareHouseVO vo);

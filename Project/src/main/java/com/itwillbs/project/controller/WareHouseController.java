@@ -33,9 +33,14 @@ public class WareHouseController {
 	@GetMapping(value = "WareHouseListJsonPro.wh")
 	public void whlist(Model model,HttpServletResponse response) {
 		List<WareHouseVO> whlist = service.getwhList();
+		model.addAttribute("whlist", whlist);
+		System.out.println("whlist: " + whlist);
+//		List<WareHouseVO> wharealist = service.getwhAreaList();
+//		model.addAttribute("wharealist",wharealist);
+//		System.out.println("창고지역 : "+wharealist );
 		JSONArray jsonArray = new JSONArray();
 		
-		// 1. List 객체 크기만큼 반복
+//		 1. List 객체 크기만큼 반복
 		for(WareHouseVO list: whlist) {
 			// 2. JSONObject 클래스 인스턴스 생성
 			// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
@@ -58,27 +63,37 @@ public class WareHouseController {
 		//------------창고 구역 리스 작업---------------
 		@ResponseBody
 		@GetMapping(value = "WareHouseAreaListJsonPro.wh")
-		public void wharealist(Model model,HttpServletResponse response) {
-			List<WareHouseVO> wharealist = service.getwhAreaList();
+		public void wharealist(Model model,HttpServletResponse response,@RequestParam(defaultValue = "1")String wh_cd) {
+			List<WareHouseVO> wharealist = service.getwhAreaList(wh_cd);
+			model.addAttribute("wharealist",wharealist);
 			JSONArray jsonArray = new JSONArray();
-			System.out.println(wharealist);
+			
+//			 1. List 객체 크기만큼 반복
 			for(WareHouseVO list: wharealist) {
+				// 2. JSONObject 클래스 인스턴스 생성
+				// => 파라미터 : VO(Bean) 객체(멤버변수 및 Getter/Setter, 기본생성자 포함)
 				JSONObject jsonObject = new JSONObject(list);
 				System.out.println(jsonObject);
+				
+				// 참고. 저장되어 있는 JSON 데이터를 꺼낼 수도 있다! - get() 메서드 활용
+//				System.out.println(jsonObject.get("board_pass"));
+				
+				// 3. JSONArray 객체의 put() 메서드를 호출하여 JSONObject 객체 추가
 				jsonArray.put(jsonObject);
 			}
-		try {
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().print(jsonArray); // toString() 생략됨
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			try {
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().print(jsonArray); // toString() 생략됨
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	}//whlist 끝
-		//------------창고 구역 리스 작업---------------
+		//------------창고 선반 리스트 작업---------------
 		@ResponseBody
 		@GetMapping(value = "WareHouseLocInListJsonPro.wh")
-		public void whareainlist(Model model,HttpServletResponse response) {
-			List<WareHouseVO> whareainlist = service.getwhAreaLocInList();
+		public void whareainlist(Model model,HttpServletResponse response,@RequestParam(defaultValue = "1")String wh_area_cd) {
+			
+			List<WareHouseVO> whareainlist = service.getwhAreaLocInList(wh_area_cd);
 			JSONArray jsonArray = new JSONArray();
 			System.out.println(whareainlist);
 			for(WareHouseVO list: whareainlist) {
@@ -218,10 +233,11 @@ public class WareHouseController {
 	@GetMapping(value = "WareHouseManage.wh")
 	public String manage(Model model) {
 		List<WareHouseVO> whlist = service.getwhList();
-		
 		model.addAttribute("whlist",whlist);
 		return "warehouse/wh_manage";
 	}//창고 목록 조회 끝
+	
+	
 	//------------창고 지역 등록 작업---------------
 	@GetMapping(value = "WareHouseAreaInsertPro.wh")
 	public String manage(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")int wh_cd ) {

@@ -27,7 +27,8 @@
 	<select id="getwhAreaLocInList" resultType="com.itwillbs.project.vo.WareHouseVO">
 		SELECT * 
 			FROM wh_loc_in_area
-			ORDER BY abs(wh_loc_in_area_cd)
+			where wh_area_cd = #{wh_area_cd}
+			ORDER BY abs(wh_loc_in_area_cd) desc
 	</select>
 	<!-- 창고 상세 -->
 	<select id="getWarehouse" resultType="com.itwillbs.project.vo.WareHouseVO">
@@ -88,7 +89,9 @@
 	<!-- 창고 지역 목록 조회 -->
 	<select id="getwhAreaList" resultType="com.itwillbs.project.vo.WareHouseVO">
 		SELECT * 
-		FROM  wh_area
+		FROM wh_area
+		where wh_cd = #{wh_cd}
+        order by wh_area_cd desc;
 	</select>
 	<!-- 창고 지역 삭제  -->
 	<delete id="WhAreaDelte">

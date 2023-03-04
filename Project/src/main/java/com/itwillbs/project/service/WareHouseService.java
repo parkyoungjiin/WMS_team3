@@ -39,14 +39,14 @@ public int getDB_wh_cd(String wh_cd) {
 public void WhAreaInsert(WareHouseVO vo) {
 	mapper.WhAreaInsert(vo);
 }
-public List<WareHouseVO> getwhAreaList() {
-	return mapper.getwhAreaList();
+public List<WareHouseVO> getwhAreaList(String wh_cd) {
+	return mapper.getwhAreaList(wh_cd);
 }
 public void WhAreaDelte(int wh_area_cd) {
 	mapper.WhAreaDelte(wh_area_cd);
 }
-public List<WareHouseVO> getwhAreaLocInList() {
-	return mapper.getwhAreaLocInList();
+public List<WareHouseVO> getwhAreaLocInList(String wh_area_cd) {
+	return mapper.getwhAreaLocInList(wh_area_cd);
 }
 public void WhLocAreaInsert(WareHouseVO vo) {
 	mapper.WhLocAreaInsert(vo);
