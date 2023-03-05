@@ -27,8 +27,8 @@ public class ProductService {
 	} // existCd() 끝
 
 	//-------------------- 품목 그룹 리스트 ------------------
-	public List<ProductVO> getProdList() {
-		return mapper.selectGroupList();
+	public List<ProductVO> getProdList(String keyword) {
+		return mapper.selectGroupList(keyword);
 	}
 	
 	//------------------- 품목 리스트 ------------------------
@@ -42,12 +42,17 @@ public class ProductService {
 
 	//--------------------품목 수정---------------------------
 	public int updateProd(ProductVO product) {
-		return mapper.modifyProd(product, product.getProduct_image());
+		return mapper.modifyProd(product);
 	}
 
 	//----------------- 목록 수정 작업 중 개별 파일 삭제 ----------------
 	public int removeImgFile(int product_cd, String product_image) {
 		return mapper.deleteImgFile2(product_cd, product_image);
+	}
+	
+	//------------- product_cd 중 가장 큰 값 조회 -----------------
+	public int getMaxProdCd(int product_cd) {
+		return mapper.selectMaxProdCd(product_cd);
 	}
 	
 

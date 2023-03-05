@@ -226,13 +226,6 @@ $(function() {
                     </div>
 
                     <div class="row mb-3">
-                      <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">비밀번호</label>
-                      <div class="col-md-8 col-lg-2">
-                        <input name="EMP_PASSWD" type="password" class="form-control" id="fullName" >
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
                       <label for="th" id="title_label" class="col-md-4 col-lg-3 col-form-label">부서명</label>
                       <div class="col-md-8 col-lg-2">
  	                     <select name ="DEPT_CD" required="required" class="form-select">

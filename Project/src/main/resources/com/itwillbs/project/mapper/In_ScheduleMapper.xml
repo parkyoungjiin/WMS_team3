@@ -206,6 +206,13 @@
 	
 	<!-- 입고 처리 후 재고이력 테이블에 등록 -->
 	<insert id="insertHistory">
+	
+		<selectKey keyProperty="stock_qty" resultType="int" order="BEFORE">
+			SELECT stock_qty 
+				FROM stock
+					WHERE stock_cd = #{stock_cd}
+		</selectKey>
+		
 		INSERT INTO stock_history
 			VALUES (
 			#{stock_cd}
@@ -214,6 +221,7 @@
 			,""
 			,""
 			,#{insert_qty}
+			,#{stock_qty}
 			,#{sId}
 			,now()
 			,"입고 처리"

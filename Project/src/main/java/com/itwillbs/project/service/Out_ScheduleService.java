@@ -46,9 +46,9 @@ public class Out_ScheduleService {
 		
 		for(int i=0; i<outSch.size();i++) {
 			String schCd = outSch.get(i).getOut_schedule_cd();
-			System.out.println("스케줄 코드 : "+schCd);
+//			System.out.println("스케줄 코드 : "+schCd);
 			int sumOut = mapper.selectOutSum(schCd);
-			System.out.println("예정갯수 서비스 :" + sumOut);
+//			System.out.println("예정갯수 서비스 :" + sumOut);
 			outSch.get(i).setSum_count(sumOut);
 		}
 		
