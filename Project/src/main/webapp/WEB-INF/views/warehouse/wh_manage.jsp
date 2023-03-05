@@ -165,19 +165,46 @@ li {
 	}
 	
 	//---------창고 안 재고 리스트 출력-----------
-	function stocklist(wh_cd){
+	function stocklist(wh_cd,pageNum){
+		pageNum = 1;
 		$.ajax({
 			type: "GET",
-			url: "WareHouseStockListJsonPro.wh",
+			url: "WareHouseStockListJsonPro.wh?pageNum="+pageNum,
 			data : {
 				"wh_cd" : wh_cd,
 			},
 			dataType:"json"
 		})
 		.done(function(whlist) { // 요청 성공 시
+			var pageNum=1;
+			let pageInfo = whlist[0];
+			let result2 = "";
+				if(pageNum > 1){
+				 result2 +='<a href="WareHouseStockListJsonPro.wh?pageNum=${param.pageNum - 1 }">이전</a>';
+				}else{
+				 result2 +='<a href="javascript:void(0)">이전</a>'	;
+				}
+			for(var num=pageInfo.startPage; num<=pageInfo.endPage; num++) {
+				alert(num);
+				if(num == pageNum){
+				result2	+= num;
+				}else{
+				result2	+= '<a href="javascript:void(0)">num</a>';	
+				}
+			}
+			
+			if(pageNum < pageInfo.maxPage){
+			result2	+='<a href="ProductOrderList.po?pageNum=${param.pageNum + 1 }&member_idx=${member_idx }">다음</a>';
+			}else{
+			result2	+='<a href="javascript:void(0)">다음</a>';
+			}
+			$(".paging").append(result2);
+			
+			whlist.shift();
 			if(whlist != ""){
 			$("#stocklist > tbody").html('');
 			for(let list of whlist) {
+				
 				let result = "<tr>"
 							+"<td>"+list.stock_cd+"</td>"
 							+"<td>"+list.product_name+"</td>"
@@ -546,7 +573,15 @@ li {
                     </thead>
                     <tbody>
                     </tbody>
-                 </table>      
+                 </table>
+                 <div class="paging" align="center">
+        
+<!--         <a class="select" href="#">1</a> -->
+<!--         <a href="#">2</a> -->
+<!--         <a href="#">3</a> -->
+<!--         <a href="#">4</a> -->
+<!--         <a href="#">5</a> -->
+    		</div>      
        		</div>
 			</div> <!-- card-body -->
        </div>

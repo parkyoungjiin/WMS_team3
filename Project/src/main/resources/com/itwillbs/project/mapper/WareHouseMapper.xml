@@ -120,12 +120,18 @@
 		SELECT * 
 			FROM stock_view
 			WHERE 
-				wh_cd = #{wh_cd}
-					<if test="wh_area_cd != 0">
-						AND	wh_area_cd = #{wh_area_cd}
+				wh_cd = #{wh.wh_cd}
+					<if test="wh.wh_area_cd != 0">
+						AND	wh_area_cd = #{wh.wh_area_cd}
 					</if>
-					<if test="wh_loc_in_area_cd != 0">
-						AND	wh_loc_in_area_cd = #{wh_loc_in_area_cd}
+					<if test="wh.wh_loc_in_area_cd != 0">
+						AND	wh_loc_in_area_cd = #{wh.wh_loc_in_area_cd}
 					</if>
+			LIMIT #{startRow},#{listLimit}		
+	</select>
+	
+	<select id="getStockListCount" resultType="int">
+		SELECT COUNT(*)
+			FROM stock_view
 	</select>
 </mapper>

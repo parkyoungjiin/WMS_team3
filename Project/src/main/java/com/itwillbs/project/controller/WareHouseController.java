@@ -2,6 +2,7 @@ package com.itwillbs.project.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.project.service.WareHouseService;
+import com.itwillbs.project.vo.PageInfo;
 import com.itwillbs.project.vo.WareHouseVO;
+import com.itwillbs.project.vo.Wh_PageInfo;
 
 
 @Controller
@@ -289,11 +292,39 @@ public class WareHouseController {
 	//------------창고 상세페이지 작업---------------
 		@ResponseBody
 		@GetMapping(value = "WareHouseStockListJsonPro.wh")
-		public void stocklistJson(@ModelAttribute WareHouseVO vo  ,Model model,HttpServletResponse response) {
+		public void stocklistJson(@ModelAttribute WareHouseVO vo  ,Model model,HttpServletResponse response,
+								@RequestParam(defaultValue = "1")String pageNum) {
+			System.out.println("pageNum :"+pageNum);
 			System.out.println(vo);
+			int listLimit = 5; 
+			int startRow = (Integer.parseInt(pageNum)  - 1) * listLimit;
+			System.out.println("startRow :"+startRow);
+			int listCount = service.getStockListCount();//리뷰 개수 확인
+			System.out.println("listCount"+listCount);
+			//========페이징 처리============
+			int pageListLimit = 3; 
+			
+			int maxPage = listCount / listLimit 
+							+ (listCount % listLimit == 0 ? 0 : 1); 
+			
+			int startPage = (Integer.parseInt(pageNum)  - 1) / pageListLimit * pageListLimit + 1;
+			
+			int endPage = startPage + pageListLimit - 1;
+			
+			if(endPage > maxPage) {
+				endPage = maxPage;
+			}
+			//========페이징 처리 끝 ============
+			Wh_PageInfo pageInfo = new Wh_PageInfo(listCount, pageListLimit, maxPage, startPage, endPage,pageNum);
+//			smodel.addAttribute("pageInfo", pageInfo);
+//			HashMap<String, Object> result = new HashMap<>();
+//			result.put("listCount", listCount);
+			
 			List<WareHouseVO> stocklist = null;
-				stocklist = service.getStockList(vo);
+				stocklist = service.getStockList(vo,startRow,listLimit);
 				JSONArray jsonArray = new JSONArray();
+				JSONObject jsonObject2 = new JSONObject(pageInfo);
+				jsonArray.put(jsonObject2);
 				System.out.println(stocklist);
 			for(WareHouseVO list: stocklist) {
 				JSONObject jsonObject = new JSONObject(list);

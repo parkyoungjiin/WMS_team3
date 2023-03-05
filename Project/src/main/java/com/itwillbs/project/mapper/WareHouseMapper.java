@@ -32,6 +32,6 @@ public interface WareHouseMapper {
 	void WhLocAreaDelte(int wh_loc_in_area_cd);
 	void WhAreaupdate(WareHouseVO vo);
 	void WhAreaLocupdate(WareHouseVO vo);
-	List<WareHouseVO> getStockList(String wh_cd);
-	List<WareHouseVO> getStockList(WareHouseVO vo);
+	List<WareHouseVO> getStockList(@Param("wh")WareHouseVO vo,@Param("startRow")int startRow,@Param("listLimit")int listLimit);
+	int getStockListCount();
 }
