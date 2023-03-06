@@ -299,7 +299,7 @@ public class WareHouseController {
 			int listLimit = 5; 
 			int startRow = (Integer.parseInt(pageNum)  - 1) * listLimit;
 			System.out.println("startRow :"+startRow);
-			int listCount = service.getStockListCount();//리뷰 개수 확인
+			int listCount = service.getStockListCount(vo);//리뷰 개수 확인
 			System.out.println("listCount"+listCount);
 			//========페이징 처리============
 			int pageListLimit = 3; 

@@ -65,8 +65,8 @@ public List<WareHouseVO> getStockList(WareHouseVO vo,int startRow,int listLimit)
 	// TODO Auto-generated method stub
 	return mapper.getStockList(vo,startRow,listLimit);
 }
-public int getStockListCount() {
-	return mapper.getStockListCount();
+public int getStockListCount(WareHouseVO vo) {
+	return mapper.getStockListCount(vo);
 }
 	
 }

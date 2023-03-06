@@ -33,5 +33,5 @@ public interface WareHouseMapper {
 	void WhAreaupdate(WareHouseVO vo);
 	void WhAreaLocupdate(WareHouseVO vo);
 	List<WareHouseVO> getStockList(@Param("wh")WareHouseVO vo,@Param("startRow")int startRow,@Param("listLimit")int listLimit);
-	int getStockListCount();
+	int getStockListCount(WareHouseVO vo);
 }
