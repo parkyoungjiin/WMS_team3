@@ -71,35 +71,47 @@
 
 	
 		//업태, 종목 항목 input 태그 추가
+// 		$("#plus_uptae").on("click", function() {
+			
+// 			var addInput = '<div class="col-md-3">'
+//             				+ '<input type="text" class="form-control" name="uptae">'
+//             				+ '</div>';
+			
+// // 			var addInput = '<input type="text" class="form-control" name="uptae">&nbsp';
+// // 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
+// 			var trHtml = $("[name=orgInput_uptae]:last");
+// 			trHtml.before(addInput);
+// 		});
+		
 		$("#plus_uptae").on("click", function() {
 			
-			var addInput = '<div class="col-md-3">'
-            				+ '<input type="text" class="form-control" name="uptae">'
-            				+ '</div>';
-			
-// 			var addInput = '<input type="text" class="form-control" name="uptae">&nbsp';
-// 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
-			var trHtml = $("[name=orgInput_uptae]:last");
-			trHtml.before(addInput);
+			$("#orgInput_uptae").append(
+					 '<div class="input-group mb-1"><div class="col-md-3">'
+    				+ '<input type="text" class="form-control" name="uptae"></div>'
+    				+ '<button name="remove_uptae" class="btn btn-secondary" type="button">-</button>'
+    				+ '</div>');
 		});
 		
-		
-		
-		
+		$(document).on("click", "button[name=remove_uptae]", function(e){
+// 			$(this).parent('div').remove();
+			$(this).prev().remove();
+			$(this).remove();
+		});
 		
 		$("#plus_jongmok").on("click", function() {
 			
-			var addInput = '<div class="col-md-3">'
-							+ '<input type="text" class="form-control" name="jongmok">'
-							+ '</div>';
-			
-// 			var addInput = '<input type="text" class="form-control" name="jongmok">&nbsp';
-// 							+'<i class="fa-solid fa-minus" id="deleteInput" style="cursor: pointer;"></i>&nbsp';
-			var trHtml = $("[name=orgInput_jongmok]:last");
-			trHtml.before(addInput);
+			$("#orgInput_jongmok").append(
+					 '<div class="input-group mb-1"><div class="col-md-3">'
+   				+ '<input type="text" class="form-control" name="jongmok"></div>'
+   				+ '<button name="remove_jongmok" class="btn btn-secondary" type="button">-</button>'
+   				+ '</div>');
 		});
 		
-		
+		$(document).on("click", "button[name=remove_jongmok]", function(e){
+// 			$(this).parent('div').remove();
+			$(this).prev().remove();
+			$(this).remove();
+		});
 // 	function checkCode() {
 	$("#business_no").change(function() {
 		let business_no = $('#business_no').val();
@@ -256,10 +268,10 @@ window.onload = function(){
                <div class="col-md-3" >
                     <input type="text" class="form-control" name="uptae">
                </div>
-               <div name="orgInput_uptae" >
               	<button id="plus_uptae" class="btn btn-secondary" type="button">+</button>
-               </div>
               	</div>
+              <div class="col-md-6 col-lg-12" id="orgInput_uptae">
+              </div>
               </div>
             </div> 
             
@@ -270,10 +282,10 @@ window.onload = function(){
                <div class="col-md-3" >
                     <input type="text" class="form-control" name="jongmok">
                </div>
-               <div name="orgInput_jongmok" >
               	<button id="plus_jongmok" class="btn btn-secondary" type="button">+</button>
-               </div>
               	</div>
+              	<div class="col-md-6 col-lg-12" id="orgInput_jongmok">
+              </div>
               </div>
             </div> 
             
