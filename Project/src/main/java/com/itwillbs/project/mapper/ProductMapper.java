@@ -27,10 +27,11 @@ public interface ProductMapper {
 	//--------------------품목 수정----------------------------
 	int modifyProd(ProductVO product);
 
-	//--------------------- 개별 파일 삭제------------------
+	//--------------------- 개별 파일 삭제------------------------
 	int deleteImgFile2(@Param("product_cd")int product_cd,
 					  @Param("product_image") String product_image);
-	
-	
+
+	//------------- product_cd 중 가장 큰 값 조회 -----------------
+	int selectMaxProdCd(@Param("product_cd")int product_cd);
 
 }
