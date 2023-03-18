@@ -42,7 +42,7 @@ public void WhAreaInsert(WareHouseVO vo) {
 public List<WareHouseVO> getwhAreaList(String wh_cd) {
 	return mapper.getwhAreaList(wh_cd);
 }
-public void WhAreaDelte(int wh_area_cd) {
+public void WhAreaDelte(String wh_area_cd) {
 	mapper.WhAreaDelte(wh_area_cd);
 }
 public List<WareHouseVO> getwhAreaLocInList(String wh_area_cd) {
@@ -67,6 +67,18 @@ public List<WareHouseVO> getStockList(WareHouseVO vo,int startRow,int listLimit)
 }
 public int getStockListCount(WareHouseVO vo) {
 	return mapper.getStockListCount(vo);
+}
+public int getWh_loc_in_area_cd() {
+	return mapper.getWh_loc_in_area_cd();
+}
+public int getArea_cd() {
+	return mapper.getArea_cd();
+}
+public List<WareHouseVO> getStockKeywordList(String keyword, int startRow, int listLimit) {
+	return mapper.getStockKeywordList(keyword,startRow,listLimit);
+}
+public int getStockListCount(String keyword) {
+	return mapper.getStockKeywordCount(keyword);
 }
 	
 }

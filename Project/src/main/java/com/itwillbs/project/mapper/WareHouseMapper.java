@@ -26,7 +26,7 @@ public interface WareHouseMapper {
 	int getDB_wh_cd(String wh_cd);
 	void WhAreaInsert(WareHouseVO vo);
 	List<WareHouseVO> getwhAreaList(String wh_cd);
-	void WhAreaDelte(int wh_area_cd);
+	void WhAreaDelte(String wh_area_cd);
 	List<WareHouseVO> getwhAreaLocInList(String wh_area_cd);
 	void WhLocAreaInsert(WareHouseVO vo);
 	void WhLocAreaDelte(int wh_loc_in_area_cd);
@@ -34,4 +34,8 @@ public interface WareHouseMapper {
 	void WhAreaLocupdate(WareHouseVO vo);
 	List<WareHouseVO> getStockList(@Param("wh")WareHouseVO vo,@Param("startRow")int startRow,@Param("listLimit")int listLimit);
 	int getStockListCount(WareHouseVO vo);
+	int getWh_loc_in_area_cd();
+	int getArea_cd();
+	List<WareHouseVO> getStockKeywordList(@Param("keyword")String keyword,@Param("startRow") int startRow,@Param("listLimit") int listLimit);
+	int getStockKeywordCount(String keyword);
 }

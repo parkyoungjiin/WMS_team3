@@ -142,4 +142,27 @@
 						AND	wh_loc_in_area_cd = #{wh_loc_in_area_cd}
 					</if>
 	</select>
+	
+	<select id="getWh_loc_in_area_cd" resultType="int">
+		SELECT MAX(wh_loc_in_area_cd)
+			FROM wh_loc_in_area
+	</select>
+	
+	<select id="getArea_cd" resultType="int">
+		SELECT MAX(wh_area_cd)
+			FROM wh_area
+	</select>
+	
+	<select id="getStockKeywordList" resultType="com.itwillbs.project.vo.WareHouseVO">
+		SELECT *
+			FROM stock_view
+			WHERE PRODUCT_NAME LIKE '%${keyword}%'
+			LIMIT #{startRow},#{listLimit}  
+	</select>
+	
+	<select id="getStockKeywordCount" resultType="int">
+		SELECT COUNT(*)
+			FROM stock_view
+			WHERE PRODUCT_NAME LIKE '%${keyword}%'
+	</select>
 </mapper>
