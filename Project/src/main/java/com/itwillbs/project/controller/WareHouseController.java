@@ -242,24 +242,37 @@ public class WareHouseController {
 	
 	
 	//------------창고 지역 등록 작업---------------
+	@ResponseBody
 	@GetMapping(value = "WareHouseAreaInsertPro.wh")
-	public String manage(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")int wh_cd ) {
+	public void manage(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")int wh_cd,HttpServletResponse response ) {
 		System.out.println("창고지역:"+vo);
 		service.WhAreaInsert(vo);
-		return "redirect:/WareHouseManage.wh";
+		int area_cd = service.getArea_cd();
+		try {
+			response.getWriter().print(area_cd);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}//등록 작업 끝
 	
 	//------------창고 선반 등록 작업---------------
+	@ResponseBody
 	@GetMapping(value = "WareHouseLocAreaInsertPro.wh")
-	public String manageLoc(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")int wh_cd ) {
+	public void manageLoc(@ModelAttribute WareHouseVO vo,@RequestParam(defaultValue = "1")int wh_cd,HttpServletResponse response ) {
 		System.out.println(vo);
 		service.WhLocAreaInsert(vo);
-		return "redirect:/WareHouseManage.wh";
+		int wh_loc_in_area_cd = service.getWh_loc_in_area_cd();
+		try {
+			response.getWriter().print(wh_loc_in_area_cd);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}//선반 등록 끝
 	
 	//------------창고 지역 삭제 작업---------------
 	@GetMapping(value = "WareHouseAreadeletePro.wh")
-	public String managedelete(@RequestParam(defaultValue = "1")int wh_area_cd ) {
+	public String managedelete(@RequestParam(defaultValue = "1")String wh_area_cd ) {
 		System.out.println(wh_area_cd);
 		service.WhAreaDelte(wh_area_cd);
 		return "redirect:/WareHouseManage.wh";
@@ -322,6 +335,56 @@ public class WareHouseController {
 			
 			List<WareHouseVO> stocklist = null;
 				stocklist = service.getStockList(vo,startRow,listLimit);
+				JSONArray jsonArray = new JSONArray();
+				JSONObject jsonObject2 = new JSONObject(pageInfo);
+				jsonArray.put(jsonObject2);
+				System.out.println(stocklist);
+			for(WareHouseVO list: stocklist) {
+				JSONObject jsonObject = new JSONObject(list);
+				System.out.println(jsonObject);
+				jsonArray.put(jsonObject);
+			}
+			try {
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().print(jsonArray); // toString() 생략됨
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}//whInfo 끝
+		
+		@ResponseBody
+		@GetMapping(value = "WareHouseStockkeywordJsonPro.wh")
+		public void stocklistKeywordJson(@RequestParam(defaultValue = "")String keyword,Model model,HttpServletResponse response,
+								@RequestParam(defaultValue = "1")String pageNum) {
+			
+			System.out.println("KEYWORD : "+keyword);
+			System.out.println("pageNum :"+pageNum);
+			int listLimit = 5; 
+			int startRow = (Integer.parseInt(pageNum)  - 1) * listLimit;
+			System.out.println("startRow :"+startRow);
+			int listCount = service.getStockListCount(keyword);
+			System.out.println("listCount"+listCount);
+			//========페이징 처리============
+			int pageListLimit = 3; 
+			
+			int maxPage = listCount / listLimit 
+							+ (listCount % listLimit == 0 ? 0 : 1); 
+			
+			int startPage = (Integer.parseInt(pageNum)  - 1) / pageListLimit * pageListLimit + 1;
+			
+			int endPage = startPage + pageListLimit - 1;
+			
+			if(endPage > maxPage) {
+				endPage = maxPage;
+			}
+//			//========페이징 처리 끝 ============
+			Wh_PageInfo pageInfo = new Wh_PageInfo(listCount, pageListLimit, maxPage, startPage, endPage,pageNum);
+//			smodel.addAttribute("pageInfo", pageInfo);
+//			HashMap<String, Object> result = new HashMap<>();
+//			result.put("listCount", listCount);
+			
+			List<WareHouseVO> stocklist = null;
+				stocklist = service.getStockKeywordList(keyword,startRow,listLimit);
 				JSONArray jsonArray = new JSONArray();
 				JSONObject jsonObject2 = new JSONObject(pageInfo);
 				jsonArray.put(jsonObject2);

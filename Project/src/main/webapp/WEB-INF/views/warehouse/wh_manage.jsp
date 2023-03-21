@@ -68,7 +68,7 @@ li {
 		.done(function(whlist) { // 요청 성공 시
 			for(let list of whlist) {
 				let result ="<input type='hidden' id='wh_cd"+idx+"' value='"+list.wh_cd+"'>"
-							+"<ul>" 
+							+"<ul id='ul"+idx+"'>" 
 							+"<li><a href='javascript:void(0)' class='material-symbols-outlined' id='plus_area"+idx+"' onclick='load_areaList("+idx+","+list.wh_cd+")'>+</a>" 
 							+"<a href='javascript:void(0)' class='material-symbols-outlined' id='mius_area"+idx+"' onclick='btnhide("+idx+")'>-</a>"
 							+"<a href='javascript:void(0)' class='pmfont'  id='name"+idx+"' onclick='stocklist("+list.wh_cd+","+1+")'>"+list.wh_name+"</a></li>"
@@ -104,12 +104,12 @@ li {
 								+"<input type='hidden' value='"+list.wh_area_cd+"' id='wh_area_cd'>"
 								+"<input type='hidden' value="+area_idx+" id='area_idx'>"
 								+"<div id='add_wh_area"+idx+"'></div>"
-								+"<ul id='wh_area_ul"+idx+"'>"
+								+"<ul id='wh_area_ul"+area_idx+"'>"
 								+"<li id='wh_area_li"+idx+"'><a href='javascript:void(0)' class='material-symbols-outlined' id='plus_loc"+area_idx+"' onclick='load_loc_areaList("+list.wh_cd+","+area_idx+","+list.wh_area_cd+","+idx+")'>+</a>" 
 								+"<a href='javascript:void(0)' class='material-symbols-outlined' id='minus_loc"+area_idx+"' onclick='btnlochide("+idx+")'>-</a>"
 								+"<a href='javascript:void(0)' id='name_area"+area_idx+"' value='"+list.wh_area+"'  onclick='stocklist_area("+list.wh_cd+","+list.wh_area_cd+","+1+")'>"+list.wh_area+"</a>"
 								+"<input type='button' id='modify_btn"+area_idx+"' class='btn' onclick='modify("+area_idx+","+idx+","+list.wh_area_cd+","+wh_area+")' value='변경'>"
-								+"<input type='button' id='delete_btn"+area_idx+"' class='btn' value='삭제'></li>"
+								+"<input type='button' id='delete_btn"+area_idx+"' class='btn' onclick='areaDelte("+list.wh_area_cd+","+area_idx+")' value='삭제'></li>"
 								+"<a href='javascript:void(0)' class='wh_loc_area' id='wh_loc_area_plus"+area_idx+"' onclick='add_wh_loc_area("+list.wh_area_cd+","+area_idx+","+idx+")' class='wh_area'>추가하기</a>"
 								+"<div id='add_wh_loc_area"+area_idx+"'></div>"
 								+"<div id='wh_loc_area"+area_idx+"'></div>"
@@ -117,7 +117,7 @@ li {
 					$("#wh_area"+idx).append(result);	
 					console.log(result);
 					area_idx++;
-// 					$(".wh_area").hide();
+					$(".wh_area").hide();
 					$("#wh_area_plus"+idx).show();
 					$("#wh_area"+idx).show();
 					$(".wh_loc_area").hide();
@@ -142,16 +142,18 @@ li {
 			for(let list of wharealoclist) {
 				let wh_loc_area = '"'+list.wh_loc_in_area+'"';	
 				let result =
-						"<ul id='wh_loc_area_ul"+idx+"'>"
+						"<input type='hidden' value="+loc_idx+" id='loc_idx'>"
+						+"<input type='hidden' value='"+list.wh_loc_in_area_cd+"' id='wh_loc_in_area_cd'>"
+						+"<ul id='wh_loc_area_ul"+loc_idx+"'>"
 						+"<li id='wh_loc_area_li"+area_idx+"'><a href='javascript:void(0)' id='name_loc_area"+loc_idx+"' onclick='stocklist_area_loc("+wh_cd+","+wh_area_cd+","+list.wh_loc_in_area_cd+","+1+")'>"+list.wh_loc_in_area+"</a>"
 						+"<input type='button' id='modify_loc_btn"+loc_idx+"' class='btn' onclick='modify_loc("+list.wh_loc_in_area_cd+","+area_idx+","+loc_idx+","+wh_loc_area+","+idx+")' value='변경'>"
-						+"<input type='button' id='delete_loc_btn"+loc_idx+"' class='btn' value='삭제'></li>"
+						+"<input type='button' id='delete_loc_btn"+loc_idx+"' class='btn' onclick='loc_AreaDelte("+list.wh_loc_in_area_cd+","+loc_idx+","+area_idx+")' value='삭제'></li>"
 						+"</ul>";
-						$("#wh_area_ul"+idx+" > #wh_loc_area"+area_idx).append(result);
-						$("#wh_area_ul"+idx+" > #wh_loc_area_plus"+area_idx).show();
+						$("#wh_area_ul"+area_idx+" > #wh_loc_area"+area_idx).append(result);
+						$("#wh_area_ul"+area_idx+" > #wh_loc_area_plus"+area_idx).show();
 						loc_idx++;
 				}
-				$("#wh_loc_area_plus"+area_idx).show();
+				$("#wh_area_ul"+area_idx+" >#wh_loc_area_plus"+area_idx).show();
 // 			}else{
 // 				let result ="<ul class='wh_loc_area'>"
 // 					+"<a href='javascript:void(0)' onclick='add_wh_loc_area("+wh_area_cd+","+area_idx+","+idx+")'>추가하기</a>"
@@ -221,6 +223,9 @@ li {
 			$("table > tbody > tr").append("<h3>요청 실패!</h3>");
 		});// 창고 리스트 출력
 	}
+	$("#keyword_button").onclick(function() {
+		alert("감지");
+	});
 	
 	//---------창고 지역 안 재고 리스트 출력-----------
 	function stocklist_area(wh_cd,wh_area_cd,pageNum){
@@ -362,8 +367,8 @@ li {
 	
 	function add_area(wh_cd,idx){
 		var wh_area = document.getElementById("wh_area_plus").value;
-		var wh_area_cd = document.getElementById("wh_area_cd").value;
-		var area_idx = document.getElementById("area_idx").value;
+// 		var wh_area_cd = document.getElementById("wh_area_cd").value;
+// 		var area_idx = document.getElementById("area_idx").value;
 		if(wh_area != ""){
 			$.ajax({
 				type: "GET",
@@ -373,16 +378,18 @@ li {
 					"wh_cd" : wh_cd
 				}
 			})
-			.done(function() { // 요청 성공 시
+			.done(function(area_cd) { // 요청 성공 시
+				var area_idx = parseInt(area_cd)+1;
+				var wh_area_cd = area_cd;
 				var area = '"'+ wh_area +'"';
 				let result =
-							"<ul id='wh_area_ul"+idx+"'>"
-							+"<li><a href='javascript:void(0)' class='material-symbols-outlined' id='name"+idx+"' onclick='load_loc_areaList("+wh_cd+","+wh_area_cd+")'>+</a>" 
+							"<ul id='add_wh_area_ul"+area_idx+"'>"
+							+"<li id='wh_area_li"+idx+"'><a href='javascript:void(0)' class='material-symbols-outlined' id='name"+idx+"' onclick='load_loc_areaList("+wh_cd+","+wh_area_cd+")'>+</a>" 
 							+"<a href='javascript:void(0)' class='material-symbols-outlined' id='name"+idx+"' onclick='btnlochide("+idx+")'>-</a>"
-							+"<a href='javascript:void(0)' id='name"+idx+"' onclick='stocklist_area()'>"+wh_area+"</a>"
+							+"<a href='javascript:void(0)' id='add_name"+area_idx+"' onclick='stocklist_area()'>"+wh_area+"</a>"
 							+"<a href='javascript:void(0)' class='wh_loc_area' id='wh_loc_area_plus' onclick='add_wh_loc_area("+idx+")' class='wh_area'>추가하기</a>"
-							+"<input type='button' id='modify_btn"+area_idx+"' class='btn' onclick='modify("+area_idx+","+idx+","+wh_area_cd+","+area+")' value='변경'>"
-							+"<input type='button' id='delete_btn"+area_idx+"' class='btn' value='삭제'></li>"
+							+"<input type='button' id='add_modify_btn"+area_idx+"' class='btn' onclick='modify("+area_idx+","+idx+","+wh_area_cd+","+area+")' value='변경'>"
+							+"<input type='button' id='add_delete_btn"+area_idx+"' class='btn' onclick='areaDelte("+wh_area_cd+","+area_idx+")' value='삭제'></li>"
 							+"<div id='add_wh_loc_area'></div>"
 							+"<div id='wh_loc_area"+idx+"'></div>"
 							+"</ul>";
@@ -390,7 +397,6 @@ li {
 				$(".wh_loc_area").hide();
 				$("#wh_area_plus").remove();
 				$("#wh_area_plus_button").remove();
-				location.reload();
 			})
 			.fail(function() {
 				alert("정보 실패");
@@ -404,12 +410,18 @@ li {
 		$("#wh_area_plus_button").hide();
 		let result = "<input type='text' id='wh_loc_area_plus' name='wh_loc_in_area'>" 
 					+"<button id='wh_loc_area_plus_button' onclick='add_loc_area("+wh_area_cd+","+area_idx+","+idx+")'>추가</button>";
-		$("#wh_area_ul"+idx+" > #add_wh_loc_area"+area_idx).html(result);
+		$("#wh_area_ul"+area_idx+" > #add_wh_loc_area"+area_idx).html(result);
 	}
 	
 	function add_loc_area(wh_area_cd,area_idx,idx){
 		var wh_loc_in_area = document.getElementById("wh_loc_area_plus").value;
-		alert(wh_loc_in_area);
+// 		if(document.getElementById("wh_loc_in_area_cd") != null){
+// 			var wh_loc_in_area_cd = parseInt(document.getElementById("wh_loc_in_area_cd").value);
+// 			wh_loc_in_area_cd++;
+// 			Cvar loc_idx = document.getElementById("loc_idx").value;
+// 		}else{
+// 			var wh_loc_in_area_cd = 0;
+// 		}
 		$.ajax({
 			type: "GET",
 			url: "WareHouseLocAreaInsertPro.wh",
@@ -418,18 +430,22 @@ li {
 				"wh_area_cd" : wh_area_cd
 			}
 		})
-		.done(function() { // 요청 성공 시
+		.done(function(wh_loc_in_area_cd) { // 요청 성공 시
+			alert(wh_loc_in_area_cd);
+			var loc_idx = parseInt(wh_loc_in_area_cd)+1;
+			alert(loc_idx);
+			var loc_area = '"'+wh_loc_in_area+'"';
 			let result =
-						"<ul id='wh_loc_area'>"
-						+"<li><a href='javascript:void(0)' id='name"+area_idx+"' onclick='stocklist_area_loc()'>"+wh_loc_in_area+"</li>"
-						+"<input type='button' id='modify_loc_btn' onclick='modify_loc_area("+area_idx+","+loc_idx+","+wh_loc_in_area+","+idx+")' class='btn' value='수정'>"
-						+"<input type='button' id='delete_loc_btn' class='btn' value='삭제'></li>"
+						"<input type='hidden' value="+wh_loc_in_area_cd+" id='wh_loc_in_area_cd'>"
+						+"<ul id='add_wh_loc_area_ul"+loc_idx+"'>"
+						+"<li id='wh_loc_area_li"+area_idx+"'><a href='javascript:void(0)' id='add_loc_name"+loc_idx+"' onclick='stocklist_area_loc()'>"+wh_loc_in_area+"</a>"
+						+"<input type='button' id='add_modify_loc_btn"+loc_idx+"' onclick='modify_loc("+wh_loc_in_area_cd+","+area_idx+","+loc_idx+","+loc_area+","+idx+")' class='btn' value='변경'>"
+						+"<input type='button' id='add_delete_loc_btn"+loc_idx+"' class='btn' onclick='loc_AreaDelte("+wh_loc_in_area_cd+","+loc_idx+","+area_idx+")' value='삭제'></li>"
 						+"</ul>";
-						$("#wh_area_ul"+idx+" > #wh_loc_area"+area_idx).append(result);
+						$("#wh_area_ul"+area_idx+" > #wh_loc_area"+area_idx).append(result);
 						$("#wh_loc_area_plus").show();
 						$("#wh_loc_area_plus").remove();
 						$("#wh_loc_area_plus_button").remove();
-						location.reload();
 		})
 		.fail(function() {
 			alert("등록 실패");
@@ -437,18 +453,26 @@ li {
 	}
 	
 	function modify(area_idx,idx,wh_area_cd,wh_area) {
-		$("#wh_area_li"+idx+" > #modify_btn"+area_idx).hide();
-		$("#wh_area_li"+idx+" > #delete_btn"+area_idx).hide();
-		alert(area_idx);
+		alert(document.getElementById("add_name"+area_idx));
+		var area = '"'+wh_area+'"';
 		let result = "<input type='text' id='wh_area_modify"+area_idx+"' class='wh_area_modify' value="+wh_area+" name='wh_area'>"
-					+"<input type='button' id='modify_btn' onclick='modify_area("+wh_area_cd+","+idx+","+area_idx+")' class='btn' value='수정'>"
+					+"<input type='button' id='modify_btn' onclick='modify_area("+wh_area_cd+","+idx+","+area_idx+","+area+")' class='btn' value='수정'>"
 					+"<input type='button' id='delete_btn' class='btn' value='삭제'></li>";
-		$("#wh_area_li"+idx+" > #name_area"+area_idx).html(result);	
-	
 		
+		if(document.getElementById("add_name"+area_idx) == null){
+			$("#wh_area_li"+idx+" > #modify_btn"+area_idx).hide();
+			$("#wh_area_li"+idx+" > #delete_btn"+area_idx).hide();
+			$("#wh_area_li"+idx+" > #name_area"+area_idx).html(result);
+			console.log(result);
+		}else{
+			$("#wh_area_li"+idx+" > #add_modify_btn"+area_idx).hide();
+			$("#wh_area_li"+idx+" > #add_delete_btn"+area_idx).hide();
+			$("#wh_area_li"+idx+" > #add_name"+area_idx).html(result);	
+			console.log(result);
+		}
 	}
 	
-	function modify_area(wh_area_cd,idx,area_idx) {
+	function modify_area(wh_area_cd,idx,area_idx,wh_area) {
 		var wh_area_modify = document.getElementById("wh_area_modify"+area_idx).value;
 		$.ajax({
 			type: "GET",
@@ -459,10 +483,27 @@ li {
 			}
 		})
 		.done(function(vo) { // 요청 성공 시
+			var area = '"'+wh_area_modify+'"';
+			$("#wh_area_li"+idx+" > #modify_btn"+area_idx).hide();
+			$("#wh_area_li"+idx+" > #delete_btn"+area_idx).hide();
 			alert("입력 확인");
-			let result = "<a href='javascript:void(0)' id='name_area"+idx+"' onclick='stocklist_area()'>"+wh_area_modify+"</a>";
-			$("#wh_area_li"+idx+" > #name_area"+area_idx).html(result);
-			$(".btn").show();
+			let result = "<a href='javascript:void(0)' id='name_area"+idx+"' onclick='stocklist_area()'>"+wh_area_modify+"</a>"
+					+"<input type='button' id='modify_btn"+area_idx+"' class='btn' onclick='modify("+area_idx+","+idx+","+wh_area_cd+","+area+")' value='변경'>"
+					+"<input type='button' id='delete_btn"+area_idx+"' class='btn' value='삭제'>";	
+			if(document.getElementById("add_name"+area_idx) == null){
+				$("#wh_area_li"+idx+" > #modify_btn"+area_idx).hide();
+				$("#wh_area_li"+idx+" > #delete_btn"+area_idx).hide();
+				$("#wh_area_li"+idx+" > #name_area"+area_idx).html(result);
+				console.log(result);
+			}else{
+				$("#wh_area_li"+idx+" > #add_modify_btn"+area_idx).hide();
+				$("#wh_area_li"+idx+" > #add_delete_btn"+area_idx).hide();
+				$("#wh_area_li"+idx+" > #add_name"+area_idx).html(result);	
+				console.log(result);
+			}
+			
+// 			$("#wh_area_li"+idx+" > #name_area"+area_idx).html(result);
+// 			$(".btn").show();
 		})
 		.fail(function() {
 			alert("정보 실패");
@@ -471,13 +512,27 @@ li {
 	
 	//-------선반 수정 --------
 	function modify_loc(wh_loc_in_area_cd,area_idx,loc_idx,wh_loc_in_area,idx) {
-		$(" #wh_area_ul"+idx).find("#wh_loc_area_li"+area_idx+" > #modify_loc_btn"+loc_idx).hide();
-		$(" #wh_area_ul"+idx).find("#wh_loc_area_li"+area_idx+" > #delete_loc_btn"+loc_idx).hide();
-		let result = "<input type='text' id='wh_area_loc_modify"+loc_idx+"' class='wh_area_modify' value="+wh_loc_in_area+" name='wh_area'>"
-		+"<input type='button' id='modify_loc_btn' onclick='modify_loc_area("+wh_loc_in_area_cd+","+area_idx+","+loc_idx+","+wh_loc_in_area+","+idx+")' class='btn' value='수정'>"
-		+"<input type='button' id='delete_loc_btn' class='btn' value='삭제'></li>";
+		alert(wh_loc_in_area_cd);		
+		alert(loc_idx);
+		var loc_area = '"'+wh_loc_in_area+'"';
+		$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #modify_loc_btn"+loc_idx).hide();
+		$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #delete_loc_btn"+loc_idx).hide();
+		
+		let result = 
+			"<input type='text' id='wh_area_loc_modify"+loc_idx+"' class='wh_area_modify' value="+wh_loc_in_area+" name='wh_area'>"
+			+"<input type='button' id='modify_loc_btn' onclick='modify_loc_area("+wh_loc_in_area_cd+","+area_idx+","+loc_idx+","+loc_area+","+idx+")' class='btn' value='수정'>"
+			+"<input type='button' id='delete_loc_btn' class='btn' value='삭제'></li>";
+		
 		console.log(wh_loc_in_area);
-		$(" #wh_area_ul"+idx).find("#wh_loc_area_li"+area_idx+" > #name_loc_area"+loc_idx).html(result);
+		if(document.getElementById("add_loc_name"+loc_idx) == null){
+		$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #name_loc_area"+loc_idx).html(result);
+		}else {
+		$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #add_loc_name"+loc_idx).html(result);
+		$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #add_modify_loc_btn"+loc_idx).hide();
+		$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #add_delete_loc_btn"+loc_idx).hide();
+		
+		}
+		
 	}
 	
 	function modify_loc_area(wh_loc_in_area_cd,area_idx,loc_idx,wh_loc_in_area,idx) {
@@ -496,10 +551,18 @@ li {
 			alert(area_idx);
 			alert(loc_idx);
 			var wh_loc_area = '"'+wh_loc_area_modify+'"';
-			let result = "<li><a href='javascript:void(0)' id='name_loc_area"+loc_idx+"' onclick='stocklist_area()'>"+wh_loc_area_modify+"</a>"	
+			let result = "<li><a href='javascript:void(0)' id='name_loc_area"+loc_idx+"' onclick='stocklist_area(+1+)'>"+wh_loc_area_modify+"</a>"	
 						+"<input type='button' id='modify_loc_btn"+loc_idx+"' class='btn' onclick='modify_loc("+wh_loc_in_area_cd+","+area_idx+","+loc_idx+","+wh_loc_area+","+idx+")' value='변경'>"
 						+"<input type='button' id='delete_loc_btn"+loc_idx+"' class='btn' value='삭제'></li>"
-			$(" #wh_area_ul"+idx).find("#wh_loc_area_li"+area_idx+" > #name_loc_area"+loc_idx).html(result);
+						if(document.getElementById("add_loc_name"+loc_idx) == null){
+							$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #name_loc_area"+loc_idx).html(result);
+							$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #modify_loc_btn"+loc_idx).hide();
+							$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #delete_loc_btn"+loc_idx).hide();
+							}else {
+							$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #add_loc_name"+loc_idx).html(result);
+							$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #add_modify_loc_btn"+loc_idx).hide();
+							$(" #wh_area_ul"+area_idx).find("#wh_loc_area_li"+area_idx+" > #add_delete_loc_btn"+loc_idx).hide();
+							}
 			console.log(wh_loc_area_modify);
 		})
 		.fail(function() {
@@ -507,6 +570,104 @@ li {
 		});
 	}
 	
+	//--------창고 지역 삭제 버튼-----------
+	function areaDelte(wh_area_cd,idx) {
+		alert("감지");
+		$.ajax({
+			type: "GET",
+			url: "WareHouseAreadeletePro.wh?wh_area_cd="+wh_area_cd
+						
+		})
+		.done(function() { // 요청 성공 시
+			alert("삭제 성공");
+			if(document.getElementById("add_wh_area_ul"+idx) == null){
+				$("#wh_area_ul"+idx).remove();
+			}else{
+				$("#add_wh_area_ul"+idx).remove();
+			}
+		})
+		.fail(function() {
+			alert("재고가 존재합니다");
+		});
+	}// 창고 지역 삭제 끝
+	
+	//--------창고 선반 삭제 버튼-----------
+	function loc_AreaDelte(wh_loc_in_area_cd,idx,area_idx) {
+		$.ajax({
+			type: "GET",
+			url: "WareHouseLocAreadeletePro.wh?wh_loc_in_area_cd="+wh_loc_in_area_cd
+		})
+		.done(function() { // 요청 성공 시
+			alert("삭제 성공");
+			if(document.getElementById("add_wh_loc_area_ul"+idx) == null){
+				$(" #wh_area_ul"+area_idx).find("#wh_loc_area_ul"+idx).remove();
+			}else{
+				$("#add_wh_loc_area_ul"+idx).remove();
+			}
+		})
+		.fail(function() {
+			alert("재고가 존재합니다");
+		});
+	}
+	
+	function sreachKeyword(pageNum) {
+		alert("감지");
+		var keyword = document.getElementById("keyword").value;
+		$.ajax({
+			type: "GET",
+			url: "WareHouseStockkeywordJsonPro.wh?pageNum="+pageNum,
+			data : {
+				"keyword" : keyword
+			},
+			dataType: "json"
+		})
+		.done(function(whlist) { // 요청 성공 시
+			let pageInfo = whlist[0];
+			if(whlist[1] != null){
+			let result2 = "";
+				if(pageNum > 1){
+					 result2 +='<a href="javascript:void(0)" onclick="sreachKeyword('+(pageNum - 1)+')">이전</a>';
+				}else{
+					 result2 +='<a href="javascript:void(0)">이전</a>';
+				}
+				for(var num=pageInfo.startPage; num<=pageInfo.endPage; num++) {
+					alert(num);
+					if(num == pageNum){
+						result2	+= num;
+					}else{
+						result2	+= '<a href="javascript:void(0)" onclick="sreachKeyword('+num+')">'+num+'</a>';	
+					}
+				}
+			
+				if(pageNum < pageInfo.maxPage){
+					result2	+='<a href="javascript:void(0)" onclick="stocklist_area_loc('+(pageNum + 1)+')">다음</a>';
+				}else{
+					result2	+='<a href="javascript:void(0)">다음</a>';
+				}
+				$(".paging").html(result2);
+			}
+			$("#stocklist > tbody").html('');
+			whlist.shift();
+			if(whlist != ""){
+			for(let list of whlist) {
+				let result = "<tr>"
+							+"<td>"+list.stock_cd+"</td>"
+							+"<td>"+list.product_name+"</td>"
+							+"<td>"+list.stock_qty+"</td>"
+							+"<td>"+list.wh_name+"(구역명:"+list.wh_area+")</td>"
+							+"<td>(위치:)"+list.wh_loc_in_area+"</td>"
+							+"</tr>";
+					$("#stocklist > tbody").append(result);
+			}
+			}else {
+				$("#stocklist > tbody").html('<td colspan="5" align="center"><h3>검색어 : "'+keyword+'" 라는 재고가 없습니다!</h3></td>');
+				$(".paging").html("");
+			}
+		})
+		.fail(function() {
+			$("table > tbody > tr").append("<h3>요청 실패!</h3>");
+		});// 창고 리스트 출력
+	}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -551,7 +712,7 @@ li {
                     <div class="modal-body">
                      	<div class="input-group mb-6">
 		             		<input name="" type="text" class="form-control" id="" >
-				         <button id="search_buyer" class="btn btn-secondary" type="button">검색</button>
+				         	<button id="search_buyer" class="btn btn-secondary" type="button">검색</button>
 			        	 </div>
 			        	 <div style="padding: 100px 0px; text-align: center;">검색 후 이용 바랍니다.</div>
                     </div>
@@ -610,6 +771,14 @@ li {
        			</div>
        			<div style="float: right;">
   				<span style="text-align: center;"><h3>재고</h3></span>
+		           <div style="float: right;">
+		           	<div class="col-md-8 col-lg-10">
+		      			<div class="input-group mb-6">
+		             		<input name="keyword" type="text" class="form-control" id="keyword">
+				         	<button id="keyword_button" class="btn btn-primary" type="button" onclick="sreachKeyword(1)">검색</button>
+			        	 </div>
+			         </div>
+			       </div>
   				<table id="stocklist" class="table table-hover" style="width: 800px; align: right;">  
   					<thead>
                              <tr>
